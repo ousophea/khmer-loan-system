@@ -22,13 +22,18 @@ class users extends CI_Controller {
     }
 
     function index() {
-
-
+        if(!$this->session->userdata($this->data['dbf']->getF_username())){
+            redirect('users/login');
+        }
+        $this->data['username'] = ($this->session->userdata($this->s_users->getF_username()))?$this->session->userdata($this->s_users->getF_username()):null;
         $this->load->view("layouts/defualt", $this->data);
     }
 
     function login() {
         try {
+            if($this->session->userdata($this->data['dbf']->getF_username())){
+                redirect('users');
+            }
             $dbf = $this->data['dbf'];
             $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
             $this->form_validation->set_rules($dbf->getF_username(), 'Username', 'required');
@@ -39,8 +44,10 @@ class users extends CI_Controller {
                 $s_user_obj = new s_users();
                 $s_user_obj->setUsername($this->input->post($dbf->getF_username()));
                 $s_user_obj->setPassword(md5($this->input->post($dbf->getF_password())));
-                if ($this->d_users->getLogin($s_user_obj))
+                if ($this->d_users->getLogin($s_user_obj)){
+                    $this->session->set_userdata($s_user_obj->getF_username(),$s_user_obj->getUsername());
                     redirect ('users');
+                }
                 else{
                     $this->data['login'] = '<div class="alert alert-error">Username and Password incorrect.</div>';
                     $this->load->view('layouts/users', $this->data);
@@ -51,15 +58,15 @@ class users extends CI_Controller {
         }
     }
 
-    function go_register() {
-        $this->load->view('register', $this->data);
-    }
-
     /**
-     * 
+     * @param void $name register function is use to add a new user in into system, and we can access via url
+     * @example base_url/users/register
      */
     function register() {
         try {
+            if(!$this->session->userdata($this->data['dbf']->getF_username())){
+                redirect('users/login');
+            }
             $dbf = $this->data['dbf'];
             $this->form_validation->set_rules($dbf->getF_Username(), 'Username', 'required|min_length[5]|max_length[30]|is_unique[' . $dbf->getT_users() . '.' . $dbf->getF_username() . ']');
             $this->form_validation->set_rules($dbf->getF_password(), 'Password', 'required|min_length[5]|max_length[12]');
@@ -87,23 +94,27 @@ class users extends CI_Controller {
             echo $exc->getTraceAsString();
         }
     }
-
+    
+    /**
+     * @param Destroy session $name This function will destroy all session of website
+     */
+    public function signout(){
+        $this->session->sess_destroy();
+        redirect('users/login');
+    }
+    
     /**
      * 
-     * @param type $str
-     * @return boolean
+     * @param String $url
+     * @param redirecting $name This function will redirect follow $url in case it could not session of username
      */
-    public function is_login($str) {
-        if ($str == 'test') {
-            $this->form_validation->set_message('username_check', 'The %s field can not be the word "test"');
-            return FALSE;
-        } else {
-            return TRUE;
+    public function check_session(){
+        if(!$this->session->userdata($this->data['dbf']->getF_username())){
+            redirect('users/login');
         }
-    }
-
-    function welcome() {
-        $this->load->view('welcome_message');
+        else{
+            redirect('users');
+        }
     }
 
 }

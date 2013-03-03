@@ -57,7 +57,12 @@
                     <a class="brand" href="#">Loan System</a>
                     <div class="nav-collapse collapse">
                         <p class="navbar-text pull-right">
-                            Logged in as <a href="#" class="navbar-link">Username</a>
+                            Logged in as 
+                            <?php
+                            echo $username.' ';
+                            //echo anchor('#', $username, array('class'=>'navbar-link')).' | ';
+                            echo anchor('users/signout', 'Sign out', array('class'=>'navbar-link'));
+                            ?>
                         </p>
                         <ul class="nav">
                             <li class="active"><a href="#">Home</a></li>
