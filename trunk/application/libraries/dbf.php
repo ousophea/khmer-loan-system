@@ -13,8 +13,9 @@
 class dbf{
     //put your code here
     
-    private $f_user_id = "user_id";
     private $t_users = "users";
+    private $f_user_rol_id = "use_rol_id";
+    private $f_user_id = "user_id";
     private $f_username = "email";
     private $f_password = "password";
     
@@ -26,6 +27,9 @@ class dbf{
 
 
 
+    public function getF_user_rol_id() {
+        return $this->f_user_rol_id;
+    }
 
     public function getT_users() {
         return $this->t_users;
@@ -65,7 +69,8 @@ class dbf{
     public function getF_rol_status() {
         return $this->f_rol_status;
     }
-
+    
+    
 
 
     

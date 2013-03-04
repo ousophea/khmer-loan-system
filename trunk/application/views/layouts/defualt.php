@@ -60,6 +60,7 @@
                             Logged in as 
                             <?php
                             echo $username.' ';
+                            echo '('.$role.') ';
                             //echo anchor('#', $username, array('class'=>'navbar-link')).' | ';
                             echo anchor('users/signout', 'Sign out', array('class'=>'navbar-link'));
                             ?>

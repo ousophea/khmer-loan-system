@@ -39,6 +39,24 @@ class d_roles extends CI_Model{
         return $obj_role->getObjRole();
     }
 
+    /**
+     * 
+     * @param s_users $user
+     * @param type $getCell
+     */
+    function setRoleByUsername(s_users $user,$getCell=null){
+        $this->db->from($user->getT_roles());
+        $this->db->join($user->getT_users(),$user->getF_rol_id().'='.$user->getF_user_rol_id());
+        $this->db->where($user->getF_username(),$user->getUsername());
+        $data = $this->db->get();
+        foreach ($data->result_array() as $row){
+            $user->setRole($row[$getCell]);
+            
+        }
+        return $user;
+        
+    }
+
 }
 
 ?>

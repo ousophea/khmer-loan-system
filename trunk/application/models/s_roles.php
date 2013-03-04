@@ -19,6 +19,7 @@ class s_roles extends dbf{
     private $rolAuthorize = null;
     private $rolStatus = null;
     private $objRole = null;
+    private $roleByUsername = null;
 
     /**
      * 
@@ -83,13 +84,32 @@ class s_roles extends dbf{
     public function setRolStatus($rolStatus) {
         $this->rolStatus = $rolStatus;
     }
+    
+    /**
+     * 
+     * @return type
+     */
     public function getObjRole() {
         return $this->objRole;
     }
 
+    /**
+     * 
+     * @param type $objRole
+     */
     public function setObjRole($objRole) {
         $this->objRole = $objRole;
     }
+    
+    public function getRoleByUsername() {
+        return $this->roleByUsername;
+    }
+
+    public function setRoleByUsername($roleByUsername) {
+        $this->roleByUsername = $roleByUsername;
+    }
+
+
 
 
 

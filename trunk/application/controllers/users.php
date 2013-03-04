@@ -25,7 +25,8 @@ class users extends CI_Controller {
         if(!$this->session->userdata($this->data['dbf']->getF_username())){
             redirect('users/login');
         }
-        $this->data['username'] = ($this->session->userdata($this->s_users->getF_username()))?$this->session->userdata($this->s_users->getF_username()):null;
+        $this->data['username'] = ($this->session->userdata($this->data['dbf']->getF_username()))?$this->session->userdata($this->s_users->getF_username()):null;
+        $this->data['role'] = ($this->session->userdata($this->data['dbf']->getF_rol_name()))?$this->session->userdata($this->data['dbf']->getF_rol_name()):'Test';
         $this->load->view("layouts/defualt", $this->data);
     }
 
@@ -41,11 +42,14 @@ class users extends CI_Controller {
             if ($this->form_validation->run() == FALSE)
                 $this->load->view('layouts/users', $this->data);
             else {
-                $s_user_obj = new s_users();
-                $s_user_obj->setUsername($this->input->post($dbf->getF_username()));
-                $s_user_obj->setPassword(md5($this->input->post($dbf->getF_password())));
-                if ($this->d_users->getLogin($s_user_obj)){
-                    $this->session->set_userdata($s_user_obj->getF_username(),$s_user_obj->getUsername());
+                $user = new s_users();
+                $user->setUsername($this->input->post($dbf->getF_username()));
+                $user->setPassword(md5($this->input->post($dbf->getF_password())));
+                if ($this->d_users->getLogin($user)){
+                    $this->session->set_userdata($user->getF_username(),$user->getUsername());
+                    $role = new d_roles();
+                    $roles = $role->setRoleByUsername($user, $user->getF_rol_name());
+                    $this->session->set_userdata($user->getF_rol_name(),$roles->getRole());
                     redirect ('users');
                 }
                 else{
@@ -64,7 +68,7 @@ class users extends CI_Controller {
      */
     function register() {
         try {
-            if(!$this->session->userdata($this->data['dbf']->getF_username())){
+            if(!$this->session->userdata($this->data['dbf']->getF_username()) || $this->session->userdata($this->data['dbf']->getF_rol_name()) !='SuperAdmin'){
                 redirect('users/login');
             }
             $dbf = $this->data['dbf'];
@@ -83,7 +87,6 @@ class users extends CI_Controller {
                 $s_user_obj->setUsername($this->input->post($dbf->getF_username()));
                 $s_user_obj->setRole($this->input->post($dbf->getF_rol_id()));
                 $s_user_obj->setPassword(md5($this->input->post($dbf->getF_password())));
-                //$s_user_obj->setDbf($dbf);
                 if ($this->d_users->getRegister($s_user_obj))
                     redirect('users/login');
                 else {
