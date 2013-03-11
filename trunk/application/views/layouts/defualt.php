@@ -1,3 +1,6 @@
+<?php
+$dbf = new dbf();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +14,7 @@
 
         <!-- Le styles -->
         <link href="<?php echo base_url(); ?>bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="<?php echo base_url(); ?>css/users.css" rel="stylesheet">
         <style type="text/css">
             body {
                 padding-top: 60px;
@@ -46,7 +50,14 @@
 
     <body>
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
+        <?php echo form_open('',array('style'=>'margin:0px;')); ?>
+        <input type="hidden" name="base_url" value="<?php echo base_url(); ?>" id="base_url" />
+        <?php echo form_hidden('segment1', $this->uri->segment(1)); // for date paker get uri1 ?>
+        <?php echo form_hidden('segment2', $this->uri->segment(2)); // for date paker get uri2 ?>
+        <?php echo form_hidden('segment3', $this->uri->segment(3)); // for date paker get uri3 ?>
+        <?php echo form_hidden('segment4', $this->uri->segment(4)); // for date paker get uri4 ?>
+        <?php echo form_close(); ?>
+        <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
                     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -59,6 +70,8 @@
                         <p class="navbar-text pull-right">
                             Logged in as 
                             <?php
+                            $username = $this->session->userdata($dbf->getF_username());
+                            $role = $this->session->userdata($dbf->getF_rol_name());
                             echo $username.' ';
                             echo '('.$role.') ';
                             //echo anchor('#', $username, array('class'=>'navbar-link')).' | ';
@@ -77,7 +90,7 @@
 
         <div class="container-fluid">
             <div class="row-fluid">
-                <div class="span3">
+                <div class="span2"> <!-- span1, span2,... -->
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
                             <li class="nav-header">Sidebar</li>
@@ -99,46 +112,11 @@
                         </ul>
                     </div><!--/.well -->
                 </div><!--/span-->
-                <div class="span9">
-                    <div class="hero-unit">
-                        <h1>Hello, world!</h1>
-                        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-                        <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span4">
-                            <h2>Heading</h2>
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p><a class="btn" href="#">View details &raquo;</a></p>
-                        </div><!--/span-->
-                        <div class="span4">
-                            <h2>Heading</h2>
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p><a class="btn" href="#">View details &raquo;</a></p>
-                        </div><!--/span-->
-                        <div class="span4">
-                            <h2>Heading</h2>
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p><a class="btn" href="#">View details &raquo;</a></p>
-                        </div><!--/span-->
-                    </div><!--/row-->
-                    <div class="row-fluid">
-                        <div class="span4">
-                            <h2>Heading</h2>
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p><a class="btn" href="#">View details &raquo;</a></p>
-                        </div><!--/span-->
-                        <div class="span4">
-                            <h2>Heading</h2>
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p><a class="btn" href="#">View details &raquo;</a></p>
-                        </div><!--/span-->
-                        <div class="span4">
-                            <h2>Heading</h2>
-                            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                            <p><a class="btn" href="#">View details &raquo;</a></p>
-                        </div><!--/span-->
-                    </div><!--/row-->
+                <div class="span10">
+                    <h5><?php echo $title; ?></h5>
+                    <?php 
+                    $this->load->view($this->uri->segment(1).'/'.$this->uri->segment(2));
+                    ?>
                 </div><!--/span-->
             </div><!--/row-->
 
@@ -166,6 +144,7 @@
         <script src="<?php echo base_url(); ?>bootstrap/js/bootstrap-collapse.js"></script>
         <script src="<?php echo base_url(); ?>bootstrap/js/bootstrap-carousel.js"></script>
         <script src="<?php echo base_url(); ?>bootstrap/js/bootstrap-typeahead.js"></script>
+        <script src="<?php echo base_url(); ?>js/form.js"></script>
 
     </body>
 

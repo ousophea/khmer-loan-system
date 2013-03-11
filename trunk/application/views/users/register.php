@@ -1,15 +1,8 @@
 <?php
 $roles[''] = '--- Select role ---';
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
         <div>
-            <?php echo form_open('users/register',array('class'=>'form-signin')); ?>
+            <?php echo form_open('users/register',array('class'=>'form')); ?>
             <table>
                 <tr>
                     <td><label>Username</label></td>
@@ -28,10 +21,11 @@ $roles[''] = '--- Select role ---';
                     <td><?php echo form_dropdown($dbf->getF_rol_id(),$roles,  set_value($dbf->getF_rol_id())); echo form_error($dbf->getF_rol_id()); ?></td>
                 </tr>
                 <tr>
-                    <td><?php echo form_submit('Submit','Register'); echo anchor('users/login','Login'); ?></td>
+                    <td>
+                        <?php echo form_submit('Submit','Register','class="btn"'); ?> 
+                        <a class="btn" href="<?php echo base_url(); ?>users/manage"><i class="icon-circle-arrow-left"></i> Back</a>
+                    </td>
                 </tr>
             </table>
             <?php echo form_close(); ?>
         </div>
-    </body>
-</html>

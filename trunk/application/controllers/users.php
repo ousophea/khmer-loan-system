@@ -17,22 +17,19 @@ class users extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('s_users', 'd_users','d_roles','s_roles'));
+        $this->load->model(array('s_users', 'd_users', 'd_roles', 's_roles'));
         $this->data['dbf'] = new dbf();
+        $this->data['title'] = NULL;
+        $this->data['data'] = NULL;
     }
 
     function index() {
-        if(!$this->session->userdata($this->data['dbf']->getF_username())){
-            redirect('users/login');
-        }
-        $this->data['username'] = ($this->session->userdata($this->data['dbf']->getF_username()))?$this->session->userdata($this->s_users->getF_username()):null;
-        $this->data['role'] = ($this->session->userdata($this->data['dbf']->getF_rol_name()))?$this->session->userdata($this->data['dbf']->getF_rol_name()):'Test';
-        $this->load->view("layouts/defualt", $this->data);
+        redirect('users/manage');
     }
 
     function login() {
         try {
-            if($this->session->userdata($this->data['dbf']->getF_username())){
+            if ($this->session->userdata($this->data['dbf']->getF_username())) {
                 redirect('users');
             }
             $dbf = $this->data['dbf'];
@@ -45,14 +42,29 @@ class users extends CI_Controller {
                 $user = new s_users();
                 $user->setUsername($this->input->post($dbf->getF_username()));
                 $user->setPassword(md5($this->input->post($dbf->getF_password())));
-                if ($this->d_users->getLogin($user)){
-                    $this->session->set_userdata($user->getF_username(),$user->getUsername());
+                if ($this->d_users->getLogin($user)) {
+                    $this->session->set_userdata($user->getF_username(), $user->getUsername());
                     $role = new d_roles();
                     $roles = $role->setRoleByUsername($user, $user->getF_rol_name());
-                    $this->session->set_userdata($user->getF_rol_name(),$roles->getRole());
-                    redirect ('users');
-                }
-                else{
+                    $this->session->set_userdata($user->getF_rol_name(), $roles->getRole());
+//                    if($this->input->post('remember')){
+//                        
+//                    }
+
+                    if ($this->input->post('remember')) {
+                        $cookie = array(
+                            'name' => 'remember',
+                            'value' => $this->input->post('remember'),
+                            'expire' => '86500',
+                            'path' => '/',
+                            'secure' => TRUE
+                        );
+
+                        $this->input->set_cookie($cookie);
+                    }
+                    $this->input->set_cookie($cookie);
+                    redirect('users');
+                } else {
                     $this->data['login'] = '<div class="alert alert-error">Username and Password incorrect.</div>';
                     $this->load->view('layouts/users', $this->data);
                 }
@@ -68,7 +80,7 @@ class users extends CI_Controller {
      */
     function register() {
         try {
-            if(!$this->session->userdata($this->data['dbf']->getF_username()) || $this->session->userdata($this->data['dbf']->getF_rol_name()) !='SuperAdmin'){
+            if (!$this->session->userdata($this->data['dbf']->getF_username()) || $this->session->userdata($this->data['dbf']->getF_rol_name()) != 'SuperAdmin') {
                 redirect('users/login');
             }
             $dbf = $this->data['dbf'];
@@ -77,11 +89,11 @@ class users extends CI_Controller {
             $this->form_validation->set_rules($dbf->getF_password() . 'c', 'Password confirmation', 'required|matches[' . $dbf->getF_password() . ']');
             $this->form_validation->set_rules($dbf->getF_rol_id(), 'Role', 'required');
             $this->form_validation->set_message('is_unique', 'Username aready exist.');
-            
+
             if ($this->form_validation->run() == FALSE) {
                 $obj = new s_roles();
                 $this->data['roles'] = $this->d_roles->getAllRoles($obj);
-                $this->load->view('layouts/users', $this->data);
+                $this->load->view('layouts/defualt', $this->data);
             } else {
                 $s_user_obj = new s_users();
                 $s_user_obj->setUsername($this->input->post($dbf->getF_username()));
@@ -97,26 +109,89 @@ class users extends CI_Controller {
             echo $exc->getTraceAsString();
         }
     }
-    
+
+    /**
+     * edit user
+     */
+    function edit() {
+        $this->data['title'] = 'Edit user';
+        try {
+            $dbf = new dbf();
+            if (!$this->session->userdata($this->data['dbf']->getF_username()) || $this->session->userdata($this->data['dbf']->getF_rol_name()) != 'SuperAdmin') {
+                redirect('users/login');
+            }
+            $dbf = $this->data['dbf'];
+            $this->form_validation->set_rules($dbf->getF_user_rol_id(), 'Role', 'required');
+            if ($this->form_validation->run() == FALSE) {
+                $obj = new s_roles();
+                $this->data['roles'] = $this->d_roles->getAllRoles($obj);
+                $this->data['data'] = array('user'=>$this->d_users->getUserById($this->uri->segment(3)));
+                $this->load->view('layouts/defualt', $this->data);
+            } else {
+                if ($this->d_users->editUserById())
+                    $this->session->set_flashdata('success', 'User has been updated');
+                else {
+                    $this->session->set_flashdata('error', 'User could not be updated');
+                }
+                redirect('users/manage');
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
+    }
+
     /**
      * @param Destroy session $name This function will destroy all session of website
      */
-    public function signout(){
+    public function signout() {
         $this->session->sess_destroy();
         redirect('users/login');
     }
-    
+
     /**
      * 
      * @param String $url
      * @param redirecting $name This function will redirect follow $url in case it could not session of username
      */
-    public function check_session(){
-        if(!$this->session->userdata($this->data['dbf']->getF_username())){
+    public function check_session() {
+        if (!$this->session->userdata($this->data['dbf']->getF_username())) {
+            redirect('users/login');
+        } else {
+            redirect('users');
+        }
+    }
+
+    function manage() {
+        $this->data['title'] = 'Manage users';
+        if (!$this->session->userdata($this->data['dbf']->getF_username())) {
             redirect('users/login');
         }
-        else{
-            redirect('users');
+        $this->data['data'] = array('users' => $this->d_users->findAllUsers());
+
+        $this->load->view("layouts/defualt", $this->data);
+    }
+
+    function delete() {
+        if ($this->d_users->deleteUserById()) {
+            redirect('users/manage');
+        } else {
+            
+        }
+    }
+
+    function changepassword() {
+        $dbf = new dbf();
+        $this->form_validation->set_rules($dbf->getF_password(), 'Password', 'required|min_length[5]|max_length[12]');
+        $this->form_validation->set_rules($dbf->getF_password() . 'c', 'Password confirmation', 'required|matches[' . $dbf->getF_password() . ']');
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('layouts/defualt', $this->data);
+        } else {
+            if ($this->d_users->changepassword())
+                $this->session->set_flashdata('success', 'Password has been changed');
+            else {
+                $this->session->set_flashdata('error', 'Password could not be changed');
+            }
+            redirect('users/manage');
         }
     }
 

@@ -14,20 +14,26 @@ class dbf{
     //put your code here
     
     private $t_users = "users";
-    private $f_user_rol_id = "use_rol_id";
-    private $f_user_id = "user_id";
-    private $f_username = "email";
-    private $f_password = "password";
-    
-    private $t_roles = 'roles';
-    private $f_rol_id = 'rol_id';
-    private $f_rol_name = 'rol_name';
-    private $f_rol_des = 'rol_des';
-    private $f_rol_status = 'rol_status';
+    private $f_user_rol_id = "use_gro_id";
+    private $f_user_id = "use_id";
+    private $f_username = "use_name";
+    private $f_password = "use_password";
+    private $f_use_status = "status";
+
+
+    private $t_roles = 'user_groups';
+    private $f_rol_id = 'gro_id';
+    private $f_rol_name = 'gro_name';
+    private $f_rol_des = 'gro_des';
+    private $f_rol_status = 'status';
 
 
 
-    public function getF_user_rol_id() {
+    public function getF_use_status() {
+        return $this->f_use_status;
+    }
+
+        public function getF_user_rol_id() {
         return $this->f_user_rol_id;
     }
 
@@ -69,11 +75,6 @@ class dbf{
     public function getF_rol_status() {
         return $this->f_rol_status;
     }
-    
-    
-
-
-    
 }
 
 ?>
