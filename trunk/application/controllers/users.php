@@ -80,9 +80,7 @@ class users extends CI_Controller {
      */
     function register() {
         try {
-            if (!$this->session->userdata($this->data['dbf']->getF_username()) || $this->session->userdata($this->data['dbf']->getF_rol_name()) != 'SuperAdmin') {
-                redirect('users/login');
-            }
+            $this->check_session();
             $dbf = $this->data['dbf'];
             $this->form_validation->set_rules($dbf->getF_Username(), 'Username', 'required|min_length[5]|max_length[30]|is_unique[' . $dbf->getT_users() . '.' . $dbf->getF_username() . ']');
             $this->form_validation->set_rules($dbf->getF_password(), 'Password', 'required|min_length[5]|max_length[12]');
@@ -99,8 +97,10 @@ class users extends CI_Controller {
                 $s_user_obj->setUsername($this->input->post($dbf->getF_username()));
                 $s_user_obj->setRole($this->input->post($dbf->getF_rol_id()));
                 $s_user_obj->setPassword(md5($this->input->post($dbf->getF_password())));
-                if ($this->d_users->getRegister($s_user_obj))
-                    redirect('users/login');
+                if ($this->d_users->getRegister($s_user_obj)){
+                    $this->session->set_flashdata('success', 'User has been saved');
+                    redirect('users/manage');
+                }
                 else {
                     
                 }
@@ -114,12 +114,11 @@ class users extends CI_Controller {
      * edit user
      */
     function edit() {
-        $this->data['title'] = 'Edit user';
+        
         try {
+            $this->check_session();
+            $this->data['title'] = 'Edit user';
             $dbf = new dbf();
-            if (!$this->session->userdata($this->data['dbf']->getF_username()) || $this->session->userdata($this->data['dbf']->getF_rol_name()) != 'SuperAdmin') {
-                redirect('users/login');
-            }
             $dbf = $this->data['dbf'];
             $this->form_validation->set_rules($dbf->getF_user_rol_id(), 'Role', 'required');
             if ($this->form_validation->run() == FALSE) {
@@ -154,13 +153,19 @@ class users extends CI_Controller {
      * @param redirecting $name This function will redirect follow $url in case it could not session of username
      */
     public function check_session() {
-        if (!$this->session->userdata($this->data['dbf']->getF_username())) {
+        $session = $this->session->userdata($this->data['dbf']->getF_username());
+        $isSession = strtolower($session)=="admin" || strtolower($session) == "superadmin";
+        if (!$session) {
             redirect('users/login');
-        } else {
-            redirect('users');
+        } else if($isSession) {
+            //redirect('users/no_auth');
         }
     }
 
+    function no_auth(){
+        $this->data['title'] = "No permission";
+        $this->load->view('layouts/defualt',  $this->data);
+    }
     function manage() {
         $this->data['title'] = 'Manage users';
         if (!$this->session->userdata($this->data['dbf']->getF_username())) {
@@ -173,9 +178,11 @@ class users extends CI_Controller {
 
     function delete() {
         if ($this->d_users->deleteUserById()) {
+            $this->session->set_flashdata('success', 'User has been deleted');
             redirect('users/manage');
         } else {
-            
+            $this->session->set_flashdata('error', 'User could not deleted');
+            redirect('users/manage');
         }
     }
 
