@@ -51,17 +51,17 @@ class users extends CI_Controller {
 //                        
 //                    }
 
-                    if ($this->input->post('remember')) {
-                        $cookie = array(
-                            'name' => 'remember',
-                            'value' => $this->input->post('remember'),
-                            'expire' => '86500',
-                            'path' => '/',
-                            'secure' => TRUE
-                        );
-
-                        $this->input->set_cookie($cookie);
-                    }
+//                    if ($this->input->post('remember')) {
+//                        $cookie = array(
+//                            $user->getF_username() => $user->getUsername(),
+//                            'value' => "aaaa",
+//                            'expire' => '86500',
+//                            'path' => '/',
+//                            'secure' => FALSE
+//                        );
+//
+//                        $this->input->set_cookie($cookie);
+//                   }
                     $this->input->set_cookie($cookie);
                     redirect('users');
                 } else {
