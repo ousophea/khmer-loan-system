@@ -38,6 +38,7 @@ jQuery.noConflict();
                 return;
             }
             else if(checkbox == 1){
+                $('#'+this.id).attr('disabled');
                 var action = 'link', url = uri[0]+'users/'+this.id+'/'+getCheckBox('value');
                 submits(action, url);
             }

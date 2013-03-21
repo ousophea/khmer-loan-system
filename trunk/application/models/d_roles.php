@@ -30,7 +30,7 @@ class d_roles extends CI_Model {
      * @param s_roles $obj_role
      */
     private function setAllRoles(s_roles $obj_role) {
-        if (strtolower($this->session->userdata($obj->getF_rol_name())) != strtolower(Setting::$role0))
+        if (strtolower($this->session->userdata($obj_role->getF_rol_name())) != strtolower(Setting::$role0))
             $this->db->where($obj_role->getF_rol_name() . ' != ', Setting::$role0);
         $data = $this->db->get($obj_role->getT_roles());
         $row = null;
