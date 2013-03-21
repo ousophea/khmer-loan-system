@@ -37,7 +37,7 @@ class users extends CI_Controller {
             $this->form_validation->set_rules($dbf->getF_username(), 'Username', 'required');
             $this->form_validation->set_rules($dbf->getF_password(), 'Password', 'required');
             if ($this->form_validation->run() == FALSE)
-                $this->load->view('layouts/users', $this->data);
+                $this->load->view(Variables::$layout_login, $this->data);
             else {
                 $user = new s_users();
                 $user->setUsername($this->input->post($dbf->getF_username()));
@@ -66,7 +66,7 @@ class users extends CI_Controller {
                     redirect('users');
                 } else {
                     $this->data['login'] = '<div class="alert alert-error">Username and Password incorrect.</div>';
-                    $this->load->view('layouts/users', $this->data);
+                    $this->load->view('layouts/transcript/login', $this->data);
                 }
             }
         } catch (Exception $exc) {
@@ -91,7 +91,7 @@ class users extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $obj = new s_roles();
                 $this->data['roles'] = $this->d_roles->getAllRoles($obj);
-                $this->load->view('layouts/defualt', $this->data);
+                $this->load->view(Variables::$layout_main, $this->data);
             } else {
                 $s_user_obj = new s_users();
                 $s_user_obj->setUsername($this->input->post($dbf->getF_username()));
@@ -125,7 +125,7 @@ class users extends CI_Controller {
                 $obj = new s_roles();
                 $this->data['roles'] = $this->d_roles->getAllRoles($obj);
                 $this->data['data'] = array('user'=>$this->d_users->getUserById($this->uri->segment(3)));
-                $this->load->view('layouts/defualt', $this->data);
+                $this->load->view(Variables::$layout_main, $this->data);
             } else {
                 if ($this->d_users->editUserById())
                     $this->session->set_flashdata('success', 'User has been updated');
@@ -164,7 +164,7 @@ class users extends CI_Controller {
 
     function no_auth(){
         $this->data['title'] = "No permission";
-        $this->load->view('layouts/defualt',  $this->data);
+        $this->load->view(Variables::$layout_main,  $this->data);
     }
     function manage() {
         $this->data['title'] = 'Manage users';
@@ -173,7 +173,7 @@ class users extends CI_Controller {
         }
         $this->data['data'] = array('users' => $this->d_users->findAllUsers());
 
-        $this->load->view("layouts/defualt", $this->data);
+        $this->load->view(Variables::$layout_main, $this->data);
     }
 
     function delete() {
@@ -191,7 +191,7 @@ class users extends CI_Controller {
         $this->form_validation->set_rules($dbf->getF_password(), 'Password', 'required|min_length[5]|max_length[12]');
         $this->form_validation->set_rules($dbf->getF_password() . 'c', 'Password confirmation', 'required|matches[' . $dbf->getF_password() . ']');
         if ($this->form_validation->run() == FALSE) {
-            $this->load->view('layouts/defualt', $this->data);
+            $this->load->view(Variables::$layout_main, $this->data);
         } else {
             if ($this->d_users->changepassword())
                 $this->session->set_flashdata('success', 'Password has been changed');

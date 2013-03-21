@@ -60,6 +60,8 @@ class d_users extends CI_Model {
     public function findAllUsers() {
         $obj = new s_users();
         $this->db->where($obj->getT_users() . '.' . $obj->getF_use_status(), 1);
+        if (strtolower($this->session->userdata($obj->getF_rol_name())) != strtolower(Setting::$role0))
+            $this->db->where($obj->getF_rol_name() . ' != ', Setting::$role0);
         $this->db->join($obj->getT_roles(), $obj->getF_rol_id() . '=' . $obj->getF_user_rol_id());
         return $this->db->get($obj->getT_users());
     }
@@ -78,22 +80,23 @@ class d_users extends CI_Model {
         $db = new dbf();
         $data = array($db->getF_password() => md5($this->input->post($db->getF_password())));
         $this->db->where($db->getF_user_id(), $this->input->post($db->getF_user_id()));
-        return $this->db->update($db->getT_users(),$data);
+        return $this->db->update($db->getT_users(), $data);
     }
 
-    function editUserById(){
+    function editUserById() {
         $db = new dbf();
         $data = array($db->getF_user_rol_id() => $this->input->post($db->getF_user_rol_id()));
         $this->db->where($db->getF_user_id(), $this->input->post($db->getF_user_id()));
-        return $this->db->update($db->getT_users(),$data);
+        return $this->db->update($db->getT_users(), $data);
     }
-    
-    function getUserById($id){
+
+    function getUserById($id) {
         $db = new dbf();
         $this->db->where($db->getF_user_id(), $id);
-        $this->db->where($db->getT_users().'.'.$db->getF_use_status(), 1);
+        $this->db->where($db->getT_users() . '.' . $db->getF_use_status(), 1);
         return $this->db->get($db->getT_users());
     }
+
 }
 
 ?>

@@ -9,10 +9,5 @@ echo form_input(array('name' => $dbf->getF_username(), 'class' => 'input-block-l
 echo form_password(array('name' => $dbf->getF_password(), 'class' => 'input-block-level', 'placeholder' => 'Password'), set_value($dbf->getF_password()));
 //echo '<label class="checkbox" >'.form_checkbox(array('name' => 'remember','value'=>TRUE)).'Remember me</label>';
 echo form_submit(array('class' => 'btn btn-primary', 'value' => 'Sign in'));
-
-
-
-
-
 echo form_close();
 ?>
