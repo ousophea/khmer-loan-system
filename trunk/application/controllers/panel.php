@@ -15,6 +15,7 @@ class panel extends CI_Controller {
     var $data = null;
     function  __construct() {
         parent::__construct();
+        $this->data['dbf'] = new dbf();
     }
 
     function index(){
