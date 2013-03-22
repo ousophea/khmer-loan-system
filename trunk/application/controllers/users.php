@@ -66,7 +66,7 @@ class users extends CI_Controller {
                     redirect('users');
                 } else {
                     $this->data['login'] = '<div class="alert alert-error">Username and Password incorrect.</div>';
-                    $this->load->view('layouts/transcript/login', $this->data);
+                    $this->load->view(Variables::$layout_login, $this->data);
                 }
             }
         } catch (Exception $exc) {
