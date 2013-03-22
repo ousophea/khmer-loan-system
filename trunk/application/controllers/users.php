@@ -152,7 +152,7 @@ class users extends CI_Controller {
      * @param String $url
      * @param redirecting $name This function will redirect follow $url in case it could not session of username
      */
-    public function check_session() {
+    private function check_session() {
         $session = $this->session->userdata($this->data['dbf']->getF_username());
         $isSession = strtolower($session)=="admin" || strtolower($session) == "superadmin";
         if (!$session) {
