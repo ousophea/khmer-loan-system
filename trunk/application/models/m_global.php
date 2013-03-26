@@ -1,4 +1,11 @@
 <?php
+/**
+ * Global model for using in this application
+ * @package Model
+ * @author PEN Vannak
+ * @version 1.0
+ */
+ 
 if ( ! defined('BASEPATH')) exit('Permission Denied!');
 
 class m_global extends CI_Model{
