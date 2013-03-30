@@ -26,7 +26,9 @@ class dbf{
     private $f_rol_name = 'gro_name';
     private $f_rol_des = 'gro_des';
     private $f_rol_status = 'status';
+    
 
+    
 
 
     public function getF_use_status() {
