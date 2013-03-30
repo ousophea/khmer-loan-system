@@ -81,6 +81,7 @@
             </div>
             <div id="content">
                 <div class="wraper-control">
+                    <?php echo $this->session->flashdata('error'); ?>
                     <legend><?php echo $title; ?></legend>
                     <?php $this->load->view($this->uri->segment(1).'/'.$this->uri->segment(2)); ?>
                 </div>

@@ -69,12 +69,27 @@ class d_users extends CI_Model {
 
     function deleteUserById() {
         $db = new dbf();
+
         for ($k = 0; $k < count($_POST['child_check']); $k++) {
             $id = $_POST['child_check'][$k];
+            if($this->is_current_user($id)){
+                continue;
+            }
             $this->db->where($db->getF_user_id(), $id);
             $this->db->delete($db->getT_users());
         }
         return true;
+    }
+
+    function is_current_user($id) {
+        $db = new dbf();
+        $data = $this->getUserById($id);
+        foreach ($data->result_array() as $row) {
+            if ($row[$db->getF_username()] == $this->session->userdata($db->getF_username())) {
+                return TRUE;
+            }
+        }
+        return FALSE;
     }
 
     function changepassword() {

@@ -21,6 +21,7 @@ class users extends CI_Controller {
         $this->data['dbf'] = new dbf();
         $this->data['title'] = NULL;
         $this->data['data'] = NULL;
+
     }
 
     function index() {
@@ -29,8 +30,8 @@ class users extends CI_Controller {
 
     function login() {
         try {
-            if ($this->session->userdata($this->data['dbf']->getF_username())) {
-                redirect('users');
+            if (is_login()) {
+                redirect('panel/manage');
             }
             $dbf = $this->data['dbf'];
             $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
@@ -42,7 +43,7 @@ class users extends CI_Controller {
                 $user = new s_users();
                 $user->setUsername($this->input->post($dbf->getF_username()));
                 $user->setPassword(md5($this->input->post($dbf->getF_password())));
-                if ($this->d_users->getLogin($user)) { 
+                if ($this->d_users->getLogin($user)) {
                     // create session roleName and userName
                     $this->session->set_userdata($user->getF_username(), $user->getUsername());
                     $role = new d_roles();
@@ -51,7 +52,6 @@ class users extends CI_Controller {
 //                    if($this->input->post('remember')){
 //                        
 //                    }
-
 //                    if ($this->input->post('remember')) {
 //                        $cookie = array(
 //                            $user->getF_username() => $user->getUsername(),
@@ -63,8 +63,8 @@ class users extends CI_Controller {
 //
 //                        $this->input->set_cookie($cookie);
 //                   }
-                    $this->input->set_cookie($cookie);
-                    redirect('users');
+//                    $this->input->set_cookie($cookie);
+                    redirect('panel/manage');
                 } else {
                     $this->data['login'] = '<div class="alert alert-error">Username and Password incorrect.</div>';
                     $this->load->view(Variables::$layout_login, $this->data);
@@ -82,6 +82,7 @@ class users extends CI_Controller {
     function register() {
         try {
             $this->check_session();
+            $this->data['title'] = "Create a new user";
             $dbf = $this->data['dbf'];
             $this->form_validation->set_rules($dbf->getF_Username(), 'Username', 'required|min_length[5]|max_length[30]|is_unique[' . $dbf->getT_users() . '.' . $dbf->getF_username() . ']');
             $this->form_validation->set_rules($dbf->getF_password(), 'Password', 'required|min_length[5]|max_length[12]');
@@ -98,11 +99,10 @@ class users extends CI_Controller {
                 $s_user_obj->setUsername($this->input->post($dbf->getF_username()));
                 $s_user_obj->setRole($this->input->post($dbf->getF_rol_id()));
                 $s_user_obj->setPassword(md5($this->input->post($dbf->getF_password())));
-                if ($this->d_users->getRegister($s_user_obj)){
+                if ($this->d_users->getRegister($s_user_obj)) {
                     $this->session->set_flashdata('success', 'User has been saved');
                     redirect('users/manage');
-                }
-                else {
+                } else {
                     
                 }
             }
@@ -115,7 +115,7 @@ class users extends CI_Controller {
      * edit user
      */
     function edit() {
-        
+
         try {
             $this->check_session();
             $this->data['title'] = 'Edit user';
@@ -125,7 +125,7 @@ class users extends CI_Controller {
             if ($this->form_validation->run() == FALSE) {
                 $obj = new s_roles();
                 $this->data['roles'] = $this->d_roles->getAllRoles($obj);
-                $this->data['data'] = array('user'=>$this->d_users->getUserById($this->uri->segment(3)));
+                $this->data['data'] = array('user' => $this->d_users->getUserById($this->uri->segment(3)));
                 $this->load->view(Variables::$layout_main, $this->data);
             } else {
                 if ($this->d_users->editUserById())
@@ -155,23 +155,22 @@ class users extends CI_Controller {
      */
     private function check_session() {
         $session = $this->session->userdata($this->data['dbf']->getF_username());
-        $isSession = strtolower($session)=="admin" || strtolower($session) == "superadmin";
+        $isSession = strtolower($session) == "admin" || strtolower($session) == "superadmin";
         if (!$session) {
             redirect('users/login');
-        } else if($isSession) {
+        } else if ($isSession) {
             //redirect('users/no_auth');
         }
     }
 
-    function no_auth(){
+    function no_auth() {
         $this->data['title'] = "No permission";
-        $this->load->view(Variables::$layout_main,  $this->data);
+        $this->load->view(Variables::$layout_main, $this->data);
     }
+
     function manage() {
+        allows(array('admin', 'superadmin'));
         $this->data['title'] = 'Manage users';
-        if (!$this->session->userdata($this->data['dbf']->getF_username())) {
-            redirect('users/login');
-        }
         $this->data['data'] = array('users' => $this->d_users->findAllUsers());
 
         $this->load->view(Variables::$layout_main, $this->data);
@@ -179,7 +178,7 @@ class users extends CI_Controller {
 
     function delete() {
         if ($this->d_users->deleteUserById()) {
-            $this->session->set_flashdata('success', 'User has been deleted');
+            $this->session->set_flashdata('success', 'User has been deleted. Note: The current user is not allow to delete.');
             redirect('users/manage');
         } else {
             $this->session->set_flashdata('error', 'User could not deleted');

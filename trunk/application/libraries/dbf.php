@@ -25,7 +25,7 @@ class dbf{
     private $f_rol_id = 'gro_id';
     private $f_rol_name = 'gro_name';
     private $f_rol_des = 'gro_des';
-    private $f_rol_status = 'status';
+    private $f_rol_status = 'user_groups.status';
     
 
     
