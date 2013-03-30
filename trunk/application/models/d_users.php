@@ -47,6 +47,7 @@ class d_users extends CI_Model {
         try {
             $data[$register->getF_username()] = $register->getUsername();
             $data[$register->getF_password()] = $register->getPassword();
+            $data[$register->getF_use_status()] = 1;
             $data[$register->getF_user_rol_id()] = $register->getRole();
             if ($this->db->insert($register->getT_users(), $data))
                 return TRUE;

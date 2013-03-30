@@ -42,7 +42,8 @@ class users extends CI_Controller {
                 $user = new s_users();
                 $user->setUsername($this->input->post($dbf->getF_username()));
                 $user->setPassword(md5($this->input->post($dbf->getF_password())));
-                if ($this->d_users->getLogin($user)) {
+                if ($this->d_users->getLogin($user)) { 
+                    // create session roleName and userName
                     $this->session->set_userdata($user->getF_username(), $user->getUsername());
                     $role = new d_roles();
                     $roles = $role->setRoleByUsername($user, $user->getF_rol_name());
