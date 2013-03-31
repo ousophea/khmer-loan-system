@@ -145,7 +145,7 @@ class m_global extends CI_Model{
 		}
 		$this->db->get($table);
 	}
-	
+
 	/**
 	 * Function select join with inner, left, right
 	 * @param $table the string parameter to select (required)
