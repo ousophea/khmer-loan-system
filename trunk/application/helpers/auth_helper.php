@@ -13,10 +13,14 @@ if (!function_exists('auth')) {
      * @return boolean
      */
     function allows($array_role_name) {
+        
         $CI = &get_instance();
         $CI->load->library('session');
         $CI->load->helper('url');
         $db = new dbf();
+        if(!is_login()){
+            redirect('users/login');
+        }
         $arry_auth = array(
             strtolower(Setting::$role0) => strtolower(Setting::$role0),
             strtolower(Setting::$role1) => strtolower(Setting::$role1),
@@ -24,20 +28,19 @@ if (!function_exists('auth')) {
             strtolower(Setting::$role3) => strtolower(Setting::$role3),
         );
         foreach ($array_role_name as $value) {
-            if ($arry_auth[$value] != $value)
+            if ($arry_auth[strtolower($value)] != strtolower($value))
                 die('Value of array must be in list: $array_role_name = array("superadmin","admin","teller", "accountain");');
         }
         foreach ($array_role_name as $value) {
-            if ($value == strtolower($CI->session->userdata($db->getF_rol_name())))
+            if (strtolower($value) == strtolower($CI->session->userdata($db->getF_rol_name())))
                 return;
         }
-        redirect('auth/no_auth');
+        $CI->session->set_flashdata('error',alert_error('You don\'t have permission to access this page. If you have any question, please contact to administrator.'));
+        redirect('auth/no_permission');
     }
 
     /**
      * 
-     * @global type $CI
-     * @global dbf $db
      * @return boolean
      */
     function is_login() {

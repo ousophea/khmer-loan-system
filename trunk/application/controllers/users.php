@@ -21,7 +21,6 @@ class users extends CI_Controller {
         $this->data['dbf'] = new dbf();
         $this->data['title'] = NULL;
         $this->data['data'] = NULL;
-
     }
 
     function index() {
@@ -81,7 +80,7 @@ class users extends CI_Controller {
      */
     function register() {
         try {
-            $this->check_session();
+            allows(array(Setting::$role0, Setting::$role1));
             $this->data['title'] = "Create a new user";
             $dbf = $this->data['dbf'];
             $this->form_validation->set_rules($dbf->getF_Username(), 'Username', 'required|min_length[5]|max_length[30]|is_unique[' . $dbf->getT_users() . '.' . $dbf->getF_username() . ']');
@@ -117,7 +116,7 @@ class users extends CI_Controller {
     function edit() {
 
         try {
-            $this->check_session();
+            allows(array(Setting::$role0, Setting::$role1));
             $this->data['title'] = 'Edit user';
             $dbf = new dbf();
             $dbf = $this->data['dbf'];
@@ -169,7 +168,7 @@ class users extends CI_Controller {
     }
 
     function manage() {
-        allows(array('admin', 'superadmin'));
+        allows(array(Setting::$role0, Setting::$role1));
         $this->data['title'] = 'Manage users';
         $this->data['data'] = array('users' => $this->d_users->findAllUsers());
 
@@ -177,6 +176,7 @@ class users extends CI_Controller {
     }
 
     function delete() {
+        allows(array(Setting::$role0, Setting::$role1));
         if ($this->d_users->deleteUserById()) {
             $this->session->set_flashdata('success', 'User has been deleted. Note: The current user is not allow to delete.');
             redirect('users/manage');
@@ -187,6 +187,8 @@ class users extends CI_Controller {
     }
 
     function changepassword() {
+        allows(array(Setting::$role0, Setting::$role1));
+        $this->data['title'] = 'Change password';
         $dbf = new dbf();
         $this->form_validation->set_rules($dbf->getF_password(), 'Password', 'required|min_length[5]|max_length[12]');
         $this->form_validation->set_rules($dbf->getF_password() . 'c', 'Password confirmation', 'required|matches[' . $dbf->getF_password() . ']');
