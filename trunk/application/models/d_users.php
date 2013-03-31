@@ -17,6 +17,11 @@ class d_users extends CI_Model {
         parent::__construct();
     }
 
+    /**
+     * 
+     * @param s_users $s_user_obj
+     * @return boolean
+     */
     private function setLogin(s_users $s_user_obj) {
         $this->db->where($s_user_obj->getF_username(), $s_user_obj->getUsername());
         $this->db->where($s_user_obj->getF_password(), $s_user_obj->getPassword());
@@ -29,6 +34,11 @@ class d_users extends CI_Model {
         return FALSE;
     }
 
+    /**
+     * 
+     * @param s_users $s_user_obj
+     * @return type
+     */
     public function getLogin(s_users $s_user_obj) {
         return $this->setLogin($s_user_obj);
     }
