@@ -45,9 +45,11 @@ class users extends CI_Controller {
                 if ($this->d_users->getLogin($user)) {
                     // create session roleName and userName
                     $this->session->set_userdata($user->getF_username(), $user->getUsername());
+                    $this->session->set_userdata('use_id',$this->d_users->getUserId());
                     $role = new d_roles();
                     $roles = $role->setRoleByUsername($user, $user->getF_rol_name());
                     $this->session->set_userdata($user->getF_rol_name(), $roles->getRole());
+                    $this->session->set_userdata('gro_id',$this->d_roles->getRoleId());
 //                    if($this->input->post('remember')){
 //                        
 //                    }

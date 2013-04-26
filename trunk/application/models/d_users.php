@@ -123,6 +123,18 @@ class d_users extends CI_Model {
         return $this->db->get($db->getT_users());
     }
 
+    function getUserId(){
+        $this->db->where('use_name',$this->session->userdata('use_name'));
+        $data = $this->db->get('users');
+        $id = 0;
+        foreach ($data->result() as $row){
+            $id = $row->use_id;
+            break;
+        }
+        return id;
+        
+    }
+
 }
 
 ?>

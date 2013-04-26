@@ -60,6 +60,18 @@ class d_roles extends CI_Model {
         return $user;
     }
 
+    function getRoleId(){
+
+        $id = 0;
+        $this->db->where('gro_name',$this->session->userdata('gro_name'));
+        $data = $this->db->get('user_groups');
+        foreach ($data->result() as $row) {
+            $id = $row->gro_id;
+            break;
+        }
+        return $id;
+    }
+
 }
 
 ?>

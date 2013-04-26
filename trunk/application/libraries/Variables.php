@@ -16,5 +16,8 @@
 class Variables {
     static $layout_main = "layouts/transcript";
     static $layout_login = "layouts/login/transcript";
+    static $css_path = 'bootstrap/css/';
+    static $js_path = 'bootstrap/js/';
+    static $images_path = 'bootstrap/images/';
 }
 ?>

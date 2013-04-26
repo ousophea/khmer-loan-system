@@ -4,15 +4,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Loan System</title>
-        <link href="<?php echo base_url(); ?>css/transcript/css/style.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo base_url(); ?>bootstrap/css/style.css" rel="stylesheet" type="text/css">
 
         <script src="js/jquery.js"></script>
         <!-- Bootstrap -->
-        <link href="<?php echo base_url(); ?>css/transcript/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="<?php echo base_url(); ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     </head>
 
     <body>
-        <script src="<?php echo base_url(); ?>css/transcript/bootstrap/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url(); ?>bootstrap/js/bootstrap.min.js"></script>
         <div id="wraper">
             <div class="header">
                 <p>&nbsp;</p>
@@ -21,7 +21,7 @@
             <div id="login-content">
                 <div id="login_form">
                     <div id="login_form_logo">
-                        <img src="<?php echo base_url(); ?>css/transcript/images/logo.png" width="178">
+                        <img src="<?php echo base_url(); ?>images/logo.png" width="178">
                     </div>
                     <div id="form">
                         <?php
@@ -53,7 +53,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="82"><input name="btn_login" type="image" id="btn_login" value="Submit" src="<?php echo base_url(); ?>css/transcript/images/tbn_login.png" ></td>
+                                    <td width="82"><input name="btn_login" type="image" id="btn_login" value="Submit" src="<?php echo base_url(); ?>images/tbn_login.png" ></td>
                                     <td width="196"><a href="#">Forget your password?</a></td>
                                 </tr>
                             </table>
