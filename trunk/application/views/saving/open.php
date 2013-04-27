@@ -3,6 +3,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+$typethread = '[';
+$i = 0;
+foreach ($contacts->result() as $row) {
+    if($i == 0){
+        $typethread .= "'".$row->con_id."'";
+    }
+ else {
+    $typethread .= ",'".$row->con_id."'";    
+    }
+    $i++;
+}
+$i=0;
+$typethread .= ']';
 ?>
 <div class="tools">
     <a class="btn btn-mini" href="register" title="Add new"><i class="icon-plus-sign"></i> Add new</a>
@@ -11,7 +24,6 @@
     <span id="delete" class="btn btn-mini" title="Delete"><i class="icon-remove-sign"></i> Delete</span>
 </div>
 <div>
-    
     <?php
     echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => ''));
     
@@ -23,7 +35,9 @@
         'validated'=>1,
         'attr' => array(
             'name' => 'cid',
-            'class' => 'input_box',
+            'data-provide'=>'typeahead',
+            'data-items'=>'2',
+            'data-source'=> $typethread,
         )
     );
     $search = form_button(array('content'=>'Search','class'=>'btn btn-success','data-loading-text'=>"Loading..."), 'search');
@@ -89,10 +103,10 @@
     echo get_form($data);
     $data = array(
         'type' => 'select', // input type='text'
-        'label' => 'Ownership type',
+        'label' => 'Currency',
         'attr' => array(
-            'name' => 'ownershiptype',
-            'option'=>array(0=>'Conpalsary Saving',1=>'Voluntary Saving')
+            'name' => 'currency',
+            'option'=>array(''=>'---Select currency---',201=>'USD($)',202=>'Real(៛)')
         )
     );
     echo get_form($data);

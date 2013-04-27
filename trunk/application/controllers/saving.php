@@ -24,6 +24,7 @@ class saving extends CI_Controller{
     function open(){
         $this->data['title'] = 'Open saving account';
         $this->data['product_type'] = $this->m_saving_product_type->get_product_type_array();
+        $this->data['contacts'] = $this->m_saving->get_contacts();
 
         $this->form_validation->set_rules('cid', 'Contact ID', 'required');
             if ($this->form_validation->run() == FALSE)

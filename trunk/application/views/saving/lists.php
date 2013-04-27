@@ -19,7 +19,8 @@
                 ?>
             </th>
             <th>Account CODE</th>
-            <th>User</th>
+            <th>English Name</th>
+            <th>Khmer Name</th>
         </tr>
     </thead>
     <tbody>
@@ -30,7 +31,8 @@
                     echo '<tr>';
                     echo '<td>'.form_checkbox(array('class'=>'child_check','id'=>$row->sav_acc_id,'name'=>'child_check[]','value'=>$row->sav_acc_id)).'</td>';
                     echo '<td>'.$row->sav_acc_code.'</td>';
-                    echo '<td>'.$row->sav_acc_reference.'</td>';
+                    echo '<td>'.$row->con_en_name.'</td>';
+                    echo '<td>'.$row->con_kh_name.'</td>';
                     echo '</tr>';
                 }
             }

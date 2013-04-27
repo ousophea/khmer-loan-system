@@ -17,13 +17,15 @@ $dbf = new dbf();
         <link href="<?php echo base_url(); echo Variables::$css_path; ?>bootstrap.min.css" rel="stylesheet" media="screen">
         <link href="<?php echo base_url(); echo Variables::$css_path; ?>users.css" rel="stylesheet" media="screen">
 
-        <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>jquery.js" ></script>
+        <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>jquery-2.0.0.min.js" ></script>
         <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap.min.js" ></script>
 
         <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-button.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-typeahead.js"></script>
         
         <script src="<?php echo base_url(); ?>js/form.js"></script>
+        
 
     </head>
 
@@ -102,9 +104,14 @@ $dbf = new dbf();
             <div id="footer"> <span style="float:left">© Copyright 2013,</span> <span style="float:right">® All right resource</span> </div>
         </div>
         <script type="text/javascript">
-            $(document).ready(function(){
-                $('.dropdown-toggle').dropdown();
-            });
+            jQuery.noConflict();
+                (function($) {
+                    $(function() {
+                        $('.dropdown-toggle').dropdown();
+                        $('.typeahead').typeahead()
+                    });
+            })(jQuery);
         </script>
+        
     </body>
 </html>
