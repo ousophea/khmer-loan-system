@@ -14,12 +14,12 @@ class m_saving extends CI_Model {
 
     function add(){
         $data = array(
-            'sav_acc_code'=>'168-'.$this->input->post('sav_acc_con_id').'-'.$this->input->post('curency'),
+            'sav_acc_code'=>'168-'.$this->input->post('con_cid').'-'.$this->input->post('currency'),
             'sav_acc_sav_pro_typ_id'=>$this->input->post('sav_acc_sav_pro_typ_id'),
             //'sav_acc_create_date'=>  now(),
             //'sav_acc_modified_date'=>now(),
             'sav_acc_reference'=>'ddsadfadsf',//$this->input->post('sav_acc_reference'),
-            //'sav_acc_con_id'=>$this->input->post('sav_acc_con_id'),
+            'sav_acc_con_id'=>$this->input->post('cid'),
             'sav_use_id'=> $this->session->userdata('use_id'),
         );
         if($this->db->insert('saving_account',$data)) return TRUE;

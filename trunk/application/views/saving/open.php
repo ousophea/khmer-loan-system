@@ -3,14 +3,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-$typethread = '[';
 $i = 0;
+$typethread=NULL;
 foreach ($contacts->result() as $row) {
+    
+    echo form_hidden('_'.$row->con_cid,$row->con_id);
     if($i == 0){
-        $typethread .= "'".$row->con_id."'";
+        $typethread .= '["'.$row->con_cid.'"';
     }
- else {
-    $typethread .= ",'".$row->con_id."'";    
+    else {
+       $typethread .= ',"'.$row->con_cid.'"';    
     }
     $i++;
 }
@@ -25,23 +27,34 @@ $typethread .= ']';
 </div>
 <div>
     <?php
-    echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => ''));
+    echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'open_form'));
     
     echo '<fieldset>';
     echo legend('Customer information');
-    $data = array(
-        'type' => 'text', // input type='text'
-        'label' => 'CID *',
-        'validated'=>1,
-        'attr' => array(
-            'name' => 'cid',
-            'data-provide'=>'typeahead',
-            'data-items'=>'2',
-            'data-source'=> $typethread,
-        )
-    );
-    $search = form_button(array('content'=>'Search','class'=>'btn btn-success','data-loading-text'=>"Loading..."), 'search');
-    echo get_form($data,$search);
+    echo form_hidden('cid');
+    ?>
+    <div class="control-group">
+        <label class="control-label" for="cid">CID</label>
+        <div class="controls">
+          <input autocomplete="off" data-source='<?php echo $typethread ?>' data-provide='typeahead' data-items='10' name="con_cid" type="text" id="con_cid" placeholder="CID">
+          <?php echo form_button(array('content'=>'Search','class'=>'btn btn-success','data-loading-text'=>"Loading..."), 'search'); ?>
+        </div>
+    </div>
+    <?php
+    
+//    $data = array(
+//        'type' => 'text', // input type='text'
+//        'label' => 'CID *',
+//        'validated'=>1,
+//        'attr' => array(
+//            'name' => 'cid',
+//            'data-provide'=>'typeahead',
+//            'data-items'=>'10',
+//            'data-source'=> "['ddd']",
+//        )
+//    );
+//    $search = form_button(array('content'=>'Search','class'=>'btn btn-success','data-loading-text'=>"Loading..."), 'search');
+//    echo get_form($data,$search);
     
     $data = array(
         'type' => 'label', // input type='text'
@@ -130,3 +143,16 @@ $typethread .= ']';
     ?>
     
 </div>
+<script>
+
+    jQuery.noConflict();
+        (function($) {
+            $(function() {
+                $('#con_cid').blur(function(){
+                    var con_cid = $('#con_cid').val();
+                    var con_id = $('[name="_'+con_cid+'"]').val();
+                    $('[name="cid"]').val(con_id);
+                });
+            });
+    })(jQuery);
+</script>
