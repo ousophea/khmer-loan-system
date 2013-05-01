@@ -42,5 +42,29 @@ class m_saving extends CI_Model {
         }
         return $array;
     }
+    
+    function find_contact_by_code($con_cid){
+        $this->db->where('con_cid',$con_cid);
+        $this->db->where('status',1);
+        $query = $this->db->get('contacts');
+        $data=null;
+        foreach ($query->result() as $row){
+            $data['con_id'] = $row->con_id;
+            $data['con_en_name'] = $row->con_en_name;
+            $data['con_kh_name'] = $row->con_kh_name;
+            break;
+        }
+        return $data;
+    }
+    
+    function delete_saving_account_by_id(){
+        
+        for ($k = 0; $k < count($_POST['child_check']); $k++) {
+            $id = $_POST['child_check'][$k];
+            $this->db->where('sav_acc_id', $id);
+            $this->db->delete('saving_account');
+        }
+        return true;
+    }
 }
 ?>
