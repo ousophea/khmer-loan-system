@@ -53,7 +53,7 @@ if (!function_exists('forms')) {
                 break;
 
             case 'label':
-                $html.= form_label($array['attr']['text']);
+                $html.= form_label($array['attr']['text'],'',$array['attr']);
                 break;
 
             default:
