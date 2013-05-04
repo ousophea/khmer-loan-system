@@ -24,8 +24,17 @@ class saving extends CI_Controller{
     function open(){
         allows(array(Setting::$role0, Setting::$role1));
         $this->data['title'] = 'Open saving account';
-        $this->data['product_type'] = $this->m_saving_product_type->get_product_type_array();
-        $this->data['contacts'] = $this->m_saving->get_contacts();
+        $product_type = $this->m_saving_product_type->get_product_type_array();
+        $this->data['product_type'] = $product_type;
+        $contracts = $this->m_saving->get_contacts();;
+        $this->data['contacts'] = $contracts;
+        
+        if($product_type == NULL){
+            $this->session->set_flashdata('error','Saving product type is empty, please add new saving product type first.');
+        }
+        if($contracts->num_rows() > 0){
+            $this->session->set_flashdata('error','Contract is empty, please add contract first.');
+        }
 
         $this->form_validation->set_rules('cid', 'Contact information,Enter CID and click button search.', 'required|is_unique[saving_account.sav_acc_con_id]');
         $this->form_validation->set_rules('sav_acc_sav_pro_typ_id', 'Product type', 'required');
