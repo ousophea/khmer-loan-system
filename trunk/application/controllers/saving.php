@@ -18,7 +18,7 @@ class saving extends CI_Controller{
         $this->load->model(array('m_saving_product_type','m_saving'));
     }
     function index(){
-        redirect('open');
+        redirect('saving/lists');
     }
     
     function open(){
