@@ -30,10 +30,12 @@ class saving extends CI_Controller{
         $this->data['contacts'] = $contracts;
         
         if($product_type == NULL){
-            $this->session->set_flashdata('error','Saving product type is empty, please add new saving product type first.');
+            $this->session->set_flashdata('error','<div class="alert alert-error">Saving product type is empty, please add new saving product type first.</div>');
+            redirect('saving/lists');
         }
-        if($contracts->num_rows() > 0){
-            $this->session->set_flashdata('error','Contract is empty, please add contract first.');
+        if($contracts->num_rows() ==NULL){
+            $this->session->set_flashdata('error','<div class="alert alert-error">Contract is empty, please add contract first.</div>');
+            redirect('saving/lists');
         }
 
         $this->form_validation->set_rules('cid', 'Contact information,Enter CID and click button search.', 'required|is_unique[saving_account.sav_acc_con_id]');
