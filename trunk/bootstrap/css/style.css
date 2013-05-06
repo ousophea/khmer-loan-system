@@ -101,11 +101,12 @@ body{
 	clear:both;	
 }
 #footer {
-	width:980px;
+    width:963px;
     border-top: 1px solid #AFDE54;
     clear: both;
     margin: 7px auto 0;
-    padding-top: 7px;
+    padding: 7px 10px 0 10px;
+    color: #A7A1A1;
 }
 #top_footer{
 
@@ -136,3 +137,81 @@ body{
 	width:48px;	
 	margin: 0 0 0 -20px;
 }
+
+
+
+/*Form model by Sophea*/
+
+
+.bs-docs-form:after {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    /*content: "Account information";*/
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+/*.span5 .bs-docs-form:after{
+	content: "Account information";
+}*/
+#chequeDetails .bs-docs-form:after{
+	/*content: "Cheque Details";*/
+}
+
+.bs-docs-form {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    padding: 39px 19px 0;
+    position: relative;
+}
+
+.form-model .span5{
+    width:440px; 
+}
+.form-model form_model_style{
+    display: none;
+}
+.form-model .form-horizontal .control-group{
+    margin-bottom: 10px;
+}
+.form-model textarea{
+    height: 70px;
+    resize: none;
+}
+
+.form-model select{
+    width: 140px;
+}
+.form-model input[type="text"]{
+    width:120px;
+}
+
+.require{
+    color: red;
+}
+
+.form-model .col1{
+    margin: 0 auto;
+    width: 50%;
+}
+.form-model .btn_back{
+    margin-left: 20px;
+    
+}
+.form-model .gl_code{
+    margin-left: 0;
+}
+
+.form-model input[disabled], .form-model select[disabled], 
+.form-model textarea[disabled], .form-model input[readonly], .form-model select[readonly], .form-model textarea[readonly]{
+    background-color: #F9F9F9;
+}
+
+/*End form modle*/
