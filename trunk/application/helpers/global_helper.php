@@ -61,4 +61,127 @@ function table_manager($table_object, $arr_column){
 	return $string_table; 
 }
 
+/**
+ * Function create by Sophea
+ * 
+ */
+function start_form_model($col) {
+    
+    echo'<div class="form-model">';
+    if ($col == 1) {
+        echo '<div class="row col1">';
+    } else {
+        echo '<div class="row">';
+    } 
+    echo'<div class="span5">';
+}
+
+function close_form_model() {
+    echo '</div></div></div>';
+
+}
+
+function open_form($name,$title,$action=NULL) {    
+    echo'<div class="form_block" id="' . $name . '" title="'.$title.'">';
+    echo form_open($action, array('name' => $name, 'class' => 'form-horizontal bs-docs-form'));
+}
+
+function close_form() {
+    
+    echo form_close();
+    echo '<div class="form_model_style">&nbsp;</div>';
+    echo'</div>';
+}
+
+function f_start_col2(){
+    echo '</div><div class="span5">';
+}
+
+
+/**
+ * function to write the form element
+ * @param $field_type string parameter to present about the type of field name. EX: text, password, file, ....
+ * @param $field_name string parameter to present about the name of field
+ * @param $field_value string parameter to present about the default value of the field
+ * @param $label string parameter to present about label text. Optional
+ * @param $arr_field_attribute array two dimentional present about the field option, and attribute. Mostly use with Select, Radio, Checkbox
+ * @param $validate boolean parameter to present about form validator
+ * @return void function
+ * @example field('select','sex','Sex:','m',array('options'=>array('0'=>'select','m'=>'Male'),'attribute'=>array('class'=>'dropdown','id'=>'test')),TRUE);
+ */
+function field($field_type,$field_name,$label=NULL,$field_value=NULL,$arr_field_attribute=NULL,$validate=FALSE,$sth=NULL){
+    $attributes = ' ';
+    if(is_array($arr_field_attribute) && array_key_exists('attribute', $arr_field_attribute)){
+        foreach($arr_field_attribute['attribute'] as $attribute => $attribute_value){
+            $attributes .= $attribute.'="'.$attribute_value.'" ';
+        }
+    }
+    echo '<div class="control-group">';
+    if ($label <> NULL) {
+        echo form_label($label.(($validate)?' <sup class="require">*</sup> ':''),$field_name,array('class'=>'control-label'));
+    }
+    echo'<div class="controls">';
+    switch ($field_type){
+        case 'text':
+            echo form_input($field_name,$field_value,$attributes);
+            break;
+        case 'password':
+            echo form_password($field_name,$field_value,$attributes);
+            break;
+        case 'select':
+            if(is_array($arr_field_attribute) && array_key_exists('options', $arr_field_attribute)) echo form_dropdown($field_name,$arr_field_attribute['options'],$field_value,$attributes);
+            else echo '<span class="form_invalid">Invalid parameter of calling form dropdown! Please correct by see example below: <br/><pre>field(\'Sex:\',\'select\',\'sex\',\'m\',array(\'options\'=>array(\'0\'=>\'select\',\'m\'=>\'Male\'),\'attribute\'=>array(\'class\'=>\'dropdown\',\'id\'=>\'test\')));</pre></span>';
+            break;
+        case 'file':
+            echo form_upload($field_name,$field_value,$attributes);
+            break;
+        case 'textarea':
+            echo form_textarea($field_name,$field_value,$attributes);
+            break;
+        case 'button':
+            echo form_button($field_name,$field_value,$attributes);
+            break;
+        case 'submit':
+            echo form_submit($field_name,$field_value,$attributes);
+            break;
+        case 'reset':
+            echo form_reset($field_name,$field_value,$attributes);
+            break;
+        case 'radio':
+            if(is_array($arr_field_attribute) && array_key_exists('radio_list', $arr_field_attribute)){
+                foreach($arr_field_attribute['radio_list'] as $text => $value){
+                   echo'<label class="radio">';
+                    echo form_radio($field_name,$validate,(($field_value==$value)?TRUE:FALSE),$attributes);
+                    echo ' '.$text.' ';
+                    echo'</label>';
+                }
+            }else{
+                echo '<span class="form_invalid">Invalid parameter of calling form radio box! Please correct by see example below: <br/>
+                    <pre>field(\'Status:\',\'radio\',\'status\',\'single\',array(\'radio_list\'=>array(\'Married\'=>\'married\',\'Single\'=>\'single\'),\'attribute\'=>array(\'class\'=>\'status\')));
+                    </pre></span>';
+            }
+            break;
+        case 'checkbox':
+            if(is_array($arr_field_attribute) && array_key_exists('checkbox_list', $arr_field_attribute)){
+                foreach($arr_field_attribute['checkbox_list'] as $text => $value){
+                     echo '<label class="checkbox">';
+                    echo form_checkbox($field_name,$validate,(($field_value==$value)?TRUE:FALSE),$attributes);
+                    echo ' '.$text.' ';
+                    echo '</label>';
+                }
+            }else{
+                echo '<span class="form_invalid">Invalid parameter of calling form checkbox box! Please correct by see example below: <br/>
+                    <pre>field(\'Favorite:\',\'checkbox\',\'favorite\',\'song\',array(\'checkbox_list\'=>array(\'Song\'=>\'song\',\'Movie\'=>\'movie\'),\'attribute\'=>array(\'class\'=>\'favorite\')));
+                    </pre></span>';
+            }
+            break;
+        default:
+            echo 'Missing or incorrect type of input';
+            break;
+    }
+    echo $sth;
+    if($validate) echo '<span class="help-block">'.form_error($field_name).'</span>';
+    echo '  </div>';
+    echo '</div>';  
+}
 ?>
