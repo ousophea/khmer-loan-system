@@ -25,6 +25,7 @@ $dbf = new dbf();
         <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-typeahead.js"></script>
         
         <script src="<?php echo base_url(); ?>js/form.js"></script>
+        <script type="text/javascript" language="javascript" src="<?php echo site_url('js/form_model.js'); ?>" ></script>
         
 
     </head>
@@ -65,8 +66,8 @@ $dbf = new dbf();
                         <ul class="sf-menu sf-js-enabled">
                             <li id="pan" class="off current"><a href="<?php echo base_url(); ?>panel">Panel</a></li>
                             <li id="graa" class="off"><a onclick="return false" href="" >Pay Cash</a></li>
-                            <li id="tew" class="off"><a href="">Recive Cash</a></li>
-                            <li id="cla" class="off"><a href="">Loan/Saving</a></li>
+                            <li id="tew" class="off"><a href="<?php echo base_url(); ?>recivecashs">Recive Cash</a></li>
+                            <li id="cla" class="off"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>
                             <li class="off dropdown"> <a class="dropdown-toggle"
                                                          data-toggle="dropdown"
                                                          href="#"> Reports <b class="caret"></b> </a>
