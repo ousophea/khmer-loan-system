@@ -141,7 +141,6 @@ body{
 /* By Sochy*/
 .error{
     color: red;
-
 }
 .bordered{
     border: solid 1px #CCC;
@@ -169,9 +168,12 @@ body{
     position: absolute;
     top: -1px;
 }
+<<<<<<< .mine
+=======
 /*.span5 .bs-docs-form:after{
         content: "Account information";
 }*/
+>>>>>>> .r64
 #chequeDetails .bs-docs-form:after{
     /*content: "Cheque Details";*/
 }
