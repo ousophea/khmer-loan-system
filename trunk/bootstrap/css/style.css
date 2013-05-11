@@ -1,40 +1,40 @@
 @charset "utf-8";
 /* CSS Document */
 body{
-	padding:0;
-	margin:auto;	
-	font-family:Verdana;
-	font-size:12px;
-	
+    padding:0;
+    margin:auto;	
+    font-family:Verdana;
+    font-size:12px;
+
 }
 #wraper{	
 }
 .header{
-	margin:0;
-	padding:0;
-	height:100px;
-	background:url(../images/header.jpg) top no-repeat;
-	background-position: top center;
-		
+    margin:0;
+    padding:0;
+    height:100px;
+    background:url(../images/header.jpg) top no-repeat;
+    background-position: top center;
+
 }
 .welcome {
     color: #1483D9;
     text-transform: capitalize;
 }
 #login_form{
-	width:480px;
-	margin:0 auto;	
+    width:480px;
+    margin:0 auto;	
 }
 #login_form_logo{
-	float:left;
-	width:95%;
-	margin-top:-40px;
+    float:left;
+    width:95%;
+    margin-top:-40px;
 }
 #form{
-	float:right;
+    float:right;
 }
 .form_title{
-	color:#e6ba0c;	
+    color:#e6ba0c;	
 }
 
 #content {
@@ -45,44 +45,44 @@ body{
     color: #5C5C5C;
     font-family: verdana;
     font-size: 13px;
-	z-index:0;
+    z-index:0;
     margin: 20px auto 0;
     padding: 38px 10px 40px;
     width: 940px;
-	min-height:350px;
+    min-height:350px;
 }
 
 #login-content {
 
-	min-height:405px;
+    min-height:405px;
 }
 
 
 
 #v_rule{
-	border-left: solid 1px;
-	padding:10px;
-	border-color:#e6ba0c;
+    border-left: solid 1px;
+    padding:10px;
+    border-color:#e6ba0c;
 }
 .input{
-	color:#e6ba0c;	
+    color:#e6ba0c;	
 }
 .txt_input{
-	border-color:#e6ba0c;
+    border-color:#e6ba0c;
 }
 
 .wraper-control{
-	height:auto;	
-	border:solid 1px #CCC;
-	border-radius:5px;
-	margin:auto;
-	padding:10px;
+    height:auto;	
+    border:solid 1px #CCC;
+    border-radius:5px;
+    margin:auto;
+    padding:10px;
 }
 .panel-control{	
-	border:solid 1px #CCC;
-	margin:auto;
-	padding:10px;
-	margin-bottom:50px;
+    border:solid 1px #CCC;
+    margin:auto;
+    padding:10px;
+    margin-bottom:50px;
 }
 
 
@@ -98,7 +98,7 @@ body{
 }
 
 .clr{
-	clear:both;	
+    clear:both;	
 }
 #footer {
     width:963px;
@@ -111,34 +111,47 @@ body{
 #top_footer{
 
     background: url("../images/footer-bg.png") no-repeat;
-	background-position:center top;
+    background-position:center top;
     height: 45px;
     width: 984px;
-	 margin: -5px auto 0;
+    margin: -5px auto 0;
 }
 
 .panel-control .span {
-	text-align:center;
-	border:solid 1px;
-	border-radius:5px;
-	width:120px;
-	height:120px;
-	cursor:pointer;
+    text-align:center;
+    border:solid 1px;
+    border-radius:5px;
+    width:120px;
+    height:120px;
+    cursor:pointer;
 }
 
 .panel-control .span a {
-	color:#333;
+    color:#333;
 }
- .panel-control .row {
+.panel-control .row {
     /* margin-left: -2px; */
 }
 
 .span .row img{
-	width:48px;	
-	margin: 0 0 0 -20px;
+    width:48px;	
+    margin: 0 0 0 -20px;
 }
+
+/* By Sochy*/
 .error{
     color: red;
+
+}
+.bordered{
+    border: solid 1px #CCC;
+    border-radius: 3px;
+}
+.nav-tabs {
+    background: rgb(228, 228, 228);
+}
+/* End*/
+
 
 /*Form model by Sophea*/
 
@@ -157,10 +170,10 @@ body{
     top: -1px;
 }
 /*.span5 .bs-docs-form:after{
-	content: "Account information";
+        content: "Account information";
 }*/
 #chequeDetails .bs-docs-form:after{
-	/*content: "Cheque Details";*/
+    /*content: "Cheque Details";*/
 }
 
 .bs-docs-form {
@@ -203,7 +216,7 @@ body{
 }
 .form-model .btn_back{
     margin-left: 20px;
-    
+
 }
 .form-model .gl_code{
     margin-left: 0;
