@@ -137,8 +137,8 @@ body{
 	width:48px;	
 	margin: 0 0 0 -20px;
 }
-
-
+.error{
+    color: red;
 
 /*Form model by Sophea*/
 
