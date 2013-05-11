@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-class recivecashs extends CI_Controller {
+class receivecashs extends CI_Controller {
 
     //put your code here
     private $data;
@@ -18,11 +18,11 @@ class recivecashs extends CI_Controller {
     }
 
     function index() {
-        redirect('recivecashs/recivecash');
+        redirect('receivecashs/receivecash');
     }
 
-    function recivecash() {
-        $data['title'] = 'Recive Cash/Cheque';
+    function receivecash() {
+        $data['title'] = 'Receive Cash/Cheque';
         $data['gl_query'] = $this->mod_global->select_all('gl_list');
         $data['transaction_query'] = $this->mod_global->select_all('transaction_mode');
         $data['currency_query'] = $this->mod_global->select_all('currency');

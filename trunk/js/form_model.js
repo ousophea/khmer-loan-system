@@ -22,8 +22,16 @@ jQuery.noConflict();
         
         
         $('#gl_code').change(function(){
-            
-            $('#gl_description').html($('#gl_code').val());
+            $arr_gl_val = ($('#gl_code').val()).split(':');
+            if($arr_gl_val[1]){
+                $('#code_gl').val($arr_gl_val[0]);
+                $('#gl_description').val($arr_gl_val[1]);
+            }else{
+                alert("Don't have this GL in database..!");
+                this.focus();
+            }
+           
+
         });
         
         

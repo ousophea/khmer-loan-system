@@ -84,8 +84,8 @@ $list_gl ="";
 $list_gl .= '<datalist id="gl_code">';
 foreach ($gl_query->result() as $gl_rows) {
     
-    $list_gl .='<option value="'.$gl_rows->gl_description.'">'; 
-    
+    $list_gl .='<option value="'.$gl_rows->gl_code.':'.$gl_rows->gl_description.'">'; 
+   // $list_gl .='<option value="'.$gl_rows->gl_code.'">'.$gl_rows->gl_description.'</option>'; 
 }
 $list_gl.= '</datalist>';
 
@@ -93,14 +93,14 @@ $list_gl.= '</datalist>';
 $array_transaction = array();
 
 foreach ($transaction_query->result() as $tra_rows) {
-    $array_transaction['0'] = '.....select......';
+    $array_transaction['0'] = '-----Select-----';
     $array_transaction[$tra_rows->tra_mod_id] = $tra_rows-> tra_mod_title; 
 }
 
 //Get currency list
 $array_currency = array();
 foreach ($currency_query->result() as $currency_rows) {
-    $array_currency['0'] = '.....select......';
+    $array_currency['0'] = '-----Select-----';
     $array_currency[$currency_rows->cur_id] = $currency_rows-> cur_title; 
 } 
 
@@ -119,7 +119,7 @@ echo '<div class="myform">';
 start_form_model(2);
 
 open_form('account_info', "Account information");
-field("text", "cis", "CID :", NULL, array('attribute' => array('list' => "list_cid",'id'=>"cid")), TRUE, 
+field("text", "cis", "CID :", NULL, array('attribute' => array('list' => "list_cid",'id'=>"cid","title"=>"")), TRUE, 
         '<datalist id="list_cid">'.$list_cid.'</datalist>'.
         '<button type="button" class="btn">Search</button>');
 //            field('text','txt_name','Name:','Vannak',array('attribute'=>array('class'=>'user')),TRUE);//<label for="CID:">CID:</label><input type="text" name="txt_name" />
@@ -151,18 +151,29 @@ field("text", "gl_code", "GL Code: ", NULL, array('attribute' => array('list' =>
 
 //echo '</div>';
 
-field("text", "gl_account_no", " GL Account No:",NULL, array('attribute' => array('readonly'=>"", 'style'=>"width:209px;")));
+field("text", "gl_account_no", " GL Account No:",NULL, array('attribute' => array('readonly'=>"", 'style'=>"width:209px;",'id'=>"code_gl")));
 field("textarea", "gl_detail","GL Description:",NULL,array('attribute'=>array('readonly'=>"",'id'=>"gl_description")));
 
 close_form();
 
 open_form('tra_info', 'Transaction Information');
 
-field('select', 'transaction', 'Transaction Mode:', 'm', 
+//field('hidden','cid');
+//field('hidden','gl_id');
+echo form_hidden('cid');
+echo form_hidden("gl_code");
+field('select', 'transaction', 'Transaction Mode:', '1', 
         array('options' => $array_transaction, 'attribute' => array('class' => 'dropdown', 'id' => 'test')), TRUE);
 
 //field("text", "currency", "Carrency: ", NULL, NULL, NULL, " USD");
-field('select', 'currency', 'Carrency :','1', array('options' => $array_currency, 'attribute' => array('class' => 'dropdown', 'id' => 'test')), TRUE);
+field('select', 'transaction_type', 'Transaction Type:','2', 
+        array(
+            'options' => array(
+                '0'=>"-----Select-----",
+                '1'=>"Debit",
+                '2'=>"Credit"), 'attribute' => array('class' => 'dropdown', 'id' => 'tra_type')), TRUE);
+field('select', 'currency', 'Currency :','1', array('options' => $array_currency, 'attribute' => array('class' => 'dropdown', 'id' => 'test')), TRUE);
+
 field("text", "tra_amount", "Transaction Amount:", NULL, NULL, TRUE);
 field("textarea", "tra_detail","Description:");
 field("button",'btn_submit', NULL,"Submit", array('attribute'=>array('class'=>'btn')), NULL, 

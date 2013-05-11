@@ -175,6 +175,9 @@ function field($field_type,$field_name,$label=NULL,$field_value=NULL,$arr_field_
                     </pre></span>';
             }
             break;
+        case 'hidden':
+            echo form_hidden($field_name,$field_value,$attributes);
+            break;
         default:
             echo 'Missing or incorrect type of input';
             break;
