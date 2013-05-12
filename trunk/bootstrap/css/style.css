@@ -227,7 +227,7 @@ body{
 
 .form-model input[disabled], .form-model select[disabled], 
 .form-model textarea[disabled], .form-model input[readonly], .form-model select[readonly], .form-model textarea[readonly]{
-    background-color: rgb(224, 224, 224);
+    background-color: #F9F9F9;
 }
 
 /*End form modle*/
