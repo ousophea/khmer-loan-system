@@ -149,6 +149,12 @@ body{
 .nav-tabs {
     background: rgb(228, 228, 228);
 }
+.tabbable{
+    margin-bottom: 10px;
+}
+.form-model .modal-footer{
+    width: 888px;
+}
 /* End*/
 
 
@@ -183,7 +189,7 @@ body{
 }
 
 .form-model .span5{
-    width:440px; 
+    width: 449px;
 }
 .form-model form_model_style{
     display: none;
@@ -221,7 +227,7 @@ body{
 
 .form-model input[disabled], .form-model select[disabled], 
 .form-model textarea[disabled], .form-model input[readonly], .form-model select[readonly], .form-model textarea[readonly]{
-    background-color: #F9F9F9;
+    background-color: rgb(224, 224, 224);
 }
 
 /*End form modle*/
