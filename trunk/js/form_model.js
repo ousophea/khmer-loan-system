@@ -21,13 +21,26 @@ jQuery.noConflict();
         }
         
         
-        $('#gl_code').change(function(){
-            $arr_gl_val = ($('#gl_code').val()).split(':');
-            if($arr_gl_val[1]){
-                $('#code_gl').val($arr_gl_val[0]);
-                $('#gl_description').val($arr_gl_val[1]);
+//        $('#gl_code').change(function(){
+//            $arr_gl_val = ($('#gl_code').val()).split(':');
+//            if($arr_gl_val[1]){
+//                $('#code_gl').val($arr_gl_val[0]);
+//                $('#gl_description').val($arr_gl_val[1]);
+//            }else{
+//                alert("Don't have this GL in database..!");
+//                this.focus();
+//            }
+//           
+//
+//        });
+
+        $('#btn_search_gl').click(function(){
+            var arr_gl_val = ($('#gl_code').val()).split(':');
+            if(arr_gl_val[1]){
+                $('#code_gl').val(arr_gl_val[0]);
+                $('#gl_description').val(arr_gl_val[1]);
             }else{
-                alert("Don't have this GL in database..!");
+                alert("Don't have ["+arr_gl_val[0]+"] in GL database..!");
                 this.focus();
             }
            
