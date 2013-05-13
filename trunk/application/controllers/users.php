@@ -45,7 +45,7 @@ class users extends CI_Controller {
                 if ($this->d_users->getLogin($user)) {
                     // create session roleName and userName
                     $this->session->set_userdata($user->getF_username(), $user->getUsername());
-                    $this->session->set_userdata('use_id',$this->d_users->getUserId());
+                    $this->session->set_userdata('use_id',$this->d_users->getUserId($user->getUsername()));
                     $role = new d_roles();
                     $roles = $role->setRoleByUsername($user, $user->getF_rol_name());
                     $this->session->set_userdata($user->getF_rol_name(), $roles->getRole());
@@ -204,6 +204,11 @@ class users extends CI_Controller {
             }
             redirect('users/manage');
         }
+    }
+    
+    function findUserByRole($role){
+        
+        
     }
 
 }

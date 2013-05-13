@@ -42,6 +42,8 @@ class saving extends CI_Controller{
         $this->form_validation->set_rules('sav_acc_sav_pro_typ_id', 'Product type', 'required');
         $this->form_validation->set_rules('currency', 'Currency', 'required');
         $this->form_validation->set_rules('glcode', 'GL code', 'required');
+        $this->form_validation->set_rules('con_cid', 'CID', 'required');
+        $this->form_validation->set_rules('dispayname', 'Display name', 'required');
             $this->form_validation->set_message('is_unique', 'CID "'.$this->input->post('con_cid').'" already has saving account. Try another CID');
             if ($this->form_validation->run() == FALSE)
                 $this->load->view(Variables::$layout_main, $this->data);
