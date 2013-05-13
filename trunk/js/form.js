@@ -52,7 +52,7 @@ jQuery.noConflict();
             }
             else if(checkbox > 0){
                 if(confirm("Are you sure want to delete this item?")){
-                    var action = 'post', url = uri[0]+'users/delete';
+                    var action = 'post', url = uri[0]+uri[1]+'/delete';
                     submits(action, url);
                 }
                 
