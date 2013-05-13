@@ -13,3 +13,14 @@
 .btn{
     margin-left: 5px;
 }
+
+.form-horizontal .control-label {
+    float: left;
+    width: 160px;
+    padding-top: 5px;
+    text-align: right;
+}
+.icon-loader{
+    background: url("../images/ajax-loader.gif") !important;
+}
+/*form{margin: 0px !important;}*/
