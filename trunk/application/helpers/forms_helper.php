@@ -18,7 +18,7 @@ if (!function_exists('forms')) {
      * @param type $other
      * @return string
      */
-    function get_form($array,$other=NULL) {
+    function get_form($array=null,$other=NULL) {
 
         if(!empty($array['attr']['name'])) $array['attr']['id'] = $array['attr']['name'];
         $html = '<div class="control-group">';
@@ -67,5 +67,57 @@ if (!function_exists('forms')) {
         return $html;
     }
 
+    /**
+     * 
+     * @param type $arr_content_tap
+     * @param type $span
+     * @example form_tab(array(array('tab'=>'Table 1','html'=>'<div>----</div>'),array(---)),1,'tab1_');
+     */
+    function tab_form($arr_content_tap=null,$tab_id=NULL){
+        
+            $html='<div class="tabbable bordered">';
+                $html.='<ul class="nav nav-tabs">';
+                foreach ($arr_content_tap as $key => $val){
+                    if($key==0){
+                        $html.='<li class="active"><a href="#tab'.$tab_id.$key.'" data-toggle="tab">'.$val['tab'].'</a></li>';
+                    }
+                    else{
+                        $html.='<li><a href="#tab'.$tab_id.$key.'" data-toggle="tab">'.$val['tab'].'</a></li>';
+                    }
+                }
+                    
+                    
+                
+                $html.='</ul>';
+                $html.='<div class="tab-content">';
+                    foreach ($arr_content_tap as $key => $val){
+                        if($key==0){
+                            $html.='<div class="tab-pane active" id="tab'.$tab_id.$key.'">';
+                                $html.=$val['html'];
+                            $html.='</div>';
+                        }
+                        else{
+                            $html.='<div class="tab-pane" id="tab'.$tab_id.$key.'">';
+                                $html.=$val['html'];
+                            $html.='</div>';
+                        }
+                    }
+                    
+                        
+                $html.='</div>';
+            $html.='</div>';
+        return $html;
+    }
+    function open_block($id=null,$title=null){
+        return '<div id="'.$id.'" title="'.$title.'" class="form_block"><div class="bs-docs-form">';
+    }
+    
+    function close_block(){return '</div></div>';}
+    
+    function open_span($num=5){
+        return '<div class="span'.$num.'">';
+    }
+    
+    function close_span(){return '</div>';};
 }
 ?>

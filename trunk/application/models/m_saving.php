@@ -28,13 +28,15 @@ class m_saving extends CI_Model {
 
     function get_saving_account(){
         $this->db->from('saving_account');
-        $this->db->where('saving_account.status',1);
+        $this->db->where('saving_account.sav_acc_status',1);
         $this->db->join('contacts','sav_acc_con_id=con_id');
         return $this->db->get();
     }
     
     function get_contacts(){
-        $this->db->where('contacts.status',1);
+        $this->db->where('contacts.con_status',1);
+        $this->db->join('contacts_detail','con_id=con_det_con_id');
+        $this->db->join('contact_type','con_typ_id=con_con_typ_id');
         $data = $this->db->get('contacts');
         $array = null;
         if($data->num_rows() > 0){
@@ -45,13 +47,18 @@ class m_saving extends CI_Model {
     
     function find_contact_by_code($con_cid){
         $this->db->where('con_cid',$con_cid);
-        $this->db->where('status',1);
+        $this->db->where('con_status',1);
+        $this->db->join('contacts_detail','con_id=con_det_con_id');
+        $this->db->join('contact_type','con_typ_id=con_con_typ_id');
         $query = $this->db->get('contacts');
         $data=null;
         foreach ($query->result() as $row){
             $data['con_id'] = $row->con_id;
             $data['con_en_name'] = $row->con_en_name;
             $data['con_kh_name'] = $row->con_kh_name;
+            $data['con_address'] = $row->con_address;
+            $data['con_dob'] = $row->con_dob;
+            $data['con_typ_title'] = $row->con_typ_title;
             break;
         }
         return $data;
