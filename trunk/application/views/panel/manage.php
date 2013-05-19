@@ -1,4 +1,8 @@
-
+<div class="panel-control">
+	<div class="row">
+        <div class="span"> <a class="row" href="<?php echo site_url('contacts'); ?>"><img title="Contacts Manager" alt="Contacts Manager" src="<?php echo site_url(BOOTSTRAP_MEDIA_PATH);?>/contact.png"> <span class="row">Contacts</span></a> </div>
+    </div>
+</div>
 <div class="panel-control">
     <div class="row">
         <div class="span"> <a class="row" href=""><img title="Curriculum Management" alt="" src="<?php echo base_url(); echo Variables::$images_path;?>payment.png"> <span class="row">Pay Cash</span></a> </div>

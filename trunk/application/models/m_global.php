@@ -192,6 +192,7 @@ class m_global extends CI_Model{
 			}
 		}
 		return $this->db->get();
+		//return $this->db->last_query();
 	}
 	
 	//GROUP OF FUNCTIONS QUERY TO INSERT//
@@ -337,6 +338,15 @@ class m_global extends CI_Model{
 	 		$this->db->truncate($arr_table);
 	 	}
 		return TRUE;
+	 }
+	 
+	 /**
+	 * Function insert_id to return the last primary id of the table after inserted
+	 * @return integer
+	 * @example $last_id = insert_id();
+	 */
+	 public function insert_id(){
+	 	return $this->db->insert_id();
 	 }	 
 }
 ?>

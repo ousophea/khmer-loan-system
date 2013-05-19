@@ -36,6 +36,11 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
+/**
+ * constand defined by custom user
+ */
+define('MEDIA_PATH', 'images/');
+define('BOOTSTRAP_MEDIA_PATH', 'bootstrap/images/');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
