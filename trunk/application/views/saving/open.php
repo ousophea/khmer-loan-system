@@ -5,7 +5,7 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
     <div class="form_model_style"></div>
     <div class="span12">
         <div class="tools">
-            <a class="btn btn-mini" href="<?php echo base_url() . '/saving/lists'; ?>" title="Add new"><i class="icon-circle-arrow-left"></i> List saving accounts</a>
+            <a class="btn btn-mini" href="<?php echo base_url() . 'saving/lists'; ?>" title="Add new"><i class="icon-circle-arrow-left"></i> List saving accounts</a>
         </div>
     </div>
     <div>
