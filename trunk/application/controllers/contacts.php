@@ -20,7 +20,7 @@ class Contacts extends CI_Controller {
 		//select_join('tbl_contacts', array('tbl_users' => array('con_use_id' => 'use_id')),'inner',array('tbl_users.use_id' => 2),'30')
 		$data['title'] = 'Contacts Manager';
 		$data['query_all'] = $this->m_global->select_join('contacts',array('contacts_type' => array('con_con_typ_id' => 'con_typ_id'),'contacts_detail' => array('con_id' => 'con_det_con_id'), 'contacts_job' => array('con_con_job_id' => 'con_job_id')),'inner');
- 		$this->load->view('master_page',$data);
+ 		$this->load->view(MAIN_MASTER,$data);
 	}
 	
 	public function add(){
