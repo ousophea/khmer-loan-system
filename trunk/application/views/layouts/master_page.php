@@ -98,7 +98,7 @@ $dbf = new dbf();
                 <div class="wraper-control">
                     <?php echo $this->session->flashdata('error'); ?>
                     <legend><?php echo (!empty($title)) ? $title : 'Untitle'; ?></legend>
-                    <?php $this->load->view($this->uri->segment(1) . '/' . $this->uri->segment(2)); ?>
+                    <?php $this->load->view(segment(1) . '/' . ((segment(2))?segment(2):'index')); ?>
                 </div>
             </div>
             <div id="top_footer"></div>
