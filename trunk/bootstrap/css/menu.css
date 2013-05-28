@@ -3,7 +3,7 @@
     background: url("../images/menu-bg.png") no-repeat scroll 0 0 transparent;
     height: 45px;
     width: 984px;
-	position: absolute;
+    position: absolute;
 }
 #submenu-footer {
     background: url("../images/menu-bg-gray.png") no-repeat scroll 0 0 transparent;
@@ -13,31 +13,100 @@
     position: relative;
     width: 984px;
 }
-.sf-menu {
+/* =============Main menu========*/
+.main-menu{
+    float: right;
+    list-style-image: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+}
+.main-menu a {
+    display: block;
+    padding: 6px 11px;
+    text-decoration: none;
+    color:#1f7e04;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+
+.main-menu li {
+    display: block;
+    float: left;
+    font: bold 14px arial;
+    height: 28px;
+    margin-left: 6px;
+    position: relative;
+    z-index: 1050;
+
+}
+
+.main-menu .off {
+    background: url("../images/sprite-main.png") repeat-x scroll 0 -66px #FFFFFF;
+    border-color: #FFFCA8 #FFFCA8 -moz-use-text-color;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+}
+.main-menu .off:hover {
+    background: none repeat scroll 0 0 #FFFBD5;
+    border-color: #CCCCCC #CCCCCC -moz-use-text-color;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+}
+.main-menu ul li{
+    width: 100%;
+}
+.main-menu li li a{
+    color: green;
+}
+
+.main-menu li li{
+    border-color: -moz-use-text-color;
+    border-style: none;
+    border-width: medium;
+    margin: 1px 0;
+}
+.main-menu li li a:hover{
+    background: url("../images/sprite-main.png") repeat-x scroll 0 -33px #FFFBD9;
+    color: #1483D9 !important;
+
+}
+.main-menu .current{
+    background: url("../images/menu-current.png") repeat-x scroll 0 0;
+    border-color: #a7ff1d #a7ff1d -moz-use-text-color;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+}
+
+/*
+.menu {
     float: right;
     list-style-image: none;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
-.sf-menu a {
+.menu a {
     display: block;
     padding: 6px 11px;
     text-decoration: none;
-	
-	color:#1f7e04;
+        
+        color:#1f7e04;
 }
-.sf-menu ul {
+.menu ul {
     position: absolute;
     top: -999em;
 }
-.sf-menu ul li {
+.menu ul li {
     width: 100%;
 }
-.sf-menu li:hover {
+.menu li:hover {
     visibility: inherit;
 }
-.sf-menu li {
+.menu li {
     display: block;
     float: left;
     font: bold 14px arial;
@@ -46,46 +115,45 @@
     position: relative;
     z-index: 1050;
 }
-.sf-menu li a {
-}
-.sf-menu .off {
+
+.menu .off {
     background: url("../images/sprite-main.png") repeat-x scroll 0 -66px #FFFFFF;
     border-color: #FFFCA8 #FFFCA8 -moz-use-text-color;
     border-style: solid solid none;
     border-width: 1px 1px medium;
 }
-.sf-menu .off:hover {
+.menu .off:hover {
     background: none repeat scroll 0 0 #FFFBD5;
     border-color: #CCCCCC #CCCCCC -moz-use-text-color;
     border-style: solid solid none;
     border-width: 1px 1px medium;
 }
-.sf-menu .current{
-	background: url("../images/menu-current.png") repeat-x scroll 0 0;
+.menu .current{
+        background: url("../images/menu-current.png") repeat-x scroll 0 0;
     border-color: #a7ff1d #a7ff1d -moz-use-text-color;
     border-style: solid solid none;
     border-width: 1px 1px medium;
 }
-.sf-menu .off a {
-    font-family: Arial,Helvetica,sans-serif;
+.menu .off a {
+    font-family: Arial,Helvetica,sanserif;
     font-size: 12px;
     font-weight: normal;
 }
-.sf-menu .off:hover a {
+.menu .off:hover a {
     color: green;
 }
-.sf-menu .sfhover.off {
+.s-menu .sfhover.off {
     background: none repeat scroll 0 0 #FFFFFF;
     border-color: #C6C6C6 #C6C6C6 -moz-use-text-color;
     border-style: solid solid none;
     border-width: 1px 1px medium;
 }
-.sf-menu .sfhover.off a {
+.s-menu .sfhover.off a {
     background: none repeat scroll 0 0 #FFFFFF;
     border-color: #C6C6C6;
     color: #2899D7;
 }
-.sf-menu .sfhover.off a:hover {
+.s-menu .sfhover.off a:hover {
     color: #45B7F5;
 }
 #ordertab {
@@ -107,15 +175,15 @@
 #ordertab a:hover {
     color: #FFFFFF;
 }
-.sf-menu li:hover ul {
+.s-menu li:hover ul {
     left: 0;
     top: 28px;
 }
-.sf-menu li.sfhover ul {
+.menu li.sfhover ul {
     left: 0;
     top: 28px;
 }
-.sf-menu li ul {
+.s-menu li ul {
     background-color: #FFFFFF !important;
     border-color: -moz-use-text-color #C6C6C6 #C6C6C6;
     border-style: none solid solid;
@@ -126,22 +194,22 @@
     padding: 7px;
     width: 160px;
 }
-.sf-menu li li {
+.s-menu li li {
     border-color: -moz-use-text-color;
     border-style: none;
     border-width: medium;
     margin: 1px 0;
 }
-.sf-menu li li a {
+.s-menu li li a {
     background: none repeat scroll 0 0 transparent;
     color: green !important;
     font-weight: normal;
 }
-.sf-menu li li a:hover {
+.s-menu li li a:hover {
     background: url("http://localhost/transcript/js/jquery/plugins/template/images/sprite-main.png") repeat-x scroll 0 -33px #FFFBD9;
     color: #1483D9 !important;
 }
-.sf-menu li li a:visited {
+.s-menu li li a:visited {
     font-weight: normal !important;
 }
 .sfhover li a:hover {
@@ -160,68 +228,68 @@
 .on .sf-sub-indicator {
     background: url("../images/sprite-main.png") no-repeat scroll 0 -2380px transparent;
 }
-.sf-menu a.sf-with-ul {
+.s-menu a.sf-with-ul {
     min-width: 1px;
     padding-right: 20px;
 }
 .sfhover .sf-sub-indicator {
     background: url("../images/sprite-main.png") no-repeat scroll 0 -2365px transparent !important;
 }
-.sf-menu .features {
+.s-menu .features {
     width: 350px;
 }
 
-.sf-menu .features li {
+.s-menu .features li {
     border-bottom: 1px dotted #E4E4E4;
     height: 50px;
 }
-.sf-menu .features li a {
+.s-menu .features li a {
     height: 35px;
     line-height: 35px;
     padding-left: 80px;
 }
-#sf-menu-email-newsletters a {
+#s-menu-email-newsletters a {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 3px 3px transparent;
 }
-#sf-menu-email-newsletters a:hover {
+#s-menu-email-newsletters a:hover {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 3px 3px #FFFCA8;
 }
-#sf-menu-signupforms a {
+#s-menu-signupforms a {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 5px -52px transparent;
 }
-#sf-menu-signupforms a:hover {
+#s-menu-signupforms a:hover {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 5px -52px #FFFCA8;
 }
-#sf-menu-managesubscribers a {
+#s-menu-managesubscribers a {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 8px -103px transparent;
 }
-#sf-menu-managesubscribers a:hover {
+#s-menu-managesubscribers a:hover {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 8px -103px #FFFCA8;
 }
-#sf-menu-followups a {
+#s-menu-followups a {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 7px -157px transparent;
 }
-#sf-menu-followups a:hover {
+#s-menu-followups a:hover {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 7px -157px #FFFCA8;
 }
-#sf-menu-analytics a {
+#s-menu-analytics a {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 3px -208px transparent;
 }
-#sf-menu-analytics a:hover {
+#s-menu-analytics a:hover {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 3px -208px #FFFCA8;
 }
-#sf-menu-customersolutions a {
+#s-menu-customersolutions a {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 12px -257px transparent;
 }
-#sf-menu-customersolutions a:hover {
+#s-menu-customersolutions a:hover {
     background: url("../images/dropdown-menu/drop-down-sprite.png") no-repeat scroll 12px -257px #FFFCA8;
 }
-#sf-menu-overview a {
+#s-menu-overview a {
     color: #5F96B4 !important;
     font-size: 16px;
     padding-left: 0;
     text-align: center;
 }
-#sf-menu-overview a:hover {
+#s-menu-overview a:hover {
     color: #FFFFFF !important;
-}
+}*/
