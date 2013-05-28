@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="utf-8">
-		<link href="<?php echo site_url('images/ico.ico'); ?>" rel="shortcut icon">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="keyword" content="<?php echo (isset($meta_key))?$meta_key:'N/A' ?>" />
 		<meta name="description" content="<?php echo (isset($meta_description))?$meta_description:'N/A' ?>" />
@@ -11,13 +10,9 @@
 		<link href="<?php echo site_url('css/style.css'); ?>" rel="stylesheet" type="text/css">
 		<link href="<?php echo site_url('css/main-style.css'); ?>" rel="stylesheet" type="text/css">
 		<link href="<?php echo site_url('css/menu.css'); ?>" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="<?php echo site_url('css/jquery-ui.css'); ?>" />
-		<!-- will be removed after merging CSS-->
-		<link rel="stylesheet" href="<?php echo site_url('css/contacts.css'); ?>" />
+                
 		<script type="text/javascript" language="javascript" src="<?php echo site_url('js/jquery-1.8.2.js'); ?>" ></script>
-		<script src="<?php echo site_url('js/jquery-ui.js'); ?>"></script>
-		<script type="text/javascript" language="javascript" src="<?php echo site_url('js/jq_action_manager.js'); ?>" ></script>
-	
+                <script type="text/javascript" language="javascript" src="<?php echo site_url('js/form_model.js'); ?>" ></script>
 		<!-- Bootstrap -->
 		<link href="<?php echo site_url('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" media="screen">
 	</head>
@@ -31,7 +26,7 @@
 		      <div class="clear"></div>
 		      <!-- Logo --> 
 		      <!-- Remove inline style when switching back to regular logo-->
-		      <div id="logo"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php echo site_url('images/logo.png'); ?>" alt="Logo"></a></div>
+		      <div id="logo"> <a href="http://localhost/transcript/"> <img title="Passerelles Numeriques Cambodia" class="logo" src="images/logo.png" alt="Logo"></a></div>
 		      <!-- Menu -->
 		      
 		      <div id="contain-menu3">
@@ -68,13 +63,6 @@
 		  </div>
 		  <div id="content">
 		    <div class="wraper-control">
-		    	<!--
-		    	<div class="menu_manager">
-		      		<?php echo anchor(site_url(segment(1).'/add'),'Add New','id="add_manager"'); ?> | 
-					<?php echo anchor(site_url(segment(1).'/edit'),'Edit','id="edit_manager"'); ?> | 
-					<?php echo anchor(site_url(segment(1).'/delete'),'Delete','id="delete_manager"'); ?> 
-		      	</div>
-		      -->
 		      <legend><?php echo (isset($title))?$title:'Riel Micro Finance Homepage Manager'; ?></legend>
 		      <!--<div class="panel-control">-->
 		        <?php

@@ -14,4 +14,5 @@ $arr_select_field = array(
 	'Address' => 'con_det_address_detail'
 );
 echo table_manager($query_all, $arr_select_field, TRUE);
+
 ?>

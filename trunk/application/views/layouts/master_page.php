@@ -20,9 +20,9 @@ $dbf = new dbf();
         <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>jquery-2.0.0.min.js" ></script>
         <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap.min.js" ></script>
 
-        <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-button.js"></script>
+<!--        <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-button.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-dropdown.js"></script>
-        <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-typeahead.js"></script>
+        <script type="text/javascript" src="<?php echo base_url(); echo Variables::$js_path; ?>bootstrap-typeahead.js"></script>-->
         
         <script src="<?php echo base_url(); ?>js/form.js"></script>
         <script type="text/javascript" language="javascript" src="<?php echo site_url('js/form_model.js'); ?>" ></script>
@@ -49,6 +49,8 @@ $dbf = new dbf();
                         $role = $this->session->userdata($dbf->getF_rol_name());
                         echo $username . ' ';
                         echo '(' . $role . ') ';
+                        
+                        
                         ?>
                         </strong>
                         <strong>
@@ -61,13 +63,12 @@ $dbf = new dbf();
                     <div id="logo"> <a href="#"> <img title="Passerelles Numeriques Cambodia" class="logo" src="<?php echo base_url();
                         echo Variables::$images_path; ?>logo.png" alt="Logo"></a></div>
                     <!-- Menu -->
-
                     <div id="contain-menu3">
                         <ul class="sf-menu sf-js-enabled">
-                            <li id="pan" class="off current"><a href="<?php echo base_url(); ?>panel">Panel</a></li>
-                            <li id="graa" class="off"><a onclick="return false" href="" >Pay Cash</a></li>
-                            <li id="tew" class="off"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>
-                            <li id="cla" class="off"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>
+                            <li id="pan" class="off <?php echo (($this->uri->segment(1))=="panel")?'current':'' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
+                            <li id="graa" class="off <?php echo (($this->uri->segment(1))=="paycash")?'current':'' ?>"><a onclick="return false" href="" >Pay Cash</a></li>
+                            <li id="tew" class="off <?php echo (($this->uri->segment(1))=="receivecashs")?'current':'' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>
+                            <li id="cla" class="off <?php echo (($this->uri->segment(1))=="saving")?'current':'' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>
                             <li class="off dropdown"> <a class="dropdown-toggle"
                                                          data-toggle="dropdown"
                                                          href="#"> Reports <b class="caret"></b> </a>
@@ -77,8 +78,8 @@ $dbf = new dbf();
                                     <li><a tabindex="-3" href="#">Something else here</a></li>
                                 </ul>
                             </li>
-                            <li id="use" class="off"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>
-                            <li class="off dropdown"> <a class="dropdown-toggle"
+                            <li id="use" class="off <?php echo (($this->uri->segment(1))=="users")?'current':'' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>
+                            <li class="off dropdown <?php echo (($this->uri->segment(1))=="setting")?'current':'' ?>"> <a class="dropdown-toggle"
                                                          data-toggle="dropdown"
                                                          href="#"> Setting <b class="caret"></b> </a>
                                 <ul class="dropdown-menu">

@@ -98,13 +98,13 @@ function close_form_model() {
 
 function open_form($name,$title,$action=NULL) {    
     echo'<div class="form_block" id="' . $name . '" title="'.$title.'">';
-    echo form_open($action, array('name' => $name, 'class' => 'form-horizontal bs-docs-form'));
+    echo form_open($action, array('name' => $name, 'class' => 'form-horizontal bs-docs-form','id'=>$name));
 }
 
 function close_form() {
     
     echo form_close();
-    echo '<div class="form_model_style">&nbsp;</div>';
+    echo '<span class="form_model_style">&nbsp;</span>';
     echo'</div>';
 }
 

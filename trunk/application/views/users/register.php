@@ -20,12 +20,14 @@ $roles[''] = '--- Select role ---';
                     <td><label>User role</label></td>
                     <td><?php echo form_dropdown($dbf->getF_rol_id(),$roles,  set_value($dbf->getF_rol_id())); echo form_error($dbf->getF_rol_id()); ?></td>
                 </tr>
+                
                 <tr>
                     <td>
                         <?php echo form_submit('Submit','Register','class="btn"'); ?> 
                         <a class="btn" href="<?php echo base_url(); ?>users/manage"><i class="icon-circle-arrow-left"></i> Back</a>
                     </td>
                 </tr>
+                
             </table>
             <?php echo form_close(); ?>
         </div>

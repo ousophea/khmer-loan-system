@@ -3,78 +3,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-//function start_form_model($col) {
-//    
-//    echo'<div class="form-model">
-//        <div class="row">';
-//    if ($col == 1) {
-//        echo'<div class="span6">';
-//    } else {
-//        echo'<div class="span5">';
-//    }
-//}
-//
-//function close_form_model() {
-//    echo '</div></div></div>';
-//
-//}
-//
-//function open_form($name,$title,$action=NULL) {    
-//    echo'<div class="form_block" id="' . $name . '" title="'.$title.'">';
-//    //<form name="'.$name.'" class="form-horizontal bs-docs-form">';
-//    echo form_open($action, array('name' => $name, 'class' => 'form-horizontal bs-docs-form'));
-//}
-//
-//function close_form() {
-//    
-//    echo form_close();
-//    echo '<div class="form_model_style">&nbsp;</div>';
-//    echo'</div>';
-//}
-//function fields($label, $type, $name, $valu, $validat, $sth) {
-//    //function field($label,$field,$sth=NULL) {
-//    echo '<div class="control-group">';
-//    if ($label <> "") {
-//        echo'<label for="' . $name . '" class="control-label">' . $label . '</label>';
-//    }
-//    echo'<div class="controls">';
-//
-//
-//    switch ($type) {
-//        case 'text':
-//            echo form_input($name, $valu, 'class=span2');
-//            //$name=$attr['name'];// validator
-//            break;
-//        case 'password':
-//            echo form_password();
-//            //$name=$attr['name'];
-//            break;
-//        case 'select':
-//            echo form_dropdown();
-//            //$name=$attr['name'];
-//            break;
-//        case 'file':
-//            echo form_upload($name);
-//            //if ($upload==1) echo '<span class="error">'.$this->upload->display_errors().'</span>';
-//            //$name='userfile';
-//            break;
-//        case 'textarea':
-//            echo form_textarea();
-//            //$name=$attr['name'];
-//            break;
-//
-//        default:
-//            $name = 'Missing or incorrect type of input';
-//            break;
-//    }
-//    //echo'<input class="span2" id="' . $name . '" name="' . $name . '" type="text">';
-//    echo $sth;
-//    echo'         </div>
-//                </div>';
-//}
-//function f_start_col2(){
-//    echo '</div><div class="span5">';
-//}
+
 echo "<div id='test'></div>";
 
 
@@ -108,7 +37,7 @@ $list_cid = "";
 $list_cid .= '<datalist id="list_cid">';
 foreach ($cid_query->result() as $cid_rows) {
 
-    $list_cid .='<option value="' . $cid_rows->con_cid . '">';
+    $list_cid .='<option value="' . $cid_rows->con_id . '">';
 }
 $list_cid.= '</datalist>';
 
@@ -149,7 +78,7 @@ open_form('form_gl_account', 'GL Account');
 field("text", "gl_code", "GL Code: ", NULL, 
         array('attribute' => array('list' => "list_gl_code", 'id' => "gl_code", 'style' => "width:209px;"))
         , TRUE, '<datalist id="list_gl_code">' . $list_gl . '</datalist><br />
-<a class="btn"  id="btn_search_gl" class="btn gl_code" href="' . base_url() . 'receivecashs/gl_info"> Search</a>');
+<a class="btn gl_code"  id="btn_search_gl" class="btn gl_code" href="' . base_url() . 'receivecashs/gl_info"> Search</a>');
 
 //echo '</div>';
 echo '<div id="gl_info">';
@@ -176,7 +105,7 @@ field('select', 'currency', 'Currency :', '1', array('options' => $array_currenc
 
 field("text", "tra_amount", "Transaction Amount:", NULL, NULL, TRUE);
 field("textarea", "tra_detail", "Description:");
-field("submit", 'btn_submit', NULL, "Submit", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<a class="btn btn_back" href="' . base_url() . 'panel"><i class="icon-circle-arrow-left"></i> Back</a>'
+field("submit", 'btn_submit', NULL, "Submit", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<a class="btn btn_back" href="' . base_url() . 'receivecashs/lists"><i class="icon-circle-arrow-left"></i> Back</a>'
 );
 close_form();
 close_form_model();
