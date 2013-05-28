@@ -226,8 +226,23 @@ body{
 }
 
 .form-model input[disabled], .form-model select[disabled], 
-.form-model textarea[disabled], .form-model input[readonly], .form-model select[readonly], .form-model textarea[readonly]{
+.form-model textarea[disabled], .form-model input[readonly], 
+.form-model select[readonly], .form-model textarea[readonly]{
     background-color: #F9F9F9;
 }
 
 /*End form modle*/
+
+/* ===== Style for Tool bare controler === by Sophea  */
+.control_manager{
+    padding: 10px;
+    margin-left: -16px;
+}
+.tbl_trn td{
+    text-align: right !important;
+}
+.tbl_trn th{
+    text-align: center !important;
+}
+
+/* ===== End Style for Tool bare controler === by Sophea  */
