@@ -96,8 +96,9 @@ class receivecashs extends CI_Controller {
     function add() {
         if (isset($_POST['btn_submit'])) {
             $now = date('Y-m-d H:i:s');
+            $con_id=$this->session->userdata('session_con_id');
             $arr_transaction_info = array(
-                'tra_con_id' => $this->session->userdata('session_con_id'),
+                'tra_con_id' => $con_id,
                 'tra_gl_id' => $this->session->userdata('gl_id'),
                 'tra_tra_mod_id' => $this->input->post('transaction_mode'),
                 'tra_cur_id' => $this->input->post('currency'),
@@ -111,6 +112,7 @@ class receivecashs extends CI_Controller {
                 'tra_credit'=>($this->input->post('transaction_type')==2)?$this->input->post('tra_amount'):0
             );
             $this->db->insert('transaction', $arr_transaction_info);
+            redirect('receivecashs/lists');
         }else{
             redirect('receivecashs/receivecash');
         }
