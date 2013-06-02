@@ -7,48 +7,25 @@ $dbf = new dbf();
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Loan System</title>
-        <link href="<?php echo base_url();
-echo Variables::$css_path;
-?>style.css" rel="stylesheet" type="text/css">
-        <link href="<?php echo base_url();
-              echo Variables::$css_path;
-?>main-style.css" rel="stylesheet" type="text/css">
-        <link href="<?php echo base_url();
-              echo Variables::$css_path;
-?>menu.css" rel="stylesheet" type="text/css">
-        <link href="<?php echo base_url();
-              echo Variables::$css_path;
-?>saving.css" rel="stylesheet" type="text/css">
-
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'style.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'main-style.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'menu.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'saving.css');?>" rel="stylesheet" type="text/css">
 
         <!-- Bootstrap -->
-        <link href="<?php echo base_url();
-              echo Variables::$css_path;
-?>bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="<?php echo base_url();
-              echo Variables::$css_path;
-?>users.css" rel="stylesheet" media="screen">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'bootstrap.min.css');?>" rel="stylesheet" media="screen">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'users.css');?>" rel="stylesheet" media="screen">
 
-        <script type="text/javascript" src="<?php echo base_url();
-        echo Variables::$js_path;
-?>jquery-2.0.0.min.js" ></script>
-        <script type="text/javascript" src="<?php echo base_url();
-        echo Variables::$js_path;
-?>bootstrap.min.js" ></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'jquery-2.0.0.min.js');?>" ></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'bootstrap.min.js');?>" ></script>
 
-        <script type="text/javascript" src="<?php echo base_url();
-        echo Variables::$js_path;
-?>bootstrap-button.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();
-        echo Variables::$js_path;
-?>bootstrap-dropdown.js"></script>
-        <script type="text/javascript" src="<?php echo base_url();
-        echo Variables::$js_path;
-?>bootstrap-typeahead.js"></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'bootstrap-button.js');?>"></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'bootstrap-dropdown.js');?>"></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'bootstrap-typeahead.js');?>"></script>
 
-        <script src="<?php echo base_url(); ?>js/form.js"></script>
-        <script type="text/javascript" language="javascript" src="<?php echo site_url('js/form_model.js'); ?>" ></script>
-
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'form.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'form_model.js'); ?>" ></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'jq_action_manager.js'); ?>"></script>
 
     </head>
 
@@ -80,18 +57,15 @@ echo '(' . $role . ') ';
                     <div class="clear"></div>
                     <!-- Logo -->
                     <!-- Remove inline style when switching back to regular logo-->
-                    <div id="logo"> <a href="#"> <img title="Passerelles Numeriques Cambodia" class="logo" src="<?php
-                                                      echo base_url();
-                                                      echo Variables::$images_path;
-?>logo.png" alt="Logo"></a></div>
-
+                    <div id="logo"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php echo base_url();
+                        echo IMAGES_PATH; ?>logo.png" alt="Logo"></a></div>
                     <!-- Menu -->
                     <div class="dropdown">
                         <ul class="main-menu">
-                            <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "panel") ? 'current' : '' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
-                            <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>
-                            <li id="tew" class="off <?php echo (($this->uri->segment(1)) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>
-                            <li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>
+                            <li id="pan" class="off <?php echo (segment(1) == "panel") ? 'current' : '' ?>" ><a href="<?php echo site_url('panel'); ?>">Panel</a></li>
+                            <li id="graa" class="off <?php echo (segment(1) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>
+                            <li id="tew" class="off <?php echo (segment(1) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo site_url('receivecashs'); ?>">Receive Cash</a></li>
+                            <li id="cla" class="off <?php echo (segment(1) == "saving") ? 'current' : '' ?>"><a href="<?php echo site_url('saving'); ?>">Loan/Saving</a></li>
 
                             <li class="off"> 
                                 <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> Reports <b class="caret"></b> </a>
@@ -102,8 +76,8 @@ echo '(' . $role . ') ';
                                 </ul>
                             </li>
 
-                            <li id="use" class="off <?php echo (($this->uri->segment(1)) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>
-                            <li class="off dropdown <?php echo (($this->uri->segment(1)) == "setting") ? 'current' : '' ?>"> 
+                            <li id="use" class="off <?php echo (segment(1) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>
+                            <li class="off dropdown <?php echo (segment(1) == "setting") ? 'current' : '' ?>"> 
                                 <a class="dropdown-toggle"
                                    data-toggle="dropdown"
                                    href="#"> Setting <b class="caret"></b> </a>
