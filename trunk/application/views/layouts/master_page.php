@@ -11,7 +11,7 @@ $dbf = new dbf();
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'main-style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'menu.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'saving.css');?>" rel="stylesheet" type="text/css">
-        <link href="<?php echo site_url(CSS_PATH.'jquery-ui.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'jquery-ui.css');?>" rel="stylesheet" type="text/css">
 
         <!-- Bootstrap -->
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'bootstrap.min.css');?>" rel="stylesheet" media="screen">
