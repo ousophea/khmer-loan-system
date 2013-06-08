@@ -142,7 +142,7 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
             'validated' => 1,
             'attr' => array(
                 'name' => 'currency',
-                'option' => array('' => '---Select currency---', 201 => 'USD($)', 202 => 'Real(៛)')
+                'option' => $currency//array('' => '---Select currency---', 201 => 'USD($)', 202 => 'Real(៛)')
             )
         );
         echo get_form($data);
@@ -153,7 +153,7 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
             'validated' => 1,
             'attr' => array(
                 'name' => 'glcode',
-                'option' => array('' => '---Select GL Code---', 0 => 'Conpalsary Saving', 1 => 'Voluntary Saving')
+                'option' => $gl
             )
         );
         echo get_form($data);

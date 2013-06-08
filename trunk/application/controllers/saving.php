@@ -30,8 +30,11 @@ class saving extends CI_Controller {
         $product_type = $this->m_saving_product_type->get_product_type_array();
         $this->data['product_type'] = $product_type;
         $contracts = $this->m_saving->get_contacts();
-        ;
+        $gl = $this->m_saving->find_gl_code_for_dropdown();
+        $currency = $this->m_saving->find_currencies_for_dropdown();
         $this->data['contacts'] = $contracts;
+        $this->data['currency'] = $currency;
+        $this->data['gl'] = $gl;
 
         if ($product_type == NULL) {
             $this->session->set_flashdata('error', '<div class="alert alert-error">Saving product type is empty, please add new saving product type first.</div>');

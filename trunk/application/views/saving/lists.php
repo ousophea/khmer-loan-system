@@ -19,6 +19,11 @@
             <th>Account CODE</th>
             <th>English Name</th>
             <th>Khmer Name</th>
+            <th>Type</th>
+            <th>Created</th>
+            <th>Modified</th>
+            <th>Currency</th>
+            <th>GL</th>
         </tr>
     </thead>
     <tbody>
@@ -31,12 +36,17 @@
                     echo '<td>'.$row->sav_acc_code.'</td>';
                     echo '<td>'.$row->con_en_name.'</td>';
                     echo '<td>'.$row->con_kh_name.'</td>';
+                    echo '<td>'.$row->sav_pro_typ_title.'</td>';
+                    echo '<td>'.$row->sav_acc_create_date.'</td>';
+                    echo '<td>'.$row->sav_acc_modified_date.'</td>';
+                    echo '<td>'.$row->cur_title.'</td>';
+                    echo '<td>'.$row->gl_description.'</td>';
                     echo '</tr>';
                 }
             }
             else{
                 echo '<tr>';
-                echo '<td collspan="">Emty</td>';
+                echo '<td colspan="8">Emty</td>';
                 echo '</tr>';
             }
         ?>

@@ -20,6 +20,8 @@ class m_saving extends CI_Model {
             //'sav_acc_modified_date'=>now(),
             'sav_acc_reference'=>'ddsadfadsf',//$this->input->post('sav_acc_reference'),
             'sav_acc_con_id'=>$this->input->post('cid'),
+            'sav_acc_gl_id'=>$this->input->post('glcode'),
+            'sav_acc_cur_id'=>$this->input->post('currency'),
             'sav_use_id'=> $this->session->userdata('use_id'),
         );
         if($this->db->insert('saving_account',$data)) return TRUE;
@@ -30,6 +32,9 @@ class m_saving extends CI_Model {
         $this->db->from('saving_account');
         $this->db->where('saving_account.sav_acc_status',1);
         $this->db->join('contacts','sav_acc_con_id=con_id');
+        $this->db->join('currency','sav_acc_cur_id=cur_id');
+        $this->db->join('saving_product_type','sav_pro_typ_id=sav_acc_sav_pro_typ_id');
+        $this->db->join('gl_list','sav_acc_gl_id=gl_id');
         return $this->db->get();
     }
     
@@ -72,6 +77,35 @@ class m_saving extends CI_Model {
             $this->db->delete('saving_account');
         }
         return true;
+    }
+    
+    function find_gl_code_for_dropdown(){
+        
+        $data =  $this->db->get('gl_list');
+        $result[''] = '--- Select GL Code ---';
+        if($data->num_rows() > 0){
+            foreach ($data->result() as $row){
+                $result[$row->gl_id] = $row->gl_code.':'.$row->gl_description;
+            }
+            return $result;
+        }
+        else
+            return $result;
+    }
+    
+    function find_currencies_for_dropdown(){
+        
+        $this->db->where('cur_status',1);
+        $data =  $this->db->get('currency');
+        $result[''] = '--- Select Currency ---';
+        if($data->num_rows() > 0){
+            foreach ($data->result() as $row){
+                $result[$row->cur_id] = $row->cur_title;
+            }
+            return $result;
+        }
+        else
+            return $result;
     }
 }
 ?>
