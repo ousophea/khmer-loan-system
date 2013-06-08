@@ -99,6 +99,7 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
         );
         echo get_form($data);
 
+		/**
         $data = array(
             'type' => 'text', // input type='text'
             'label' => 'Income Rate',
@@ -109,6 +110,7 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
             )
         );
         echo get_form($data);
+		**/
         echo close_block();
         echo close_span();
 // End Left
