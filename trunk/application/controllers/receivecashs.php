@@ -66,7 +66,7 @@ class receivecashs extends CI_Controller {
                 field("text", "account_date", 'Account Date:', $rows->con_del_date_created, array('attribute' => array('readonly' => "")));
                 field("text", "branch_code", 'Branch Code:', $rows->bra_name, array('attribute' => array('readonly' => "")));
                 field("text", "cheque_account", 'Cheque Account:', NULL, array('attribute' => array('readonly' => "")));
-
+                
                 close_form();
             }
         } else {
