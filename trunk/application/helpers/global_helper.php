@@ -126,6 +126,9 @@ function f_start_col2(){
  */
 function field($field_type,$field_name,$label=NULL,$field_value=NULL,$arr_field_attribute=NULL,$validate=FALSE,$sth=NULL){
     $attributes = ' ';
+    if($validate){
+        $attributes = "required='required' ";
+    }
     if(is_array($arr_field_attribute) && array_key_exists('attribute', $arr_field_attribute)){
         foreach($arr_field_attribute['attribute'] as $attribute => $attribute_value){
             $attributes .= $attribute.'="'.$attribute_value.'" ';
