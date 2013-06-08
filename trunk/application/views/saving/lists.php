@@ -46,7 +46,7 @@
             }
             else{
                 echo '<tr>';
-                echo '<td colspan="8">Emty</td>';
+                echo '<td colspan="9">Emty</td>';
                 echo '</tr>';
             }
         ?>
