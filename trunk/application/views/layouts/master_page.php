@@ -11,12 +11,15 @@ $dbf = new dbf();
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'main-style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'menu.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'saving.css');?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo site_url(CSS_PATH.'jquery-ui.css');?>" rel="stylesheet" type="text/css">
 
         <!-- Bootstrap -->
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'bootstrap.min.css');?>" rel="stylesheet" media="screen">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'users.css');?>" rel="stylesheet" media="screen">
 
-        <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'jquery-2.0.0.min.js');?>" ></script>
+        <!--<script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'jquery-2.0.0.min.js');?>" ></script>-->
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'jquery-1.8.3.min.js');?>" ></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'jquery-ui.js');?>" ></script>
         <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'bootstrap.min.js');?>" ></script>
 
         <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP.'bootstrap-button.js');?>"></script>
@@ -30,25 +33,25 @@ $dbf = new dbf();
     </head>
 
     <body>
-<?php echo form_open('', array('style' => 'margin:0px;')); ?>
+	<?php echo form_open('', array('style' => 'margin:0px;')); ?>
         <input type="hidden" name="base_url" value="<?php echo base_url(); ?>" id="base_url" />
-                            <?php echo form_hidden('segment1', $this->uri->segment(1)); // for date paker get uri1  ?>
-                            <?php echo form_hidden('segment2', $this->uri->segment(2)); // for date paker get uri2  ?>
-                            <?php echo form_hidden('segment3', $this->uri->segment(3)); // for date paker get uri3 ?>
-                            <?php echo form_hidden('segment4', $this->uri->segment(4)); // for date paker get uri4 ?>
-                            <?php echo form_close(); ?>
+        <?php echo form_hidden('segment1', $this->uri->segment(1)); // for date paker get uri1  ?>
+        <?php echo form_hidden('segment2', $this->uri->segment(2)); // for date paker get uri2  ?>
+        <?php echo form_hidden('segment3', $this->uri->segment(3)); // for date paker get uri3 ?>
+        <?php echo form_hidden('segment4', $this->uri->segment(4)); // for date paker get uri4 ?>
+        <?php echo form_close(); ?>
         <div id="wraper">
             <div class="header">
                 <div id="header">
                     <div id="signin">
                         <strong class="welcome">
                             Logged in as 
-<?php
-$username = $this->session->userdata($dbf->getF_username());
-$role = $this->session->userdata($dbf->getF_rol_name());
-echo $username . ' ';
-echo '(' . $role . ') ';
-?>
+							<?php
+							$username = $this->session->userdata($dbf->getF_username());
+							$role = $this->session->userdata($dbf->getF_rol_name());
+							echo $username . ' ';
+							echo '(' . $role . ') ';
+							?>
                         </strong>
                         <strong>
                             <a href="<?php echo base_url(); ?>users/signout"> | Logout</a>
@@ -63,6 +66,7 @@ echo '(' . $role . ') ';
                     <div class="dropdown">
                         <ul class="main-menu">
                             <li id="pan" class="off <?php echo (segment(1) == "panel") ? 'current' : '' ?>" ><a href="<?php echo site_url('panel'); ?>">Panel</a></li>
+                            <li id="pan" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>
                             <li id="graa" class="off <?php echo (segment(1) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>
                             <li id="tew" class="off <?php echo (segment(1) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo site_url('receivecashs'); ?>">Receive Cash</a></li>
                             <li id="cla" class="off <?php echo (segment(1) == "saving") ? 'current' : '' ?>"><a href="<?php echo site_url('saving'); ?>">Loan/Saving</a></li>
