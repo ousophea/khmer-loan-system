@@ -39,7 +39,7 @@ class m_global extends CI_Model{
 				}
 			}
 		}
-		$this->db->get($table);
+		return $this->db->get($table);
 	}
 	
 	/**
@@ -62,7 +62,7 @@ class m_global extends CI_Model{
 				}
 			}
 		}
-		$this->db->get($table);
+		return $this->db->get($table);
 	}
 	
 	/**
@@ -87,7 +87,7 @@ class m_global extends CI_Model{
 				}
 			}
 		}
-		$this->db->get($table);
+		return $this->db->get($table);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ class m_global extends CI_Model{
 				}
 			}
 		}
-		$this->db->get($table);
+		return $this->db->get($table);
 	}
 	
 	/**
@@ -143,7 +143,7 @@ class m_global extends CI_Model{
 				}
 			}
 		}
-		$this->db->get($table);
+		return $this->db->get($table);
 	}
 
 	/**

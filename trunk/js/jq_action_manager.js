@@ -79,17 +79,6 @@ jq(document).ready(function(){
 		return false;
 	});
 	
-	//add div in case marital status has been checked 
-	jq('input[name="txt_con_civil_status"]').click(function(){
-		if(jq(this).val() == '2'){
-			var html = '<fieldset><legend>Couple Info</legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_couple"></td><td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_couple"></td><td><label for="lbl_con_kh_nick_name_couple">Nick Name in Khmer <span>*</span></label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_couple"></td></tr><tr><td><label for="lbl_con_en_first_name_couple">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_couple"></td><td><label for="lbl_con_en_last_name_couple">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_couple"></td><td><label for="lbl_con_en_nick_name_couple">Nick Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_nick_name_couple"></td></tr><tr><td><label for="lbl_con_sex_couple">Sex<span>*</span></label><select name="txt_con_sex_couple"><option value="m">Male</option><option value="f">Female</option></select></td><td><label for="lbl_con_national_identity_card_couple">Identity Card / Passport<span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_couple"></td><td><label for="lbl_con_job_couple">Job<span>*</span></label><input type="text" value="" name="txt_con_job_couple"></td></tr><tr><td valign="top"><label for="lbl_con_income_couple">Income Per Month<span>*</span></label><input type="text" value="" name="txt_con_income_couple"></td><td colspan="2"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input type="text" value="" name="txt_con_phone_couple"></td></tr></table></fieldset>';
-			jq('#marrital_status').empty();
-			jq('#marrital_status').html(html);
-		}else{
-			jq('#marrital_status').empty();
-		}
-	});
-	
 	//remove group after added
 	jq('.btn_remove_group').live('click',function(){
 		var name = jq(this).attr('name');

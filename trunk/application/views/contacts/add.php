@@ -1,19 +1,3 @@
-<script type="text/javascript" language="JavaScript">
-var jq = jQuery.noConflict();
-jq(document).ready(function() {
-	//set collapse content
-	jq( "#accordion" ).accordion({
-		collapsible: true,
-		heightStyle: "auto"
-	});
-	//set date picker
-	jq( "input[name='txt_con_dob']" ).datepicker({ 
-		defaultDate: '-30y',
-		buttonText: "Choose",
-		dateFormat: "yy-mm-dd" 
-	});
-});
-</script>
 <style type="text/css">
 	div#container_group legend, div#marrital_status legend{
 		font-size: 17px !important;
@@ -178,4 +162,49 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact'));
 	</div>
 <?php
 echo form_close();
+//getting data for job field
+$arr_option_job = array('0'=>'-select job-');
+if($query_job->num_rows() > 0){
+	foreach ($query_job->result() as $key => $value) {
+		$arr_option_job[$key] = $value;
+	}
+}
+
+//getting data for income field
+$arr_option_income = array('0'=>'-select income-');
+if($query_income->num_rows() > 0){
+	foreach ($query_income->result() as $key => $value) {
+		$arr_option_income[$key] = $value;
+	}
+}
 ?>
+<script type="text/javascript" language="JavaScript">
+var jq = jQuery.noConflict();
+jq(document).ready(function() {
+	//set collapse content
+	jq( "#accordion" ).accordion({
+		collapsible: true,
+		heightStyle: "auto"
+	});
+	//set date picker
+	jq( "input[name='txt_con_dob']" ).datepicker({ 
+		defaultDate: '-30y',
+		buttonText: "Choose",
+		dateFormat: "yy-mm-dd" 
+	});
+	
+	//add div in case marital status has been checked 
+	jq('input[name="txt_con_civil_status"]').click(function(){
+		alert('Hello');
+		if(jq(this).val() == '2'){
+			
+			//var html = '<fieldset><legend>Couple Info</legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_couple"></td><td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_couple"></td><td><label for="lbl_con_kh_nick_name_couple">Nick Name in Khmer <span>*</span></label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_couple"></td></tr><tr><td><label for="lbl_con_en_first_name_couple">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_couple"></td><td><label for="lbl_con_en_last_name_couple">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_couple"></td><td><label for="lbl_con_en_nick_name_couple">Nick Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_nick_name_couple"></td></tr><tr><td><label for="lbl_con_sex_couple">Sex<span>*</span></label><select name="txt_con_sex_couple"><option value="m">Male</option><option value="f">Female</option></select></td><td><label for="lbl_con_national_identity_card_couple">Identity Card / Passport<span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_couple"></td><td><label for="lbl_con_job_couple">Job<span>*</span></label><input type="" /></td></tr><tr><td valign="top"><label for="lbl_con_income_couple">Income Per Month<span>*</span></label><input type="text" /></td><td colspan="2"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input type="text" value="" name="txt_con_phone_couple"></td></tr></table></fieldset>';
+			jq('#marrital_status').empty();
+			jq('#marrital_status').html(html);
+		}else{
+			jq('#marrital_status').empty();
+		}
+	});
+});
+</script>
+<?php echo form_dropdown('test',$arr_option_income); ?>

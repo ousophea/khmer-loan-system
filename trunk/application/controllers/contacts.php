@@ -25,7 +25,9 @@ class Contacts extends CI_Controller {
 	
 	public function add(){
 		$data['title'] = 'Contacts Manager : Add';
-		$this->load->view('master_page',$data);
+		$data['query_job'] = $this->m_global->select_status('contacts_job');
+		$data['query_income'] = $this->m_global->select_status('contacts_income');
+		$this->load->view(MAIN_MASTER,$data);
 	}
 	
 	public function add_save(){
