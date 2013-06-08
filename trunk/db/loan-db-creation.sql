@@ -3,7 +3,7 @@
 # Server version:               5.1.53-community-log
 # Server OS:                    Win64
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2013-06-08 11:27:57
+# Date/time:                    2013-06-08 12:07:04
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `con_use_id` int(11) DEFAULT NULL,
   `con_bra_id` int(10) DEFAULT NULL,
   `con_con_job_id` int(10) DEFAULT NULL,
+  `con_cid` varchar(50) NOT NULL,
   PRIMARY KEY (`con_id`),
   KEY `contact type` (`con_con_typ_id`),
   KEY `user_id` (`con_use_id`),
@@ -69,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `contacts` (
 
 # Dumping data for table loan_khmer.contacts: ~2 rows (approximately)
 /*!40000 ALTER TABLE `contacts` DISABLE KEYS */;
-INSERT INTO `contacts` (`con_id`, `con_account_number`, `con_con_typ_id`, `con_en_name`, `con_kh_name`, `con_national_identified_card`, `con_status`, `con_use_id`, `con_bra_id`, `con_con_job_id`) VALUES
-	(1, '168-000001-1-1', 1, 'Chantha', NULL, NULL, 1, 1, 1, NULL),
-	(2, '168-000002-1-2', 1, 'Vanda', NULL, NULL, 1, 1, 1, NULL);
+INSERT INTO `contacts` (`con_id`, `con_account_number`, `con_con_typ_id`, `con_en_name`, `con_kh_name`, `con_national_identified_card`, `con_status`, `con_use_id`, `con_bra_id`, `con_con_job_id`, `con_cid`) VALUES
+	(1, '168-000001-1-1', 1, 'Chantha', NULL, NULL, 1, 1, 1, NULL, ''),
+	(2, '168-000002-1-2', 1, 'Vanda', NULL, NULL, 1, 1, 1, NULL, '');
 /*!40000 ALTER TABLE `contacts` ENABLE KEYS */;
 
 
