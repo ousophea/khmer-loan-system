@@ -43,10 +43,12 @@ define('MEDIA_PATH', 'images/');
 define('BOOTSTRAP_MEDIA_PATH', 'bootstrap/images/');
 define('MAIN_MASTER', 'layouts/master_page');
 define('LAYOUT_LOGIN', 'layouts/login/default');
-define('CSS_PSTH', 'bootstrap/css/');
+define('CSS_PATH','css/');
+define('CSS_PATH_BOOTSTRAP', 'bootstrap/css/');
 define('JS_PATH_BOOTSTRAP', 'bootstrap/js/');
 define('JS_PATH', 'js/');
-define('IMAGES_PATH', 'bootstrap/images/');
+define('IMAGES_PATH', 'images/');
+define('IMAGES_PATH_BOOTSTRAP', 'bootstrap/images/');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
