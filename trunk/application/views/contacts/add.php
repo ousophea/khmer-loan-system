@@ -207,4 +207,3 @@ jq(document).ready(function() {
 	});
 });
 </script>
-<?php echo form_dropdown('test',$arr_option_income); ?>
