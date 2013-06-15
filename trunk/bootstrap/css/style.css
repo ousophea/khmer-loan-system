@@ -273,3 +273,12 @@ input[type="submit"]{
 }
 
 /* ===== End Style for Tool bare controler === by Sophea  */
+form option, input{
+	font-family: 'kmSBBICsys' !important;
+}
+#ajax_add_commune{
+	background: url("../../images/ui-icons_222222_256x240.png");
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+}

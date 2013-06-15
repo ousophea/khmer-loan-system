@@ -38,6 +38,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 /**
  * constand defined by custom user
+ * Constant for access directory path
  */
 define('MEDIA_PATH', 'images/');
 define('BOOTSTRAP_MEDIA_PATH', 'bootstrap/images/');
@@ -49,6 +50,11 @@ define('JS_PATH_BOOTSTRAP', 'bootstrap/js/');
 define('JS_PATH', 'js/');
 define('IMAGES_PATH', 'images/');
 define('IMAGES_PATH_BOOTSTRAP', 'bootstrap/images/');
+define('FONT_PATH', 'bootstrap/font/');
 
+/**
+ * Format & prefix
+ */
+define('CONTACT_DIGIT', '000000');
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

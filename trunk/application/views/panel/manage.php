@@ -5,7 +5,7 @@
 </div>-->
 <div class="panel-control">
     <div class="row">
-        <div class="span"> <a class="row" href="<?php echo site_url('contacts'); ?>"><img title="Contacts" alt="Contacts" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP.'contact.png'); ?>"> <span class="row">Pay Cash</span></a> </div>
+        <div class="span"> <a class="row" href="<?php echo site_url('contacts'); ?>"><img title="Contacts" alt="Contacts" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP.'contact.png'); ?>"> <span class="row">Contacts</span></a> </div>
         <div class="span"> <a class="row" href=""><img alt="" src="<?php echo base_url(); echo Variables::$images_path;?>payment.png"> <span class="row">Pay Cash</span></a> </div>
         <div class="span"> <a class="row" href="<?php echo base_url(); ?>receivecashs"><img title="Recive Cash" alt="" src="<?php echo base_url(); echo Variables::$images_path;?>cash_recive.png"> <span class="row">Recive Cash</span></a> </div>
         <div class="span"> <a class="row" href="<?php echo base_url(); ?>saving"><img title="Loan/Saving" alt="" src="<?php echo base_url(); echo Variables::$images_path;?>personal_loan.png"> <span class="row">Loan/Saving</span></a> </div>

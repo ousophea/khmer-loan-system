@@ -6361,7 +6361,8 @@ $.widget( "ui.accordion", {
 				.each(function() {
 					maxHeight = Math.max( maxHeight, $( this ).css( "height", "" ).height() );
 				})
-				.height( maxHeight );
+				//.height( maxHeight );//remove the auto set maxHeight to the content
+				.height( '' );
 		}
 	},
 

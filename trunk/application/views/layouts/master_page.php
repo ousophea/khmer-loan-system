@@ -7,6 +7,12 @@ $dbf = new dbf();
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Loan System</title>
+        <style type="text/css">
+        	@font-face {
+				font-family: kmSBBICsys;
+				src: url(<?php echo site_url(FONT_PATH.'kmSBBICsys.ttf'); ?>);
+			}
+        </style>
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'main-style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'menu.css');?>" rel="stylesheet" type="text/css">

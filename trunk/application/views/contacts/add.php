@@ -1,3 +1,19 @@
+<?php
+//get job and paste to array
+$arr_option_job = array('0'=>'-select job-');
+if($query_job->num_rows() > 0){
+	foreach ($query_job->result() as $rows) {
+		$arr_option_job[$rows->con_job_id] = $rows->con_job_title;
+	}
+}
+//get income and paste to array
+$arr_option_income = array('0'=>'-select income-');
+if($query_income->num_rows() > 0){
+	foreach ($query_income->result() as $rows) {
+		$arr_option_income[$rows->con_inc_id] = $rows->con_inc_range;
+	}
+}
+?>
 <style type="text/css">
 	div#container_group legend, div#marrital_status legend{
 		font-size: 17px !important;
@@ -66,7 +82,7 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact'));
 					<td>
 					<?php
 						echo form_label('Job <span>*</span>', 'lbl_con_job');
-						echo form_input('txt_con_job');
+						echo form_dropdown('txt_con_job',$arr_option_job);
 					?>
 					</td>
 				</tr>
@@ -74,7 +90,7 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact'));
 					<td valign="top">
 					<?php
 						echo form_label('Income Per Month <span>*</span>', 'lbl_con_income');
-						echo form_input('txt_con_income');
+						echo form_dropdown('txt_con_income',$arr_option_income);
 					?>
 					</td>
 					<td colspan="2">
@@ -96,14 +112,19 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact'));
 					<?php
 						echo form_label('Address <span>*</span>', 'lbl_con_address');
 						//echo form_textarea(array('name'=>'txt_con_address','cols'=>100,'rows'=>5));
-						$pro_option = array('-city/province-','Phnom Penh','Battamborng');
-						echo form_dropdown('txt_con_province',$pro_option,'','style="width:208px !important;"');
-						$district_option = array('-khan/district-','Tuol Kok','Krakor');
-						echo form_dropdown('txt_con_district',$district_option,'','style="width:208px !important;"');
+						$arr_option_province = array('0'=>'-select province-');
+						if($query_pronvince->num_rows() > 0){
+							foreach($query_pronvince->result() as $rows){
+								$arr_option_province[$rows->pro_id] = $rows->pro_en_name.'('.(($rows->pro_kh_name == '')?'no set':$rows->pro_kh_name).')';
+							}
+						}
+						echo form_dropdown('txt_con_province',$arr_option_province,'','style="width:208px !important;"');
+						$district_option = array('-khan/district-');
+						?><span id="ajax_district"><?php echo form_dropdown('txt_con_district',$district_option,'','style="width:208px !important;"');?></span><?php
 						$commune_option = array('-sangkat/commune-','Teok Laak 3','Ou San Dan');
-						echo form_dropdown('txt_con_commune',$commune_option,'','style="width:208px !important;"');
-						$village_option = array('-village-','Putream','Ou Bakeom');
-						echo form_dropdown('txt_con_village',$village_option,'','style="width:208px !important;"');
+						?><span id="ajax_commune"><?php echo form_dropdown('txt_con_commune',$commune_option,'','style="width:208px !important;"');?></span><!--<span id="ajax_add_commune"></span>--><?php
+						$village_option = array('-village-');
+						?><span id="ajax_village"><?php echo form_dropdown('txt_con_village',$village_option,'','style="width:208px !important;"');?></span><?php
 						echo form_input('txt_con_address_detail');
 					?>
 					</td>
@@ -138,16 +159,14 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact'));
 		<div>
 			<table border="0" width="100%">
 				<tr>
-					<td width="160" valign="top">
+					<td width="160" valign="top" colspan="2">
 					<?php
 						echo form_label('Group / Individual <span>*</span>', 'lbl_con_group');
 						echo form_radio('txt_con_group','individual', TRUE).' Individual ';
 						echo form_radio('txt_con_group','group').' Group ';
 					?>
-					</td>
-					<td>
 						<div id="container_group"></div>
-						<?php echo anchor('#','<i class="icon-plus-sign"></i>Add More Group','class="btn btn-mini" id="add_more_group" style="display: none; width: auto;" title="Add More Group"'); ?>
+						<?php echo anchor('#','<i class="icon-plus-sign"></i>Add More Group','class="btn btn-mini" id="add_more_group" style="display: none; width: 108px;" title="Add More Group"'); ?>
 					</td>
 				</tr>
 			</table>
@@ -162,21 +181,6 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact'));
 	</div>
 <?php
 echo form_close();
-//getting data for job field
-$arr_option_job = array('0'=>'-select job-');
-if($query_job->num_rows() > 0){
-	foreach ($query_job->result() as $key => $value) {
-		$arr_option_job[$key] = $value;
-	}
-}
-
-//getting data for income field
-$arr_option_income = array('0'=>'-select income-');
-if($query_income->num_rows() > 0){
-	foreach ($query_income->result() as $key => $value) {
-		$arr_option_income[$key] = $value;
-	}
-}
 ?>
 <script type="text/javascript" language="JavaScript">
 var jq = jQuery.noConflict();
@@ -196,12 +200,52 @@ jq(document).ready(function() {
 	//add div in case marital status has been checked 
 	jq('input[name="txt_con_civil_status"]').click(function(){
 		if(jq(this).val() == '2'){
-			var html = '<fieldset><legend>Couple Info</legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_couple"></td><td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_couple"></td><td><label for="lbl_con_kh_nick_name_couple">Nick Name in Khmer <span>*</span></label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_couple"></td></tr><tr><td><label for="lbl_con_en_first_name_couple">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_couple"></td><td><label for="lbl_con_en_last_name_couple">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_couple"></td><td><label for="lbl_con_en_nick_name_couple">Nick Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_nick_name_couple"></td></tr><tr><td><label for="lbl_con_sex_couple">Sex<span>*</span></label><select name="txt_con_sex_couple"><option value="m">Male</option><option value="f">Female</option></select></td><td><label for="lbl_con_national_identity_card_couple">Identity Card / Passport<span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_couple"></td><td><label for="lbl_con_job_couple">Job<span>*</span></label><input type="" /></td></tr><tr><td valign="top"><label for="lbl_con_income_couple">Income Per Month<span>*</span></label><input type="text" /></td><td colspan="2"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input type="text" value="" name="txt_con_phone_couple"></td></tr></table></fieldset>';
+			<?php
+			$options_job = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_job_couple',$arr_option_job));
+			$options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_couple',$arr_option_income));
+			?>
+			var html = '<fieldset><legend>Couple Info</legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_couple"></td><td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_couple"></td><td><label for="lbl_con_kh_nick_name_couple">Nick Name in Khmer</label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_couple"></td></tr><tr><td><label for="lbl_con_en_first_name_couple">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_couple"></td><td><label for="lbl_con_en_last_name_couple">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_couple"></td><td><label for="lbl_con_en_nick_name_couple">Nick Name in English</label><input type="text" value="" name="txt_con_en_nick_name_couple"></td></tr><tr><td><label for="lbl_con_national_identity_card_couple">Identity Card / Passport<span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_couple"></td><td><label for="lbl_con_job_couple">Job<span>*</span></label>'+'<?php echo $options_job; ?>'+'</td><td><label for="lbl_con_income_couple">Income Per Month<span>*</span></label>'+'<?php echo $options_income; ?>'+'</td></tr><tr><td colspan="3"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input type="text" value="" name="txt_con_phone_couple"></td></tr></table></fieldset>';
 			jq('#marrital_status').empty();
 			jq('#marrital_status').html(html);
 		}else{
 			jq('#marrital_status').empty();
 		}
+	});
+	
+	//ajax get district after province selected
+	jq('select[name="txt_con_province"]').change(function(){
+		jq.ajax({
+			type: "POST",
+			url: "<?php echo site_url('ajax_action/district') ?>",
+			data: { province: jq(this).val() }
+		}).done(function( data ) {
+			jq('#ajax_district').html(data);
+			jq('#ajax_commune').html('<select name="txt_con_commune"><option value="0">-sangkat/commune-</option></select>');
+			jq('#ajax_village').html('<select name="txt_con_village"><option value="0">-village-</option></select>');
+		});
+	});
+	
+	//ajax get commune after district selected
+	jq('select[name="txt_con_district"]').live('change',function(){
+		jq.ajax({
+			type: "POST",
+			url: "<?php echo site_url('ajax_action/commune') ?>",
+			data: { district: jq(this).val() }
+		}).done(function( data ) {
+			jq('#ajax_commune').html(data);
+			jq('#ajax_village').html('<select name="txt_con_village"><option value="0">-village-</option></select>');
+		});
+	});
+	
+	//ajax get village after commune selected
+	jq('select[name="txt_con_commune"]').live('change',function(){
+		jq.ajax({
+			type: "POST",
+			url: "<?php echo site_url('ajax_action/village') ?>",
+			data: { commune: jq(this).val() }
+		}).done(function( data ) {
+			jq('#ajax_village').html(data);
+		});
 	});
 });
 </script>
