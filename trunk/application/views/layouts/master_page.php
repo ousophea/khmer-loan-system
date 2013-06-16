@@ -6,13 +6,14 @@ $dbf = new dbf();
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Loan System</title>
+        <title><?php echo (isset($title))?$title.' : Khmer Loan System':'Khmer Loan System' ?></title>
         <style type="text/css">
         	@font-face {
 				font-family: kmSBBICsys;
 				src: url(<?php echo site_url(FONT_PATH.'kmSBBICsys.ttf'); ?>);
 			}
         </style>
+        <link rel="shortcut icon" href="<?php echo site_url(IMAGES_PATH.'favicon.ico') ?>"></link>
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'main-style.css');?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP.'menu.css');?>" rel="stylesheet" type="text/css">
