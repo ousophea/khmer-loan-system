@@ -73,16 +73,16 @@ if (!function_exists('forms')) {
      * @param type $span
      * @example form_tab(array(array('tab'=>'Table 1','html'=>'<div>----</div>'),array(---)),1,'tab1_');
      */
-    function tab_form($arr_content_tap=null,$tab_id=NULL){
+    function tab_form($arr_content_tap=array(),$tab_id="tab"){
         
             $html='<div class="tabbable bordered">';
                 $html.='<ul class="nav nav-tabs">';
                 foreach ($arr_content_tap as $key => $val){
                     if($key==0){
-                        $html.='<li class="active"><a href="#tab'.$tab_id.$key.'" data-toggle="tab">'.$val['tab'].'</a></li>';
+                        $html.='<li class="active"><a href="#tab'.$tab_id.$key.'" data-toggle="tab">'.$val[0].'</a></li>';
                     }
                     else{
-                        $html.='<li><a href="#tab'.$tab_id.$key.'" data-toggle="tab">'.$val['tab'].'</a></li>';
+                        $html.='<li><a href="#tab'.$tab_id.$key.'" data-toggle="tab">'.$val[0].'</a></li>';
                     }
                 }
                     
@@ -93,12 +93,12 @@ if (!function_exists('forms')) {
                     foreach ($arr_content_tap as $key => $val){
                         if($key==0){
                             $html.='<div class="tab-pane active" id="tab'.$tab_id.$key.'">';
-                                $html.=$val['html'];
+                                $html.=$val[1];
                             $html.='</div>';
                         }
                         else{
                             $html.='<div class="tab-pane" id="tab'.$tab_id.$key.'">';
-                                $html.=$val['html'];
+                                $html.=$val[1];
                             $html.='</div>';
                         }
                     }

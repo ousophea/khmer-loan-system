@@ -29,7 +29,7 @@ if (!function_exists('auth')) {
         );
         foreach ($array_role_name as $value) {
             if ($arry_auth[strtolower($value)] != strtolower($value))
-                die('Value of array must be in list: $array_role_name = array("superadmin","admin","teller", "accountain");');
+                die('User group invalid');
         }
         foreach ($array_role_name as $value) {
             if (strtolower($value) == strtolower($CI->session->userdata($db->getF_rol_name())))
@@ -47,7 +47,6 @@ if (!function_exists('auth')) {
         $CI = &get_instance();
         $CI->load->library('session');
         $db = new dbf();
-        ;
         if ($CI->session->userdata($db->getF_rol_name()))
             return TRUE;
         return FALSE;
