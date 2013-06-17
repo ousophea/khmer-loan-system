@@ -16,9 +16,9 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
 
             echo form_hidden('_' . $row->con_cid, $row->con_id);
             if ($i == 0) {
-                $typethread .= '["' . $row->con_cid . '"';
+                $typethread .= '["' . $row->con_id . '"';
             } else {
-                $typethread .= ',"' . $row->con_cid . '"';
+                $typethread .= ',"' . $row->con_id . '"';
             }
             $i++;
         }
@@ -64,15 +64,15 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
             )
         );
         echo get_form($data);
-        $data = array(
-            'type' => 'text', // input type='text'
-            'label' => 'HID',
-            'attr' => array(
-                'name' => 'hid',
-                'disabled' => 'disabled',
-            )
-        );
-        echo get_form($data);
+//        $data = array(
+//            'type' => 'text', // input type='text'
+//            'label' => 'HID',
+//            'attr' => array(
+//                'name' => 'hid',
+//                'disabled' => 'disabled',
+//            )
+//        );
+//        echo get_form($data);
         $data = array(
             'type' => 'textarea', // input type='text'
             'label' => 'Address',
