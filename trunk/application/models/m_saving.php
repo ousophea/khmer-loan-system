@@ -51,7 +51,7 @@ class m_saving extends CI_Model {
     }
     
     function find_contact_by_code($con_cid){
-        $this->db->where('con_cid',$con_cid);
+        $this->db->where('con_id',$con_cid);
         $this->db->where('con_status',1);
         $this->db->join('contacts_detail','con_id=con_det_con_id');
         $this->db->join('contact_type','con_typ_id=con_con_typ_id');
