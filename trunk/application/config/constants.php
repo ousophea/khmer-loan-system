@@ -52,9 +52,16 @@ define('IMAGES_PATH', 'images/');
 define('IMAGES_PATH_BOOTSTRAP', 'bootstrap/images/');
 define('FONT_PATH', 'bootstrap/font/');
 
+
 /**
  * Format & prefix
  */
 define('CONTACT_DIGIT', '000000');
+// setting
+define('SUPERADMIN', 'SuperAdmin');
+define('ADMIN', 'Admin');
+define('ACCOUNTAIN', 'Accountain');
+define('TELLER', 'Teller');
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
