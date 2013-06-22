@@ -4,6 +4,7 @@
  * @package Customer Helper
  * @author Vannak
  * @path application/helpers/global_helper.php
+ * @update now
  */
  
 /**
