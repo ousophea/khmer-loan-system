@@ -3,7 +3,7 @@
  *	The controller to manage the contact of customer
  * @author PEN Vannak
  * @package Controller 
- * 
+ * @updated 22-06-2013
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Contacts extends CI_Controller {
