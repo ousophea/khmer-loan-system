@@ -50,6 +50,7 @@ class users extends CI_Controller {
                     $roles = $role->setRoleByUsername($user, $user->getF_rol_name());
                     $this->session->set_userdata($user->getF_rol_name(), $roles->getRole());
                     $this->session->set_userdata('gro_id',$this->d_roles->getRoleId());
+					$this->session->set_userdata('bra_id',1);
 //                    if($this->input->post('remember')){
 //                        
 //                    }
