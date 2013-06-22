@@ -1,16 +1,3 @@
-# --------------------------------------------------------
-# Host:                         127.0.0.1
-# Server version:               5.1.53-community-log
-# Server OS:                    Win64
-# HeidiSQL version:             6.0.0.3603
-# Date/time:                    2013-06-14 16:32:00
-# --------------------------------------------------------
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-
 # Dumping structure for table loan_khmer.branch
 DROP TABLE IF EXISTS `branch`;
 CREATE TABLE IF NOT EXISTS `branch` (
@@ -28,124 +15,325 @@ INSERT INTO `branch` (`bra_id`, `bra_name`, `bra_address`, `bra_status`) VALUES
 	(2, 'Kandal', '0', 1);
 /*!40000 ALTER TABLE `branch` ENABLE KEYS */;
 
+--
+-- Table structure for table `user_groups`
+--
+DROP TABLE IF EXISTS `user_groups`;
+CREATE TABLE IF NOT EXISTS `user_groups` (
+  `gro_id` int(11) NOT NULL AUTO_INCREMENT,
+  `gro_name` varchar(45) DEFAULT NULL,
+  `gro_status` bit(1) DEFAULT b'1',
+  `user_groupscol` varchar(45) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`gro_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
-# Dumping structure for table loan_khmer.communes
-DROP TABLE IF EXISTS `communes`;
-CREATE TABLE IF NOT EXISTS `communes` (
-  `com_id` int(11) NOT NULL AUTO_INCREMENT,
-  `com_dis_id` int(10) unsigned DEFAULT NULL,
-  `com_en_name` varchar(80) NOT NULL,
-  `com_kh_name` varchar(80) DEFAULT NULL,
-  `status` binary(1) DEFAULT '1',
-  PRIMARY KEY (`com_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+--
+-- Dumping data for table `user_groups`
+--
 
-# Dumping data for table loan_khmer.communes: ~0 rows (approximately)
-/*!40000 ALTER TABLE `communes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `communes` ENABLE KEYS */;
+INSERT INTO `user_groups` (`gro_id`, `gro_name`, `gro_status`, `user_groupscol`, `status`) VALUES
+(1, 'superadmin', b'1', NULL, b'1'),
+(2, 'admin', b'1', NULL, b'1');
 
+# Dumping structure for table loan_khmer.users
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `use_id` int(11) NOT NULL AUTO_INCREMENT,
+  `use_name` varchar(45) DEFAULT NULL,
+  `use_gro_id` int(11) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  `use_password` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`use_id`),
+  UNIQUE KEY `use_name_UNIQUE` (`use_name`),
+  KEY `use_group` (`use_gro_id`),
+  CONSTRAINT `use_group` FOREIGN KEY (`use_gro_id`) REFERENCES `user_groups` (`gro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-# Dumping structure for table loan_khmer.contacts
-DROP TABLE IF EXISTS `contacts`;
-CREATE TABLE IF NOT EXISTS `contacts` (
-  `con_id` int(11) NOT NULL AUTO_INCREMENT,
-  `con_account_number` varchar(45) DEFAULT NULL,
-  `con_con_typ_id` int(11) DEFAULT NULL,
-  `con_en_first_name` varchar(50) DEFAULT NULL,
-  `con_en_last_name` varchar(50) DEFAULT NULL,
-  `con_en_nickname` varchar(50) DEFAULT NULL,
-  `con_kh_first_name` varchar(50) DEFAULT NULL,
-  `con_kh_last_name` varchar(50) DEFAULT NULL,
-  `con_kh_nickname` varchar(50) DEFAULT NULL,
-  `con_en_name` varchar(45) DEFAULT NULL,
-  `con_kh_name` varchar(45) DEFAULT NULL,
-  `con_national_identity_card` varchar(20) DEFAULT NULL,
-  `con_status` tinyint(1) DEFAULT '1',
-  `con_use_id` int(11) DEFAULT NULL,
-  `con_bra_id` int(10) DEFAULT NULL,
-  `con_con_job_id` int(10) DEFAULT NULL,
-  `con_cid` varchar(50) NOT NULL,
-  PRIMARY KEY (`con_id`),
-  KEY `contact type` (`con_con_typ_id`),
-  KEY `user_id` (`con_use_id`),
-  KEY `con_branch` (`con_bra_id`),
-  CONSTRAINT `contact type` FOREIGN KEY (`con_con_typ_id`) REFERENCES `contact_type` (`con_typ_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `con_branch` FOREIGN KEY (`con_bra_id`) REFERENCES `branch` (`bra_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `user_id` FOREIGN KEY (`con_use_id`) REFERENCES `users` (`use_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+# Dumping data for table loan_khmer.users: ~4 rows (approximately)
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` (`use_id`, `use_name`, `use_gro_id`, `status`, `use_password`) VALUES
+	(1, 'admin', 1, ' ', '21232f297a57a5a743894a0e4a801fc3'),
+	(2, 'account', 2, ' ', 'e268443e43d93dab7ebef303bbe9642f'),
+	(3, 'vannak', 2, ' ', 'd96783d6bc86fb4d4a1b6cdacbfa9dc5'),
+	(4, 'eddddd', 1, ' ', '25f9e794323b453885f5181f1b624d0b');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
-# Dumping data for table loan_khmer.contacts: ~2 rows (approximately)
-/*!40000 ALTER TABLE `contacts` DISABLE KEYS */;
-INSERT INTO `contacts` (`con_id`, `con_account_number`, `con_con_typ_id`, `con_en_first_name`, `con_en_last_name`, `con_en_nickname`, `con_kh_first_name`, `con_kh_last_name`, `con_kh_nickname`, `con_en_name`, `con_kh_name`, `con_national_identity_card`, `con_status`, `con_use_id`, `con_bra_id`, `con_con_job_id`, `con_cid`) VALUES
-	(1, '168-000001-1-1', 1, 'Pin', 'Borin', 'Jack', NULL, NULL, NULL, 'Chantha', NULL, '212145453', 1, 1, 1, 1, '168-000001-1-1'),
-	(2, '168-000002-1-2', 1, 'Par', 'Raksmey', NULL, NULL, NULL, NULL, 'Vanda', NULL, '454454457', 1, 1, 1, 1, '168-000001-1-2');
-/*!40000 ALTER TABLE `contacts` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.contacts_couple
+--
+-- Table structure for table `contacts_couple`
+--
 DROP TABLE IF EXISTS `contacts_couple`;
 CREATE TABLE IF NOT EXISTS `contacts_couple` (
   `con_cou_owner` int(11) NOT NULL,
   `con_cou_couple` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table loan_khmer.contacts_couple: ~0 rows (approximately)
-/*!40000 ALTER TABLE `contacts_couple` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contacts_couple` ENABLE KEYS */;
+--
+-- Table structure for table `contacts_type`
+--
+DROP TABLE IF EXISTS `contacts_type`;
+CREATE TABLE IF NOT EXISTS `contacts_type` (
+  `con_typ_id` int(11) NOT NULL AUTO_INCREMENT,
+  `con_typ_title` varchar(20) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`con_typ_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
+--
+-- Dumping data for table `contacts_type`
+--
 
-# Dumping structure for table loan_khmer.contacts_detail
+INSERT INTO `contacts_type` (`con_typ_id`, `con_typ_title`, `status`) VALUES
+(1, 'Group', b'1'),
+(2, 'Individule', b'1'),
+(3, 'Other', b'1');
+
+--
+-- Table structure for table `contacts_job`
+--
+DROP TABLE IF EXISTS `contacts_job`;
+CREATE TABLE IF NOT EXISTS `contacts_job` (
+  `con_job_id` int(11) NOT NULL AUTO_INCREMENT,
+  `con_job_title` varchar(45) NOT NULL,
+  `status` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`con_job_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `contacts_job`
+--
+
+INSERT INTO `contacts_job` (`con_job_id`, `con_job_title`, `status`) VALUES
+(1, 'Farmer', b'1'),
+(2, 'Seller', b'1');
+
+--
+-- Table structure for table `contacts_income`
+--
+DROP TABLE IF EXISTS `contacts_income`;
+CREATE TABLE IF NOT EXISTS `contacts_income` (
+  `con_inc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `con_inc_range` varchar(100) NOT NULL,
+  `status` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`con_inc_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `contacts_income`
+--
+
+INSERT INTO `contacts_income` (`con_inc_id`, `con_inc_range`, `status`) VALUES
+(1, '10000៛-100000៛', b'1'),
+(2, '100000៛-200000៛', b'1'),
+(3, '200000៛-500000៛', b'1'),
+(4, '500000៛-700000៛', b'1'),
+(5, '700000៛-1000000៛', b'1'),
+(6, 'Over 1000000៛', b'1');
+
+--
+-- Table structure for table `contacts`
+--
+DROP TABLE IF EXISTS `contacts`;
+CREATE TABLE IF NOT EXISTS `contacts` (
+  `con_id` int(11) NOT NULL AUTO_INCREMENT,
+  `con_cid` varchar(45) DEFAULT NULL,
+  `con_con_typ_id` int(11) DEFAULT NULL,
+  `con_con_job_id` int(11) NOT NULL DEFAULT '0',
+  `con_con_inc_id` int(11) NOT NULL DEFAULT '0',
+  `con_use_id` int(11) DEFAULT NULL DEFAULT '0',
+  `con_bra_id` int(10) DEFAULT NULL DEFAULT '0',
+  `con_en_first_name` varchar(45) NOT NULL,
+  `con_en_last_name` varchar(45) NOT NULL,
+  `con_en_nickname` varchar(45) DEFAULT NULL,
+  `con_kh_first_name` varchar(45) NOT NULL,
+  `con_kh_last_name` varchar(45) NOT NULL,
+  `con_kh_nickname` varchar(45) DEFAULT NULL,
+  `con_sex` char(1) NOT NULL,
+  `con_national_identity_card` varchar(20) DEFAULT NULL,
+  `con_datecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `con_datemodified` timestamp NULL DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`con_id`),
+  KEY `con_typ_id` (`con_con_typ_id`),
+  KEY `con_job_id` (`con_con_job_id`),
+  KEY `con_inc_id` (`con_con_inc_id`),
+  KEY `use_id` (`con_use_id`),
+  KEY `con_bra_id` (`con_bra_id`),
+  CONSTRAINT `con_typ_id` FOREIGN KEY (`con_con_typ_id`) REFERENCES `contacts_type` (`con_typ_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `con_job_id` FOREIGN KEY (`con_con_job_id`) REFERENCES `contacts_job` (`con_job_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `con_inc_id` FOREIGN KEY (`con_con_inc_id`) REFERENCES `contacts_income` (`con_inc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `use_id` FOREIGN KEY (`con_use_id`) REFERENCES `users` (`use_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `con_bra_id` FOREIGN KEY (`con_bra_id`) REFERENCES `branch` (`bra_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
+
+--
+-- Table structure for table `provinces`
+--
+DROP TABLE IF EXISTS `provinces`;
+CREATE TABLE IF NOT EXISTS `provinces` (
+  `pro_id` int(11) NOT NULL AUTO_INCREMENT,
+  `pro_en_name` varchar(45) NOT NULL,
+  `pro_kh_name` varchar(45) DEFAULT NULL,
+  `status` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`pro_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
+
+--
+-- Dumping data for table `provinces`
+--
+
+INSERT INTO `provinces` (`pro_id`, `pro_en_name`, `pro_kh_name`, `status`) VALUES
+(1, 'Phnom Penh', 'ភ្នំពេញ', b'1'),
+(2, 'Battambang', 'បាត់ដំបង', b'1'),
+(3, 'Banteay Meanchey', 'បន្ទាយមានជ័យ', b'1'),
+(4, 'Kampong Cham', 'កំពង់ចាម', b'1'),
+(5, 'Kampong Chhnang', 'កំពង់ឆ្នាំង', b'1'),
+(6, 'Kampong Speu', 'កំបង់ស្ពឺ', b'1'),
+(7, 'Kampong Thom', 'កំពង់ធំ', b'1'),
+(8, 'Kampot', 'កំពត', b'1'),
+(9, 'Kandal', 'កណ្តាល', b'1'),
+(10, 'Koh Kong', 'កោះកុង', b'1'),
+(11, 'Kratié', 'ក្រចេះ', b'1'),
+(12, 'Mondulkiri', 'មណ្ឌលគិរី', b'1'),
+(13, 'Oddar Meancheay', 'ឧត្តរមានជ័យ', b'1'),
+(14, 'Preah Vihear', 'ព្រះវិហារ', b'1'),
+(15, 'Pursat', 'ពោធិ៍សាត់', b'1'),
+(16, 'Prey Veng', 'ព្រៃវែង', b'1'),
+(17, 'Ratanakiri', 'រតនៈគិរី', b'1'),
+(18, 'Siem Reap', 'សៀមរាប', b'1'),
+(19, 'Stung Treng', 'ស្ទឹងត្រែង', b'1'),
+(20, 'Svay Rieng', 'ស្វាយរៀង', b'1'),
+(21, 'Takéo', 'តាកែវ', b'1'),
+(22, 'Kep', 'កែប', b'1'),
+(23, 'Pailin', 'ប៉ៃលិន', b'1'),
+(24, 'Preah Sihanouk', 'ព្រះសីហនុ', b'1');
+
+--
+-- Table structure for table `districts`
+--
+DROP TABLE IF EXISTS `districts`;
+CREATE TABLE IF NOT EXISTS `districts` (
+  `dis_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dis_pro_id` int(10) NOT NULL,
+  `dis_en_name` varchar(80) NOT NULL,
+  `dis_kh_name` varchar(80) DEFAULT NULL,
+  `status` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`dis_id`),
+  key `pro_id` (`dis_pro_id`),
+  CONSTRAINT `province_id` FOREIGN KEY (`dis_pro_id`) REFERENCES `provinces` (`pro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
+
+--
+-- Dumping data for table `districts`
+--
+
+INSERT INTO `districts` (`dis_id`, `dis_pro_id`, `dis_en_name`, `dis_kh_name`, `status`) VALUES
+(1, 1, 'Chamkarmon', 'ចំការមន', b'1'),
+(2, 1, 'Dangkao', 'ដង្កោរ', b'1'),
+(3, 1, 'Daun Penh', 'ដូនពេញ', b'1'),
+(4, 1, 'Meanchey', 'មានជ័យ', b'1'),
+(5, 1, 'Prampi Makara', '៧មករា', b'1'),
+(6, 1, 'Russey Keo', 'ឫស្សីកែវ', b'1'),
+(7, 1, 'Sen Sok', 'សែនសុក', b'1'),
+(8, 1, 'Tuol Kork', 'ទួលគោក', b'1'),
+(9, 1, 'Porsenchey', 'ពោធិ៍សែនជ័យ', b'1'),
+(10, 2, 'Banan', 'បាណន់', b'1'),
+(11, 2, 'Thma Koul', 'ថ្មគោល', b'1'),
+(12, 2, 'Bat Dambang', 'បាត់ដំបង', b'1'),
+(13, 2, 'Bavel', 'បវិល', b'1'),
+(14, 2, 'Ek Phnom', 'ឯកភ្នំ', b'1'),
+(15, 2, 'Moung Ruessi', 'មោងឫស្សី', b'1'),
+(16, 2, 'Rotanak Mondol', 'រតនៈមណ្ឌល', b'1'),
+(17, 2, 'Sangkae', 'សង្កែ', b'1'),
+(18, 2, 'Samlout', 'សំឡូត', b'1'),
+(19, 2, 'Sampov Loun', 'សំពៅលូន', b'1'),
+(20, 2, 'Phnum Proek', 'ភ្នំព្រឹក', b'1'),
+(21, 2, 'Kamrieng', 'កម្រៀង', b'1'),
+(22, 2, 'Koas Krala', 'កោះក្រឡ', b'1'),
+(23, 2, 'RukhaKiri', 'រុក្ខគិរី', b'1');
+
+--
+-- Table structure for table `communes`
+--
+DROP TABLE IF EXISTS `communes`;
+CREATE TABLE IF NOT EXISTS `communes` (
+  `com_id` int(11) NOT NULL AUTO_INCREMENT,
+  `com_dis_id` int(10) DEFAULT NULL,
+  `com_en_name` varchar(80) NOT NULL,
+  `com_kh_name` varchar(80) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`com_id`),
+  key `dis_id` (`com_dis_id`),
+  CONSTRAINT `dis_id` FOREIGN KEY (`com_dis_id`) REFERENCES `districts` (`dis_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `communes`
+--
+
+INSERT INTO `communes` (`com_id`, `com_dis_id`, `com_en_name`, `com_kh_name`, `status`) VALUES
+(1, 1, 'Tonle Bassak', 'ទន្លេបាសាក់', b'1'),
+(2, 1, 'Boeng Keng Kang I', 'បឹងកេងកង១', b'1'),
+(3, 1, 'Boeng Keng Kang II', 'បឹងកេងកង២', b'1'),
+(4, 1, 'Boeng Keng Kang III', 'បឹងកេងកង៣', b'1'),
+(5, 1, 'Boeng Trabek', 'បឹងត្របែក', b'1'),
+(6, 1, 'Tumnup Tuk', 'ទំនប់ទឹក', b'1'),
+(7, 1, 'Phsa Doeum Thkow', 'ផ្សារដើមថ្កូវ', b'1'),
+(8, 1, 'Toul Svay Prey I', 'ទួលស្វាយព្រៃ១', b'1'),
+(9, 1, 'Toul Svay Prey II', 'ទួលស្វាយព្រៃ២', b'1'),
+(10, 1, 'Toul Tum Poung I', 'ទួលទំពូង១', b'1'),
+(11, 1, 'Toul Tum Poung II', 'ទួលទំពូង២', b'1'),
+(12, 1, 'Olympik', 'អូរឡាំពិក', b'1');
+
+--
+-- Table structure for table `villages`
+--
+DROP TABLE IF EXISTS `villages`;
+CREATE TABLE IF NOT EXISTS `villages` (
+  `vil_id` int(11) NOT NULL AUTO_INCREMENT,
+  `vil_com_id` int(10) NOT NULL,
+  `vil_en_name` varchar(80) NOT NULL,
+  `vil_kh_name` varchar(80) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`vil_id`),
+  key `com_id` (`vil_com_id`),
+  CONSTRAINT `com_id` FOREIGN KEY (`vil_com_id`) REFERENCES `communes` (`com_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `villages`
+--
+
+INSERT INTO `villages` (`vil_id`, `vil_com_id`, `vil_en_name`, `vil_kh_name`, `status`) VALUES
+(1, 3, 'Obekaom', NULL, b'1'),
+(2, 3, 'Samnang 12', NULL, b'1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contacts_detail`
+--
 DROP TABLE IF EXISTS `contacts_detail`;
 CREATE TABLE IF NOT EXISTS `contacts_detail` (
-  `con_det_con_id` int(11) NOT NULL AUTO_INCREMENT,
-  `con_gender` char(1) DEFAULT NULL,
-  `con_civil_status_id` int(11) DEFAULT NULL,
-  `con_dob` date DEFAULT NULL,
+  `con_det_con_id` int(11) UNIQUE NOT NULL,
+  `con_det_email` varchar(45) DEFAULT NULL,
+  `con_det_civil_status` tinyint(1) NOT NULL DEFAULT '1',
+  `con_det_dob` date DEFAULT NULL,
+  `con_det_pro_id` int(11) NOT NULL DEFAULT '0',
+  `con_det_dis_id` int(11) NOT NULL DEFAULT '0',
+  `con_det_com_id` int(11) NOT NULL DEFAULT '0',
+  `con_det_vil_id` int(11) NOT NULL DEFAULT '0',
   `con_det_address_detail` varchar(45) DEFAULT NULL,
-  `con_det_job` varchar(45) DEFAULT NULL,
-  `con_det_inc_id` int(11) DEFAULT NULL,
-  `con_del_date_created` date DEFAULT NULL,
-  `con_del_date_modified` date DEFAULT NULL,
-  KEY `contact` (`con_det_con_id`),
-  KEY `income` (`con_det_inc_id`),
-  CONSTRAINT `contact` FOREIGN KEY (`con_det_con_id`) REFERENCES `contacts` (`con_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `income` FOREIGN KEY (`con_det_inc_id`) REFERENCES `income` (`inc_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.contacts_detail: ~2 rows (approximately)
-/*!40000 ALTER TABLE `contacts_detail` DISABLE KEYS */;
-INSERT INTO `contacts_detail` (`con_det_con_id`, `con_gender`, `con_civil_status_id`, `con_dob`, `con_det_address_detail`, `con_det_job`, `con_det_inc_id`, `con_del_date_created`, `con_del_date_modified`) VALUES
-	(1, 'M', NULL, NULL, NULL, '1', NULL, '2013-05-15', '2013-05-15'),
-	(2, 'F', NULL, NULL, NULL, '1', NULL, '2013-05-15', '2013-05-15');
-/*!40000 ALTER TABLE `contacts_detail` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.contacts_family
-DROP TABLE IF EXISTS `contacts_family`;
-CREATE TABLE IF NOT EXISTS `contacts_family` (
-  `con_fam_id` int(11) NOT NULL AUTO_INCREMENT,
-  `con_fam_con_id` int(11) NOT NULL,
-  `con_fam_inc_id` int(11) NOT NULL DEFAULT '0',
-  `con_fam_kh_first_name` varchar(45) NOT NULL,
-  `con_fam_kh_last_name` varchar(45) NOT NULL,
-  `con_fam_kh_nickname` varchar(45) DEFAULT NULL,
-  `con_fam_en_first_name` varchar(45) NOT NULL,
-  `con_fam_en_last_name` varchar(45) NOT NULL,
-  `con_fam_en_nickname` varchar(45) DEFAULT NULL,
-  `con_fam_con_job_id` int(11) NOT NULL DEFAULT '0',
-  `con_fam_national_identity` int(11) NOT NULL,
-  `con_fam_datecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `con_fam_datemodified` timestamp NULL DEFAULT NULL,
-  `status` binary(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`con_fam_id`)
+  KEY `con_id` (`con_det_con_id`),
+  KEY `vil_id` (`con_det_vil_id`),
+  CONSTRAINT `con_id` FOREIGN KEY (`con_det_con_id`) REFERENCES `contacts` (`con_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table loan_khmer.contacts_family: ~0 rows (approximately)
-/*!40000 ALTER TABLE `contacts_family` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contacts_family` ENABLE KEYS */;
+-- --------------------------------------------------------
 
-
-# Dumping structure for table loan_khmer.contacts_group
+--
+-- Table structure for table `contacts_group`
+--
 DROP TABLE IF EXISTS `contacts_group`;
 CREATE TABLE IF NOT EXISTS `contacts_group` (
   `con_gro_con_id` int(11) NOT NULL,
@@ -153,42 +341,11 @@ CREATE TABLE IF NOT EXISTS `contacts_group` (
   PRIMARY KEY (`con_gro_con_id`,`con_gro_gro_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 
-# Dumping data for table loan_khmer.contacts_group: ~0 rows (approximately)
-/*!40000 ALTER TABLE `contacts_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contacts_group` ENABLE KEYS */;
+-- --------------------------------------------------------
 
-
-# Dumping structure for table loan_khmer.contacts_income
-DROP TABLE IF EXISTS `contacts_income`;
-CREATE TABLE IF NOT EXISTS `contacts_income` (
-  `con_inc_id` int(11) NOT NULL AUTO_INCREMENT,
-  `con_inc_range` varchar(100) NOT NULL,
-  `status` binary(1) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`con_inc_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.contacts_income: ~0 rows (approximately)
-/*!40000 ALTER TABLE `contacts_income` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contacts_income` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.contacts_job
-DROP TABLE IF EXISTS `contacts_job`;
-CREATE TABLE IF NOT EXISTS `contacts_job` (
-  `con_job_id` int(11) NOT NULL AUTO_INCREMENT,
-  `con_job_title` varchar(45) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`con_job_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.contacts_job: ~1 rows (approximately)
-/*!40000 ALTER TABLE `contacts_job` DISABLE KEYS */;
-INSERT INTO `contacts_job` (`con_job_id`, `con_job_title`, `status`) VALUES
-	(1, 'Famer', 0);
-/*!40000 ALTER TABLE `contacts_job` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.contacts_number
+--
+-- Table structure for table `contacts_number`
+--
 DROP TABLE IF EXISTS `contacts_number`;
 CREATE TABLE IF NOT EXISTS `contacts_number` (
   `con_num_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -196,65 +353,11 @@ CREATE TABLE IF NOT EXISTS `contacts_number` (
   `con_num_line` varchar(15) DEFAULT NULL,
   `status` bit(1) DEFAULT b'1',
   PRIMARY KEY (`con_num_id`),
-  KEY `contact number` (`con_num_con_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `con_num_id` (`con_num_con_id`),
+  CONSTRAINT `con_num_id` FOREIGN KEY (`con_num_con_id`) REFERENCES `contacts` (`con_id`) ON DELETE NO ACTION
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=50 ;
 
-# Dumping data for table loan_khmer.contacts_number: ~0 rows (approximately)
-/*!40000 ALTER TABLE `contacts_number` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contacts_number` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.contacts_type
-DROP TABLE IF EXISTS `contacts_type`;
-CREATE TABLE IF NOT EXISTS `contacts_type` (
-  `con_typ_id` int(11) NOT NULL AUTO_INCREMENT,
-  `con_typ_title` varchar(20) DEFAULT NULL,
-  `con_typ_status` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`con_typ_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.contacts_type: ~2 rows (approximately)
-/*!40000 ALTER TABLE `contacts_type` DISABLE KEYS */;
-INSERT INTO `contacts_type` (`con_typ_id`, `con_typ_title`, `con_typ_status`) VALUES
-	(1, 'Group', 1),
-	(2, 'Indivitule', 1);
-/*!40000 ALTER TABLE `contacts_type` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.contact_group
-DROP TABLE IF EXISTS `contact_group`;
-CREATE TABLE IF NOT EXISTS `contact_group` (
-  `con_gro_con_id` int(11) NOT NULL,
-  `con_gro_gro_id` int(11) NOT NULL,
-  `con_gro_id` int(11) NOT NULL,
-  PRIMARY KEY (`con_gro_con_id`,`con_gro_gro_id`,`con_gro_id`),
-  KEY `con_gro_contact` (`con_gro_con_id`),
-  KEY `con_gro_group` (`con_gro_gro_id`),
-  CONSTRAINT `con_gro_contact` FOREIGN KEY (`con_gro_con_id`) REFERENCES `contacts` (`con_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `con_gro_group` FOREIGN KEY (`con_gro_gro_id`) REFERENCES `group` (`gro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
-
-# Dumping data for table loan_khmer.contact_group: ~0 rows (approximately)
-/*!40000 ALTER TABLE `contact_group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contact_group` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.contact_number
-DROP TABLE IF EXISTS `contact_number`;
-CREATE TABLE IF NOT EXISTS `contact_number` (
-  `con_num_id` int(11) NOT NULL AUTO_INCREMENT,
-  `con_num_con_id` int(11) NOT NULL,
-  `con_num_line` varchar(15) DEFAULT NULL,
-  `status` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`con_num_id`),
-  KEY `contact number` (`con_num_con_id`),
-  CONSTRAINT `contact number` FOREIGN KEY (`con_num_con_id`) REFERENCES `contacts` (`con_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.contact_number: ~0 rows (approximately)
-/*!40000 ALTER TABLE `contact_number` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contact_number` ENABLE KEYS */;
-
+-- --------------------------------------------------------
 
 # Dumping structure for table loan_khmer.currency
 DROP TABLE IF EXISTS `currency`;
@@ -274,21 +377,20 @@ INSERT INTO `currency` (`cur_id`, `cur_title`, `cur_status`) VALUES
 /*!40000 ALTER TABLE `currency` ENABLE KEYS */;
 
 
-# Dumping structure for table loan_khmer.districts
-DROP TABLE IF EXISTS `districts`;
-CREATE TABLE IF NOT EXISTS `districts` (
-  `dis_id` int(11) NOT NULL AUTO_INCREMENT,
-  `dis_pro_id` int(10) unsigned DEFAULT NULL,
-  `dis_en_name` varchar(80) NOT NULL,
-  `dis_kh_name` varchar(80) DEFAULT NULL,
-  `status` binary(1) DEFAULT '1',
-  PRIMARY KEY (`dis_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- --------------------------------------------------------
 
-# Dumping data for table loan_khmer.districts: ~0 rows (approximately)
-/*!40000 ALTER TABLE `districts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `districts` ENABLE KEYS */;
+--
+-- Table structure for table `group`
+--
+DROP TABLE IF EXISTS `group`;
+CREATE TABLE IF NOT EXISTS `group` (
+  `gro_id` int(11) NOT NULL AUTO_INCREMENT,
+  `gro_title` varchar(45) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`gro_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
+-- --------------------------------------------------------
 
 # Dumping structure for table loan_khmer.gl_balances
 DROP TABLE IF EXISTS `gl_balances`;
@@ -310,7 +412,6 @@ INSERT INTO `gl_balances` (`gl_bal_id`, `gl_bal_gl_id`, `gl_bal_balance`, `gl_ba
 	(1308, 1284, 5000, 1, 0, 0, '2013-06-13 08:06:42', NULL),
 	(1307, 1304, 133, 2, 0, 0, '2013-06-11 18:43:20', '2013-06-11 18:50:36');
 /*!40000 ALTER TABLE `gl_balances` ENABLE KEYS */;
-
 
 # Dumping structure for table loan_khmer.gl_list
 DROP TABLE IF EXISTS `gl_list`;
@@ -1658,33 +1759,32 @@ INSERT INTO `gl_list` (`gl_id`, `gl_code`, `gl_description`, `gl_debit`, `gl_cre
 	(1768, '999109111', 'Cont. OFSS Suspend Account\r', NULL, NULL);
 /*!40000 ALTER TABLE `gl_list` ENABLE KEYS */;
 
-
-# Dumping structure for table loan_khmer.group
-DROP TABLE IF EXISTS `group`;
-CREATE TABLE IF NOT EXISTS `group` (
-  `gro_id` int(11) NOT NULL AUTO_INCREMENT,
-  `gro_title` varchar(45) DEFAULT NULL,
-  `status` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`gro_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.group: ~0 rows (approximately)
-/*!40000 ALTER TABLE `group` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.income
+--
+-- Table structure for table `income`
+--
 DROP TABLE IF EXISTS `income`;
 CREATE TABLE IF NOT EXISTS `income` (
-  `inc_id` int(11) NOT NULL,
-  `inc_lable` varchar(50) NOT NULL,
-  PRIMARY KEY (`inc_id`),
-  UNIQUE KEY `inc_lable_UNIQUE` (`inc_lable`)
+  `inc_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`inc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table loan_khmer.income: ~0 rows (approximately)
-/*!40000 ALTER TABLE `income` DISABLE KEYS */;
-/*!40000 ALTER TABLE `income` ENABLE KEYS */;
+--
+-- Dumping data for table `income`
+--
+
+INSERT INTO `income` (`inc_id`) VALUES
+(1),
+(2);
+
+# Dumping structure for table loan_khmer.loan_product_type
+DROP TABLE IF EXISTS `loan_product_type`;
+CREATE TABLE IF NOT EXISTS `loan_product_type` (
+  `loa_pro_typ_id` int(11) NOT NULL AUTO_INCREMENT,
+  `loa_pro_typ_code` int(11) DEFAULT NULL,
+  `loa_pro_typ_description` varchar(20) DEFAULT NULL,
+  `loa_pro_typ_amount` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`loa_pro_typ_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 # Dumping structure for table loan_khmer.loan_account
@@ -1711,39 +1811,45 @@ CREATE TABLE IF NOT EXISTS `loan_account` (
   CONSTRAINT `loa_user_id` FOREIGN KEY (`loa_use_id`) REFERENCES `users` (`use_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# Dumping data for table loan_khmer.loan_account: ~0 rows (approximately)
-/*!40000 ALTER TABLE `loan_account` DISABLE KEYS */;
-/*!40000 ALTER TABLE `loan_account` ENABLE KEYS */;
+--
+-- Table structure for table `roles`
+--
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `rol_id` int(11) NOT NULL AUTO_INCREMENT,
+  `rol_name` varchar(50) NOT NULL,
+  `rol_des` text NOT NULL,
+  `rol_authorize` int(11) NOT NULL,
+  `rol_status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`rol_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
+--
+-- Dumping data for table `roles`
+--
 
-# Dumping structure for table loan_khmer.loan_product_type
-DROP TABLE IF EXISTS `loan_product_type`;
-CREATE TABLE IF NOT EXISTS `loan_product_type` (
-  `loa_pro_typ_id` int(11) NOT NULL AUTO_INCREMENT,
-  `loa_pro_typ_code` int(11) DEFAULT NULL,
-  `loa_pro_typ_description` varchar(20) DEFAULT NULL,
-  `loa_pro_typ_amount` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`loa_pro_typ_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `roles` (`rol_id`, `rol_name`, `rol_des`, `rol_authorize`, `rol_status`) VALUES
+(1, 'SuperAdmin', 'Full access on system and Database', 0, 0),
+(2, 'Admin', 'Full access on system', 0, 0);
 
-# Dumping data for table loan_khmer.loan_product_type: ~0 rows (approximately)
-/*!40000 ALTER TABLE `loan_product_type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `loan_product_type` ENABLE KEYS */;
+# Dumping structure for table loan_khmer.saving_product_type
+DROP TABLE IF EXISTS `saving_product_type`;
+CREATE TABLE IF NOT EXISTS `saving_product_type` (
+  `sav_pro_typ_id` int(11) NOT NULL AUTO_INCREMENT,
+  `sav_pro_typ_title` varchar(45) DEFAULT NULL,
+  `status` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`sav_pro_typ_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+# Dumping data for table loan_khmer.saving_product_type: ~1 rows (approximately)
+/*!40000 ALTER TABLE `saving_product_type` DISABLE KEYS */;
+INSERT INTO `saving_product_type` (`sav_pro_typ_id`, `sav_pro_typ_title`, `status`) VALUES
+	(1, 'type1', ' ');
+/*!40000 ALTER TABLE `saving_product_type` ENABLE KEYS */;
 
-# Dumping structure for table loan_khmer.provinces
-DROP TABLE IF EXISTS `provinces`;
-CREATE TABLE IF NOT EXISTS `provinces` (
-  `pro_id` int(11) DEFAULT NULL,
-  `pro_en_name` varchar(50) NOT NULL,
-  `pro_kh_name` varchar(50) DEFAULT NULL,
-  `status` binary(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.provinces: ~0 rows (approximately)
-/*!40000 ALTER TABLE `provinces` DISABLE KEYS */;
-/*!40000 ALTER TABLE `provinces` ENABLE KEYS */;
-
+--
+-- Table structure for table `saving_account`
+--
 
 # Dumping structure for table loan_khmer.saving_account
 DROP TABLE IF EXISTS `saving_account`;
@@ -1768,28 +1874,6 @@ CREATE TABLE IF NOT EXISTS `saving_account` (
   CONSTRAINT `sav_user_id` FOREIGN KEY (`sav_use_id`) REFERENCES `users` (`use_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-# Dumping data for table loan_khmer.saving_account: ~1 rows (approximately)
-/*!40000 ALTER TABLE `saving_account` DISABLE KEYS */;
-INSERT INTO `saving_account` (`sav_acc_id`, `sav_acc_code`, `sav_acc_sav_pro_typ_id`, `sav_acc_create_date`, `sav_acc_modified_date`, `sav_acc_reference`, `sav_acc_status`, `sav_acc_con_id`, `sav_use_id`, `sav_acc_gl_id`, `sav_acc_cur_id`) VALUES
-	(1, '168-168-000001-1-1-201', 1, NULL, NULL, 'ddsadfadsf', 1, 1, 1, 0, 0);
-/*!40000 ALTER TABLE `saving_account` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.saving_product_type
-DROP TABLE IF EXISTS `saving_product_type`;
-CREATE TABLE IF NOT EXISTS `saving_product_type` (
-  `sav_pro_typ_id` int(11) NOT NULL AUTO_INCREMENT,
-  `sav_pro_typ_title` varchar(45) DEFAULT NULL,
-  `status` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`sav_pro_typ_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.saving_product_type: ~1 rows (approximately)
-/*!40000 ALTER TABLE `saving_product_type` DISABLE KEYS */;
-INSERT INTO `saving_product_type` (`sav_pro_typ_id`, `sav_pro_typ_title`, `status`) VALUES
-	(1, 'type1', '');
-/*!40000 ALTER TABLE `saving_product_type` ENABLE KEYS */;
-
 
 # Dumping structure for table loan_khmer.tiller
 DROP TABLE IF EXISTS `tiller`;
@@ -1810,6 +1894,22 @@ INSERT INTO `tiller` (`til_id`, `til_tel_id`, `til_modifide_date`, `til_create_d
 	(1, 0, NULL, NULL, NULL, 0, NULL);
 /*!40000 ALTER TABLE `tiller` ENABLE KEYS */;
 
+# Dumping structure for table loan_khmer.transaction_mode
+DROP TABLE IF EXISTS `transaction_mode`;
+CREATE TABLE IF NOT EXISTS `transaction_mode` (
+  `tra_mod_id` int(11) NOT NULL AUTO_INCREMENT,
+  `tra_mod_title` varchar(45) DEFAULT NULL,
+  `tra_mod_status` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`tra_mod_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+# Dumping data for table loan_khmer.transaction_mode: ~3 rows (approximately)
+/*!40000 ALTER TABLE `transaction_mode` DISABLE KEYS */;
+INSERT INTO `transaction_mode` (`tra_mod_id`, `tra_mod_title`, `tra_mod_status`) VALUES
+	(1, 'Cash', 1),
+	(2, 'Voucher', 1),
+	(3, 'Other...', 1);
+/*!40000 ALTER TABLE `transaction_mode` ENABLE KEYS */;
 
 # Dumping structure for table loan_khmer.transaction
 DROP TABLE IF EXISTS `transaction`;
@@ -1837,144 +1937,3 @@ CREATE TABLE IF NOT EXISTS `transaction` (
   CONSTRAINT `tra_contact_id` FOREIGN KEY (`tra_con_id`) REFERENCES `contacts` (`con_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `tra_tra_mod_id` FOREIGN KEY (`tra_tra_mod_id`) REFERENCES `transaction_mode` (`tra_mod_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.transaction: ~57 rows (approximately)
-/*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` (`tra_id`, `tra_tra_mod_id`, `tra_cur_id`, `tra_type`, `tra_amount`, `tra_description`, `tra_gl_id`, `tra_gl_code`, `trn_ref_no`, `tra_con_id`, `tra_ref_no`, `tra_credit`, `tra_debit`, `tra_date`, `tra_value_date`, `tra_use_id`) VALUES
-	(15, 1, 1, 1, 200, '', 5, NULL, NULL, 2, NULL, 0.00, 200.00, '2013-05-26 00:00:00', '2013-05-26 00:00:00', 1),
-	(16, 1, 1, 2, 401, '', 5, NULL, NULL, 2, NULL, 400.50, 0.00, '2013-05-26 00:00:00', '2013-05-26 00:00:00', 1),
-	(17, 1, 1, 2, 40044, '', 5, NULL, NULL, 2, NULL, 40044.00, 0.00, '2013-05-26 00:00:00', '2013-05-26 00:00:00', 1),
-	(21, 1, 1, 2, 2000, '', 2, NULL, NULL, 1, NULL, 2000.00, 0.00, '2013-05-28 00:00:00', '2013-05-28 00:00:00', 1),
-	(22, 1, 1, 2, 2000, '', 2, NULL, NULL, 1, NULL, 2000.00, 0.00, '2013-05-28 00:00:00', '2013-05-28 00:00:00', 1),
-	(23, 1, 1, 2, 55, '', 3, NULL, NULL, 1, NULL, 55.00, 0.00, '2013-05-28 00:00:00', '2013-05-28 00:00:00', 1),
-	(24, 1, 1, 2, 400, '', 4, NULL, NULL, 1, NULL, 400.00, 0.00, '2013-05-28 00:00:00', '2013-05-28 00:00:00', 1),
-	(25, 1, 2, 2, 4000, '', 4, NULL, NULL, 2, NULL, 4000.00, 0.00, '2013-06-08 00:00:00', '2013-06-08 00:00:00', 1),
-	(26, 1, 1, 2, 566, 'uhuhuhuhu', 4, NULL, NULL, 2, NULL, 566.00, 0.00, '2013-06-08 00:00:00', '2013-06-08 00:00:00', 1),
-	(27, 1, 1, 0, 33, '', NULL, 514109111, NULL, NULL, NULL, NULL, 33.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(28, 1, 1, 0, 33, '', 1283, NULL, NULL, NULL, NULL, NULL, 33.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(29, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(30, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(31, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(32, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(33, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(34, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(35, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(36, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(37, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(38, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(39, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(40, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(41, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(42, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(43, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(44, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(45, 1, 1, 0, 2000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2000.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(46, 1, 1, 0, 555555, '', 1304, NULL, NULL, NULL, NULL, 0.00, 555555.00, '2013-06-11 00:00:00', '2013-06-11 00:00:00', 1),
-	(47, 1, 2, 0, 555555, '', 1304, NULL, NULL, NULL, NULL, 0.00, 555555.00, '2013-06-11 18:28:16', '2013-06-11 18:28:16', 1),
-	(48, 1, 2, 0, 555555, '', 1304, NULL, NULL, NULL, NULL, 0.00, 555555.00, '2013-06-11 18:30:30', '2013-06-11 18:30:30', 1),
-	(49, 1, 2, 0, 40000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 40000.00, '2013-06-11 18:32:08', '2013-06-11 18:32:08', 1),
-	(50, 1, 2, 0, 40000, '', 1304, NULL, NULL, NULL, NULL, 0.00, 40000.00, '2013-06-11 18:32:42', '2013-06-11 18:32:42', 1),
-	(51, 1, 2, 0, 4003, '', 1304, NULL, NULL, NULL, NULL, 0.00, 4003.00, '2013-06-11 18:33:19', '2013-06-11 18:33:19', 1),
-	(52, 1, 2, 0, 7, '', 1304, NULL, NULL, NULL, NULL, 0.00, 7.00, '2013-06-11 18:35:11', '2013-06-11 18:35:11', 1),
-	(53, 1, 2, 0, 7, '', 1304, NULL, NULL, NULL, NULL, 0.00, 7.00, '2013-06-11 18:40:11', '2013-06-11 18:40:11', 1),
-	(54, 1, 2, 0, 2, '', 1304, NULL, NULL, NULL, NULL, 0.00, 2.00, '2013-06-11 18:40:27', '2013-06-11 18:40:27', 1),
-	(55, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:40:56', '2013-06-11 18:40:56', 1),
-	(56, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:41:16', '2013-06-11 18:41:16', 1),
-	(57, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:42:19', '2013-06-11 18:42:19', 1),
-	(58, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:42:50', '2013-06-11 18:42:50', 1),
-	(59, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:43:20', '2013-06-11 18:43:20', 1),
-	(60, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:43:36', '2013-06-11 18:43:36', 1),
-	(61, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:44:11', '2013-06-11 18:44:11', 1),
-	(62, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:44:31', '2013-06-11 18:44:31', 1),
-	(63, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:45:06', '2013-06-11 18:45:06', 1),
-	(64, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:45:43', '2013-06-11 18:45:43', 1),
-	(65, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:47:13', '2013-06-11 18:47:13', 1),
-	(66, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:47:44', '2013-06-11 18:47:44', 1),
-	(67, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:47:55', '2013-06-11 18:47:55', 1),
-	(68, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:47:58', '2013-06-11 18:47:58', 1),
-	(69, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:48:19', '2013-06-11 18:48:19', 1),
-	(70, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:48:45', '2013-06-11 18:48:45', 1),
-	(71, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:49:06', '2013-06-11 18:49:06', 1),
-	(72, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:50:23', '2013-06-11 18:50:23', 1),
-	(73, 1, 2, 0, 100, '', 1304, NULL, NULL, NULL, NULL, 0.00, 100.00, '2013-06-11 18:50:36', '2013-06-11 18:50:36', 1),
-	(74, 1, 1, 0, 5000, '', 1284, NULL, NULL, NULL, NULL, 0.00, 5000.00, '2013-06-13 08:06:42', '2013-06-13 08:06:42', 1);
-/*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.transaction_mode
-DROP TABLE IF EXISTS `transaction_mode`;
-CREATE TABLE IF NOT EXISTS `transaction_mode` (
-  `tra_mod_id` int(11) NOT NULL AUTO_INCREMENT,
-  `tra_mod_title` varchar(45) DEFAULT NULL,
-  `tra_mod_status` tinyint(1) DEFAULT '1',
-  PRIMARY KEY (`tra_mod_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.transaction_mode: ~3 rows (approximately)
-/*!40000 ALTER TABLE `transaction_mode` DISABLE KEYS */;
-INSERT INTO `transaction_mode` (`tra_mod_id`, `tra_mod_title`, `tra_mod_status`) VALUES
-	(1, 'Cash', 1),
-	(2, 'Voucher', 1),
-	(3, 'Other...', 1);
-/*!40000 ALTER TABLE `transaction_mode` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.users
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `use_id` int(11) NOT NULL AUTO_INCREMENT,
-  `use_name` varchar(45) DEFAULT NULL,
-  `use_gro_id` int(11) DEFAULT NULL,
-  `status` bit(1) DEFAULT b'1',
-  `use_password` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`use_id`),
-  UNIQUE KEY `use_name_UNIQUE` (`use_name`),
-  KEY `use_group` (`use_gro_id`),
-  CONSTRAINT `use_group` FOREIGN KEY (`use_gro_id`) REFERENCES `user_groups` (`gro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.users: ~4 rows (approximately)
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`use_id`, `use_name`, `use_gro_id`, `status`, `use_password`) VALUES
-	(1, 'admin', 1, '', '21232f297a57a5a743894a0e4a801fc3'),
-	(2, 'account', 3, '', 'e268443e43d93dab7ebef303bbe9642f'),
-	(3, 'vannak', 2, '', 'd96783d6bc86fb4d4a1b6cdacbfa9dc5'),
-	(4, 'eddddd', 1, '', '25f9e794323b453885f5181f1b624d0b');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.user_groups
-DROP TABLE IF EXISTS `user_groups`;
-CREATE TABLE IF NOT EXISTS `user_groups` (
-  `gro_id` int(11) NOT NULL AUTO_INCREMENT,
-  `gro_name` varchar(45) DEFAULT NULL,
-  `status` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`gro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.user_groups: ~3 rows (approximately)
-/*!40000 ALTER TABLE `user_groups` DISABLE KEYS */;
-INSERT INTO `user_groups` (`gro_id`, `gro_name`, `status`) VALUES
-	(1, 'admin', ''),
-	(2, 'Acount', ''),
-	(3, 'Teller', '');
-/*!40000 ALTER TABLE `user_groups` ENABLE KEYS */;
-
-
-# Dumping structure for table loan_khmer.villages
-DROP TABLE IF EXISTS `villages`;
-CREATE TABLE IF NOT EXISTS `villages` (
-  `vil_id` int(11) NOT NULL AUTO_INCREMENT,
-  `vil_com_id` int(10) unsigned DEFAULT NULL,
-  `vil_en_name` varchar(80) NOT NULL,
-  `vil_kh_name` varchar(80) DEFAULT NULL,
-  `status` binary(1) DEFAULT '1',
-  PRIMARY KEY (`vil_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-# Dumping data for table loan_khmer.villages: ~0 rows (approximately)
-/*!40000 ALTER TABLE `villages` DISABLE KEYS */;
-/*!40000 ALTER TABLE `villages` ENABLE KEYS */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
