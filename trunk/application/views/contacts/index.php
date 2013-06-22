@@ -1,3 +1,4 @@
+<!-- Author: Vannak -->
 <?php
 echo form_open('',array('name'=>'frm_contact','id'=>'frm_contact'));
 echo control_manager();
