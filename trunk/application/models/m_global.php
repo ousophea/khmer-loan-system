@@ -347,6 +347,25 @@ class m_global extends CI_Model{
 	 */
 	 public function insert_id(){
 	 	return $this->db->insert_id();
-	 }	 
+	 }
+	 
+	 /**
+	  * Function select to get one field value return string
+	  */
+	 function select_string($table,$field,$arr_where){
+	 	if(!is_array($arr_where) || count($arr_where) <= 0) return '';
+		$this->db->select($field);
+		foreach($arr_where as $fields => $value){
+			$this->db->where($fields,$value);
+		}
+		$this->db->limit(1);
+		$query = $this->db->get($table);
+		if($query->num_rows() > 0){
+			$results = $query->row_array();
+			return $results[$field];
+		}else{
+			return '';
+		}
+	 }
 }
 ?>

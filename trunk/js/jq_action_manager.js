@@ -20,6 +20,9 @@ jq(document).ready(function(){
         	alert('Please make sure you have selected the item to be edited and the item selected must be only one!');
         	return false;
         }
+    	jq('#frm_contact').attr('action','contacts/edit');
+    	jq('#frm_contact').submit();
+    	return false;
 	});
 	
 	//work for delete record manager
@@ -32,6 +35,9 @@ jq(document).ready(function(){
         	alert('Please make sure you have selected the item to be edited and the item selected must be only one!');
         	return false;
         }
+        jq('#frm_contact').attr('action','contacts/delete');
+    	jq('#frm_contact').submit();
+    	return false;
 	});
 	
 	//check all / uncheck all
@@ -58,28 +64,6 @@ jq(document).ready(function(){
 		jq('#'+name).remove();
 	});
 	
-	//check radio box if selected
-	jq('input[name="txt_con_group"]').click(function(){
-		if(jq(this).val() == 'group'){
-			var html = '<fieldset><legend>Group Member 1</legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_group">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_group[]"></td><td><label for="lbl_con_kh_last_name_group">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_group[]"></td><td><label for="lbl_con_kh_nick_name_group">Nick Name in Khmer</label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_en_first_name_group">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_group[]"></td><td><label for="lbl_con_en_last_name_group">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_group[]"></td><td><label for="lbl_con_en_nick_name_group">Nick Name in English</label><input type="text" value="" name="txt_con_en_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_sex_group">Sex <span>*</span></label><select name="txt_con_sex_group[]"><option value="m">Male</option><option value="f">Female</option></select></td><td><label for="lbl_con_national_identity_card_group">Identity Card / Passport <span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_group[]"></td><td><label for="lbl_con_phone_group">Phone <span>*</span></label><input type="text" value="" name="txt_con_phone_group[]"></td></tr></table></fieldset>';
-			jq('#container_group').html(html);
-			jq('#add_more_group').css('display','block');
-		}else{
-			jq('#container_group').empty();
-			jq('#add_more_group').css('display','none');
-		}
-	});
-	
-	//add more group member form
-	var group_index = 2;
-	jq('#add_more_group').click(function(){
-		if (group_index > 5) return false;
-		var html = '<fieldset id="fieldset_'+group_index+'"><legend>Group Member '+group_index+' <span class="btn_remove_group" style="cursor: pointer;" name="fieldset_'+group_index+'"><img src="../images/trash.png" alt="" /></span></legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_group">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_group[]"></td><td><label for="lbl_con_kh_last_name_group">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_group[]"></td><td><label for="lbl_con_kh_nick_name_group">Nick Name in Khmer</label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_en_first_name_group">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_group[]"></td><td><label for="lbl_con_en_last_name_group">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_group[]"></td><td><label for="lbl_con_en_nick_name_group">Nick Name in English</label><input type="text" value="" name="txt_con_en_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_sex_group">Sex <span>*</span></label><select name="txt_con_sex_group[]"><option value="m">Male</option><option value="f">Female</option></select></td><td><label for="lbl_con_national_identity_card_group">Identity Card / Passport <span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_group[]"></td><td><label for="lbl_con_phone_group">Phone <span>*</span></label><input type="text" value="" name="txt_con_phone_group[]"></td></tr></table></fieldset>';
-		jq('#container_group').append(html);
-		group_index++;
-		return false;
-	});
-	
 	//remove group after added
 	jq('.btn_remove_group').live('click',function(){
 		var name = jq(this).attr('name');
@@ -92,5 +76,9 @@ jq(document).ready(function(){
 		return false;
 	});
 	
+	//form action edit manager
+	jq('#edit_manager').click(function(){
+		
+	});
 	
 });

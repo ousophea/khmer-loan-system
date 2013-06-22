@@ -247,5 +247,35 @@ jq(document).ready(function() {
 			jq('#ajax_village').html(data);
 		});
 	});
+	
+	//check radio box if selected
+	jq('input[name="txt_con_group"]').click(function(){
+		<?php
+		$options_job = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_job_group[]',$arr_option_job));
+		$options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_group[]',$arr_option_income));
+		?>
+		if(jq(this).val() == 'group'){
+			var html = '<fieldset><legend>Group Member 1</legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_group">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_group[]"></td><td><label for="lbl_con_kh_last_name_group">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_group[]"></td><td><label for="lbl_con_kh_nick_name_group">Nick Name in Khmer</label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_en_first_name_group">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_group[]"></td><td><label for="lbl_con_en_last_name_group">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_group[]"></td><td><label for="lbl_con_en_nick_name_group">Nick Name in English</label><input type="text" value="" name="txt_con_en_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_sex_group">Sex <span>*</span></label><select name="txt_con_sex_group[]"><option value="m">Male</option><option value="f">Female</option></select></td><td><label for="lbl_con_national_identity_card_group">Identity Card / Passport <span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_group[]"></td><td><label for="lbl_con_job_group">Job<span>*</span></label>'+'<?php echo $options_job; ?>'+'</td></tr><tr><td><label for="lbl_con_income_group">Income Per Month<span>*</span></label>'+'<?php echo $options_income; ?>'+'</td><td><label for="lbl_con_phone_group">Phone <span>*</span></label><input type="text" value="" name="txt_con_phone_group[]"></td></tr></table></fieldset>';
+			jq('#container_group').html(html);
+			jq('#add_more_group').css('display','block');
+		}else{
+			jq('#container_group').empty();
+			jq('#add_more_group').css('display','none');
+		}
+	});
+	
+	//add more group member form
+	var group_index = 2;
+	jq('#add_more_group').click(function(){
+		<?php
+		$options_job = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_job_group[]',$arr_option_job));
+		$options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_group[]',$arr_option_income));
+		?>
+		if (group_index > 5) return false;
+		var html = '<fieldset id="fieldset_'+group_index+'"><legend>Group Member '+group_index+' <span class="btn_remove_group" style="cursor: pointer;" name="fieldset_'+group_index+'"><img src="../images/trash.png" alt="" /></span></legend><table border="0" width="100%"><tr><td><label for="lbl_con_kh_first_name_group">Family Name in Khmer <span>*</span></label><input type="text" value="គោត្តនាម" name="txt_con_kh_first_name_group[]"></td><td><label for="lbl_con_kh_last_name_group">Sure Name in Khmer <span>*</span></label><input type="text" value="នាម" name="txt_con_kh_last_name_group[]"></td><td><label for="lbl_con_kh_nick_name_group">Nick Name in Khmer</label><input type="text" value="នាមហៅក្រៅ" name="txt_con_kh_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_en_first_name_group">Family Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_first_name_group[]"></td><td><label for="lbl_con_en_last_name_group">Sure Name in English <span>*</span></label><input type="text" value="" name="txt_con_en_last_name_group[]"></td><td><label for="lbl_con_en_nick_name_group">Nick Name in English</label><input type="text" value="" name="txt_con_en_nick_name_group[]"></td></tr><tr><td><label for="lbl_con_sex_group">Sex <span>*</span></label><select name="txt_con_sex_group[]"><option value="m">Male</option><option value="f">Female</option></select></td><td><label for="lbl_con_national_identity_card_group">Identity Card / Passport <span>*</span></label><input type="text" value="" name="txt_con_national_identity_card_group[]"></td><td><label for="lbl_con_job_group">Job<span>*</span></label>'+'<?php echo $options_job; ?>'+'</td></tr><tr><td><label for="lbl_con_income_group">Income Per Month<span>*</span></label>'+'<?php echo $options_income; ?>'+'</td><td><label for="lbl_con_phone_group">Phone <span>*</span></label><input type="text" value="" name="txt_con_phone_group[]"></td></tr></table></fieldset>';
+		jq('#container_group').append(html);
+		group_index++;
+		return false;
+	});
 });
 </script>

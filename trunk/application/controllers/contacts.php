@@ -45,7 +45,9 @@ class Contacts extends CI_Controller {
 				'con_sex' => $this->input->post('txt_con_sex'),
 				'con_national_identity_card' => $this->input->post('txt_con_national_identity_card'),
 				'con_con_job_id' => $this->input->post('txt_con_job'),
-				'con_con_inc_id' => $this->input->post('txt_con_income')
+				'con_con_inc_id' => $this->input->post('txt_con_income'),
+				'con_use_id' => $this->session->userdata('use_id'),
+				'con_bra_id' => $this->session->userdata('bra_id')
 			);
 			$this->m_global->insert('contacts',$arr_contact);
 			//update cid
@@ -89,7 +91,9 @@ class Contacts extends CI_Controller {
 					'con_sex' => (($this->input->post('txt_con_sex')=='m')?'f':'m'),
 					'con_national_identity_card' => $this->input->post('txt_con_national_identity_card_couple'),
 					'con_con_job_id' => $this->input->post('txt_con_job_couple'),
-					'con_con_inc_id' => $this->input->post('txt_con_income_couple')
+					'con_con_inc_id' => $this->input->post('txt_con_income_couple'),
+					'con_use_id' => $this->session->userdata('use_id'),
+					'con_bra_id' => $this->session->userdata('bra_id')
 				);
 				$this->m_global->insert('contacts',$arr_contact_couple);
 				//get last id of couple
@@ -114,6 +118,8 @@ class Contacts extends CI_Controller {
 				$con_en_last_name_group = $this->input->post('txt_con_en_last_name_group');
 				$con_en_nick_name_group = $this->input->post('txt_con_en_nick_name_group');
 				$con_sex_group = $this->input->post('txt_con_sex_group');
+				$con_con_job_group = $this->input->post('txt_con_job_group');
+				$con_con_inc_group = $this->input->post('txt_con_income_group');
 				$con_phone_group = $this->input->post('txt_con_phone_group');
 				$con_national_identity_card_group = $this->input->post('txt_con_national_identity_card_group');
 				if(count($con_en_first_name_group) > 0){
@@ -126,8 +132,12 @@ class Contacts extends CI_Controller {
 							'con_kh_first_name' => $con_kh_first_name_group[$key],
 							'con_kh_last_name' => $con_kh_last_name_group[$key],
 							'con_kh_nickname' => $con_kh_nick_name_group[$key],
+							'con_con_job_id' => $con_con_job_group[$key],
+							'con_con_inc_id' => $con_con_inc_group[$key],
 							'con_sex' => $con_sex_group[$key],
-							'con_national_identity_card' => $con_national_identity_card_group[$key]
+							'con_national_identity_card' => $con_national_identity_card_group[$key],
+							'con_use_id' => $this->session->userdata('use_id'),
+							'con_bra_id' => $this->session->userdata('bra_id')
 						);
 						$this->m_global->insert('contacts',$arr_contact_group);
 						$last_id_contact_group = $this->m_global->insert_id();
@@ -149,11 +159,22 @@ class Contacts extends CI_Controller {
 	}
 	
 	public function edit(){
-		
+		$id = $this->input->post('check_select');
+		$id = $id[0];
+		$cid = $this->m_global->select_string('contacts','con_cid',array('con_id'=>$id));
+		$data['title'] = 'Contacts Manager : Edit ('.$cid.')';
+		$test = $this->m_global->select_join('contacts',array('contacts_type' => array('con_con_typ_id' => 'con_typ_id'),'contacts_detail' => array('con_id' => 'con_det_con_id'), 'contacts_job' => array('con_con_job_id' => 'con_job_id'), 'contacts_income' => array('con_con_inc_id' => 'con_inc_id')), 'inner', array('con_id' => $id), 1);
+		var_dump($test); die();
+		$data['contact_owner'] = $this->m_global->select_join('contacts',array('contacts_type' => array('con_con_typ_id' => 'con_typ_id'),'contacts_detail' => array('con_id' => 'con_det_con_id'), 'contacts_job' => array('con_con_job_id' => 'con_job_id'), 'contacts_income' => array('con_con_inc_id' => 'con_inc_id')), 'inner', array('con_id' => $id), 1);
+		$data['query_job'] = $this->m_global->select_status('contacts_job');
+		$data['query_income'] = $this->m_global->select_status('contacts_income');
+		$data['query_pronvince'] = $this->m_global->select_all('provinces');
+		$this->load->view(MAIN_MASTER,$data);
 	}
 	
 	public function delete(){
-		
+		$arr_id = $this->input->post('check_select');
+		var_dump($arr_id); die();
 	}
 }
  
