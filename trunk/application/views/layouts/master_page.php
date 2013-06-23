@@ -69,15 +69,27 @@ $dbf = new dbf();
                     <!-- Remove inline style when switching back to regular logo-->
                     <div id="logo"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php echo base_url();
                         echo IMAGES_PATH; ?>logo.png" alt="Logo"></a></div>
+                    <div id="logo"> <a href="#"> <img title="" class="logo" src="<?php
+                                                      echo base_url();
+                                                      echo Variables::$images_path;
+?>logo.png" alt="Logo"></a></div>
+
                     <!-- Menu -->
                     <div class="dropdown">
                         <ul class="main-menu">
-                            <li id="pan" class="off <?php echo (segment(1) == "panel") ? 'current' : '' ?>" ><a href="<?php echo site_url('panel'); ?>">Panel</a></li>
+<<<<<<< .mine                            <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "panel") ? 'current' : '' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
+                            <?php if(strtolower($this->session->userdata('gro_name'))==  strtolower(TELLER)){ ?>
+                            <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>Cashs" >Tiller Cash</a></li>
+                            <?php } ?>
+                            <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>
+                            <li id="tew" class="off <?php echo (($this->uri->segment(1)) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>
+                            <li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>
+=======                            <li id="pan" class="off <?php echo (segment(1) == "panel") ? 'current' : '' ?>" ><a href="<?php echo site_url('panel'); ?>">Panel</a></li>
                             <li id="pan" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>
                             <li id="graa" class="off <?php echo (segment(1) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>
                             <li id="tew" class="off <?php echo (segment(1) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo site_url('receivecashs'); ?>">Receive Cash</a></li>
                             <li id="cla" class="off <?php echo (segment(1) == "saving") ? 'current' : '' ?>"><a href="<?php echo site_url('saving'); ?>">Loan/Saving</a></li>
-
+>>>>>>> .theirs
                             <li class="off"> 
                                 <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> Reports <b class="caret"></b> </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -108,7 +120,7 @@ $dbf = new dbf();
             <div id="content">
                 <div class="wraper-control">
 <?php echo $this->session->flashdata('error'); ?>
-                    <legend><?php echo (!empty($title)) ? $title : 'Untitle'; ?></legend>
+                    <legend><?php echo (!empty($title)) ? $title : 'Untitle'; ?><i id="loader" class="icon-loader" style="display: none;"></i></legend>
 <?php $this->load->view(segment(1) . '/' . ((segment(2)) ? segment(2) : 'index')); ?>
                 </div>
             </div>
@@ -121,6 +133,7 @@ $dbf = new dbf();
                         (function(jq) {
                             jq(function() {
                                  jq('.dropdown-toggle').dropdown();
+                                 //jq('.btn').click(function(){jq('#loader').show();});
                             });
                         })(jQuery);
            
