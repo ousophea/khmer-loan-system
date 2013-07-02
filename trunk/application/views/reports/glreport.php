@@ -89,6 +89,9 @@ echo "</div>";
             //jq('form#search_form').on('submit',true);
             //jq('form#search_form').submit();
             //
+            //===========View loading==============//
+            jq('#tbl_trn_data').html("<h1>Loding...</h1>");
+            
             var sta_date = jq('#txt_sta_date').val();
             var end_date = jq('#txt_end_date').val();
 
@@ -116,6 +119,7 @@ echo "</div>";
                     data: form_data,
                     success: function(output_string){
                         jq("#tbl_trn_data").html(output_string);
+                        
                     }
                 
                 });
