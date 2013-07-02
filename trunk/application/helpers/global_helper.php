@@ -86,10 +86,12 @@ function start_form_model($col) {
     echo'<div class="form-model">';
     if ($col == 1) {
         echo '<div class="row col1">';
+        echo'<div class="span7">';
     } else {
         echo '<div class="row">';
+        echo'<div class="span5">';
     } 
-    echo'<div class="span5">';
+    
 }
 
 function close_form_model() {
@@ -169,8 +171,9 @@ function field($field_type,$field_name,$label=NULL,$field_value=NULL,$arr_field_
         case 'radio':
             if(is_array($arr_field_attribute) && array_key_exists('radio_list', $arr_field_attribute)){
                 foreach($arr_field_attribute['radio_list'] as $text => $value){
-                   echo'<label class="radio">';
-                    echo form_radio($field_name,$validate,(($field_value==$value)?TRUE:FALSE),$attributes);
+                   echo'<label class="radio inline">';
+                    echo form_radio($field_name,$value,FALSE,$attributes);
+//                     echo form_radio($field_name,$validate,(($field_value==$value)?TRUE:FALSE),$attributes);
                     echo ' '.$text.' ';
                     echo'</label>';
                 }
@@ -206,4 +209,44 @@ function field($field_type,$field_name,$label=NULL,$field_value=NULL,$arr_field_
     echo '  </div>';
     echo '</div>';  
 }
+
+function table_gl($table_object, $arr_column, $control = FALSE,$total_debit=NULL,$total_credit=NULL) {
+        if (!is_array($arr_column) || count($arr_column) <= 0)
+            return FALSE;
+        $string_table = form_open('', array('name' => 'form_manager'));
+        $string_table .= '<table class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">';
+
+        //start write table header
+        $string_table .= '<tr clas="tbl_header">';
+        if ($control)
+            $string_table .= '<th><input type="checkbox" class="check_all" /></th>';
+        foreach ($arr_column as $header => $column) {
+            $string_table .= '<th>' . $header . '</th>';
+        }
+        $string_table .= '</tr>';
+
+        //start write table data
+        if ($table_object->num_rows() > 0) {
+            foreach ($table_object->result() as $arr_data) {
+                $string_table .= '<tr>';
+//                $check_first = TRUE;
+                foreach ($arr_column as $column) {
+//                    if ($check_first) {
+//                        if ($control)
+//                            $string_table .= '<td><input type="checkbox" class="check" name="check_select[]" value="' . $arr_data->$column . '" /></td>';
+//                        $check_first = FALSE;
+//                    }
+                    $string_table .= '<td>' . $arr_data->$column . '</td>';
+                }
+                $string_table .= '</tr>';
+            }
+            $string_table .="<tr id='total_gl'><td colspan='5'>Total:</td><td>$total_debit</td><td>$total_credit</td><td></td></tr>";
+        }else {
+            $string_table .= '<tr><td colspan="' . count($arr_column) . '"><p class="no_record">There is no record.</p></td></tr>';
+        }
+        $string_table .= '</table>';
+        $string_table .= form_close();
+        return $string_table;
+    }
+
 ?>

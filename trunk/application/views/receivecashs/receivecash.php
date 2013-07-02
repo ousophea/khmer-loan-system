@@ -96,27 +96,26 @@ close_form_model();
 echo '</div>';
 ?>
 <script type="text/javascript" language="JavaScript">
-    var jq = jQuery.noConflict();
-    jq(document).ready(function(){
+    var jq_code = jQuery.noConflict();
+    jq_code(document).ready(function(){
         
-        jq('#btn_search_cid').click(function(){
-            var this_url = jq(this).attr('href');
-            var getCid = jq("#cid").val();
-            
+        jq_code('#btn_search_cid').click(function(){
+            var this_url = jq_code(this).attr('href');
+            var getCid = jq_code("#cid").val();
             if(getCid == null || getCid == '') return false;
             var form_data = {
                 cid : getCid
             };
             
             // Using ajax to get account info from data by CID 
-            jq.ajax({ 
+            jq_code.ajax({ 
                 url: this_url,
                 type: 'POST',
                 async : false,
                 data: form_data,
                 success: function(output_string){
-                    jq('#c_info').html(output_string);
-                    jq('').html(output_string);
+                    jq_code('#c_info').html(output_string);
+                    jq_code('').html(output_string);
                 }
                 
             });
@@ -124,32 +123,32 @@ echo '</div>';
         });
         
          
-        jq('#btn_search_gl').click(function(){
-            var arr_gl_val = (jq('#gl_code').val()).split(':');
-            jq('#form_gl_account').submit();
+        jq_code('#btn_search_gl').click(function(){
+            var arr_gl_val = (jq_code('#gl_code').val()).split(':');
+            jq_code('#form_gl_account').submit();
 //            
             if(arr_gl_val[0] || arr_gl_val[0]!=""){
-                var this_url = jq(this).attr('href');
+                var this_url = jq_code(this).attr('href');
                 
                 var getGlid = arr_gl_val[0];
                 if(getGlid == null || getGlid == '') return false;
             var form_data = {
                 glCode : getGlid
             };
-                jq.ajax({ 
+                jq_code.ajax({ 
                     url: this_url,
                     type: 'POST',
                     async : false,
                     data: form_data,
                     success: function(output_string){
-                        jq('#gl_info').html(output_string);
+                        jq_code('#gl_info').html(output_string);
                     }
                 
                 });
 
             }else{
                 alert("Don't have GL Code is require..!");
-                jq('#gl_code').focus();
+                jq_code('#gl_code').focus();
             }
             return false;
         });

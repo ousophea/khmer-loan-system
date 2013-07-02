@@ -26,11 +26,15 @@ class cashs extends CI_Controller {
     }
     
     function cashin(){
+        //echo $this->m_cashs->cashin();
+        
         if($this->m_cashs->cashin()){
             echo json_encode(array('result' => 1));
         }
         else
             echo json_encode(array('result' => 0));
+        
+        //echo json_encode(array('result' => 1));
         
     }
     function cashout(){

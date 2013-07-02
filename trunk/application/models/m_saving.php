@@ -39,9 +39,9 @@ class m_saving extends CI_Model {
     }
     
     function get_contacts(){
-        $this->db->where('contacts.con_status',1);
+        $this->db->where('contacts.status',1);
         $this->db->join('contacts_detail','con_id=con_det_con_id');
-        $this->db->join('contact_type','con_typ_id=con_con_typ_id');
+        $this->db->join('contacts_type','con_typ_id=con_con_typ_id');
         $data = $this->db->get('contacts');
         $array = null;
         if($data->num_rows() > 0){
@@ -54,7 +54,7 @@ class m_saving extends CI_Model {
         $this->db->where('con_id',$con_cid);
         $this->db->where('con_status',1);
         $this->db->join('contacts_detail','con_id=con_det_con_id');
-        $this->db->join('contact_type','con_typ_id=con_con_typ_id');
+        $this->db->join('contacts_type','con_typ_id=con_con_typ_id');
         $query = $this->db->get('contacts');
         $data=null;
         foreach ($query->result() as $row){

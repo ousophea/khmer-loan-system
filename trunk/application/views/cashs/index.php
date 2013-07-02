@@ -76,6 +76,7 @@
             // 
             //---------- cashin
             $('#cashin').click(function() {
+                
                 var currency = $('[name="currency"]');
                 var amountin = $('[name="amountin"]');
                 
@@ -105,7 +106,7 @@
                         amountin: $('[name="amountin"]').val(),
                         currency: $('[name="currency"]').val()
                     },
-                    function(data) {
+                    function(data) { 
                         if (data.result == 1) {
                             alert('Cash in success');
                             amountin.val(0);

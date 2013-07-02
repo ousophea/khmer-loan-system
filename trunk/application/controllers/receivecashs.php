@@ -44,7 +44,7 @@ class receivecashs extends CI_Controller {
         $getCid = $this->input->post('cid');
 
         $query = $this->m_global->select_join('contacts', array(
-            'contact_type' => array('con_con_typ_id' => 'con_typ_id')
+            'contacts_type' => array('con_con_typ_id' => 'con_typ_id')
             , 'branch' => array('con_bra_id' => 'bra_id')
             , 'contacts_detail' => array('con_id' => 'con_det_con_id'))
                 , 'inner', array('con_id' => $getCid), 1);
