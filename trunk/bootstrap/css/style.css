@@ -272,6 +272,23 @@ input[type="submit"]{
     text-align: center !important;
 }
 
+/*=============== For form journal entry====================*/
+
+#journal_tra_info legend{
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 30px;
+    color: #828282;
+}
+#journal_tra_info textarea {
+    height: 40px;
+}
+
+#journal_entry{
+    background: #AFDE54;
+    color: red;
+    font-weight: bold;
+}
 /* ===== End Style for Tool bare controler === by Sophea  */
 form option, input{
 	font-family: 'kmSBBICsys' !important;
@@ -281,4 +298,26 @@ form option, input{
 	display: inline-block;
 	width: 30px;
 	height: 30px;
+}
+/* ===== End Style for Tool bare controler === by Sophea  */
+
+/* ========== Style for report table =============*/
+#total_gl{
+    font-weight:bold;
+}
+.search_tool_bar #txt_gl .control-group{
+    padding-left: 10px;
+    width: 300px;
+    border:solid 0px;
+}
+
+.search_tool_bar .control-group{
+    width: 100px;
+    border:solid 0px;
+}
+.search_tool_bar input[type="text"],.search_tool_bar select{
+    width:138px;
+}
+.search_tool_bar input[type="submit"]{
+    padding: 1px 14px;
 }
