@@ -7,7 +7,9 @@
 <div class="tools">
     <a class="btn btn-mini" href="open" title="Open new saving account"><i class="icon-plus-sign"></i>Open Saving</a>
     <span id="delete" class="btn btn-mini" title="Delete"><i class="icon-remove-sign"></i> Delete</span>
+    <span id="delete" class="print btn btn-mini" title="Print" print="listsaving"><i class="icon-print"></i> Print</span>
 </div>
+<div id="listsaving">
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -52,7 +54,7 @@
         ?>
     </tbody>
 </table>
-
+</div>
 <?php
 echo form_close();
 ?>
