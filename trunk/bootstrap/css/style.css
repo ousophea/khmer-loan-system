@@ -321,3 +321,7 @@ form option, input{
 .search_tool_bar input[type="submit"]{
     padding: 1px 14px;
 }
+
+.content-list{
+    overflow: scroll;
+}
