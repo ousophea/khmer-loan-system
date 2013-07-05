@@ -9,7 +9,7 @@
     <span id="delete" class="btn btn-mini" title="Delete"><i class="icon-remove-sign"></i> Delete</span>
     <span id="delete" class="print btn btn-mini" title="Print" print="listsaving"><i class="icon-print"></i> Print</span>
 </div>
-<div id="listsaving">
+<div class="content-list">
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -30,6 +30,8 @@
             <th>GL</th>
             <th>Interest rate</th>
             <th>Address</th>
+            <th>Sign rule</th>
+            <th>Signature</th>
         </tr>
     </thead>
     <tbody>
@@ -51,12 +53,14 @@
                     echo '<td>'.$row->gl_description.'</td>';
                     echo '<td>'.$row->sav_acc_interest_rate.'</td>';
                     echo '<td>'.$row->con_det_address_detail.'</td>';
+                    echo '<td>'.$row->sir_title.'</td>';
+                    echo '<td>'.  (($row->sav_acc_signature!=NULL)?img(array('src'=>'images/upload/'.$row->sav_acc_signature,'style="height:200px;"')):'').'</td>';
                     echo '</tr>';
                 }
             }
             else{
                 echo '<tr>';
-                echo '<td colspan="9">Emty</td>';
+                echo '<td colspan="13">Emty</td>';
                 echo '</tr>';
             }
         ?>

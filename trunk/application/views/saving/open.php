@@ -1,5 +1,5 @@
 <?php
-echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'open_saving'));
+echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'name' => 'open_saving'));
 //echo form_hidden('gl_list', $gl);
 ?>
 <div class="row form-model">
@@ -179,12 +179,24 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
         $data = null;
         $sign_rules = array(''=>'----');
         $data = array(
+            'type' => 'file', // input type='text'
+            'label' => 'Signature',
+            'validated' => 1,
+            'attr' => array(
+                'name' => 'userfile',
+                'upload'=>$upload
+            )
+        );
+        echo get_form($data);
+        $data = null;
+        $sign_rules = array(''=>'----');
+        $data = array(
             'type' => 'select', // input type='text'
-            'label' => 'Sing Rule',
+            'label' => 'Sign Rule',
             'validated' => 1,
             'attr' => array(
                 'name' => 'sign_rule',
-                'option'=>$sign_rules
+                'option'=>$signature_rule
             )
         );
         echo get_form($data);

@@ -35,6 +35,8 @@ class saving extends CI_Controller {
         $this->data['contacts'] = $contracts;
         $this->data['currency'] = $currency;
         $this->data['gl'] = $gl;
+        $this->data['signature_rule'] = $this->m_saving->find_signature_rule_for_dropdown();
+        $this->data['upload'] = 0;
 
         if ($product_type == NULL) {
             $this->session->set_flashdata('error', '<div class="alert alert-error">Saving product type is empty, please add new saving product type first.</div>');
@@ -50,12 +52,29 @@ class saving extends CI_Controller {
         $this->form_validation->set_rules('currency', 'Currency', 'required');
         $this->form_validation->set_rules('gl_id', 'GL code', 'required');
         $this->form_validation->set_rules('con_cid', 'CID', 'required');
+        $this->form_validation->set_rules('sign_rule', 'Sign Rule', 'required');
         //$this->form_validation->set_rules('dispayname', 'Display name', 'required');
         $this->form_validation->set_message('is_unique', 'CID "' . $this->input->post('con_cid') . '" already has saving account. Try another CID');
         if ($this->form_validation->run() == FALSE)
             $this->load->view(Variables::$layout_main, $this->data);
         else {
-            if ($this->m_saving->add()) {
+
+            $config['upload_path'] = './images/upload/';
+            $config['allowed_types'] = 'gif|jpg|png';
+            $config['max_size'] = 1024;
+            $config['max_width'] = 200;
+            $config['max_height'] = 200;
+            $this->load->library('upload', $config);
+            $this->load->library('image_lib');
+
+            if (!$this->upload->do_upload()) {
+                $data['upload'] = $this->upload->display_errors();
+                $this->load->view(Variables::$layout_main, $this->data);
+            }
+            // DB-------------
+            //-----------------
+            $file = $this->upload->data();
+            if ($this->m_saving->add($file['file_name'])) {
                 $this->session->set_flashdata('success', 'A saving account has been saved');
                 redirect('saving/lists');
             } else {
@@ -79,8 +98,8 @@ class saving extends CI_Controller {
         else
             echo json_encode(array('result' => 0));
     }
-    
-    function find_gl_by_product_type_id(){
+
+    function find_gl_by_product_type_id() {
         allows(array(Setting::$role0, Setting::$role1));
         $contact = $this->m_saving->find_gl_by_product_type_id($this->input->post('id'));
         if ($contact != NULL)

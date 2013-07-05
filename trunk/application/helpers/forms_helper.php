@@ -43,9 +43,9 @@ if (!function_exists('forms')) {
                 break;
             case 'file':
                 $html.= form_upload($array['attr']['name']);
-                if ($array['attr']['upload'] == 1)
-                    $html.= '<span class="error">' . $this->upload->display_errors() . '</span>';
-                //$name='userfile';
+                if ($array['attr']['upload'] != 0)
+                    $html.= '<span class="error">' . $array['attr']['upload'] . '</span>';
+                $name='userfile';
                 break;
             case 'textarea':
                 $html.= form_textarea($array['attr'],set_value($array['attr']['name']));

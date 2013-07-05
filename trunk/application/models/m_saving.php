@@ -14,18 +14,20 @@ class m_saving extends CI_Model {
 
     //put your code here
 
-    function add() {
+    function add($signature = NULL) {
         $data = array(
             'sav_acc_code' => '168-' . $this->input->post('con_cid') . '-' . $this->input->post('currency'),
             'sav_acc_sav_pro_typ_id' => $this->input->post('sav_acc_sav_pro_typ_id'),
-            'sav_acc_create_date'=>  date(),
+            'sav_acc_create_date'=> date('y-m-d h:i:s'),
             //'sav_acc_modified_date'=>now(),
             'sav_acc_reference' => '', //$this->input->post('sav_acc_reference'),
             'sav_acc_con_id' => $this->input->post('cid'),
             'sav_acc_gl_id' => $this->input->post('gl_id'),
             'sav_acc_cur_id' => $this->input->post('currency'),
+            'sav_acc_sig_rul_id' => $this->input->post('sign_rule'),
             'sav_use_id' => $this->session->userdata('use_id'),
             'sav_acc_interest_rate' => $this->session->userdata('interest_rate'),
+            'sav_acc_signature' => $signature,
         );
         if ($this->db->insert('saving_account', $data))
             return TRUE;
@@ -41,6 +43,7 @@ class m_saving extends CI_Model {
         $this->db->join('currency', 'sav_acc_cur_id=cur_id');
         $this->db->join('saving_product_type', 'sav_pro_typ_id=sav_acc_sav_pro_typ_id');
         $this->db->join('gl_list', 'sav_acc_gl_id=gl_id');
+        $this->db->join('signature_rule', 'sav_acc_sig_rul_id=sir_id');
         return $this->db->get();
     }
 
@@ -132,6 +135,21 @@ class m_saving extends CI_Model {
         if ($data->num_rows() > 0) {
             foreach ($data->result() as $row) {
                 $result[$row->cur_id] = $row->cur_title;
+            }
+            return $result;
+        }
+        else
+            return $result;
+    }
+    
+    function find_signature_rule_for_dropdown(){
+        $this->db->where('signature_rule.status',1);
+        $this->db->order_by('sir_title');
+        $data = $this->db->get('signature_rule');
+        $result[''] = '--- Select signature rule ---';
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $row) {
+                $result[$row->sir_id] = $row->sir_title;
             }
             return $result;
         }
