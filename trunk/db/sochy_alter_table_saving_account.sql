@@ -1,0 +1,1 @@
+ALTER TABLE `saving_account`  ADD COLUMN `sav_acc_interest_rate` DOUBLE NULL AFTER `sav_acc_cur_id`;
