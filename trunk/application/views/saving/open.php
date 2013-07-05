@@ -1,5 +1,6 @@
 <?php
 echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'open_saving'));
+//echo form_hidden('gl_list', $gl);
 ?>
 <div class="row form-model">
     <div class="form_model_style"></div>
@@ -16,9 +17,9 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
 
             echo form_hidden('_' . $row->con_cid, $row->con_id);
             if ($i == 0) {
-                $typethread .= '["' . $row->con_id . '"';
+                $typethread .= '["' . $row->con_cid . '"';
             } else {
-                $typethread .= ',"' . $row->con_id . '"';
+                $typethread .= ',"' . $row->con_cid . '"';
             }
             $i++;
         }
@@ -41,6 +42,7 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
             <div class="controls">
                 <?php
                 echo form_hidden('cid', set_value('cid'));
+                //echo form_hidden('con_cid', set_value('con_cid'));
                 echo '<span class="error">' . form_error('cid') . '</span>';
                 ?>
             </div>
@@ -95,6 +97,15 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
             'attr' => array(
                 'name' => 'sav_acc_sav_pro_typ_id',
                 'option' => $product_type
+            )
+        );
+        echo get_form($data);
+        $data = array(
+            'type' => 'text', // input type='text'
+            'label' => 'Interest Rate',
+            'attr' => array(
+                'name' => 'interest_rate',
+                'value'=>($this->input->post('interest_rate'))?$this->input->post('interest_rate'):'0.00'
             )
         );
         echo get_form($data);
@@ -154,13 +165,31 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
             'label' => 'GL Code',
             'validated' => 1,
             'attr' => array(
-                'name' => 'glcode',
-                'option' => $gl
+                'name' => 'gl_id',
+                'option'=>$gl
             )
         );
         echo get_form($data);
+        //echo form_hidden('gl_id');
 
         echo close_block();
+        
+        // Others
+        echo open_block('others', 'Others...');
+        $data = null;
+        $sign_rules = array(''=>'----');
+        $data = array(
+            'type' => 'select', // input type='text'
+            'label' => 'Sing Rule',
+            'validated' => 1,
+            'attr' => array(
+                'name' => 'sign_rule',
+                'option'=>$sign_rules
+            )
+        );
+        echo get_form($data);
+        echo close_block();
+        
         echo close_span();
 // End span5
         echo '</div>';
@@ -188,13 +217,13 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
                     var con_cid = $('#con_cid').val();
                     $('.btn').attr('disabled',true);
                     $('.btn i').addClass('icon-loader');
-                    
                     $.post(
                     uri[0]+"saving/find_contact_by_code",
                     {
                         'con_cid':con_cid
                     },
                     function(data){
+                        
                         $('.btn').removeAttr('disabled');
                         $('.btn i').removeClass('icon-loader');
                         $('.btn i').addClass('icon-search');
@@ -205,7 +234,9 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
                         else{
                             $('#dispayname').val(data.con_en_name);
                             $('[name="cid"]').val(data.con_id);
-                            $('[name="accountname"]').val(data.con_en_name);
+                            //$('[name="con_cid"]').val(data.con_cid);
+                            $('[name="dispayname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
+                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
                             $('[name="con_dob"]').val(data.con_dob);
                             $('[name="con_address"]').val(data.con_address);
                             $('[name="con_typ_title"]').val(data.con_typ_title);
@@ -216,6 +247,24 @@ echo form_open('saving/open', array('class' => 'form-horizontal', 'name' => 'ope
                 );
                 });
                 
+//                // select product type
+//                $('[name="sav_acc_sav_pro_typ_id"]').change(function(){
+//                    var id = $(this).val();
+//                    $.post(
+//                            uri[0]+"saving/find_gl_by_product_type_id",
+//                            {id:id},
+//                            function(data){
+//                                if(data.result = 1){
+//                                    $('[name="glcode"]').val(data.gl);
+//                                    $('[name="gl_id"]').val(data.gl_id);
+//                                }
+//                                else{
+//                                    alert("Product don't have any GL Code!!!");
+//                                }
+//                            },
+//                            'json'
+//                    );
+//                });
 
                 
                 

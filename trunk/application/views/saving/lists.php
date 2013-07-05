@@ -19,13 +19,17 @@
                 ?>
             </th>
             <th>Account CODE</th>
-            <th>English Name</th>
-            <th>Khmer Name</th>
+            <th>EN Name</th>
+            <th>KH Name</th>
+            <th>Gender</th>
+            <th>Identity Card</th>
             <th>Type</th>
             <th>Created</th>
             <th>Modified</th>
             <th>Currency</th>
             <th>GL</th>
+            <th>Interest rate</th>
+            <th>Address</th>
         </tr>
     </thead>
     <tbody>
@@ -36,13 +40,17 @@
                     echo '<tr>';
                     echo '<td>'.form_checkbox(array('class'=>'child_check','id'=>$row->sav_acc_id,'name'=>'child_check[]','value'=>$row->sav_acc_id)).'</td>';
                     echo '<td>'.$row->sav_acc_code.'</td>';
-                    echo '<td>'.$row->con_en_name.'</td>';
-                    echo '<td>'.$row->con_kh_name.'</td>';
+                    echo '<td>'.$row->con_en_last_name.' '.$row->con_en_first_name.'</td>';
+                    echo '<td>'.$row->con_kh_last_name.' '.$row->con_kh_first_name.'</td>';
+                    echo '<td>'.strtoupper($row->con_sex).'</td>';
+                    echo '<td>'.$row->con_national_identity_card.'</td>';
                     echo '<td>'.$row->sav_pro_typ_title.'</td>';
                     echo '<td>'.$row->sav_acc_create_date.'</td>';
                     echo '<td>'.$row->sav_acc_modified_date.'</td>';
                     echo '<td>'.$row->cur_title.'</td>';
                     echo '<td>'.$row->gl_description.'</td>';
+                    echo '<td>'.$row->sav_acc_interest_rate.'</td>';
+                    echo '<td>'.$row->con_det_address_detail.'</td>';
                     echo '</tr>';
                 }
             }

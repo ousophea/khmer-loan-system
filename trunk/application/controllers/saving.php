@@ -48,7 +48,7 @@ class saving extends CI_Controller {
         $this->form_validation->set_rules('cid', 'Contact information,Enter CID and click button search.', 'required|is_unique[saving_account.sav_acc_con_id]');
         $this->form_validation->set_rules('sav_acc_sav_pro_typ_id', 'Product type', 'required');
         $this->form_validation->set_rules('currency', 'Currency', 'required');
-        $this->form_validation->set_rules('glcode', 'GL code', 'required');
+        $this->form_validation->set_rules('gl_id', 'GL code', 'required');
         $this->form_validation->set_rules('con_cid', 'CID', 'required');
         //$this->form_validation->set_rules('dispayname', 'Display name', 'required');
         $this->form_validation->set_message('is_unique', 'CID "' . $this->input->post('con_cid') . '" already has saving account. Try another CID');
@@ -56,7 +56,7 @@ class saving extends CI_Controller {
             $this->load->view(Variables::$layout_main, $this->data);
         else {
             if ($this->m_saving->add()) {
-                $this->session->set_flashdata('success', 'A saving account has been save');
+                $this->session->set_flashdata('success', 'A saving account has been saved');
                 redirect('saving/lists');
             } else {
                 $this->load->view(Variables::$layout_main, $this->data);
@@ -74,6 +74,15 @@ class saving extends CI_Controller {
     function find_contact_by_code() {
         allows(array(Setting::$role0, Setting::$role1));
         $contact = $this->m_saving->find_contact_by_code($this->input->post('con_cid'));
+        if ($contact != NULL)
+            echo json_encode($contact);
+        else
+            echo json_encode(array('result' => 0));
+    }
+    
+    function find_gl_by_product_type_id(){
+        allows(array(Setting::$role0, Setting::$role1));
+        $contact = $this->m_saving->find_gl_by_product_type_id($this->input->post('id'));
         if ($contact != NULL)
             echo json_encode($contact);
         else
