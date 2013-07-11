@@ -97,7 +97,7 @@ class m_saving extends CI_Model {
     }
 
     function find_gl_code_for_dropdown() {
-
+        $data = $this->db->like('gl_description',"Savings");
         $data = $this->db->get('gl_list');
         $result[''] = '--- Select GL Code ---';
         if ($data->num_rows() > 0) {

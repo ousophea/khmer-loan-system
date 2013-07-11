@@ -37,12 +37,12 @@ $dbf = new dbf();
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'form.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'form_model.js'); ?>" ></script>
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'jq_action_manager.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'jquery.PrintArea.js'); ?>"></script>
-        
-        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'form.js'); ?>"></script>
-        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'form_model.js'); ?>" ></script>
-        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'jq_action_manager.js'); ?>"></script>
-        
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'jquery.PrintArea.js'); ?>"></script>
+
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'form.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'form_model.js'); ?>" ></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'jq_action_manager.js'); ?>"></script>
+
 
     </head>
 
@@ -53,8 +53,8 @@ $dbf = new dbf();
         <?php echo form_hidden('segment2', $this->uri->segment(2)); // for date paker get uri2  ?>
         <?php echo form_hidden('segment3', $this->uri->segment(3)); // for date paker get uri3 ?>
         <?php echo form_hidden('segment4', $this->uri->segment(4)); // for date paker get uri4 ?>
-        <?php echo form_hidden('print_css', base_url().'bootstrap/css/print.css'); // for date paker get uri4 ?>
-        
+        <?php echo form_hidden('print_css', base_url() . 'bootstrap/css/print.css'); // for date paker get uri4 ?>
+
         <?php echo form_close(); ?>
         <div id="wraper">
             <div class="header">
@@ -81,42 +81,51 @@ $dbf = new dbf();
                             echo IMAGES_PATH;
                             ?>logo.png" alt="Logo"></a></div>
                     <div id="logo"> <a href="#"> <img title="" class="logo" src="<?php
-                            echo base_url();
-                            echo Variables::$images_path;
+                                                                              echo base_url();
+                                                                              echo Variables::$images_path;
                             ?>logo.png" alt="Logo"></a></div>
 
                     <!-- Menu -->
                     <div class="dropdown">
                         <ul class="main-menu">
-                           <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "panel") ? 'current' : '' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
-                            <?php if(strtolower($this->session->userdata('gro_name'))==  strtolower(TELLER)){ ?>
-                            <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>Cashs" >Tiller Cash</a></li>
-                            <?php } ?>
-                          
+                            <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "panel") ? 'current' : '' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
+
                             <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(TELLER)) { ?>
-                                <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>Cashs" >Tiller Cash</a></li>
+                                <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>cashs" >Tiller Cash</a></li>
+                                <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "disbursments") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>disbursments" >Disbursment</a></li>
 
-                            <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
+                                    <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
 
-                            <li id="" class="off <?php echo (segment(1) == "paycashs") ? 'current' : '' ?>"><a href="<?php echo site_url('paycashs#form_other_expanse'); ?>" >Other Expense</a></li>
-                            <li id="tew" class="off <?php echo (($this->uri->segment(1)) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>
-                                <?php } else{?>
-                            <li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>
-                            <li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>
-                            
-                            <li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>
-                            <li class="off"> 
-                                <a class="dropdown-toggle" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> Reports <b class="caret"></b> </a>
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <li class="off <?php echo (segment(1) == "transaction") ? 'current' : '' ?>">
-                                        <a tabindex="-1" href="<?php echo site_url('reports/transaction'); ?>">Transaction report</a></li>
-                                    <li><a tabindex="-3" href="<?php echo site_url('reports/glreport'); ?>">GL report</a></li>
-                                    <li><a tabindex="-3" href="#">Another action</a></li>
-                                    <li><a tabindex="-4" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
+                                <li id="" class="off <?php echo (segment(1) == "paycashs") ? 'current' : '' ?>"><a href="<?php echo site_url('paycashs#form_other_expanse'); ?>" >Other Expense</a></li>
+                                <li id="tew" class="off <?php echo (($this->uri->segment(1)) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>
+                            <?php } else { ?>
+                                <li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>
+                                <li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>
 
-                            <li id="use" class="off <?php echo (segment(1) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>
+                                <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
+                                    <a class="dropdown-toggle"
+                                       data-toggle="dropdown"
+                                       href="#"> Loan/Saving <b class="caret"></b> </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>saving">Saving Account</a></li>
+                                        <li><a tabindex="-2" href="#">Loan Account</a></li>
+                                    </ul>
+                                </li>
+
+                                <!--<li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>-->
+
+                                <li class="off"> 
+                                    <a class="dropdown-toggle <?php echo (segment(1) == "reports") ? 'current' : '' ?>" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> Reports <b class="caret"></b> </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li class="off <?php echo (segment(1) == "transaction") ? 'current' : '' ?>">
+                                            <a tabindex="-1" href="<?php echo site_url('reports/transaction'); ?>">Transaction report</a></li>
+                                        <li><a tabindex="-3" href="<?php echo site_url('reports/glreport'); ?>">GL report</a></li>
+                                        <li><a tabindex="-3" href="#">Another action</a></li>
+                                        <li><a tabindex="-4" href="#">Something else here</a></li>
+                                    </ul>
+                                </li>
+
+                                <li id="use" class="off <?php echo (segment(1) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>
                             <?php } ?>
                             <li class="off dropdown <?php echo (segment(1) == "setting") ? 'current' : '' ?>"> 
                                 <a class="dropdown-toggle"
@@ -124,13 +133,13 @@ $dbf = new dbf();
                                    href="#"> Setting <b class="caret"></b> </a>
                                 <ul class="dropdown-menu">
                                     <li><a tabindex="-1" href="#">Change password</a></li>
-                                   <?php if (strtolower($this->session->userdata('gro_name')) != strtolower(TELLER)) { ?>
+                                    <?php if (strtolower($this->session->userdata('gro_name')) != strtolower(TELLER)) { ?>
                                         <li><a tabindex="-2" href="#">Database backup</a></li>
-                                      <?php } ?>
+                                    <?php } ?>
                                 </ul>
                             </li>
                         </ul>
-                        
+
                         <div class="clear"></div>
                         <!-- Sub Menu -->
 
@@ -142,7 +151,7 @@ $dbf = new dbf();
                 <div class="wraper-control">
                     <?php echo $this->session->flashdata('error'); ?>
                     <legend><?php echo (!empty($title)) ? $title : 'Untitle'; ?><i id="loader" class="icon-loader" style="display: none;"></i></legend>
-<?php $this->load->view(segment(1) . '/' . ((segment(2)) ? segment(2) : 'index')); ?>
+                    <?php $this->load->view(segment(1) . '/' . ((segment(2)) ? segment(2) : 'index')); ?>
                 </div>
             </div>
             <div id="top_footer"></div>
@@ -159,6 +168,6 @@ $dbf = new dbf();
             })(jQuery);
            
         </script>
-        <script type="text/javascript" src="<?php echo site_url(JS_PATH.'prints.js'); ?>"></script>
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'prints.js'); ?>"></script>
     </body>
 </html>

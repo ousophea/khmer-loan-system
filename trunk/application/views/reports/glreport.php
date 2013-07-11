@@ -52,6 +52,10 @@ field('text', 'txt_end_date', 'To Date :', NULL, array('attribute' => array('id'
 
 field("submit", 'btn_search', '&nbsp;', 'Search', array('attribute' => array('class' => 'btn', 'id' => 'btn_search')));
 
+
+//field("button", 'btn_search', '&nbsp;', 'Print', array('attribute' => array('class' => 'btn print', 'id' => 'btn_print','print'=>'tbl_trn_data')));
+
+
 //echo "</div>";
 //======== More search option==============
 //field('text', 'txt_trn_date', 'From Date :',NULL,array('attribute' => array('id' => 'txt_sta_date')));

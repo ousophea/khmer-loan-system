@@ -206,7 +206,8 @@ class m_global extends CI_Model {
             }
         }
         return $this->db->get();
-        //return $this->db->last_query();
+//        $this->db->get();
+//        return $this->db->last_query();
     }
 
     //GROUP OF FUNCTIONS QUERY TO INSERT//

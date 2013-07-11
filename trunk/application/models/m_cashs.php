@@ -24,12 +24,12 @@ class m_cashs extends CI_Model {
                     $this->db->where('til_tel_id', $this->session->userdata('use_id'));
                     $this->db->where('til_cur_id', $this->input->post('currency'));
                     $fields = array(
-                        'til_debit' => $this->input->post('amountin') + $row->til_debit,
+                        'til_credit' => $this->input->post('amountin') + $row->til_credit,
                         'til_modifide_date' => date('Y-m-d h:i:s')
                     );
                     if ($this->db->update('tiller', $fields)) {
                         $tran = array(
-                            'tra_debit' => $this->input->post('amountin'),
+                            'tra_credit' => $this->input->post('amountin'),
                             'tra_cur_id' => $this->input->post('currency'),
                             'tra_date' => date('Y-m-d h:i:s'),
                             'tra_value_date' => date('Y-m-d h:i:s'),
@@ -54,7 +54,7 @@ class m_cashs extends CI_Model {
                 );
                 if ($this->db->insert('tiller', $fields)) {
                     $tran = array(
-                        'tra_debit' => $this->input->post('amountin'),
+                        'tra_credit' => $this->input->post('amountin'),
                         'tra_cur_id' => $this->input->post('currency'),
                         'tra_date' => date('Y-m-d h:i:s'),
                         'tra_value_date' => date('Y-m-d h:i:s'),
@@ -90,12 +90,12 @@ class m_cashs extends CI_Model {
                     $this->db->where('til_tel_id', $this->session->userdata('use_id'));
                     $this->db->where('til_cur_id', $this->input->post('currencyout'));
                     $fields = array(
-                        'til_credit' => $this->input->post('amountout') + $row->til_debit,
+                        'til_debit' => $row->til_debit - $this->input->post('amountout'),
                         'til_modifide_date' => date('Y-m-d h:i:s')
                     );
                     if ($this->db->update('tiller', $fields)) {
                         $tran = array(
-                            'tra_credit' => $this->input->post('amountout'),
+                            'tra_debit' => $this->input->post('amountout'),
                             'tra_cur_id' => $this->input->post('currencyout'),
                             'tra_date' => date('Y-m-d h:i:s'),
                             'tra_value_date' => date('Y-m-d h:i:s'),
@@ -113,13 +113,13 @@ class m_cashs extends CI_Model {
                 }
             } else {
                 $fields = array(
-                    'til_credit' => $this->input->post('amountout'),
+                    'til_debit' => $this->input->post('amountout'),
                     'til_cur_id' => $this->input->post('currencyout'),
                     'til_tel_id' => $this->session->userdata('use_id'),
                 );
                 if ($this->db->insert('tiller', $fields)) {
                     $tran = array(
-                        'tra_credit' => $this->input->post('amountout'),
+                        'tra_debit' => $this->input->post('amountout'),
                         'tra_cur_id' => $this->input->post('currencyout'),
                         'tra_date' => date('Y-m-d h:i:s'),
                         'tra_value_date' => date('Y-m-d h:i:s'),

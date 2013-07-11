@@ -291,13 +291,13 @@ input[type="submit"]{
 }
 /* ===== End Style for Tool bare controler === by Sophea  */
 form option, input{
-	font-family: 'kmSBBICsys' !important;
+    font-family: 'kmSBBICsys' !important;
 }
 #ajax_add_commune{
-	background: url("../../images/ui-icons_222222_256x240.png");
-	display: inline-block;
-	width: 30px;
-	height: 30px;
+    background: url("../../images/ui-icons_222222_256x240.png");
+    display: inline-block;
+    width: 30px;
+    height: 30px;
 }
 /* ===== End Style for Tool bare controler === by Sophea  */
 
@@ -324,4 +324,23 @@ form option, input{
 
 .content-list{
     overflow: scroll;
+}
+
+#disbursment_form .form-model .col1{
+
+    margin:0 auto;
+    width:70%;
+
+}
+
+#disbursment_form .form-model .col1 .span7{
+    width:649px;
+
+}
+#disbursment_form .form-model .btn_back {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 0;
+    padding: 6px 15px;
+    text-align: center;
 }
