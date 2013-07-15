@@ -105,10 +105,24 @@ $dbf = new dbf();
                                 <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
                                     <a class="dropdown-toggle"
                                        data-toggle="dropdown"
-                                       href="#"> Loan/Saving <b class="caret"></b> </a>
+                                       href="#"> Saving <b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>saving">Saving Account</a></li>
-                                        <li><a tabindex="-2" href="#">Loan Account</a></li>
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>saving">New Saving Acc</a></li>
+                                        <li><a tabindex="-2" href="#">View Saving Acc</a></li>
+                                        <li><a tabindex="-2" href="#">Edit Saving Acc</a></li>
+                                        <li><a tabindex="-2" href="#">Close Saving Acc</a></li>
+                                    </ul>
+                                </li>
+                                
+                                <li class="off dropdown <?php echo (segment(1) == "loan") ? 'current' : '' ?>"> 
+                                    <a class="dropdown-toggle"
+                                       data-toggle="dropdown"
+                                       href="#"> Loan Acc <b class="caret"></b> </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>loan">New Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="#">View Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="#">Edit Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="#">Close Loan Acc</a></li>
                                     </ul>
                                 </li>
 
