@@ -1,16 +1,9 @@
 <?php
-if(!empty($upload))
-    echo '<div class="alert alert-error">' . $upload . '</div>';
 echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'name' => 'open_saving'));
 //echo form_hidden('gl_list', $gl);
 ?>
 <div class="row form-container">
     <div class="form_model_style"></div>
-    <div class="span12">
-        <div class="tools">
-            <a class="btn btn-mini" href="<?php echo base_url() . 'saving/lists'; ?>" title="Add new"><i class="icon-circle-arrow-left"></i> List saving accounts</a>
-        </div>
-    </div>
     <div>
         <?php
         $i = 0;
@@ -44,7 +37,6 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
             <div class="controls">
                 <?php
                 echo form_hidden('cid', set_value('cid'));
-                //echo form_hidden('con_cid', set_value('con_cid'));
                 echo '<span class="error">' . form_error('cid') . '</span>';
                 ?>
             </div>
@@ -56,6 +48,7 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
             'attr' => array(
                 'name' => 'dispayname',
                 'disabled' => 'disabled',
+                'class'=>'span3'
             )
         );
         echo get_form($data);
@@ -68,15 +61,6 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
             )
         );
         echo get_form($data);
-//        $data = array(
-//            'type' => 'text', // input type='text'
-//            'label' => 'HID',
-//            'attr' => array(
-//                'name' => 'hid',
-//                'disabled' => 'disabled',
-//            )
-//        );
-//        echo get_form($data);
         $data = array(
             'type' => 'textarea', // input type='text'
             'label' => 'Address',
@@ -93,12 +77,12 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
         echo open_block('product_detail', 'Product Detail');
         $product_type[''] = '---Select product type---';
         $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'Product type',
             'validated' => 1,
             'attr' => array(
                 'name' => 'sav_acc_sav_pro_typ_id',
-                'option' => $product_type
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
@@ -107,7 +91,7 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
             'label' => 'Interest Rate',
             'attr' => array(
                 'name' => 'interest_rate',
-                'value'=>($this->input->post('interest_rate'))?$this->input->post('interest_rate'):'0.00'
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
@@ -151,24 +135,25 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
             )
         );
         echo get_form($data);
+        $data = NULL;
         $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'Currency',
             'validated' => 1,
             'attr' => array(
                 'name' => 'currency',
-                'option' => $currency//array('' => '---Select currency---', 201 => 'USD($)', 202 => 'Real(៛)')
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
-
+        $data = NULL;
         $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'GL Code',
             'validated' => 1,
             'attr' => array(
                 'name' => 'gl_id',
-                'option'=>$gl
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
@@ -178,39 +163,36 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
         
         // Others
         echo open_block('others', 'Others...');
+        ?>
+        <div class="control-group">
+            <label class="control-label">Signature</label>
+            <div class="controls">
+                <?php echo img(array('class'=>'signature','id'=>'saving_signature'));?>
+            </div>
+        </div>  
+        <?php
+        //echo get_form($data);
         $data = null;
-        $style = '';
-        if(!empty($upload)) $style = 'color:red;';
+        $sign_rules = array(''=>'----');
         $data = array(
-            'type' => 'file', // input type='text'
-            'label' => '<span style="'.$style.'">Signature (max: 200x200px)</span>',
-            'validated' => 1,
-            'attr' => array(
-                'name' => 'userfile',
-                'upload'=>$upload
-            )
-        );
-        echo get_form($data);
-        $data = null;
-        $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'Sign Rule',
             'validated' => 1,
             'attr' => array(
                 'name' => 'sign_rule',
-                'option'=>$signature_rule
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
         echo close_block();
         
         echo close_span();
-// End span5
-        echo '</div>';
-        echo '<div class="span10"><div class="modal-footer">';
-        echo form_submit(array('name' => 'Save', 'class' => 'btn btn-success'), 'Confirm');
-        echo anchor('saving/lists', 'Cancel', 'class="btn"');
-        echo '</div></div>';
+//// End span5
+//        echo '</div>';
+//        echo '<div class="span10"><div class="modal-footer">';
+//        echo form_submit(array('name' => 'Save', 'class' => 'btn btn-success'), 'Confirm');
+//        echo anchor('saving/edit', 'Edit', 'class="btn"');
+//        echo '</div></div>';
         ?>
 
     </div>
@@ -232,7 +214,7 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
                     $('.btn').attr('disabled',true);
                     $('.btn i').addClass('icon-loader');
                     $.post(
-                    uri[0]+"saving/find_contact_by_code",
+                    uri[0]+"saving/find_saving_by_contact_id",
                     {
                         'con_cid':con_cid
                     },
@@ -249,18 +231,26 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
                             $('#dispayname').val(data.con_en_name);
                             $('[name="cid"]').val(data.con_id);
                             //$('[name="con_cid"]').val(data.con_cid);
-                            $('[name="dispayname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
+                            $('[name="dispayname"]').val(data.con_kh_last_name+ " "+data.con_kh_first_name);
                             $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
                             $('[name="con_dob"]').val(data.con_dob);
                             $('[name="con_address"]').val(data.con_address);
                             $('[name="con_typ_title"]').val(data.con_typ_title);
+                            $('[name="currency"]').val(data.cur_title);
+                            $('[name="sav_acc_sav_pro_typ_id"]').val(data.sav_pro_typ_title);
+                            $('[name="sign_rule"]').val(data.sir_title);
+                            $('[name="gl_id"]').val(data.gl_description);
+                            $('[name="interest_rate"]').val(data.sav_acc_interest_rate);
+                            $('#saving_signature').attr('src',uri[0]+'images/upload/'+data.sav_acc_signature);
                         }
                         
                     },
                     'json'
                 );
                 });
-
+                
+                
+                
                 
             });
         })(jQuery);

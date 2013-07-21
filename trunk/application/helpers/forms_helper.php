@@ -43,7 +43,7 @@ if (!function_exists('forms')) {
                 break;
             case 'file':
                 $html.= form_upload($array['attr']['name']);
-                if ($array['attr']['upload'] != 0)
+                if (!empty($array['attr']['upload']))
                     $html.= '<span class="error">' . $array['attr']['upload'] . '</span>';
                 $name='userfile';
                 break;
@@ -53,7 +53,9 @@ if (!function_exists('forms')) {
                 break;
 
             case 'label':
-                $html.= form_label($array['attr']['text'],'',$array['attr']);
+                $text = (!empty($array['attr']['text']))?$array['attr']['text']:'';
+                $html.= form_label($text,'',$array['attr']);
+                $name = $array['attr']['name'];
                 break;
 
             default:
