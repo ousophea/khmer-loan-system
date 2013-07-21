@@ -10,6 +10,13 @@ echo form_hidden('old_signature');
 ?>
 <div class="row form-container">
     <div class="form_model_style"></div>
+    <div class="span12">
+        <div class="tools">
+            <a class="btn btn-mini" href="<?php echo base_url() . 'saving/open'; ?>" title="Open new saving account"><i class="icon-plus-sign"></i> Open new saving account</a>
+            <a class="btn btn-mini" href="<?php echo base_url() . 'saving/view'; ?>" title="View saving account"><i class="icon-eye-open"></i> View new saving account</a>
+            <a disabled="disabled" class="btn btn-mini btn-success" href="<?php echo base_url() . 'saving/edit'; ?>" title="Edit saving account"><i class="icon-edit icon-white"></i> Edit saving accounts</a>
+        </div>
+    </div>
     <div>
         <?php
         $i = 0;
@@ -33,7 +40,7 @@ echo form_hidden('old_signature');
             <label class="control-label" for="cid">CID</label>
             <div class="controls">
                 <input class="input-small" name="con_cid" value="<?php echo set_value('con_cid'); /* echo !empty($_POST['con_cid'])? $_POST['con_cid']:''; */ ?>" autocomplete="off" data-source='<?php echo $typethread ?>' data-provide='typeahead' data-items='10' name="con_cid" type="text" id="con_cid" placeholder="CID">
-                <?php echo form_button(array('content' => '<i class="icon-search"></i> Search', 'class' => 'btn', 'id' => 'search_customer_by_code'), 'search'); ?>
+                <?php echo form_button(array('content' => '<i class="icon-search loader"></i> Search', 'class' => 'btn', 'id' => 'search_customer_by_code'), 'search'); ?>
                 <?php
                 echo '<span class="error">' . form_error('con_cid') . '</span>';
                 ?>
@@ -214,8 +221,8 @@ echo form_hidden('old_signature');
 
                 $('#search_customer_by_code').click(function() {
                     var con_cid = $('#con_cid').val();
-                    $('.btn').attr('disabled', true);
-                    $('.btn i').addClass('icon-loader');
+                    //$('.btn').attr('disabled', true);
+                    $('.loader').addClass('icon-loader');
                     $.post(
                             uri[0] + "saving/find_saving_by_contact_id",
                             {
@@ -223,9 +230,9 @@ echo form_hidden('old_signature');
                             },
                     function(data) {
 
-                        $('.btn').removeAttr('disabled');
-                        $('.btn i').removeClass('icon-loader');
-                        $('.btn i').addClass('icon-search');
+                        //$('.btn').removeAttr('disabled');
+                        $('.loader').removeClass('icon-loader');
+                        $('.loader').addClass('icon-search');
                         if (data.result == 0) {
                             $('#dispayname,[name="accountname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').val("");
                             alert("Contact not found, please try another CID.");
