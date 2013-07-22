@@ -84,7 +84,7 @@ class reports extends CI_Controller {
 
     function glreport() {
         $data['title'] = 'GL Transactions by Post Date';
-        $data['gl_query'] = $this->m_global->select_status('gl_list');
+        $data['gl_query'] = $this->m_global->select_all('gl_list');
         $data['currency_query'] = $this->mod_global->select_all('currency');
         //$last_date_total = $this->m_global->select_where('transaction', array('DATE(tra_date) <' => '2013-6-30'),1);
         //var_dump($last_date_total);

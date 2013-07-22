@@ -412,6 +412,44 @@ class m_global extends CI_Model {
         return $data;
     }
 
+    /**
+     * Function return all info about laon account infomation
+     * @param type $acc_num
+     * @return type
+     */
+    public function select_acc_info($acc_num) {
+        $this->db->join('contacts', 'loan_account.loa_acc_con_id=contacts.con_id', 'left');
+        $this->db->join('contacts_detail', 'contacts.con_id=contacts_detail.con_det_con_id', 'left');
+        $this->db->join('provinces', 'contacts_detail.con_det_pro_id=provinces.pro_id', 'left');
+        $this->db->join('districts', 'contacts_detail.con_det_dis_id=districts.dis_id', 'left');
+        $this->db->join('communes', 'contacts_detail.con_det_com_id=communes.com_id', 'left');
+        $this->db->join('villages', 'contacts_detail.con_det_vil_id=villages.vil_id', 'left');
+        $this->db->join('currency', 'loan_account.loa_acc_cur_id=currency.cur_id', 'left');
+        $this->db->join('gl_list', 'loan_account.loa_acc_gl_code=gl_list.gl_code', 'left');
+        $this->db->join('loan_product_type', 'loan_account.loa_acc_loa_pro_type_id=loan_product_type.loa_pro_typ_id', 'left');
+        $this->db->where($acc_num);
+        return $this->db->get("loan_account");
+    }
+     public function select_sav_acc_info($acc_num) {
+        $this->db->join('contacts', 'saving_account.sav_acc_con_id=contacts.con_id', 'left');
+        $this->db->join('contacts_detail', 'contacts.con_id=contacts_detail.con_det_con_id', 'left');
+        $this->db->join('provinces', 'contacts_detail.con_det_pro_id=provinces.pro_id', 'left');
+        $this->db->join('districts', 'contacts_detail.con_det_dis_id=districts.dis_id', 'left');
+        $this->db->join('communes', 'contacts_detail.con_det_com_id=communes.com_id', 'left');
+        $this->db->join('villages', 'contacts_detail.con_det_vil_id=villages.vil_id', 'left');
+        $this->db->join('currency', 'saving_account.sav_acc_cur_id=currency.cur_id', 'left');
+        $this->db->join('gl_list', 'saving_account.sav_acc_gl_id=gl_list.gl_id', 'left');
+        $this->db->join('saving_product_type', 'saving_account.sav_acc_sav_pro_typ_id=saving_product_type.sav_pro_typ_id', 'left');
+        $this->db->where($acc_num);
+//        
+//        $this->db->get('saving_account');
+//        echo $this->db->last_query();
+        
+        return $this->db->get("saving_account");
+        
+    }
+    
+
 }
 
 ?>

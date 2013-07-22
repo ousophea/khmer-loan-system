@@ -42,6 +42,8 @@ $dbf = new dbf();
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'form.js'); ?>"></script>
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'form_model.js'); ?>" ></script>
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'jq_action_manager.js'); ?>"></script>
+        
+        <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'input_number_only.js'); ?>"></script>  <!--number only plugin-->
 
 
     </head>
@@ -92,8 +94,42 @@ $dbf = new dbf();
 
                             <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(TELLER)) { ?>
                                 <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>cashs" >Tiller Cash</a></li>
-                                <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "disbursments") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>disbursments" >Disbursment</a></li>
-
+                                
+                                <?php
+                            $current_loantrn = false;
+                            $arr_menu_loantrn = array('disbursments','repayment');
+                            if (in_array(segment(1),$arr_menu_loantrn)) {
+                                $current_loantrn = TRUE;
+                            }
+                            ?>   
+                                <li class="off dropdown <?php echo ($current_loantrn == TRUE) ? 'current' : '' ?>"> 
+                                    <a class="dropdown-toggle"
+                                       data-toggle="dropdown"
+                                       href="#">Loan Acc<b class="caret"></b> </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>disbursments">Disbursement</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>repayments">Repayment</a></li>
+                                    </ul>
+                                </li>
+                                
+                                  <?php
+                            $current_savingtrn = false;
+                            $arr_menu_savingtrn = array('deposits','withdrawals');
+                            if (in_array(segment(1),$arr_menu_savingtrn)) {
+                                $current_savingtrn = TRUE;
+                            }
+                            ?>   
+                                <li class="off dropdown <?php echo ($current_savingtrn == TRUE) ? 'current' : '' ?>"> 
+                                    <a class="dropdown-toggle"
+                                       data-toggle="dropdown"
+                                       href="#">Saving Acc<b class="caret"></b> </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>deposits">Deposit</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>withdrawals">Withdrawal</a></li>
+                                    </ul>
+                                </li>
+                                
+                                
                                         <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
 
                                 <li id="" class="off <?php echo (segment(1) == "paycashs") ? 'current' : '' ?>"><a href="<?php echo site_url('paycashs#form_other_expanse'); ?>" >Other Expense</a></li>
@@ -198,7 +234,9 @@ $dbf = new dbf();
                 </div>
             </div>
             <div id="content">
+                <a href="#" name="contents"></a>
                 <div class="wraper-control">
+                    
                     <?php echo $this->session->flashdata('error'); ?>
                     <legend><?php echo (!empty($title)) ? $title : 'Untitle'; ?><i id="loader" class="icon-loader" style="display: none;"></i></legend>
 <?php $this->load->view(segment(1) . '/' . ((segment(2)) ? segment(2) : 'index')); ?>

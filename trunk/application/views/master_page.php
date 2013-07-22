@@ -68,6 +68,7 @@
 		  </div>
 		  <div id="content">
 		    <div class="wraper-control">
+                        
 		    	<!--
 		    	<div class="menu_manager">
 		      		<?php echo anchor(site_url(segment(1).'/add'),'Add New','id="add_manager"'); ?> | 

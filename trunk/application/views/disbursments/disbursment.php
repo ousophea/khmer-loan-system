@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-// Get Gl infimation
+// Get Laon Account infimation
 $list_acc_number = "";
 $list_acc_number .= '<datalist id="gl_code">';
 foreach ($acc_num_query->result() as $acc_num_rows) {
@@ -15,12 +15,12 @@ foreach ($acc_num_query->result() as $acc_num_rows) {
 $list_acc_number.= '</datalist>';
 
 //Get transaction mode for desplay in list
-$array_transaction = array();
-
-foreach ($transaction_query->result() as $tra_rows) {
-    $array_transaction[''] = '-----Select-----';
-    $array_transaction[$tra_rows->tra_mod_id] = $tra_rows->tra_mod_title;
-}
+//$array_transaction = array();
+//
+//foreach ($transaction_query->result() as $tra_rows) {
+//    $array_transaction[''] = '-----Select-----';
+//    $array_transaction[$tra_rows->tra_mod_id] = $tra_rows->tra_mod_title;
+//}
 
 ////Get Loan disbursment info
 //$arr_search_index = array(
@@ -31,7 +31,7 @@ foreach ($transaction_query->result() as $tra_rows) {
 
 
 
-echo'<div id="disbursment_form">';
+echo'<div id="disbursment_form" class="single_large">';
 start_form_model(1);
 
 
@@ -50,26 +50,43 @@ echo '<span id="account_number_des"></span>';
 
 close_form();
 //f_start_col2();
+//echo"<div id='dis_form'>";
+//open_form('disbursments_tra', 'Disbursments / Debit', "disbursments/add_dis");
+//
+//
+//field('select', 'transaction_mode', 'Transaction Mode:', '1', array('options' => $array_transaction, 'attribute' => array('class' => 'dropdown validate[required]', 'id' => 'test')), TRUE);
+//field('text', 'gl_contra_account', 'GL contra Account:');
+//field('text', 'value_date', 'Value date:');
+//field('text', 'dis_amount', 'Trn Amount:',NULL,NULL,TRUE);
+//field('textarea', 'dis_des', 'Description:');
+//
+
+//echo'<span>';
 open_form('disbursments_tra', 'Disbursments / Debit', "disbursments/add_dis");
-
-
-field('select', 'transaction_mode', 'Transaction Mode:', '1', array('options' => $array_transaction, 'attribute' => array('class' => 'dropdown validate[required]', 'id' => 'test')), TRUE);
-field('text', 'gl_contra_account', 'GL contra Account:');
-field('text', 'value_date', 'Value date:');
-field('text', 'dis_amount', 'Trn Amount:',NULL,NULL,TRUE);
-field('textarea', 'dis_des', 'Description:');
-
-echo"<span id='disbursment_table'></span>";
-
-
+echo"<span id='dis_form_and_tbl'>";
+//field('text', 'gl_contra_account', 'GL contra Account:');
+////
+echo '</span>';
 close_form();
+
+//echo"</div>"; // close form disburement
+
 close_form_model();
 echo"</div>";
+
+//echo formatMoney(1050); # 1,050
+//echo formatMoney(1321435.4, true); # 1,321,435.40
+//echo formatMoney(10059240.42941, true); # 10,059,240.43
+//echo formatMoney(13245); # 13,245
+
+
+
 ?>
 
 <script type="text/javascript" language="JavaScript">
     var jq_code = jQuery.noConflict();
     jq_code(document).ready(function(){
+       
         jq_code('form#dis_acc_info').attr('onSubmit','return false;');
 //        jq_code('[name="value_date"]').val(date);
         jq_code('#btn_search_account_number').click(function(){
@@ -90,8 +107,9 @@ echo"</div>";
                     data: form_data,
                     success: function(output_string){
                         jq_code("#account_number_des").html(output_string);
-                        jq_code("#disbursment_table").html(jq_code("#data_table").html());
-                        jq_code("#data_table").html("");
+                        jq_code("#dis_form_and_tbl").html(jq_code("#form_and_data_table").html());
+                        jq_code("#form_and_data_table").html("");
+//                        jq_code("input[name='value_date']").val();
                     }
                 
                 });
@@ -102,12 +120,8 @@ echo"</div>";
             }
             return false;
         });
-        
-        //=============Date input type============
-        jq( "input[name='value_date']" ).datepicker({ 
-            defaultDate: '-0y',
-            buttonText: "Choose",
-            dateFormat: "yy-mm-dd" 
-        });
+               
+   
     });
+    
 </script>

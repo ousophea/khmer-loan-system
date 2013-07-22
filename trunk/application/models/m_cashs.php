@@ -128,7 +128,7 @@ class m_cashs extends CI_Model {
 //                        'til_modifide_date' => date('Y-m-d h:i:s')
 //                    );
 
-                    $this->db->set('til_debit', $row->til_debit - $this->input->post('amountout'), FALSE);
+                    $this->db->set('til_debit', $row->til_debit + $this->input->post('amountout'), FALSE); // update - to + by Sophea
                     $this->db->set('til_modifide_date', 'NOW()', FALSE);
                     if ($this->db->update('tiller')) {
 //                        $tran = array(
