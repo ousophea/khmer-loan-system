@@ -325,7 +325,23 @@ form option, input{
 .content-list{
     overflow: scroll;
 }
+/*=====================Single form with large width===================*/
+.single_large .form-model .col1 {
+    margin:0 auto;
+    width:70%;
+}
+.single_large .form-model .col1 .span7{
+    width:649px;
 
+}
+#dep_form .modal-footer{
+    width: 100%;
+    margin-left: -10px;
+}
+.form_modal-footer{
+    width: 100%;
+    margin-left: -10px;
+}
 .controls label{
     padding-top: 5px;
     font-weight: bold;
@@ -339,11 +355,12 @@ form option, input{
     width: 449px;
 }
 
-#disbursment_form .form-model .col1{
+
+/* ===================Disbursement style ==========================*/
+#disbursment_form .form-model {
 
     margin:0 auto;
     width:70%;
-
 }
 
 #disbursment_form .form-model .col1 .span7{
@@ -356,4 +373,23 @@ form option, input{
     margin-bottom: 0;
     padding: 6px 15px;
     text-align: center;
+}
+.dollars:after { content:'.00'; }
+
+.acc_info_des .control-group .control-label,.acc_info_des .control-group .controls,#wit_res .control-group .control-label,#wit_res .control-group .controls{
+    padding-top: 0;
+    font-weight: bold;
+}
+#wit_res .control-group .control-label{
+   width: 195px; 
+}
+#wit_res .controls{
+    margin-left: 219px;
+}
+.blog{
+    color: red;
+}
+
+#wit_acc_info .bs-docs-form{
+    height: 477px;
 }
