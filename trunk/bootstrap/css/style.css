@@ -326,6 +326,19 @@ form option, input{
     overflow: scroll;
 }
 
+.controls label{
+    padding-top: 5px;
+    font-weight: bold;
+}
+.controls img.signature{
+    height: 78px;
+    border: 1px solid #eee;
+    min-width: 100px;
+}
+.form-container .span5{
+    width: 449px;
+}
+
 #disbursment_form .form-model .col1{
 
     margin:0 auto;
