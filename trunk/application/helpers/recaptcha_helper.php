@@ -273,5 +273,4 @@ function recaptcha_mailhide_html($pubkey, $privkey, $email) {
 
 }
 
-
 ?>

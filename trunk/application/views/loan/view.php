@@ -1,20 +1,14 @@
 <?php
-if(!empty($upload))
-    echo '<div class="alert alert-error">' . $upload . '</div>';
-if ($this->session->flashdata('success'))
-    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
-echo form_open_multipart('saving/edit', array('class' => 'form-horizontal', 'name' => 'open_saving'));
-echo form_hidden('sav_acc_id');
-echo form_hidden('old_signature');
+echo form_open_multipart('loan/open', array('class' => 'form-horizontal', 'name' => 'open_loan'));
 //echo form_hidden('gl_list', $gl);
 ?>
 <div class="row form-container">
     <div class="form_model_style"></div>
     <div class="span12">
         <div class="tools">
-            <a class="btn btn-mini" href="<?php echo base_url() . 'saving/open'; ?>" title="Open new saving account"><i class="icon-plus-sign"></i> Open new saving account</a>
-            <a class="btn btn-mini" href="<?php echo base_url() . 'saving/view'; ?>" title="View saving account"><i class="icon-eye-open"></i> View new saving account</a>
-            <a disabled="disabled" class="btn btn-mini btn-success" href="<?php echo base_url() . 'saving/edit'; ?>" title="Edit saving account"><i class="icon-edit icon-white"></i> Edit saving accounts</a>
+            <a class="btn btn-mini" href="<?php echo base_url() . 'loan/open'; ?>" title="Open new loan account"><i class="icon-plus-sign"></i> Open new loan account</a>
+            <a disabled="disabled" class="btn btn-mini btn-success" href="<?php echo base_url() . 'loan/view'; ?>" title="View loan account"><i class="icon-eye-open icon-white"></i> View new loan account</a>
+            <a class="btn btn-mini" href="<?php echo base_url() . 'loan/edit'; ?>" title="Edit loan account"><i class="icon-edit"></i> Edit loan accounts</a>
         </div>
     </div>
     <div>
@@ -61,7 +55,7 @@ echo form_hidden('old_signature');
             'attr' => array(
                 'name' => 'dispayname',
                 'disabled' => 'disabled',
-                'class' => 'span3'
+                'class'=>'span3'
             )
         );
         echo get_form($data);
@@ -90,12 +84,12 @@ echo form_hidden('old_signature');
         echo open_block('product_detail', 'Product Detail');
         $product_type[''] = '---Select product type---';
         $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'Product type',
             'validated' => 1,
             'attr' => array(
                 'name' => 'sav_acc_sav_pro_typ_id',
-                'option' => $product_type
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
@@ -104,9 +98,23 @@ echo form_hidden('old_signature');
             'label' => 'Interest Rate',
             'attr' => array(
                 'name' => 'interest_rate',
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
+
+		/**
+        $data = array(
+            'type' => 'text', // input type='text'
+            'label' => 'Income Rate',
+            'attr' => array(
+                'name' => 'income_rate',
+                'disabled' => 'disabled',
+                'value' => '0.00'
+            )
+        );
+        echo get_form($data);
+		**/
         echo close_block();
         echo close_span();
 // End Left
@@ -136,73 +144,62 @@ echo form_hidden('old_signature');
         echo get_form($data);
         $data = NULL;
         $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'Currency',
             'validated' => 1,
             'attr' => array(
                 'name' => 'currency',
-                'option' => $currency
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
         $data = NULL;
         $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'GL Code',
             'validated' => 1,
             'attr' => array(
                 'name' => 'gl_id',
-                'option' => $gl
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
         //echo form_hidden('gl_id');
 
         echo close_block();
-
+        
         // Others
         echo open_block('others', 'Others...');
         ?>
         <div class="control-group">
-            <label class="control-label">Change signature</label>
+            <label class="control-label">Signature</label>
             <div class="controls">
-                <?php echo img(array('class' => 'signature', 'id' => 'saving_signature')); ?>
+                <?php echo img(array('class'=>'signature','id'=>'loan_signature'));?>
             </div>
         </div>  
         <?php
-        $style = '';
-        if(!empty($upload)) $style = 'color:red;';
-        $data = array(
-            'type' => 'file', // input type='text'
-            'label' => '<span style="'.$style.'">Max: 200x200px</span>',
-            'validated' => 1,
-            'attr' => array(
-                'name' => 'userfile',
-            )
-        );
-        echo get_form($data);
-        
         //echo get_form($data);
         $data = null;
+        $sign_rules = array(''=>'----');
         $data = array(
-            'type' => 'select', // input type='text'
+            'type' => 'text', // input type='text'
             'label' => 'Sign Rule',
             'validated' => 1,
             'attr' => array(
                 'name' => 'sign_rule',
-                'option' => $signature_rule
+                'disabled' => 'disabled',
             )
         );
         echo get_form($data);
         echo close_block();
-
+        
         echo close_span();
-// End span5
-        echo '</div>';
-        echo '<div class="span10"><div class="modal-footer">';
-        echo form_submit(array('name' => 'Update', 'class' => 'btn btn-success'), 'Update');
-        echo anchor('', 'Cancel', 'class="btn"');
-        echo '</div></div>';
+//// End span5
+//        echo '</div>';
+//        echo '<div class="span10"><div class="modal-footer">';
+//        echo form_submit(array('name' => 'Save', 'class' => 'btn btn-success'), 'Confirm');
+//        echo anchor('loan/edit', 'Edit', 'class="btn"');
+//        echo '</div></div>';
         ?>
 
     </div>
@@ -211,61 +208,57 @@ echo form_hidden('old_signature');
         jQuery.noConflict();
         (function($) {
             $(function() {
-
-                var uri = [
+                
+                var uri=[
                     $('[name="base_url"]').val(),
                     $('[name="segment1"]').val(),
                     $('[name="segment2"]').val(),
                     $('[name="segment3"]').val(),
-                ];
-
-                $('#search_customer_by_code').click(function() {
+                ];             
+                
+                $('#search_customer_by_code').click(function(){
                     var con_cid = $('#con_cid').val();
-                    //$('.btn').attr('disabled', true);
+                    //$('.btn').attr('disabled',true);
                     $('.loader').addClass('icon-loader');
                     $.post(
-                            uri[0] + "saving/find_saving_by_contact_id",
-                            {
-                                'con_cid': con_cid
-                            },
-                    function(data) {
-
+                    uri[0]+"loan/find_loan_by_contact_id",
+                    {
+                        'con_cid':con_cid
+                    },
+                    function(data){
+                        
                         //$('.btn').removeAttr('disabled');
                         $('.loader').removeClass('icon-loader');
                         $('.loader').addClass('icon-search');
-                        if (data.result == 0) {
+                        if(data.result == 0){
                             $('#dispayname,[name="accountname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').val("");
                             alert("Contact not found, please try another CID.");
                         }
-                        else {
-                           
+                        else{
                             $('#dispayname').val(data.con_en_name);
-                            $('[name="sav_acc_id"]').val(data.sav_acc_id);
                             $('[name="cid"]').val(data.con_id);
                             //$('[name="con_cid"]').val(data.con_cid);
-                            $('[name="dispayname"]').val(data.con_kh_last_name + " " + data.con_kh_first_name);
-                            $('[name="accountname"]').val(data.con_en_last_name + " " + data.con_en_first_name);
+                            $('[name="dispayname"]').val(data.con_kh_last_name+ " "+data.con_kh_first_name);
+                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
                             $('[name="con_dob"]').val(data.con_dob);
                             $('[name="con_address"]').val(data.con_address);
                             $('[name="con_typ_title"]').val(data.con_typ_title);
-                            $('[name="currency"]').val(data.cur_id);
-                            $('[name="sav_acc_sav_pro_typ_id"]').val(data.sav_pro_typ_id);
+                            $('[name="currency"]').val(data.cur_title);
+                            $('[name="sav_acc_sav_pro_typ_id"]').val(data.sav_pro_typ_title);
                             $('[name="sign_rule"]').val(data.sir_title);
-                            $('[name="sign_rule"]').val(data.sir_id);
-                            $('[name="gl_id"]').val(data.gl_id);
+                            $('[name="gl_id"]').val(data.gl_description);
                             $('[name="interest_rate"]').val(data.sav_acc_interest_rate);
-                            $('[name="old_signature"]').val(data.sav_acc_signature);
-                            $('#saving_signature').attr('src', uri[0] + 'images/upload/' + data.sav_acc_signature);
+                            $('#loan_signature').attr('src',uri[0]+'images/upload/'+data.sav_acc_signature);
                         }
-
+                        
                     },
-                            'json'
-                            );
+                    'json'
+                );
                 });
-
-
-
-
+                
+                
+                
+                
             });
         })(jQuery);
     </script>

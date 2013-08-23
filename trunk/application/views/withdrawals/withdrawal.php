@@ -91,7 +91,7 @@ echo"</div>";
                 
                 });
                 
-                  jq_code('#wit_amount').numberOnly();
+                 jq_code('#wit_amount').numberOnly();
 //                jq_code('#wit_amount').onlyNum();
                 jq_code('#wit_amount').on('keyup',function(e){
                     if(parseInt(jq_code(this).val()) > parseInt(jq_code('#hid_out_balance').val())){

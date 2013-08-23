@@ -24,7 +24,8 @@ class disbursments extends CI_Controller {
 
     function disbursment() {
         $data['title'] = 'Disbursment / Debit';
-        $data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
+//        select_where('tbl_users',array('use_name' => 'vannak','use_password' => '12345'))
+        $data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_disbustment'=>NULL));
         //$data['transaction_query'] = $this->mod_global->select_all('transaction_mode');
 //        $data['currency_query'] = $this->mod_global->select_all('currency');
         $data['cid_query'] = $this->mod_global->select_all('contacts');
@@ -62,7 +63,7 @@ class disbursments extends CI_Controller {
             $this->db->set("loa_acc_disbustment","NOW()",FALSE);
             $this->db->set("loa_acc_modified_date","NOW()",FALSE);
             $this->db->where(array('loa_acc_code' => $this->input->post('acc_number')));
-            $this->db->update('loan_account',$data);
+            $this->db->update('loan_account');
 
             //============= Update GL Balances====================
 

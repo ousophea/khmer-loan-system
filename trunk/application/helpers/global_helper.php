@@ -32,7 +32,7 @@ function segment($i = 1) {
   );
   echo table_manager($this->db->get('contacts'), $arr_select_field);
  */
-function table_manager($table_object, $arr_column, $control = FALSE) {
+function table_manager($table_object, $arr_column, $control = FALSE, $format = NULL) {
     if (!is_array($arr_column) || count($arr_column) <= 0)
         return FALSE;
     $string_table = form_open('', array('name' => 'form_manager'));
@@ -49,7 +49,15 @@ function table_manager($table_object, $arr_column, $control = FALSE) {
 
     //start write table data
     if ($table_object->num_rows() > 0) {
+
         foreach ($table_object->result() as $arr_data) {
+            //    =============== Use format money=====================
+            if ($format == NULL) {
+                $f = NULL;
+            } else {
+                $f = 1;
+            }//=============================End format money========================
+
             $string_table .= '<tr>';
             $check_first = TRUE;
             foreach ($arr_column as $column) {
@@ -58,11 +66,20 @@ function table_manager($table_object, $arr_column, $control = FALSE) {
                         $string_table .= '<td><input type="checkbox" class="check" name="check_select[]" value="' . $arr_data->$column . '" /></td>';
                     $check_first = FALSE;
                 }
-                $string_table .= '<td>' . $arr_data->$column . '</td>';
+                if ($format == NULL) { //////////=========Not aply money format=================
+                    $string_table .= '<td>' . $arr_data->$column .'</td>';
+                } else {
+                    if ($f > 2) {
+                        $string_table .= '<td class="td_right">' . formatMoney($arr_data->$column) . '</td>';
+                    } else {
+                        $string_table .= '<td>' . $arr_data->$column . '</td>';
+                    }
+                }
+                $f++;
             }
             $string_table .= '</tr>';
         }
-    }else {
+    } else {
         $string_table .= '<tr><td colspan="' . count($arr_column) . '"><p class="no_record">There is no record.</p></td></tr>';
     }
     $string_table .= '</table>';
@@ -113,13 +130,14 @@ function close_form() {
     echo'</div>';
 }
 
-function open_box($name, $title, $action = NULL){
+function open_box($name, $title, $action = NULL) {
     echo'<div class="form_block" id="' . $name . '" title="' . $title . '">';
     echo '<span class="form-horizontal bs-docs-form">';
 }
-function close_box(){
+
+function close_box() {
     echo '</span>';
-     echo '<span class="form_model_style">&nbsp;</span>';
+    echo '<span class="form_model_style">&nbsp;</span>';
     echo'</div>';
 }
 
@@ -285,17 +303,18 @@ function formatMoney($number, $fractional = false) {
     }
     return $number;
 }
- function saving_acc_des($rows){
-     echo "<span class='acc_info_des'>";
-     acc_info("CID",$rows->con_cid);
-     acc_info("Name",$rows->con_en_first_name . " " . $rows->con_en_last_name);
-     acc_info("Bate of Birth",$rows->con_det_dob);
-     acc_info("NID",$rows->sav_acc_id);
-     acc_info("Address",$rows->con_det_address_detail . " ," . $rows->dis_kh_name . ", " . $rows->com_kh_name . ", " . $rows->vil_kh_name . ", " . $rows->pro_kh_name);
-     acc_info("Product",$rows->sav_pro_typ_title);
-     acc_info("Currency",$rows->cur_title);
-     
-     echo "</span>";
+
+function saving_acc_des($rows) {
+    echo "<span class='acc_info_des'>";
+    acc_info("CID", $rows->con_cid);
+    acc_info("Name", $rows->con_en_first_name . " " . $rows->con_en_last_name);
+    acc_info("Bate of Birth", $rows->con_det_dob);
+    acc_info("NID", $rows->sav_acc_id);
+    acc_info("Address", $rows->con_det_address_detail . " ," . $rows->dis_kh_name . ", " . $rows->com_kh_name . ", " . $rows->vil_kh_name . ", " . $rows->pro_kh_name);
+    acc_info("Product", $rows->sav_pro_typ_title);
+    acc_info("Currency", $rows->cur_title);
+
+    echo "</span>";
 //     echo'
 //                <div class="control-group">
 //                    <label class="control-label">CID:</label>
@@ -316,33 +335,52 @@ function formatMoney($number, $fractional = false) {
 //        '</div></div>
 //                         Currency: ' . $rows->cur_title .
 //        '</div></div>';
- }
- function acc_info($labal,$value){
-     echo '<div class="control-group">
-            <label class="control-label" for="value_date">'.$labal.':</label>
-            <div class="controls">'.$value.'</div></div>';
- }
- function loan_acc_des($rows){
-     
-        echo'
+}
+function acc_des($row) {
+    $srt = "<span class='acc_info_des'>";
+//    $srt.= acc_info("CID", $row->con_cid);
+//    $srt.= acc_info("Name", $row->con_en_first_name . " " . $row->con_en_last_name);
+//    $str.= acc_info("Bate of Birth", $row->con_det_dob);
+//    $str.= acc_info("Address", $row->con_det_address_detail . " ," . $row->dis_kh_name . ", " . $row->com_kh_name . ", " . $row->vil_kh_name . ", " . $row->pro_kh_name);
+
+    $str.= "</span>";
+    return $str;
+}
+
+
+
+function acc_info($labal,$name=NULL, $value=NULL ) {
+    echo '<div class="control-group">
+            <label class="control-label" for="value_date">' . $labal . ':</label>
+            <div class="controls" name="'.$name.'">' . $value . '</div></div>';
+}
+function acc_info_html($labal,$name=NULL, $value=NULL ) {
+    return '<div class="control-group">
+            <label class="control-label" for="value_date">' . $labal . ':</label>
+            <div class="controls" name="'.$name.'">' . $value . '</div></div>';
+}
+
+function loan_acc_des($rows) {
+
+    echo'
                 <div class="control-group">
                     <div class="controls" style="font-weight: bold;">
                          CID: ' . $rows->con_cid .
-        '<br />
+    '<br />
                          Name : ' . $rows->con_en_first_name . " " . $rows->con_en_last_name .
-        '<br />
+    '<br />
                          Bate of Birth: ' . $rows->con_det_dob . "&nbsp;&nbsp;" . (($rows->con_sex == "m") ? "Male" : "Female") . "/" . (($rows->con_det_civil_status == 1) ? "Single" : "Maried") .
-        '<br />
+    '<br />
                          NID: ' . $rows->loa_acc_id .
-        '<br />
+    '<br />
                          Address: ' . $rows->con_det_address_detail . " ," . $rows->dis_kh_name . ", " . $rows->com_kh_name . ", " . $rows->vil_kh_name . ", " . $rows->pro_kh_name .
-        '<br />
+    '<br />
                          Product: ' . $rows->loa_pro_typ_amount .
-        '<br />
+    '<br />
                          Currency: ' . $rows->cur_title .
-        '<br />
-                         Account Status: ' .  $rows->loa_acc_approval.
-        '</div></div>';
- }
+    '<br />
+                         Account Status: ' . $rows->loa_acc_approval .
+    '</div></div>';
+}
 
 ?>

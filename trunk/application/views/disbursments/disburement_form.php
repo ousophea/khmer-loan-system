@@ -70,7 +70,8 @@ $now = time();
         //$i = 1;
 
        // foreach ($loa_dis_query->result() as $value) {
-            $ready_dis = ($rows->loa_acc_approval=="Approved")?$rows->loa_acc_amount:0;
+//            $ready_dis = ($rows->loa_acc_approval=="Approved")?$rows->loa_acc_amount:0;
+    $ready_dis = ($rows->loa_acc_disbustment==NULL)?$rows->loa_acc_amount:0;
             echo"   <tr>
                 <td>$gl_code</td>
                 <td>$rows->gl_description</td>
@@ -87,7 +88,8 @@ $now = time();
             <td>" . formatMoney($rows->loa_acc_amount - $ready_dis, TRUE) . "</td>
         </tr>";
     echo"</table>";
-    if($rows->loa_acc_approval!="Approved"){
+    if($rows->loa_acc_disbustment==NULL){
+       
         field("submit", 'btn_submit', NULL, "Approve", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<input type="submit" id="btn_disapprove" class="btn" value="Not Arpp" name="btn_disapprove">');
     }
     }

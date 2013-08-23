@@ -426,9 +426,13 @@ class m_global extends CI_Model {
         $this->db->join('villages', 'contacts_detail.con_det_vil_id=villages.vil_id', 'left');
         $this->db->join('currency', 'loan_account.loa_acc_cur_id=currency.cur_id', 'left');
         $this->db->join('gl_list', 'loan_account.loa_acc_gl_code=gl_list.gl_code', 'left');
-        $this->db->join('loan_product_type', 'loan_account.loa_acc_loa_pro_type_id=loan_product_type.loa_pro_typ_id', 'left');
+        $this->db->join('loan_product_type', 'loan_account.loa_acc_loa_pro_type_code=loan_product_type.loa_pro_typ_id', 'left');
         $this->db->where($acc_num);
         return $this->db->get("loan_account");
+        
+//        $this->db->get("loan_account");
+//        return $this->db->last_query();
+        
     }
      public function select_sav_acc_info($acc_num) {
         $this->db->join('contacts', 'saving_account.sav_acc_con_id=contacts.con_id', 'left');

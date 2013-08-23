@@ -10,7 +10,7 @@
  *
  * @author sochy.choeun
  */
-class m_saving extends CI_Model {
+class M_saving extends CI_Model {
 
     //put your code here
 

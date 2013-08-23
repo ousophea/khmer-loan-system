@@ -45,7 +45,15 @@ $dbf = new dbf();
         
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'input_number_only.js'); ?>"></script>  <!--number only plugin-->
 
-
+        <!--=============== For printing==============-->
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'style.css'); ?>" rel="stylesheet" type="text/css" media="print">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'main-style.css'); ?>" rel="stylesheet" type="text/css" media="print">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'menu.css'); ?>" rel="stylesheet" type="text/css" media="print">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'saving.css'); ?>" rel="stylesheet" type="text/css" media="print">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'jquery-ui.css'); ?>" rel="stylesheet" type="text/css" media="print">
+                <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'bootstrap.min.css'); ?>" rel="stylesheet" media="print">
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'users.css'); ?>" rel="stylesheet" media="print">
+        
     </head>
 
     <body>
@@ -177,8 +185,8 @@ $dbf = new dbf();
                                        href="#"> Loan Acc <b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
                                         <li><a tabindex="-1" href="<?php echo base_url(); ?>loan">New Loan Acc</a></li>
-                                        <li><a tabindex="-2" href="#">View Loan Acc</a></li>
-                                        <li><a tabindex="-2" href="#">Edit Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/open/edit">Edit Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/openloan#contents">Open Loan Acc</a></li>
                                         <li><a tabindex="-2" href="#">Close Loan Acc</a></li>
                                     </ul>
                                 </li>
