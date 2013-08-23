@@ -13,7 +13,7 @@ body{
     margin:0;
     padding:0;
     height:100px;
-    background:url(../images/header.jpg) top no-repeat;
+    background:url("../images/header.jpg") top no-repeat;
     background-position: top center;
 
 }
@@ -152,7 +152,7 @@ body{
 .tabbable{
     margin-bottom: 10px;
 }
-.form-model .modal-footer{
+.modal-footer{
     width: 888px;
 }
 /* End*/
@@ -334,14 +334,14 @@ form option, input{
     width:649px;
 
 }
-#dep_form .modal-footer{
+/*#dep_form .modal-footer{
+    width: 617px;
+    margin-left: -10px;
+}*/
+/*.form_modal-footer{
     width: 100%;
     margin-left: -10px;
-}
-.form_modal-footer{
-    width: 100%;
-    margin-left: -10px;
-}
+}*/
 .controls label{
     padding-top: 5px;
     font-weight: bold;
@@ -364,7 +364,8 @@ form option, input{
 }
 
 #disbursment_form .form-model .col1 .span7{
-    width:649px;
+    width:532px;
+    margin-left:-26px; 
 
 }
 #disbursment_form .form-model .btn_back {
@@ -392,4 +393,72 @@ form option, input{
 
 #wit_acc_info .bs-docs-form{
     height: 477px;
+}
+/*=============== Loan style : by Sophea=====================*/
+#note{
+    padding: 0 0 5px 20px;
+}
+.table .td_right{
+    text-align: right;
+    padding-right: 10px;
+}
+
+.loan_style .bs-docs-form .control-group{
+    margin-bottom: 7px;
+}
+
+.loan_style textarea {
+  height:70px;
+  resize:none;
+}
+
+/*=============For hidden submit botton================*/
+.disable_box{
+    display: none;
+}
+#form_loan_approv label{
+    color: #1483D9;
+    font-weight: bold;
+}
+#form_loan_approv  hr{
+    margin:9px 0;
+}
+#form_loan_approv  .controls{
+    font-weight: bold;
+}
+#form_loan_approv  a:link{
+    font-weight:normal;
+    color: white;
+}
+#btn_tool{
+    margin: 0 auto;
+}
+#repayment_box{
+    clear: both;
+    margin-bottom: 10px;
+    width: 0;
+}
+#form_loan_approv .bordered{
+} 
+#form_loan_approv .nav-tabs > li > a{
+    background: #DFDFDF;
+    color: #8B8B8B;
+    font-weight: bold;
+}
+
+#form_loan_approv .nav-tabs > .active > a{
+    background: #F5F5F5;
+}
+#form_loan_approv .nav-tabs{
+    background: #F5F5F5;
+}
+#form_loan_approv .tab-content{
+    padding: 0 3px;
+    height: 418px;
+}
+#form_loan_approv .controls{
+    padding: 5px 0 0 0;
+}
+#form_loan_approv .control-group{
+    margin-bottom: 5px;
 }
