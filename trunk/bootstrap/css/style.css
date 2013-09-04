@@ -382,7 +382,7 @@ form option, input{
     font-weight: bold;
 }
 #wit_res .control-group .control-label{
-   width: 195px; 
+    width: 195px; 
 }
 #wit_res .controls{
     margin-left: 219px;
@@ -408,8 +408,8 @@ form option, input{
 }
 
 .loan_style textarea {
-  height:70px;
-  resize:none;
+    height:70px;
+    resize:none;
 }
 
 /*=============For hidden submit botton================*/
@@ -461,4 +461,187 @@ form option, input{
 }
 #form_loan_approv .control-group{
     margin-bottom: 5px;
+}
+
+/*===================Voucher by:Sophea==================*/
+.vouchers{
+    margin: 0 auto;
+    width: 918px;
+}
+.voucher_top_info{
+    float: right;
+    width: 283px;
+    line-height: 27px;
+    margin: 15px 0 0 0;
+}
+.voucher_header{
+    position: absolute;
+    width: 918px;
+}
+.voucher_content{
+    padding-top: 110px;
+}
+.voucher_top_info .controls{
+    border: solid 1px;
+    width: 145px;
+    height: 27px;
+    padding:0 5px; 
+} 
+.vouchers .span5{
+    width:447px;
+    margin-left: 0;
+}
+
+.vouchers .span5 .controls{
+    border: solid 1px;
+    width: 158px;
+    height: 27px;
+    padding:0 5px; 
+} 
+
+
+.vouchers .voucher_logo{
+    margin: 0;
+    float: left;
+
+}
+
+.vouchers .form-horizontal .control-label{
+    width: 100px;
+}
+.voucher_logo  .control-label{
+    width: 123px;
+}
+.vouchers .form-horizontal .control-group{
+    margin-bottom: 2px;
+}
+.vouchers .form-horizontal [name='logo_name']{
+    margin-left: 100px;
+    width: 266px;
+    font-weight: bold;
+}
+
+
+.voucher_top_info .form-horizontal .controls {
+    margin-left: 108px;
+}
+.voucher_top_info .info_bottom .controls{
+    border: 0;
+    text-align: right;
+    padding: 0 5px;
+    height: 20px;
+}
+.vouchers .info_bottom [name='vouchering_date']{
+    color: #AFDE54;
+}
+
+
+/*===========Subtile=============*/
+.sub_title{
+    clear: both;
+    width: 100%;
+    margin: 0 auto 5px auto;
+    text-align: center;
+}
+.sub_title .control-group{
+    margin: -20px 0 0 0;
+}
+/*.sub_title h3{
+    font-size: 18px;
+    line-height: 20px;
+}*/
+
+.khmerFont{
+    font-size: 24px;    
+}
+/*=========================Voucher Content Left===============*/
+.vouchers .span5 .form-horizontal .control-label {
+    width: 272px;
+    padding-top: 0;
+}
+
+
+.vouchers .span5 .controls{
+    margin-left: 280px;
+}
+
+.loan_info{
+    border: solid 1px;
+    height: 300px;
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 5px;
+}
+
+/*======================= Voucher fotter========================*/
+.voucher_fotter{
+    -moz-column-count:3; /* Firefox */
+    -webkit-column-count:3; /* Safari and Chrome */
+    -moz-column-count:3;
+    column-width:100px;
+    border: solid 0px;
+    margin: 0 auto;
+    padding: 10px 10px 10px 0;
+    text-align: center;
+    width: 920px;
+
+}
+.schedule_fotter{
+    -moz-column-count:2; /* Firefox */
+    -webkit-column-count:2; /* Safari and Chrome */
+    -moz-column-count:2;
+    text-align: center;
+    padding:5px 0 124px 0;
+    margin: 21px auto 8px 5px; 
+    
+}
+.sub_title_contant{
+    font-weight: bold;
+    padding: 10px 0 10px 0;
+    margin: 2px auto 2px 5px;    
+    height: 19px;
+}
+.sub_title_contant,.schedule_fotter{
+    border: solid 1px;
+    width: 443px;
+    text-align: center;
+}
+
+.fotter_date{
+    margin: 90px 0 0 0;
+    border-top:dashed 1px;
+    padding-top: 5px;
+}
+.vouchers .sign .control-group .controls {
+    height: 84px;
+}
+.vouchers .big_heigt .control-group .controls {
+    height: 151px;
+}
+
+.print_preview_menu{
+    width: 920px;
+    margin: 10px auto;
+}
+.print_preview{
+    margin-top: 20px;
+}
+.print_preview .loan_info{
+    height: 336px;
+}
+.print_preview .sign .control-group .controls {
+    height: 149px;
+}
+
+.print_preview .span5 .form-horizontal .control-label {
+    padding-top: 0;
+    width: 230px;
+}
+
+.print_preview .span5 .controls {
+    margin-left: 238px;
+}
+
+.print_preview .span5 .controls {
+    width: 200px;
 }
