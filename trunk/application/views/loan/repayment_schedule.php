@@ -4,7 +4,7 @@ $arr_field_sch_table = array(
     'ថ្ចៃសងប្រាក់' => 'rep_sch_date_repay', // Due date
     'ប្រាក់ដើម' => 'rep_sch_principle_amount_repayment', // Principal
     'ការប្រាក់' => 'rep_sch_rate_repayment', //Interest
-//    'សរុបប្រាក់ត្រូវបង់' => 'rep_sch_total_repayment',
+    'សរុបប្រាក់ត្រូវបង់' => 'rep_sch_total_repayment',
     'ប្រាក់ដើមនៅសល់' => 'rep_sch_balance', //Outstanding
 //    'Instalment' => 'rep_sch_instalment'
 );

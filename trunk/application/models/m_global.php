@@ -389,6 +389,18 @@ class m_global extends CI_Model {
         }
     }
 
+    public function select_count($table,$arr_field_sum=  array(),$arr_total_case = array()) {
+        foreach ($arr_field_sum as $field_name => $total) {
+            $this->db->select_sum($field_name, $total);
+        }
+        foreach ($arr_total_case as $fields => $value) {
+            $this->db->where($fields, $value);
+        }
+        $query = $this->db->get($table);
+        return $query;
+        //return  $this->db->last_query();;
+    }
+
 //    public function select_count_trn($arr_total_case = array()) {
 //        $this->db->select_sum('tra_credit', 'total_credit');
 //        $this->db->select_sum('tra_debit', 'total_debit');
@@ -429,12 +441,12 @@ class m_global extends CI_Model {
         $this->db->join('loan_product_type', 'loan_account.loa_acc_loa_pro_type_code=loan_product_type.loa_pro_typ_id', 'left');
         $this->db->where($acc_num);
         return $this->db->get("loan_account");
-        
+
 //        $this->db->get("loan_account");
 //        return $this->db->last_query();
-        
     }
-     public function select_sav_acc_info($acc_num) {
+
+    public function select_sav_acc_info($acc_num) {
         $this->db->join('contacts', 'saving_account.sav_acc_con_id=contacts.con_id', 'left');
         $this->db->join('contacts_detail', 'contacts.con_id=contacts_detail.con_det_con_id', 'left');
         $this->db->join('provinces', 'contacts_detail.con_det_pro_id=provinces.pro_id', 'left');
@@ -448,11 +460,9 @@ class m_global extends CI_Model {
 //        
 //        $this->db->get('saving_account');
 //        echo $this->db->last_query();
-        
+
         return $this->db->get("saving_account");
-        
     }
-    
 
 }
 

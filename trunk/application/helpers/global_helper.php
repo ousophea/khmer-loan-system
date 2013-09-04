@@ -70,7 +70,7 @@ function table_manager($table_object, $arr_column, $control = FALSE, $format = N
                     $string_table .= '<td>' . $arr_data->$column .'</td>';
                 } else {
                     if ($f > 2) {
-                        $string_table .= '<td class="td_right">' . formatMoney($arr_data->$column) . '</td>';
+                        $string_table .= '<td class="td_right">' . formatMoney($arr_data->$column,TRUE) . '</td>';
                     } else {
                         $string_table .= '<td>' . $arr_data->$column . '</td>';
                     }
@@ -351,7 +351,7 @@ function acc_des($row) {
 
 function acc_info($labal,$name=NULL, $value=NULL ) {
     echo '<div class="control-group">
-            <label class="control-label" for="value_date">' . $labal . ':</label>
+            <label class="control-label" for="value_date">' . $labal . '</label>
             <div class="controls" name="'.$name.'">' . $value . '</div></div>';
 }
 function acc_info_html($labal,$name=NULL, $value=NULL ) {

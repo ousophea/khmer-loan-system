@@ -13,6 +13,10 @@ $dbf = new dbf();
                 font-family: kmSBBICsys;
                 src: url(<?php echo site_url(FONT_PATH . 'kmSBBICsys.ttf'); ?>);
             }
+            @font-face {
+                font-family: kmMoul;
+                src: url(<?php echo site_url(FONT_PATH . 'Kh-Muol.ttf'); ?>);
+            }
         </style>
         <link rel="shortcut icon" href="<?php echo site_url(IMAGES_PATH . 'favicon.ico') ?>"></link>
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'style.css'); ?>" rel="stylesheet" type="text/css">

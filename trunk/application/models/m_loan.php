@@ -18,8 +18,11 @@ class M_loan extends CI_Model {
 //        echo $this->input->post('firstrepayment_date');exit();
         $last_id = 0;
         $num_loan_acc = $this->db->count_all('loan_account') + 1;
+        $loa_code = $pro_type_code . '-' . $this->input->post('con_cid') . '-0' . $this->input->post('currency') . "-" . $num_loan_acc;
+        $this->session->set_userdata(array('loa_code'=>$loa_code));
         $data = array(
-            'loa_acc_code' => $pro_type_code . '-' . $this->input->post('con_cid') . '-0' . $this->input->post('currency') . "-" . $num_loan_acc,
+            
+            'loa_acc_code' => $loa_code,
             'loa_acc_con_id' => $this->input->post('con_cid'),
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
             'loa_acc_amount' => $this->input->post('loan_amount'),
@@ -180,7 +183,7 @@ class M_loan extends CI_Model {
                 }
 
 
-                $data['con_address'] = $row->con_det_address_detail . " ," . $row->dis_kh_name . ", " . $row->com_kh_name . ", " . $row->vil_kh_name . ", " . $row->pro_kh_name;
+                $data['con_address'] = $row->con_det_address_detail . " , ភូមិ" . $row->dis_kh_name . ", ឃុំ" . $row->com_kh_name . ", ស្រុក" . $row->vil_kh_name . ", ខេត្ត" . $row->pro_kh_name;
                 $data['con_dob'] = $row->con_det_dob;
                 $data['con_typ_title'] = $row->con_typ_title;
                 break;

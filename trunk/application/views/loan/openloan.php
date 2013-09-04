@@ -132,6 +132,8 @@ $list_acc_number.= '</datalist>';
 
 //        echo form_submit(array('name' => 'Save', 'class' => 'btn btn-success'), 'Confirm');
         echo "<span id='btn_tool'>";
+        echo anchor('loan/voucher', 'Print', 'class="btn btn-success btn_loa_stantus  disabled"  id="print"');
+        
         echo anchor('loan/loan_status', 'Disapprove', 'class="btn btn-danger btn_loa_stantus  disabled" id="Disapproved"');
         echo anchor('loan/loan_status', 'Approve', 'class="btn btn-success btn_loa_stantus  disabled"  id="Approved"');
         echo "</span>";
