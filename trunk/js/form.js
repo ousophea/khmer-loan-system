@@ -5,6 +5,7 @@
 jQuery.noConflict();
 (function($) {
     $(function() {
+        
         // start jquery
         var uri=[
         $('[name="base_url"]').val(),

@@ -7,7 +7,7 @@ jQuery.noConflict();
 (function($) {
     $(function() {
         // start jquery
-        
+        $('.numeric').numberOnly();
         //var numForm = $('.form_block').length;
         if($('.form_block')){
             var setStyle='<style type="text/css">';

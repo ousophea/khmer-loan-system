@@ -334,10 +334,11 @@ form option, input{
     width:649px;
 
 }
-/*#dep_form .modal-footer{
+#dep_form .modal-footer, #deposit_form .modal-footer{
     width: 617px;
     margin-left: -10px;
-}*/
+}
+
 /*.form_modal-footer{
     width: 100%;
     margin-left: -10px;
@@ -428,7 +429,7 @@ form option, input{
 }
 #form_loan_approv  a:link{
     font-weight:normal;
-    color: white;
+    color: #000;
 }
 #btn_tool{
     margin: 0 auto;
@@ -567,7 +568,7 @@ form option, input{
 
 .loan_info{
     border: solid 1px;
-    height: 300px;
+    height: 315px;
     padding: 10px 0;
     border-radius: 5px;
     box-shadow: 5px;
@@ -608,15 +609,18 @@ form option, input{
 }
 
 .fotter_date{
-    margin: 90px 0 0 0;
+    margin: 75px 0 0 0;
     border-top:dashed 1px;
     padding-top: 5px;
 }
 .vouchers .sign .control-group .controls {
-    height: 84px;
+    height: 130px;
+}
+.vouchers .sign_small .control-group .controls {
+    height: 105px;
 }
 .vouchers .big_heigt .control-group .controls {
-    height: 151px;
+    height: 125px;
 }
 
 .print_preview_menu{
@@ -644,4 +648,17 @@ form option, input{
 
 .print_preview .span5 .controls {
     width: 200px;
+}
+
+.error .help-block{
+    color:#FF0000;
+}
+.form-model #repayment_form  select{
+        width: 219px;
+}
+.form-model #repayment_form input[type="text"]{
+        width: 206px;
+}
+.total{
+    font-weight: bold;
 }
