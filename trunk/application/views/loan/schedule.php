@@ -1,10 +1,12 @@
 <?php
-$saving_total=NULL;
-$rate_total=NULL;
+$saving_total = NULL;
+$rate_total = NULL;
 if ($sum_result_query->num_rows() > 0) {
     foreach ($sum_result_query->result() as $row_sum_result) {
         $rate_total = $row_sum_result->rate_total;
         $saving_total = $row_sum_result->sav_total;
+        $principle_total = $row_sum_result->total_principle_amount_repayment;
+        $repayment_total = $row_sum_result->total_repayment;
     }
 }
 ?>
@@ -100,7 +102,9 @@ if ($sum_result_query->num_rows() > 0) {
                                 acc_info('អតិថិជនឈ្មោះ:', '', $row->con_kh_first_name . " " . $row->con_kh_last_name);
                                 acc_info('លេខគណនីឥណទាន:', '', $row->loa_acc_code);
                                 acc_info('ចំនួនប្រាក់កំចី:', '', formatMoney($row->loa_acc_amount, TRUE) . " " . $row->cur_title);
+                                echo '<span id="field_interest">';
                                 acc_info('អត្រាការប្រាក់ប្រចាំ' . $row->rep_fre_type_kh . ':', "", formatMoney($row->loa_ins_interest_rate, TRUE) . "%");
+                                echo '</span>';
                                 acc_info('រយះពេលខ្ចី:', '', $row->loa_ins_num_ins . " " . $row->rep_fre_type_kh);
                                 acc_info('ថ្ងៃចេញទុន(ថ្ងៃខែឆ្នាំ):', '', $row->loa_acc_disbustment);
 //                                acc_info('អាស័យដ្ឋាន:', '', $con_info['con_address']);
@@ -114,9 +118,9 @@ if ($sum_result_query->num_rows() > 0) {
                                 echo '<div class="form-horizontal">';
                                 acc_info('លេខគណនីសន្សំ:', '');
                                 echo '<div class="sub_title_contant">ពត៍មានសង្ខេបពីប្រាក់កំចី</div>';
-
+                                echo '<span id="field_total_interest">';
                                 acc_info('ការប្រាក់សរុប:', '', $rate_total);
-
+                                echo '</span>';
                                 acc_info('សរុបការប្រាក់់ និង ប្រាក់ដើម:', '', $row->loa_acc_amount + $rate_total);
                                 acc_info('សរុបប្រាក់សន្សំ:', '', $saving_total);
                                 echo '<div class="schedule_fotter">
@@ -142,8 +146,9 @@ if ($sum_result_query->num_rows() > 0) {
 //                                    'Instalment' => 'rep_sch_instalment'
                                 );
 
+
                                 echo "<span id='rep_tbl'></span>";
-                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3);
+                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3, array($principle_total, $repayment_total, $rate_total, $saving_total));
                                 ?>
                             </div>
                             <p><span style="text-decoration: underline">បញ្ជាក់ៈ</span> ថ្ងៃធ្វើការ ចាប់ពីថ្ងៃសុក្រ ពីម៉ោង ៧:៣០ ដល់ម៉ោង ២:០០</p>
@@ -165,7 +170,7 @@ if ($sum_result_query->num_rows() > 0) {
                 <a class="btn" href="<?php echo base_url() . 'loan/open'; ?>" style="float: right;" title="Edit loan account"><i class="icon-chevron-left"></i> Back</a>
             </div>
         </div>
-         <script>
+        <script>
 
             jQuery.noConflict();
             (function($) {
@@ -175,6 +180,8 @@ if ($sum_result_query->num_rows() > 0) {
                
                     $('.btn_print').click(function(){
                         $('.print_preview_menu').hide();
+                        $('#field_interest').hide();
+                        $('#field_total_interest').hide();
                         window.print();
                     });
 

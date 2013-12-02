@@ -18,7 +18,7 @@ class loan extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_global', 'global/mod_global'));
+        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_saving', 'm_global', 'global/mod_global'));
 //        $this->rand=NULL;
     }
 
@@ -27,6 +27,13 @@ class loan extends CI_Controller {
     }
 
     function add() {
+        // find loan with cid // This customer ready have loan account not yet close.
+        $exit_loan = $this->m_global->select_where("loan_account", array('loa_acc_con_id' => $this->input->post('con_cid'), 'loa_status' => 0));
+
+        if ($exit_loan->num_rows() > 0) {
+            $this->session->set_flashdata('error', '<div class="alert alert-error">This custormer ready have loan account.</div>');
+            redirect('loan/open');
+        }
 
         $arr_pro_id = $this->m_global->select_where("loan_product_type", array('loa_pro_typ_id' => $this->input->post('loa_acc_loa_pro_typ_id')), 1);
         if ($arr_pro_id->num_rows() > 0) {
@@ -44,9 +51,9 @@ class loan extends CI_Controller {
 //                $this->session->set_flashdata('success', 'A loan account has been saved');
             }
 //            ======================end repayment ========================
-             
-            $this->session->set_userdata(array('loa_id'=>$last_id));
-            
+
+            $this->session->set_userdata(array('loa_id' => $last_id));
+
             redirect('loan/voucher');
         } else {
 //            $this->session->set_flashdata('error', 'Error to create loan');
@@ -70,6 +77,16 @@ class loan extends CI_Controller {
             $this->session->set_flashdata('error', 'Error to create loan');
             redirect('loan/Open');
         }
+    }
+
+    function calculate_interest() {
+        $data = null;
+        $loan_amount = $this->input->post('loan_amount'); // Loan amount start up
+        $rate_per = $this->input->post('interest_rate') / 100; // Percentag of interest %
+        $loan_peraid = $this->input->post('num_installments'); // Number for time to repayment
+        //1 ==============instalment====================
+        $data ['instalment'] = round(($loan_amount * $rate_per) / (1 - pow((1 + $rate_per), (-$loan_peraid))), -2);
+        echo json_encode($data);
     }
 
     function voucher($loan_id = NULL) {
@@ -103,10 +120,13 @@ class loan extends CI_Controller {
     }
 
     function schedule($loa_acc_id = NULL) {
-        $loa_acc_id = $this->session->userdata('loa_id');//Sample id
+        $loa_acc_id = $this->session->userdata('loa_id'); //Sample id
         $loa_acc_code = $this->session->userdata('loa_code');
 
-        $this->data['sum_result_query'] = $this->m_global->select_count('repayment_schedule', array('rep_sch_saving' => 'sav_total', 'rep_sch_rate_repayment' => 'rate_total'), array('rep_sch_loa_acc_id' => $loa_acc_id));
+        $this->data['sum_result_query'] = $this->m_global->select_count('repayment_schedule', array('rep_sch_saving' => 'sav_total',
+            'rep_sch_rate_repayment' => 'rate_total',
+            'rep_sch_total_repayment' => 'total_repayment',
+            'rep_sch_principle_amount_repayment' => 'total_principle_amount_repayment'), array('rep_sch_loa_acc_id' => $loa_acc_id));
 
 
         $this->data['title'] = 'Loan disbursment Schedule';
@@ -139,46 +159,94 @@ class loan extends CI_Controller {
         $this->load->view("loan/schedule", $this->data);
     }
 
-    function repayment_schedule($get_acc_id = NULL) {
-
+    function repayment_schedule($get_acc_id = NULL, $repay_type = NULL) {
+//        =========Sample data
+//         $repay_type = 1;
+//        $loan_amount = 100000;
+//        $rate_per = 1 / 100;
+//        $loan_peraid = 6;
+//        $num_date = 7;
+//        $instalment = 17300;
+//        $loa_id = 11;
+//        =====Get user data input================
+        $repay_type = $this->input->post('loa_sch_id');
         $loan_amount = $this->input->post('loan_amount'); // Loan amount start up
         $rate_per = $this->input->post('interest_rate') / 100; // Percentag of interest %
         $loan_peraid = $this->input->post('num_installments'); // Number for time to repayment
-        $rep_freg = $this->input->post('rep_freg'); // Type of repayment ex: Monthly, Daily, Weekly
-        $disbu_date = $this->input->post('disbursment_date');
+        $num_date = $this->input->post('rep_freg'); // Type of repayment ex: Monthly, Daily, Weekly
+        $instalment = $this->input->post('ins_amount');
         $loa_id = $get_acc_id;
 
+        $disbu_date = $this->input->post('disbursment_date');
 
-        $arr_num_freg = $this->m_global->select_where("repayment_freg", array('rep_fre_id' => $rep_freg), 1);
-        if ($arr_num_freg->num_rows() > 0) {
-            foreach ($arr_num_freg->result() as $arr_data) {
-                $num_date = $arr_data->rep_fre_period;
-            }
-        }
+
+//==============The number of freg select from DB=================
+//        $arr_num_freg = $this->m_global->select_where("repayment_freg", array('rep_fre_id' => $rep_freg), 1);
+//        if ($arr_num_freg->num_rows() > 0) {
+//            foreach ($arr_num_freg->result() as $arr_data) {
+//                $num_date = $arr_data->rep_fre_period;
+//            }
+//        }
+//        
+//        $num_date = $rep_freg ;
         //1 ==============instalment====================
-        $instalment = ($loan_amount * $rate_per) / (1 - pow((1 + $rate_per), (-$loan_peraid)));
-
+//        $instalment = ($loan_amount * $rate_per) / (1 - pow((1 + $rate_per), (-$loan_peraid)));
+//        $instalment =round($instalment,-2);
 //          ======================= Repayment day ===========================
         $repayment_date = $disbu_date;
         //$repayment_date = date('Y-m-d', $repayment_date."+" . $num_date . " days");
-
+//variable for repayment type Anuity
         $arr_sch = array();
         $principle_repay = 0;
         $rate_repay = 0;
-        $balance = $loan_amount;
+        $last_priciple = $loan_amount;
+        $tmp_balance = $loan_amount;
+
+//        echo "<table border='1'><tr>";
+//        echo "<td>principle_repay</td><td>Rate</td><td>Total repay</td><td>Last priciple</td><td>Key</td>";
         for ($i = 1; $i <= $loan_peraid; $i++) {
             $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
-
+            if ($repay_type == 1) { //Anuity repayment type
+////////========================Anuity schedul=====================================
 //          1 ===================Rate===============
-            $rate = $rate_per * $balance;
+                $rate = round($rate_per * $last_priciple, -2);
 
 //          2 ================ Principle repayment ===============
-            $principle_repay = $instalment - $rate;
+                $principle_repay = $instalment - $rate;
 
 //            ================ total repayment =============
-            $total_repayment = $principle_repay + $rate;
-//            ================ balance after repay==================
-            $balance -= $principle_repay;
+                $total_repayment = $principle_repay + $rate;
+            } else if ($repay_type == 2) { // Declining repayment type 
+                $rat_pric = ($loan_amount / $loan_peraid / $loan_amount);  // Rat of priciple pay
+//            $key_culum = $loan_amount - ($loan_amount * $rat_pric *(-1));
+//           1 ==============Key=====================
+                $key_culum = round(($loan_amount * $rat_pric), -2);
+
+//           2 =============== principle repay ================
+                $principle_repay = $key_culum;
+
+//           3 ===================Rate===============
+                $rate = round($rate_per * $last_priciple, -2);
+
+//           4 ================ total repayment =============
+                $total_repayment = $principle_repay + $rate;
+
+//           5 ============= Last priciple amount =======
+                $last_priciple -=$principle_repay;
+            }
+
+            $tmp_balance -= round($principle_repay, -2);
+
+            if ($tmp_balance >= 0) {
+                $last_priciple = $tmp_balance;
+            } else {
+                $total_repayment = $total_repayment + $tmp_balance;
+                $last_priciple = 0;
+            }
+            //============View sample data================
+//            echo "</tr><tr><td>" . $principle_repay . '</td><td>' . $rate .
+//            '</td><td>' . $total_repayment . '</td><td>' . $last_priciple .
+//            '</td><td>' . $instalment . '</td></tr>';
 
             $arr_sch_rec = array(
                 'rep_sch_num' => $i,
@@ -186,18 +254,18 @@ class loan extends CI_Controller {
                 'rep_sch_principle_amount_repayment' => $principle_repay,
                 'rep_sch_rate_repayment' => $rate,
                 'rep_sch_total_repayment' => $total_repayment,
-                'rep_sch_balance' => $balance,
+                'rep_sch_balance' => $last_priciple,
                 'rep_sch_instalment' => $instalment,
                 'rep_sch_loa_acc_id' => $loa_id
             );
             array_push($arr_sch, $arr_sch_rec);
         }
+//        echo '</table>';
+//        exit();
         $this->db->insert_batch('repayment_schedule', $arr_sch);
         return TRUE;
-
-
-//        ==== Sent to view===============
-//        $this->data['repayment_sch'] = $this->m_global->select_all('repayment_schedule');
+//        ==== Sent to view===============   
+//        $this->data['repayment_sch'] = $this->m_global->select_where('repayment_schedule', array('rep_sch_loa_acc_id' => 11));
 //        $this->load->view(Variables::$layout_main, $this->data);
     }
 
@@ -275,9 +343,21 @@ class loan extends CI_Controller {
     }
 
     //======================================================================
+    function block() {
+        $this->data['title'] = 'Page blocked..!';
+        $this->load->view(Variables::$layout_main, $this->data);
+    }
+
     function open() {
 //        echo $this->session->userdata('loa_code');exit();
+
         $this->data['title'] = 'Open loan account';
+
+        $contracts = $this->m_saving->get_contacts();
+        if ($contracts == NULL) {
+            $this->session->set_flashdata('error', '<div class="alert alert-error">Contract is empty, please add contract first.</div>');
+            redirect('loan/block');
+        }
 
         $this->data['edit'] = 0;
 
@@ -308,6 +388,14 @@ class loan extends CI_Controller {
         $random_code = random_string('alnum', 16);
         $this->data['random_code'] = $random_code;
         $this->data['title'] = '(Dis)approve Loan Application';
+        $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
+        $this->load->view(Variables::$layout_main, $this->data);
+    }
+
+    function viewloan() {
+        $random_code = random_string('alnum', 16);
+        $this->data['random_code'] = $random_code;
+        $this->data['title'] = 'View Loan infomation';
         $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
         $this->load->view(Variables::$layout_main, $this->data);
     }
@@ -345,6 +433,13 @@ class loan extends CI_Controller {
     function find_contact_by_code() {
         allows(array(Setting::$role0, Setting::$role1));
         $data = null;
+
+//        $exit_loan = $this->m_global->select_where("loan_account",array('loa_acc_con_id'=>$this->input->post('con_cid'),'loa_status'=>0));
+//        if($exit_loan->num_rows()> 0){
+//            $this->session->set_flashdata('error', '<div class="alert alert-error">This custormer ready have loan account.</div>');
+//            redirect('loan/open');
+//        }
+
         if ($this->input->post('acc_num') != NULL) {
 //            $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'), 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id')), 'inner', array('loan_account.loa_acc_code' => $this->input->post('acc_num')), '1');
             $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'),
@@ -356,6 +451,7 @@ class loan extends CI_Controller {
                 'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id')), 'inner', array('loan_account.loa_acc_code' => $this->input->post('acc_num')), '1');
 
             if ($contact_info->num_rows() > 0) {
+
                 foreach ($contact_info->result() as $row) {
                     $contact_id = $row->con_cid;
                     $data['loa_acc_id'] = $row->loa_acc_id;
@@ -377,7 +473,7 @@ class loan extends CI_Controller {
                     $data['loa_ins_interest_rate'] = $row->loa_ins_interest_rate;
                     $data['loa_ins_installment_amount'] = $row->loa_ins_installment_amount;
                     $data['create_date'] = $row->loa_acc_created_date;
-                    $data['create_date'] = $row->loa_acc_created_date;
+//                    $data['loa_exit'] = $row->loa_acc_created_date;
                     $data['loa_detail'] = $row->loa_det_status;
 
                     $data['tbl_rep'] = $this->repayment_tbl($row->loa_acc_id);
@@ -391,7 +487,9 @@ class loan extends CI_Controller {
             }
         } else {
             $contact_id = $this->input->post('con_cid');
-            $contact = $this->m_loan->find_contact_by_code($contact_id);
+            $contact = $exit_loan = $this->m_loan->exit_loa_of_contact(); //check if contact have a loan ready need to close the previese first.
+
+            $contact += $this->m_loan->find_contact_by_code($contact_id);
         }
 
         if ($contact != NULL) {

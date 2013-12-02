@@ -34,16 +34,10 @@ $list_acc_number.= '</datalist>';
 
                 <?php
                 echo form_hidden('loa_con_id', set_value(''));
-//                echo '<span class="error">' . form_error('cid') . '</span>';
                 ?>
             </div>
         </div>               
         <?php
-//        acc_info('Display name', 'displayname');
-//
-//        acc_info('Date of birth', 'con_dob');
-//        acc_info('Address', 'con_address');
-
         echo "<div id='c_info'></div>";
         echo "</span>";
         echo close_block();
@@ -90,20 +84,6 @@ $list_acc_number.= '</datalist>';
         $tab1.= acc_info_html('Repayment Freg', 'rep_freg');
         $tab1.= acc_info_html('Installment Amount', 'loa_ins_installment_amount');
 
-//        acc_info('Loan Amount', 'loan_amount');
-//        acc_info('Interest Rate', 'interest_rate');
-//        acc_info('Penalty Rate', 'penalty_rate');
-//        echo "<hr>";
-////      acc_info('Disbursment Date', 'disbursment_date');
-//        acc_info('First Repayment', 'firstrepayment_date');
-//        acc_info('Maturity Date', 'maturity_date');
-//        echo "<hr>";
-//
-//        acc_info('Number of Installments', 'num_installments');
-//        acc_info('Repayment Freg', 'rep_freg');
-//        acc_info('Installment Amount', 'loa_ins_installment_amount');
-//       
-//        $tab1 .= close_block();
 
         $tab2 .='<span id="repayment_tbl"></span>';
 
@@ -121,21 +101,12 @@ $list_acc_number.= '</datalist>';
 
 
         echo '<div id="btn_action" class="span10">';
-//        ==================Repayment Table====================
-//        echo '<div id="repayment_box">';
-//        echo "<span id='tmp_box'></span><span id='tmp_tbl_rep'></span><span id='tmp_loa_status'></span>";
-//        echo anchor('loan/repayment_tbl', 'Repayment', 'class="btn btn-info btn_repayment"');
-////        echo '<br><br><span id="repayment_tbl"></span>';
-//        echo '</div>';
 //            ==================Footer =========
         echo '<div class="modal-footer">';
-
-//        echo form_submit(array('name' => 'Save', 'class' => 'btn btn-success'), 'Confirm');
         echo "<span id='btn_tool'>";
-//        echo anchor('loan/voucher', 'Print', 'class="btn btn-success btn_loa_stantus  disabled"  id="print"');
         
-        echo anchor('loan/loan_status', 'Disapprove', 'class="btn btn-danger btn_loa_stantus  disabled" id="Disapproved"');
-        echo anchor('loan/loan_status', 'Approve', 'class="btn btn-success btn_loa_stantus  disabled"  id="Approved"');
+//        echo anchor('loan/loan_status', 'Disapprove', 'class="btn btn-danger btn_loa_stantus  disabled" id="Disapproved"');
+//        echo anchor('loan/loan_status', 'Approve', 'class="btn btn-success btn_loa_stantus  disabled"  id="Approved"');
         echo "</span>";
         echo anchor('panel', 'Exit', 'class="btn exit"');
         echo '</div></div>';
@@ -152,8 +123,6 @@ $list_acc_number.= '</datalist>';
              
             $(function() {
                
-                //                $('#btn_action,#status_view').addClass("disable_box");
-                $('#btn_tool').addClass("disable_box");
                 $('.numeric').numberOnly();
 <?php echo "var code='$random_code';" ?>
             var uri=[
@@ -162,42 +131,6 @@ $list_acc_number.= '</datalist>';
                 $('[name="segment2"]').val(),
                 $('[name="segment3"]').val(),
             ]; 
-
-            //            ============= Button (Dis)approve click====================
-            //            $('.action_btn2').click(function(){
-            //                var btn_name =$(this).attr("id");
-            //                //                alert(btn_name); return false;
-            //                var approve = confirm("Are you sure want to "+btn_name+" this loan?");
-            //                if(approve){
-            //                        
-            //                    var this_url = $(this).attr('href');
-            //                    var id_code = $('[name="loa_con_id"]').val();
-            //                    var form_data = {
-            //                        "l_id_code" : id_code,
-            //                        "btn_nam" : btn_name
-            //                    };
-            //                
-            //                    $.ajax({ 
-            //                        url: this_url,
-            //                        type: 'POST',
-            //                        async : false,
-            //                        data: form_data,
-            //                        success: function(output_string){
-            //                            //                            $('#status_view div div').html(output_string);
-            //                            //                            $('#btn_tool').addClass("disable_box");
-            //                            //                            $('#status_view').removeClass("disable_box");
-            //                            //                            $('.exit').html("Exit");
-            //                            location.reload(true);
-            //                        },
-            //                        error:function(){
-            //                            alert("Database not respont this time, please try again latter!");
-            //                        }
-            //                
-            //                    });
-            //                }
-            //                return false;
-            //            });
-            //            
             //  =================Button Seacher Loan Code==============
             $('#search_customer_by_code').click(function(){
             
@@ -205,7 +138,6 @@ $list_acc_number.= '</datalist>';
                 acc_num = $('#account_number').val();
                    
                 $('.loader').addClass('icon-loader');
-                
                 $.post( uri[0]+"loan/find_contact_by_code",
                 {
                     'acc_num':acc_num
@@ -230,7 +162,7 @@ $list_acc_number.= '</datalist>';
                         //                        $('[name="loa_con_id"]').val(data.loa_acc_id+code);//=====For security=======
                         $('[name="loa_con_id"]').val(data.loa_acc_id);
                         $('#btn_action').removeClass("disable_box"); //// =========Show footer button submit========
-                        $('#btn_tool').removeClass("disable_box");//// =========Show botton submit========
+//                        $('#btn_tool').removeClass("disable_box");//// =========Show botton submit========
                         $('[name="cid"]').html(data.con_id);
                         $('[name="view_con_cid"]').html(data.con_cid);
                         $('[name="displayname"]').html(data.con_en_last_name+ " "+data.con_en_first_name);
@@ -259,7 +191,7 @@ $list_acc_number.= '</datalist>';
                         $('[name="loa_ins_installment_amount"]').html(data.loa_ins_installment_amount);
                         
                         var status = data.loa_detail;
-                        if(status !="Approved"){
+                        if(status=="Disapproved"){
                             $('#Approved').removeClass('disabled');
                             $('#Approved').addClass('action_btn');
                         }else{
@@ -286,40 +218,7 @@ $list_acc_number.= '</datalist>';
                 return false;
             });
             //            ====================== ======================
-            //            ============= Button (Dis)approve click====================
-            $(document).on( 'click','.action_btn', function( event ) {
-                var btn_name =$(this).attr("id");
-                //                alert(btn_name); return false;
-                var approve = confirm("Are you sure want to "+btn_name+" this loan?");
-                if(approve){
-                        
-                    var this_url = $(this).attr('href');
-                    var id_code = $('[name="loa_con_id"]').val();
-                    var form_data = {
-                        "l_id_code" : id_code,
-                        "btn_nam" : btn_name
-                    };
-                
-                    $.ajax({ 
-                        url: this_url,
-                        type: 'POST',
-                        async : false,
-                        data: form_data,
-                        success: function(){
-                            //                            $('#status_view div div').html(output_string);
-                            //                            $('#btn_tool').addClass("disable_box");
-                            //                            $('#status_view').removeClass("disable_box");
-                            //                            $('.exit').html("Exit");
-                            location.reload(true);
-                        },
-                        error:function(){
-                            alert("Database not respont this time, please try again latter!");
-                        }
-                
-                    });
-                }
-                return false;
-            });
+            
             
         });
             

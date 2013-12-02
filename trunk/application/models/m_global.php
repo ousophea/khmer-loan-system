@@ -123,6 +123,40 @@ class m_global extends CI_Model {
 //        $this->db->get($table);
 //        return $this->db->last_query();
     }
+    
+    
+      /**
+     * Function select Like / Like And
+     * @author Sophea <ousophea@gmail.com>
+     * @param $table the string parameter to select (required)
+     * @param $arr_item_like the array parameter to store the where field comming with value. It's associative array (required)
+     * @param $limit the string parameter store the limit record select separated by , (optional)  
+     * @return table object
+     * @example select_where('tbl_users',array('use_name' => 'vannak','use_password' => '12345'))
+     */
+    public function select_like($table, $arr_item_like = array(), $limit = NULL) {
+        if (!is_array($arr_item_like) || count($arr_item_like) <= 0)
+            return FALSE;
+        foreach ($arr_item_like as $field => $value) {
+            $this->db->like($field, $value);
+        }
+        if ($limit != NULL) {
+            if (strpos($limit, ',')) {
+                $arr_limit = explode(',', $limit);
+                if (is_numeric($arr_limit[0]) && is_numeric($arr_limit[1])) {
+                    $this->db->limit($arr_limit[0], $arr_limit[1]);
+                }
+            } else {
+                if (is_numeric($limit)) {
+                    $this->db->limit($limit);
+                }
+            }
+        }
+        return $this->db->get($table);
+//        $this->db->get($table);
+//        return $this->db->last_query();
+    }
+    
 
     /**
      * Function select Where Or
@@ -267,8 +301,9 @@ class m_global extends CI_Model {
         foreach ($arr_where as $field => $value) {
             $this->db->where($field, $value);
         }
-        $this->db->update($table, $arr_data);
-        return TRUE;
+        $query_update =$this->db->update($table, $arr_data);
+//         echo $this->db->last_query();
+        return $query_update;
     }
 
     /**
@@ -446,7 +481,8 @@ class m_global extends CI_Model {
 //        return $this->db->last_query();
     }
 
-    public function select_sav_acc_info($acc_num) {
+    public function select_sav_acc_info($acc_num=NULL) {
+//        $acc_num ="168-000001-1";
         $this->db->join('contacts', 'saving_account.sav_acc_con_id=contacts.con_id', 'left');
         $this->db->join('contacts_detail', 'contacts.con_id=contacts_detail.con_det_con_id', 'left');
         $this->db->join('provinces', 'contacts_detail.con_det_pro_id=provinces.pro_id', 'left');

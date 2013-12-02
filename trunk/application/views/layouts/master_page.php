@@ -120,7 +120,7 @@ $dbf = new dbf();
                                        href="#">Loan Acc<b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
                                         <li><a tabindex="-1" href="<?php echo base_url(); ?>disbursments">Disbursement</a></li>
-                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>repayments">Repayment</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>repayment">Repayment</a></li>
                                     </ul>
                                 </li>
                                 
@@ -160,10 +160,10 @@ $dbf = new dbf();
                                        data-toggle="dropdown"
                                        href="#"> Contact <b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>contacts">New Contact</a></li>
-                                        <li><a tabindex="-2" href="#">View Contact</a></li>
-                                        <li><a tabindex="-2" href="#">Edit Contact</a></li>
-                                        <li><a tabindex="-2" href="#">Delete Contact</a></li>
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>contacts/add">New Contact</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>contacts">View Contact</a></li>
+                                        <li><a tabindex="-2" href="Under construction">Edit Contact</a></li>
+                                        <li><a tabindex="-2" href="Under construction">Delete Contact</a></li>
                                     </ul>
                                 </li>
 
@@ -176,10 +176,10 @@ $dbf = new dbf();
                                        data-toggle="dropdown"
                                        href="#"> Saving <b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>saving">New Saving Acc</a></li>
-                                        <li><a tabindex="-2" href="#">View Saving Acc</a></li>
-                                        <li><a tabindex="-2" href="#">Edit Saving Acc</a></li>
-                                        <li><a tabindex="-2" href="#">Close Saving Acc</a></li>
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>saving/open">New Saving Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/view">View Saving Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/edit">Edit Saving Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/close">Close Saving Acc</a></li>
                                     </ul>
                                 </li>
 
@@ -188,10 +188,13 @@ $dbf = new dbf();
                                        data-toggle="dropdown"
                                        href="#"> Loan Acc <b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>loan">New Loan Acc</a></li>
-                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/open/edit">Edit Loan Acc</a></li>
-                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/openloan#contents">Open Loan Acc</a></li>
-                                        <li><a tabindex="-2" href="#">Close Loan Acc</a></li>
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>loan#contents">New Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/open/edit#contents">Edit Loan Acc</a></li>
+                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/viewloan#contents">View Loan Acc</a></li>
+                                        <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(SUPERADMIN)) { ?>
+                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/openloan#contents">(Dis)approve Loan Acc</a></li>
+                                        <?php } ?>
+                                         <li><a tabindex="-2" href="#">Close Loan Acc</a></li>
                                     </ul>
                                 </li>
 

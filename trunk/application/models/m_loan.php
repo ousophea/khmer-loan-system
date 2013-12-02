@@ -26,6 +26,7 @@ class M_loan extends CI_Model {
             'loa_acc_con_id' => $this->input->post('con_cid'),
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
             'loa_acc_amount' => $this->input->post('loan_amount'),
+            'loa_acc_amount_in_word' => $this->input->post('loan_amount_in_word'),
             'loa_acc_cur_id' => $this->input->post('currency'),
             'loa_acc_gl_code' => $this->input->post('gl_code'),
             'loa_acc_rep_fre_id' => $this->input->post('rep_freg'),
@@ -78,7 +79,7 @@ class M_loan extends CI_Model {
         $last_id = 0;
         $data = array(
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
-            'loa_acc_amount' => $this->input->post('loan_amount'),
+            'loa_acc_amount' => (int) $this->input->post('loan_amount'),
             'loa_acc_cur_id' => $this->input->post('currency'),
             'loa_acc_gl_code' => $this->input->post('gl_code'),
             'loa_acc_created_date' => date('y-m-d h:i:s'),
@@ -148,7 +149,16 @@ class M_loan extends CI_Model {
         }
         return $array;
     }
-
+    function exit_loa_of_contact(){
+        $data = null;
+        $loa_exit = $this->m_global->select_where("loan_account",array('loa_acc_con_id'=>$this->input->post('con_cid'),'loa_status'=>0));
+         if ($loa_exit->num_rows() > 0) {
+              $data['loa_exit'] = 1;
+         }else{
+             $data['loa_exit'] = 0;
+         }
+         return $data;
+    }
     function find_contact_by_code($con_cid) {
         $this->db->where('con_cid', $con_cid);
         $this->db->where('contacts.status', 1);
@@ -183,7 +193,7 @@ class M_loan extends CI_Model {
                 }
 
 
-                $data['con_address'] = $row->con_det_address_detail . " , ភូមិ" . $row->dis_kh_name . ", ឃុំ" . $row->com_kh_name . ", ស្រុក" . $row->vil_kh_name . ", ខេត្ត" . $row->pro_kh_name;
+                $data['con_address'] = $row->con_det_address_detail . " , ភូមិ " . $row->vil_kh_name . ", ឃុំ/សង្កាត់ " . $row->com_kh_name . ", ស្រុក/ខណ្ឌ " . $row->dis_kh_name . ", ខេត្ត/រាជធានី " . $row->pro_kh_name;
                 $data['con_dob'] = $row->con_det_dob;
                 $data['con_typ_title'] = $row->con_typ_title;
                 break;

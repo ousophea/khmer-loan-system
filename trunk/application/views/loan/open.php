@@ -47,16 +47,15 @@ $list_acc_number.= '</datalist>';
         echo open_span(5);
         echo open_block('cutomer_info', 'Customer information');
 
-        if ($edit == 1) {
-
+        if ($edit == 1) { // Edit form
             field("text", "account_number", "Accoundt Number: ", NULL, array('attribute' => array('list' => "list_account_number", 'class' => 'numeric', 'id' => "account_number", 'style' => "width:124px;"))
                     , TRUE, '<datalist id="list_account_number">' . $list_acc_number . '</datalist>
 <a class="btn account_number btn_search_gl gl_code" style=" padding: 4px 8px;"  id="search_customer_by_code" href="#"><i class="icon-search loader"></i> Search</a>');
             echo '<span id="account_number_des"></span>'; ///=========View Saving account information ===============//
             echo "<span class='acc_info_des'>";
-
+            acc_info("", 'loa_info');
             acc_info('CID', 'view_con_cid');
-        } else {
+        } else {//// Add new loan form
             ?>
             <div class="control-group">
                 <label class="control-label" for="cid">CID</label>
@@ -70,6 +69,7 @@ $list_acc_number.= '</datalist>';
             </div>
 
             <?php
+            acc_info("", 'loa_info');
             echo "<span class='acc_info_des'>";
         }
         ?>
@@ -86,48 +86,10 @@ $list_acc_number.= '</datalist>';
         </div>               
         <?php
         acc_info('Display name', 'displayname');
-//field("text", "dispayname", "Display name:", NULL, array('attribute' => array('disabled' => 'disabled')), FALSE);
-//$data = array(
-//'type' => 'text', // input type='text'
-//'label' => 'Display name',
-// 'attr' => array(
-//'name' => 'dispayname',
-// 'disabled' => 'disabled',
-// )
-//);
-//echo get_form($data);
+
         acc_info('Date of birth', 'con_dob');
-//field("text", "con_dob", "Date of birth:", NULL, array('attribute' => array('disabled' => 'disabled')), FALSE);
-//$data = array(
-//'type' => 'text', // input type='text'
-//'label' => 'Date of birth',
-// 'attr' => array(
-//'name' => 'con_dob',
-// 'disabled' => 'disabled',
-// )
-//);
-//echo get_form($data);
-//        $data = array(
-//            'type' => 'text', // input type='text'
-//            'label' => 'HID',
-//            'attr' => array(
-//                'name' => 'hid',
-//                'disabled' => 'disabled',
-//            )
-//        );
-//        echo get_form($data);
+
         acc_info('Address', 'con_address');
-//field("textarea", "con_address", "Address:", NULL, array('attribute' => array('disabled' => 'disabled')), FALSE);
-//$data = array(
-//'type' => 'textarea', // input type='text'
-//'label' => 'Address',
-// 'attr' => array(
-//'name' => 'con_address',
-// 'disabled' => 'disabled',
-// )
-//);
-//echo get_form($data);
-//Contact information
 
         echo "<div id='c_info'></div>";
         echo "</span>";
@@ -137,40 +99,20 @@ $list_acc_number.= '</datalist>';
 
         echo open_block('product_detail', 'Product Detail');
         $product_type[''] = '---Select product type---';
-//        $data = array(
-//            'type' => 'select', // input type='text'
-//            'label' => 'Product type',
-//            'validated' => 1,
-//            'attr' => array(
-//                'name' => 'loa_acc_loa_pro_typ_code',
-//                'option' => $product_type
-//            )
-//        );
+
 //        echo get_form($data);
         field('select', 'loa_acc_loa_pro_typ_id', 'Product type:', NULL, array('options' => $product_type, 'attribute' => array('validated' => 1)), TRUE);
 
-//        $data = array(
-//            'type' => 'text', // input type='text'
-//            'label' => 'Interest Rate',
-//            'attr' => array(
-//                'name' => 'interest_rate',
-//                'value' => ($this->input->post('interest_rate')) ? $this->input->post('interest_rate') : '0.00'
-//            )
-//        );
-//        echo get_form($data);
 
-        /**
-          $data = array(
-          'type' => 'text', // input type='text'
-          'label' => 'Income Rate',
-          'attr' => array(
-          'name' => 'income_rate',
-          'disabled' => 'disabled',
-          'value' => '0.00'
-          )
-          );
-          echo get_form($data);
-         * */
+        $schedule_type = array(
+            '' => '---Select schedule type---',
+            1 => 'Anuity',
+            2 => 'Declining'
+        );
+//        $schedule_type[''] = '---Select schedule type---';
+        field('select', 'loa_sch_id', 'Repayment type:', NULL, array('options' => $schedule_type, 'attribute' => array('validated' => 1)), TRUE);
+
+
         echo close_block();
         echo close_span();
 // End Left
@@ -179,69 +121,16 @@ $list_acc_number.= '</datalist>';
         echo open_block('general_info', 'Loan Specs');
 //-----------------------------
         $won_type = array('' => '---Select Ownership Type---', 1 => 'Sigle', 2 => 'Group');
-//        $data = array(
-//            'type' => 'select', // input type='text'
-//            'label' => 'Ownership Type',
-//            'validated' => 1,
-//            'attr' => array(
-//                'name' => 'won_type',
-//                'option' => $won_type
-//            )
-//        );
-//        echo get_form($data);
+
         field('select', 'won_type', 'Ownership Type:', NULL, array('options' => $won_type, 'attribute' => array('id' => 'won_type')), TRUE);
 
-//        $data = array(
-//            'type' => 'select', // input type='text'
-//            'label' => 'GL Code',
-//            'validated' => 1,
-//            'attr' => array(
-//                'name' => 'gl_id',
-//                'option' => $gl
-//            )
-//        );
-//        echo get_form($data);
 
         field('select', 'gl_code', 'GL Code :', NULL, array('options' => $gl, 'attribute' => array('id' => 'gl_code')), TRUE);
 //echo form_hidden('gl_id');
         field('select', 'currency', 'Currency:', NULL, array('options' => $currency, 'attribute' => array('id' => 'currency')), TRUE);
-
-
-//        $data = array(
-//            'type' => 'text', // input type='text'
-//            'label' => 'Loan Amount',
-//            'validated' => 1,
-//            'attr' => array(
-//                'name' => 'loan_amount',
-//            )
-//        );
-//        echo get_form($data);
-        field("text", "loan_amount", "Loan Amount:", NULL, array('attribute' => array('validated' => '1', 'class' => "numeric")), TRUE);
-
-//        $data = array(
-//            'type' => 'text', // input type='text'
-//            'label' => 'Disbursment Date',
-//            'attr' => array(
-//                'name' => 'disbursment_date',
-//                'class' => 'txtdate'
-//            )
-//        );
-//        echo get_form($data);
-
-//        field("text", "disbursment_date", "Disbursment Date:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
-
-//        $data = array(
-//            'type' => 'select', // input type='text'
-//            'label' => 'Repayment Freg',
-//            'validated' => 1,
-//            'attr' => array(
-//                'name' => 'rep_freg',
-//                'option' => $rep_peraid
-//            )
-//        );
-//        echo get_form($data);
-
         field('select', 'rep_freg', 'Repayment Freg:', NULL, array('options' => $rep_peraid, 'attribute' => array('validated' => '1')), TRUE);
+        field("text", "loan_amount", "Loan Amount:", NULL, array('attribute' => array('validated' => '1', 'class' => "numeric cal_ins_amount")), TRUE);
+        field("text", "loan_amount_in_word", "Amo In Word:", NULL, array('attribute' => array('validated' => '1')), TRUE);
 
 
         field("text", "firstrepayment_date", "First Repayment:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
@@ -252,37 +141,12 @@ $list_acc_number.= '</datalist>';
 // Others
         echo open_block('installmets', 'Installmets...');
 //        
-//        $data = null;
-//        $style = '';
-//        if(!empty($upload)) $style = 'color:red;';
-//        $data = array(
-//            'type' => 'file', // input type='text'
-//            'label' => '<span style="'.$style.'">Signature (max: 200x200px)</span>',
-//            'validated' => 1,
-//            'attr' => array(
-//                'name' => 'userfile',
-//                'upload'=>$upload
-//            )
-//        );
-//        echo get_form($data);
-//        $data = null;
-//        $data = array(
-//            'type' => 'select', // input type='text'
-//            'label' => 'Sign Rule',
-//            'validated' => 1,
-//            'attr' => array(
-//                'name' => 'sign_rule',
-//                'option'=>$signature_rule
-//            )
-//        );
-//        echo get_form($data);
-
-        field("text", "num_installments", "Num Installments:", NULL, array('attribute' => array('class' => "numeric")), TRUE);
-        field("text", "lead_interest", "Lead interest:", NULL, array('attribute' => array('disabled' => 'disabled')));
-        field("text", "principal_start", "Principal Start:", NULL, array('attribute' => array('disabled' => 'disabled')));
-        field("text", "principal_frequency", "Principal Frequency:", NULL, array('attribute' => array('class' => "numeric")), TRUE);
-        field("text", "interest_rate", "Interest Rate:", NULL, array('attribute' => array('class' => "numeric")), TRUE);
-        field("text", "ins_amount", "Installment Amount:", NULL, array('attribute' => array('class' => "numeric")), TRUE);
+//        field("text", "lead_interest", "Lead interest:", NULL, array('attribute' => array('disabled' => 'disabled')));
+//        field("text", "principal_start", "Principal Start:", NULL, array('attribute' => array('disabled' => 'disabled')));
+//        field("text", "principal_frequency", "Principal Frequency:", NULL, array('attribute' => array('class' => "numeric")), TRUE);
+        field("text", "num_installments", "Num Installments:", NULL, array('attribute' => array('class' => "numeric cal_ins_amount")), TRUE);
+        field("text", "interest_rate", "Interest Rate:", NULL, array('attribute' => array('class' => "numeric cal_ins_amount", 'id' => 'interest_rate')), TRUE);
+        field("text", "ins_amount", "Installment Amount:", NULL, array('attribute' => array('class' => "numeric cal_ins_amount")), TRUE);
 
         echo close_block();
 
@@ -366,8 +230,21 @@ $list_acc_number.= '</datalist>';
                             $('#form_loan').each(function() { this.reset() });
                         }
                         else{
+                            ///For edit loan if don't if ready approve or disbursment can't edit
+                            if($('#account_number').val()!=null){
+                                if(data.loa_detail != "Pending"){
+                                    $('[name="loa_info"]').html('<span class="error"><p>This Accoundt Number already approve and disbursment. Try another..!</p></span>');
+                                    $('#btn_action').addClass("disable_box");
+                                    return false;
+                                
+                                }else{
+                                    $('[name="loa_info"]').html("");
+                                    $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
+                                }
+                            
+                                //////////////////////////////////////
+                            }
                             $('[name="loa_con_id"]').val(data.loa_acc_id)
-                            $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
                             $('[name="cid"]').html(data.con_id);
                             $('[name="view_con_cid"]').html(data.con_cid);
                             $('[name="displayname"]').html(data.con_en_last_name+ " "+data.con_en_first_name);
@@ -382,7 +259,7 @@ $list_acc_number.= '</datalist>';
                             $('[name="gl_code"]').val(data.gl);
                             $('[name="currency"]').val(data.currency);
                             $('[name="loan_amount"]').val(data.loa_amount);
-//                            $('[name="disbursment_date"]').val(data.loa_acc_disbustment);
+                            //                            $('[name="disbursment_date"]').val(data.loa_acc_disbustment);
                             $('[name="rep_freg"]').val(data.loa_acc_rep_fre_id);
                             $('[name="firstrepayment_date"]').val(data.loa_acc_first_repayment);
                             //installment
@@ -392,13 +269,51 @@ $list_acc_number.= '</datalist>';
                             $('[name="principal_frequency"]').val(data.loa_ins_principal_frequency);
                             $('[name="interest_rate"]').val(data.loa_ins_interest_rate);
                             $('[name="ins_amount"]').val(data.loa_ins_installment_amount);
+                            //                            alert(data.loa_exit);return;
+                            if(data.loa_exit==1){ // check if customer ready have loan account not allow to create till the previouse accound.
+                                $('[name="loa_info"]').html('<span class="error"><p>CID "'+ data.con_cid +'" already has loan account. Try another CID or finish previous loan first..!</p></span>');
+                                $('#btn_action').addClass("disable_box");
+                            }else{
+                                $('[name="loa_info"]').html("");
+                                $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
+                            }
+                           
                         }
                         
                     },
                     'json'
                 );
                 });
+                
+                $('.cal_ins_amount').change(function(){
+                    //                    var loan_amount = $('[name="loan_amount"]').val();
+                    //                    var num_installments = $('[name="num_installments"]').val();
+                    //                    var rate_per = $(this).val();
+                    //                    var instalment = Math.round((loan_amount * rate_per) / (1 - Math.pow((1 + rate_per), (-num_installments))));
+                    //                    
+                    //                    $('[name="ins_amount"]').val(instalment);
+                    //                    return;
+                   
+                   
+                    console.log(num);
 
+                    var num = $('[name="loan_amount"]').val();
+                    var loan_amount = parseFloat(num.replace(/\s/g, "").replace(",", ".")); // convert to number only
+                     
+                    var interest_rate = $('[name="interest_rate"]').val();
+                    var num_installments = $('[name="num_installments"]').val();
+                    
+                    $.post( uri[0]+"loan/calculate_interest",
+                    {
+                        'loan_amount':loan_amount,
+                        'interest_rate':interest_rate,
+                        'num_installments':num_installments
+                    },
+                    function(data){
+                        $('[name="ins_amount"]').val(data.instalment);
+                    },'json');
+                
+                });
                 
             });
             

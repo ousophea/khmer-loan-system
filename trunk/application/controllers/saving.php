@@ -17,20 +17,27 @@ class saving extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_saving_product_type', 'm_saving'));
+        $this->load->model(array('m_saving_product_type', 'm_saving', 'm_global'));
     }
 
     function index() {
         redirect('saving/lists');
     }
 
+    function block() {
+        $this->data['title'] = 'Open saving account';
+        $this->load->view(Variables::$layout_main, $this->data);
+    }
+
     function open() {
+
         allows(array(Setting::$role0, Setting::$role1));
         $this->data['title'] = 'Open saving account';
         $product_type = $this->m_saving_product_type->get_product_type_array();
         $this->data['product_type'] = $product_type;
         $contracts = $this->m_saving->get_contacts();
         $gl = $this->m_saving->find_gl_code_for_dropdown();
+        
         $currency = $this->m_saving->find_currencies_for_dropdown();
         $this->data['contacts'] = $contracts;
         $this->data['currency'] = $currency;
@@ -42,9 +49,11 @@ class saving extends CI_Controller {
             $this->session->set_flashdata('error', '<div class="alert alert-error">Saving product type is empty, please add new saving product type first.</div>');
             redirect('saving/lists');
         }
-        if ($contracts->num_rows() == NULL) {
+        if ($contracts == NULL) {
+//        if ($contracts->num_rows() == NULL) {
             $this->session->set_flashdata('error', '<div class="alert alert-error">Contract is empty, please add contract first.</div>');
-            redirect('saving/lists');
+            redirect('saving/block');
+//        }
         }
 
         $this->form_validation->set_rules('cid', 'Contact information,Enter CID and click button search.', 'required|is_unique[saving_account.sav_acc_con_id]');
@@ -69,26 +78,24 @@ class saving extends CI_Controller {
 
             if (!$this->upload->do_upload()) {
                 // if file not selected
-                if($_FILES['userfile']['error']==4){
+                if ($_FILES['userfile']['error'] == 4) {
                     // DB-------------
                     //-----------------
                     if ($this->m_saving->add()) {
                         $this->session->set_flashdata('success', 'A saving account has been saved');
                         redirect('saving/lists');
                     }
-                }
-                else{
+                } else {
                     $this->data['upload'] = $this->upload->display_errors();
                     $this->load->view(Variables::$layout_main, $this->data);
                 }
-                
             } else {
                 // DB-------------
                 //-----------------
                 $file = $this->upload->data();
                 if ($this->m_saving->add($file['file_name'])) {
                     $this->session->set_flashdata('success', 'A saving account has been saved');
-                    redirect('saving/lists');
+                    redirect('saving/open');
                 } else {
                     $this->load->view(Variables::$layout_main, $this->data);
                 }
@@ -143,12 +150,24 @@ class saving extends CI_Controller {
 
     function view() {
         $this->data['title'] = 'View saving account';
+        $contracts = $this->m_saving->get_contacts();
+        if ($contracts == NULL) {
+            $this->session->set_flashdata('error', '<div class="alert alert-error">Contract is empty, please add contract first.</div>');
+            redirect('saving/block');
+        }
+
         $this->data['contacts'] = $this->m_saving->get_contacts_saving();
         $this->load->view(Variables::$layout_main, $this->data);
     }
 
     function edit() {
         $this->data['title'] = 'Edit saving account';
+        $contracts = $this->m_saving->get_contacts();
+        if ($contracts == NULL) {
+            $this->session->set_flashdata('error', '<div class="alert alert-error">Contract is empty, please add contract first.</div>');
+            redirect('saving/block');
+        }
+
         $this->data['contacts'] = $this->m_saving->get_contacts_saving();
         $this->data['product_type'] = $this->m_saving_product_type->get_product_type_array();
 
@@ -179,19 +198,17 @@ class saving extends CI_Controller {
 
             if (!$this->upload->do_upload()) {
                 // if file not selected
-                if($_FILES['userfile']['error']==4){
+                if ($_FILES['userfile']['error'] == 4) {
                     // DB-------------
                     //-----------------
                     if ($this->m_saving->edit()) {
                         $this->session->set_flashdata('success', 'A saving account has been updated');
                         redirect('saving/edit');
                     }
-                }
-                else{
+                } else {
                     $this->data['upload'] = $this->upload->display_errors();
                     $this->load->view(Variables::$layout_main, $this->data);
                 }
-                
             } else {
                 // DB-------------
                 //-----------------

@@ -32,7 +32,7 @@ if ($query_all->result() == NULL) {
     field('select', 'transaction_mode', 'Transaction Mode:', '1', array('options' => $array_transaction, 'attribute' => array('class' => 'dropdown validate[required]', 'id' => 'test')), TRUE);
     field('text', 'gl_code', 'GL contra Account:', $rows->gl_code, array('attribute' => array('readonly' => "")));
     field('text', 'value_date', 'Value date:', unix_to_human($now), array('attribute' => array('readonly' => "")));
-    field('text', 'dep_amount', 'Trn Amount:', NULL, NULL, TRUE);
+    field('text', 'dep_amount', 'Trn Amount:', NULL, array('attribute' => array('class' => "numeric")), TRUE);
     field('textarea', 'dep_des', 'Description:');
 
 

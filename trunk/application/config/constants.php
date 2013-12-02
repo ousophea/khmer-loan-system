@@ -65,3 +65,11 @@ define('TELLER', 'Teller');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
+/**
+ * Format & prefix
+ */
+define('APPROVED', "2");
+
+
+/* End of file constants.php */
+/* Location: ./application/config/constants.php */

@@ -68,6 +68,7 @@ echo"</div>";
                     }
                 
                 });
+                jq_code('.numeric').numberOnly();
                 
             }else{
                 alert("Account number is require..!");

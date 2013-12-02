@@ -61,4 +61,26 @@ class Ajax_action extends CI_Controller{
 		$select_option .= '</select>';
 		echo $select_option;
 	}
+        
+        public function saving_product_type(){
+           
+//            
+		$pro_type = $this->input->post('pro_type');
+//                $pro_type ="Compulsory";
+		if($pro_type ==""){
+			echo '**Invalid Request**';
+			die();
+		}
+                $select_option = '<div class="control-group"><label class="control-label" for="gl_id">GL Code</label><div class="controls">';
+		$select_option .= '<select name="gl_id"><option value="0">--- Select GL Code ---</option>';
+		$gl = $this->m_global->select_like('gl_list',array('gl_description'=>$pro_type));
+		if($gl->num_rows() > 0){
+			foreach($gl->result() as $rows){
+				$select_option .= '<option value="'.$rows->gl_id.'">'.$rows->gl_description.'</option>';
+			}
+		}
+		$select_option .= '</select><span class="error"></span></div></div>';
+		echo $select_option;
+	}
 }
+

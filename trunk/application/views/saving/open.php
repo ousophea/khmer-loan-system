@@ -1,5 +1,5 @@
 <?php
-if(!empty($upload))
+if (!empty($upload))
     echo '<div class="alert alert-error">' . $upload . '</div>';
 echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'name' => 'open_saving'));
 //echo form_hidden('gl_list', $gl);
@@ -91,16 +91,18 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
         echo close_block();
 //-----------------------------
 
-
+        $product_list = array('Compulsory' => 'Compulsory Saving',
+            'Voluntary' => 'Voluntary Saving');
         echo open_block('product_detail', 'Product Detail');
-        $product_type[''] = '---Select product type---';
+        $product_list[''] = '---Select product type---';
         $data = array(
             'type' => 'select', // input type='text'
             'label' => 'Product type',
             'validated' => 1,
             'attr' => array(
                 'name' => 'sav_acc_sav_pro_typ_id',
-                'option' => $product_type
+//        'option' => $product_type
+                'option' => $product_list
             )
         );
         echo get_form($data);
@@ -109,23 +111,23 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
             'label' => 'Interest Rate',
             'attr' => array(
                 'name' => 'interest_rate',
-                'value'=>($this->input->post('interest_rate'))?$this->input->post('interest_rate'):'0.00'
+                'value' => ($this->input->post('interest_rate')) ? $this->input->post('interest_rate') : '0.00'
             )
         );
         echo get_form($data);
 
-		/**
-        $data = array(
-            'type' => 'text', // input type='text'
-            'label' => 'Income Rate',
-            'attr' => array(
-                'name' => 'income_rate',
-                'disabled' => 'disabled',
-                'value' => '0.00'
-            )
-        );
-        echo get_form($data);
-		**/
+        /**
+          $data = array(
+          'type' => 'text', // input type='text'
+          'label' => 'Income Rate',
+          'attr' => array(
+          'name' => 'income_rate',
+          'disabled' => 'disabled',
+          'value' => '0.00'
+          )
+          );
+          echo get_form($data);
+         * */
         echo close_block();
         echo close_span();
 // End Left
@@ -164,32 +166,37 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
         );
         echo get_form($data);
 
+
+
         $data = array(
             'type' => 'select', // input type='text'
             'label' => 'GL Code',
             'validated' => 1,
             'attr' => array(
                 'name' => 'gl_id',
-                'option'=>$gl
+                'option' => $gl
             )
         );
+        echo '<span id="pro_type">';
         echo get_form($data);
+        echo '</span>';
         //echo form_hidden('gl_id');
 
         echo close_block();
-        
+
         // Others
         echo open_block('others', 'Others...');
         $data = null;
         $style = '';
-        if(!empty($upload)) $style = 'color:red;';
+        if (!empty($upload))
+            $style = 'color:red;';
         $data = array(
             'type' => 'file', // input type='text'
-            'label' => '<span style="'.$style.'">Signature (max: 200x200px)</span>',
+            'label' => '<span style="' . $style . '">Signature (max: 200x200px)</span>',
             'validated' => 1,
             'attr' => array(
                 'name' => 'userfile',
-                'upload'=>$upload
+                'upload' => $upload
             )
         );
         echo get_form($data);
@@ -200,12 +207,12 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
             'validated' => 1,
             'attr' => array(
                 'name' => 'sign_rule',
-                'option'=>$signature_rule
+                'option' => $signature_rule
             )
         );
         echo get_form($data);
         echo close_block();
-        
+
         echo close_span();
 // End span5
         echo '</div>';
@@ -252,7 +259,7 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
                             $('[name="cid"]').val(data.con_id);
                             //$('[name="con_cid"]').val(data.con_cid);
                             $('[name="dispayname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
-                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
+                            $('[name="accountname"]').val(data.con_kh_last_name+ " "+data.con_kh_first_name);
                             $('[name="con_dob"]').val(data.con_dob);
                             $('[name="con_address"]').val(data.con_address);
                             $('[name="con_typ_title"]').val(data.con_typ_title);
@@ -262,7 +269,18 @@ echo form_open_multipart('saving/open', array('class' => 'form-horizontal', 'nam
                     'json'
                 );
                 });
-
+                
+                //ajax get district after province selected
+                $('select[name="sav_acc_sav_pro_typ_id"]').change(function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo site_url('ajax_action/saving_product_type') ?>",
+                        data: { pro_type: jq(this).val() }
+                    }).done(function( data ) {
+                        jq('#pro_type').html(data);
+                    });
+                });
+        
                 
             });
         })(jQuery);

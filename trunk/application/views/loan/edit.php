@@ -53,8 +53,9 @@ echo form_hidden('old_signature');
                 echo '<span class="error">' . form_error('cid') . '</span>';
                 ?>
             </div>
-        </div>               
+        </div>              
         <?php
+        acc_info("", 'loa_info');
         $data = array(
             'type' => 'text', // input type='text'
             'label' => 'Display name',
@@ -212,7 +213,7 @@ echo form_hidden('old_signature');
         echo close_span();
 // End span5
         echo '</div>';
-        echo '<div class="span10"><div class="modal-footer">';
+        echo '<div id="btn_action" class="span10"><div class="modal-footer">';
         echo form_submit(array('name' => 'Save', 'class' => 'btn btn-success'), 'Confirm');
         echo anchor('saving/lists', 'Cancel', 'class="btn"');
         echo '</div></div>';
@@ -250,6 +251,15 @@ echo form_hidden('old_signature');
                             alert("Contact not found, please try another CID.");
                         }
                         else {
+                            
+                            if(data.loa_detail !="Pending"){ // check if customer ready have loan account not allow to create till the previouse accound.
+                                $('[name="loa_info"]').html('<span class="error"><p>CID "'+ data.con_cid +'" already has loan account. Try another CID or finish previous loan first..!</p></span>');
+                                $('#btn_action').addClass("disable_box");
+                            }else{
+                                $('[name="loa_info"]').html("");
+                                $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
+                            }
+                            
                             $('#dispayname').val(data.con_en_name);
                             $('[name="sav_acc_id"]').val(data.sav_acc_id);
                             $('[name="cid"]').val(data.con_id);
@@ -267,7 +277,8 @@ echo form_hidden('old_signature');
                             $('[name="interest_rate"]').val(data.sav_acc_interest_rate);
                             $('[name="old_signature"]').val(data.sav_acc_signature);
                             $('#loan_signature').attr('src', uri[0] + 'images/upload/' + data.sav_acc_signature);
-                        }
+                            
+                    }
 
                     },
                             'json'

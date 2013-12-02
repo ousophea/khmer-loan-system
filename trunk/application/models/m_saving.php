@@ -190,7 +190,20 @@ class M_saving extends CI_Model {
         else
             return $result;
     }
-
+//    function find_gl_by_pro_type() {
+//        $data = $this->db->like('gl_description', "Savings");
+//        $data = $this->db->get('gl_list');
+//        $result[''] = '--- Select GL Code ---';
+//        if ($data->num_rows() > 0) {
+//            foreach ($data->result() as $row) {
+//                $result[$row->gl_id] = $row->gl_description;
+//            }
+//            return $result;
+//        }
+//        else
+//            return $result;
+//    }
+    
     function find_gl_by_product_type_id($id) {
 
         $this->db->like('gl_code', $id);
@@ -237,6 +250,11 @@ class M_saving extends CI_Model {
         }
         else
             return $result;
+    }
+    function  select_gl_by_product($table,$pro_type){
+        
+        $this->db->like('gl_description', $pro_type); 
+        return $this->db->get($table);
     }
 
 }

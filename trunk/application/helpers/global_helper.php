@@ -32,7 +32,7 @@ function segment($i = 1) {
   );
   echo table_manager($this->db->get('contacts'), $arr_select_field);
  */
-function table_manager($table_object, $arr_column, $control = FALSE, $format = NULL) {
+function table_manager($table_object, $arr_column, $control = FALSE, $format = NULL, $total = NULL) {
     if (!is_array($arr_column) || count($arr_column) <= 0)
         return FALSE;
     $string_table = form_open('', array('name' => 'form_manager'));
@@ -67,10 +67,10 @@ function table_manager($table_object, $arr_column, $control = FALSE, $format = N
                     $check_first = FALSE;
                 }
                 if ($format == NULL) { //////////=========Not aply money format=================
-                    $string_table .= '<td>' . $arr_data->$column .'</td>';
+                    $string_table .= '<td>' . $arr_data->$column . '</td>';
                 } else {
                     if ($f > 2) {
-                        $string_table .= '<td class="td_right">' . formatMoney($arr_data->$column,TRUE) . '</td>';
+                        $string_table .= '<td class="td_right">' . formatMoney($arr_data->$column, TRUE) . '</td>';
                     } else {
                         $string_table .= '<td>' . $arr_data->$column . '</td>';
                     }
@@ -78,6 +78,15 @@ function table_manager($table_object, $arr_column, $control = FALSE, $format = N
                 $f++;
             }
             $string_table .= '</tr>';
+        }
+        if ($total != NULL) {
+            $string_table .= '<tr class="total"><td class="td_right" colspan="3">សរុប</td>';
+            
+            foreach($total as $col_total_result){
+                $string_table .= '<td class="td_right">' .  formatMoney($col_total_result,TRUE) . '</td>';
+            }
+            $string_table .="</tr>";
+//            $string_table .= '<td class="td_right">' . formatMoney($arr_data->$column, TRUE) . '</td>';
         }
     } else {
         $string_table .= '<tr><td colspan="' . count($arr_column) . '"><p class="no_record">There is no record.</p></td></tr>';
@@ -306,13 +315,13 @@ function formatMoney($number, $fractional = false) {
 
 function saving_acc_des($rows) {
     echo "<span class='acc_info_des'>";
-    acc_info("CID", $rows->con_cid);
-    acc_info("Name", $rows->con_en_first_name . " " . $rows->con_en_last_name);
-    acc_info("Bate of Birth", $rows->con_det_dob);
-    acc_info("NID", $rows->sav_acc_id);
-    acc_info("Address", $rows->con_det_address_detail . " ," . $rows->dis_kh_name . ", " . $rows->com_kh_name . ", " . $rows->vil_kh_name . ", " . $rows->pro_kh_name);
-    acc_info("Product", $rows->sav_pro_typ_title);
-    acc_info("Currency", $rows->cur_title);
+    acc_info("CID", '', $rows->con_cid);
+    acc_info("Name", '', $rows->con_en_first_name . " " . $rows->con_en_last_name);
+    acc_info("Bate of Birth", '', $rows->con_det_dob);
+    acc_info("NID", '', $rows->sav_acc_id);
+    acc_info("Address", '', $rows->con_det_address_detail . " ," . $rows->dis_kh_name . ", " . $rows->com_kh_name . ", " . $rows->vil_kh_name . ", " . $rows->pro_kh_name);
+    acc_info("Product", '', $rows->sav_pro_typ_title);
+    acc_info("Currency", '', $rows->cur_title);
 
     echo "</span>";
 //     echo'
@@ -336,6 +345,7 @@ function saving_acc_des($rows) {
 //                         Currency: ' . $rows->cur_title .
 //        '</div></div>';
 }
+
 function acc_des($row) {
     $srt = "<span class='acc_info_des'>";
 //    $srt.= acc_info("CID", $row->con_cid);
@@ -347,17 +357,16 @@ function acc_des($row) {
     return $str;
 }
 
-
-
-function acc_info($labal,$name=NULL, $value=NULL ) {
+function acc_info($labal, $name = NULL, $value = NULL) {
     echo '<div class="control-group">
             <label class="control-label" for="value_date">' . $labal . '</label>
-            <div class="controls" name="'.$name.'">' . $value . '</div></div>';
+            <div class="controls" name="' . $name . '">' . $value . '</div></div>';
 }
-function acc_info_html($labal,$name=NULL, $value=NULL ) {
+
+function acc_info_html($labal, $name = NULL, $value = NULL) {
     return '<div class="control-group">
             <label class="control-label" for="value_date">' . $labal . ':</label>
-            <div class="controls" name="'.$name.'">' . $value . '</div></div>';
+            <div class="controls" name="' . $name . '">' . $value . '</div></div>';
 }
 
 function loan_acc_des($rows) {

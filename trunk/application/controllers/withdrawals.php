@@ -31,6 +31,7 @@ class withdrawals extends CI_Controller {
 
     function search_acc_num() { // call by Ajax
         $accNum = $this->input->post('accNum');
+//        $accNum ="168-000001-1";
         $arr_search_index = array(
             "sav_acc_code" => $accNum
         );

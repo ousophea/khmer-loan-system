@@ -20,7 +20,7 @@
                 <img title="Contacts" alt="cashs" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'payment.png'); ?>"> 
                 <span class="row">Cashes</span></a> </div>
         <div class="span"> 
-            <a class="row" href="<?php echo base_url(); ?>loan/repayment">
+            <a class="row" href="<?php echo base_url(); ?>repayment">
                 <img title="Contacts" alt="repayment" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'repayment.png'); ?>"> 
                 <span class="row">Loan Repayment</span></a> </div>
         <div class="span"> 
