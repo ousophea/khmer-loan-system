@@ -165,6 +165,7 @@ $list_acc_number.= '</datalist>';
         ?>
 
     </div>
+
     <script>
 
         jQuery.noConflict();
@@ -296,10 +297,10 @@ $list_acc_number.= '</datalist>';
                    
                    
                     console.log(num);
-
+                    
                     var num = $('[name="loan_amount"]').val();
-                    var loan_amount = parseFloat(num.replace(/\s/g, "").replace(",", ".")); // convert to number only
-                     
+                    var loan_amount = parseFloat(num.replace(/\s/g, "").replace(",", "")); // convert to number only
+//                    alert(loan_amount);return;
                     var interest_rate = $('[name="interest_rate"]').val();
                     var num_installments = $('[name="num_installments"]').val();
                     

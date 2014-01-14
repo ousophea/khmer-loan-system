@@ -108,6 +108,11 @@ $list_acc_number.= '</datalist>';
 //        echo anchor('loan/loan_status', 'Disapprove', 'class="btn btn-danger btn_loa_stantus  disabled" id="Disapproved"');
 //        echo anchor('loan/loan_status', 'Approve', 'class="btn btn-success btn_loa_stantus  disabled"  id="Approved"');
         echo "</span>";
+        echo '
+                <a class="btn btn-mini" href="'. base_url().'loan/voucher" title="Loan disbusement voucher"><i class="icon-book icon-white"></i> Voucher</a>
+                <a class="btn btn-mini" href="'. base_url().'loan/schedule" title="View loan account"><i class="icon-calendar"></i> Repayment Schedule</a>
+            ';
+        
         echo anchor('panel', 'Exit', 'class="btn exit"');
         echo '</div></div>';
         ?>

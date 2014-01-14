@@ -183,6 +183,7 @@ if ($sum_result_query->num_rows() > 0) {
                         $('#field_interest').hide();
                         $('#field_total_interest').hide();
                         window.print();
+                        window.open("<?php echo base_url() . 'loan/open'; ?>")
                     });
 
                 
