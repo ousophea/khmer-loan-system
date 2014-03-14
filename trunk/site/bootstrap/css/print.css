@@ -1,0 +1,22 @@
+/* 
+    Document   : prints
+    Created on : Jul 2, 2013, 1:05:07 PM
+    Author     : sochy.choeun
+    Description:
+        Purpose of the stylesheet follows.
+*/
+body{
+    font-size: 11px;
+}
+table{
+    border-collapse: collapse;
+}
+table tr th{
+    border: 1px solid black;padding: 5px;
+    background: #DBEBCF;
+}
+table tr td{
+    border: 1px solid black;
+    padding: 5px;
+}
+

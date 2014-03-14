@@ -1,0 +1,26 @@
+/* 
+    Document   : saving
+    Created on : Apr 4, 2013, 10:20:08 PM
+    Author     : sochy.choeun
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+.btn{
+    margin-left: 5px;
+}
+
+.form-horizontal .control-label {
+    float: left;
+    width: 160px;
+    padding-top: 5px;
+    text-align: right;
+}
+.icon-loader{
+    background: url("../images/ajax-loader.gif") !important;
+}
+/*form{margin: 0px !important;}*/
