@@ -31,7 +31,7 @@ field("text", "limit_date", "Limit Date:", NULL, array('attribute' => array('cla
 //field("text", "currency", "Settlement Currency:", NULL, array('attribute' => array('readonly' => "")));
 field("text", "amount", "Settlement Amount:", NULL, array('attribute' => array('readonly' => "")),FALSE,' <span id="currency_title"></span>');
 
-field('select', 'currency', 'Currency:', NULL, array('options' => $currency, 'attribute' => array('id' => 'currency')), TRUE);
+//field('select', 'currency', 'Currency:', NULL, array('options' => $currency, 'attribute' => array('id' => 'currency')), TRUE);
 field("text", "paid_amount", "Paid Amount:", NULL, array('attribute' => array('class' => "numeric")), TRUE);
 field("textarea", "rep_detail", "Description:");
 echo '<div class="modal-footer btn_tool">';
