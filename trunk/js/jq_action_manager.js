@@ -35,8 +35,11 @@ jq(document).ready(function(){
         	alert('Please make sure you have selected the item to be edited and the item selected must be only one!');
         	return false;
         }
-        jq('#frm_contact').attr('action','contacts/delete');
-    	jq('#frm_contact').submit();
+		var conf = confirm('are you sure to delete');
+		if(conf){
+			jq('#frm_contact').attr('action','contacts/delete');
+			jq('#frm_contact').submit();
+		}
     	return false;
 	});
 	

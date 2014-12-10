@@ -19,7 +19,12 @@ class Contacts extends CI_Controller {
 	public function index(){
 		//select_join('tbl_contacts', array('tbl_users' => array('con_use_id' => 'use_id')),'inner',array('tbl_users.use_id' => 2),'30')
 		$data['title'] = 'Contacts Manager';
-		$data['query_all'] = $this->m_global->select_join('contacts',array('contacts_type' => array('con_con_typ_id' => 'con_typ_id'),'contacts_detail' => array('con_id' => 'con_det_con_id'), 'contacts_job' => array('con_con_job_id' => 'con_job_id')),'inner');
+		$data['query_all'] = $this->m_global->select_join('contacts',
+								array('contacts_type' => array('con_con_typ_id' => 'con_typ_id'),
+									'contacts_detail' => array('con_id' => 'con_det_con_id'), 
+									'contacts_job' => array('con_con_job_id' => 'con_job_id')
+								),
+								'inner',array('contacts.status'=>1),NULL,array('con_id'=>'DESC'));
  		$this->load->view(MAIN_MASTER,$data);
 	}
 	
@@ -161,20 +166,215 @@ class Contacts extends CI_Controller {
 	public function edit(){
 		$id = $this->input->post('check_select');
 		$id = $id[0];
+		//group
+		$gtitle = substr('G000000', 0, -count($id)).$id;
+		$gId = $this->m_global->select_string('group','gro_id',array('gro_title'=>$gtitle));
+		
 		$cid = $this->m_global->select_string('contacts','con_cid',array('con_id'=>$id));
 		$data['title'] = 'Contacts Manager : Edit ('.$cid.')';
-		$test = $this->m_global->select_join('contacts',array('contacts_type' => array('con_con_typ_id' => 'con_typ_id'),'contacts_detail' => array('con_id' => 'con_det_con_id'), 'contacts_job' => array('con_con_job_id' => 'con_job_id'), 'contacts_income' => array('con_con_inc_id' => 'con_inc_id')), 'inner', array('con_id' => $id), 1);
-		var_dump($test); die();
-		$data['contact_owner'] = $this->m_global->select_join('contacts',array('contacts_type' => array('con_con_typ_id' => 'con_typ_id'),'contacts_detail' => array('con_id' => 'con_det_con_id'), 'contacts_job' => array('con_con_job_id' => 'con_job_id'), 'contacts_income' => array('con_con_inc_id' => 'con_inc_id')), 'inner', array('con_id' => $id), 1);
+		$data['cm'] = $this->m_global->select_data_join_by(
+								'contacts','*',
+								array(
+									'contacts_type' => array('con_con_typ_id' => 'con_typ_id'),
+									'contacts_job' => array('con_con_job_id' => 'con_job_id'), 
+									'contacts_income' => array('con_con_inc_id' => 'con_inc_id'), 
+									'contacts_detail' => array('con_id' => 'con_det_con_id')),
+								array('con_id' => $id)
+						);
+		$data['cphone'] = $this->m_global->select_data_join(
+								'contacts','contacts_number.*',
+								array(
+									'contacts_number' => array('con_id' => 'con_num_con_id')),
+								array('con_id' => $id)
+						);		
+		$data['couple'] = $this->m_global->select_data_join_by(
+								'contacts','*',
+								array(
+									'contacts_couple' => array('con_id' => 'con_cou_couple','join_type'=>'inner'),
+									'contacts_number' => array('con_id' => 'con_num_con_id','join_type'=>'left')
+								),
+								array('con_cou_owner' => $id)
+						);
+		
+		$data['group'] = $this->m_global->select_data_join(
+								'contacts','*',
+								array(
+									'contacts_group' => array('con_id' => 'con_gro_con_id','join_type'=>'inner'),
+									'contacts_number' => array('con_id' => 'con_num_con_id','join_type'=>'left')
+								), 
+								array('con_gro_gro_id' => $gId,'con_id !=' => $id)								
+						);
+		$data['group_id'] = ($gId==''?0:$gId);
 		$data['query_job'] = $this->m_global->select_status('contacts_job');
 		$data['query_income'] = $this->m_global->select_status('contacts_income');
 		$data['query_pronvince'] = $this->m_global->select_all('provinces');
 		$this->load->view(MAIN_MASTER,$data);
 	}
 	
+	public function edit_save(){
+		if($_POST){
+			$use_id = $this->session->userdata('use_id');
+			$bra_id = $this->session->userdata('bra_id');
+			
+			//get data for primary contact
+			$cid = $this->input->post('cid');
+			$contact = $this->input->post('info');
+			$contact['con_use_id'] = $use_id;
+			$contact['con_bra_id'] = $bra_id;
+			//type of contact
+			$con_type = $contact['con_con_typ_id'];
+			
+			$this->m_global->update('contacts',$contact,array('con_id'=>$cid));
+			
+			$cphones = $this->input->post('phone');
+			//get data of phone for primary contact			
+			$this->m_global->delete('contacts_number',array('con_num_con_id'=>$cid));
+			if(count($cphones) > 0){
+				for($ind = 0; $ind < count($cphones); $ind++){
+					$cphones[$ind]['con_num_con_id'] = $cid;
+				}
+				$this->m_global->inserts('contacts_number',$cphones);
+			}
+			
+			//update contact detail
+			$cdetail = $this->input->post('detail');
+			$this->m_global->update('contacts_detail',$cdetail,array('con_det_con_id'=>$cid));
+			
+			//get status incase member married
+			$civil_status = $cdetail['con_det_civil_status'];
+			$couple_id = $this->input->post('couple_id');
+			if($civil_status == 2){
+				//todo update couple				
+				$couple = $this->input->post('couple');
+				
+				$couple['con_con_typ_id'] = $con_type;
+				$couple['con_use_id'] = $use_id;
+				$couple['con_bra_id'] = $bra_id;
+				unset($couple['con_id']);
+				
+				$couple_phone = $couple['phone'];
+				unset($couple['phone']);
+				
+				if($couple_id>0){									
+					$this->m_global->update('contacts', $couple, array('con_id'=>$couple_id));
+					$this->m_global->delete('contacts_number',array('con_num_con_id'=>$couple_id));
+					$couple_phone['con_num_con_id'] = $couple_id;					
+					$this->m_global->insert('contacts_number',$couple_phone);
+				}else{
+					//get last id of couple
+					$this->m_global->insert('contacts', $couple);
+					$last_id_couple = $this->m_global->insert_id();
+					$cid_couple = substr(CONTACT_DIGIT, 0, -(strlen($last_id_couple))).$last_id_couple;
+					$this->m_global->update('contacts',array('con_cid'=>$cid_couple),array('con_id'=>$last_id_couple));
+					//update relationship contact couple
+					$couple_phone['con_num_con_id'] = $last_id_couple;
+					$this->m_global->insert('contacts_number',$couple_phone);
+					$this->m_global->insert('contacts_couple',array('con_cou_owner'=>$cid,'con_cou_couple'=>$last_id_couple));
+					
+				}
+				
+			}else{
+				$this->m_global->delete('contacts_number',array('con_num_con_id'=>$couple_id));
+				$this->m_global->delete('contacts_couple',array('con_cou_couple'=>$couple_id));
+				$this->m_global->delete('contacts',array('con_id'=>$couple_id));
+			}
+			
+			//get data for group contact			
+			$group_id = (int)$this->input->post('group_id');
+			if($con_type == 1){			
+				//insert member involve with group
+				$groups = $this->input->post('group');					
+				if(!$group_id){
+					$filter = array('gro_title'=>substr('G000000', 0, -(count($cid))).$cid);
+					$this->m_global->insert('group',$filter);
+					$group_id = (int)$this->m_global->insert_id();
+				}
+				foreach($groups as $group){					
+					$group['con_con_typ_id'] = $con_type;
+					$group['con_use_id'] = $use_id;
+					$group['con_bra_id'] = $bra_id;
+					
+					$group_phone = $group['phone'];
+					$group_con_id = $group['con_id'];
+					unset($group['phone']);
+					unset($group['con_id']);
+					
+					if($group_con_id>0){
+						$this->m_global->update('contacts',$group,array('con_id'=>$group_con_id));
+						$this->m_global->delete('contacts_number',array('con_num_con_id'=>$group_con_id));
+						$group_phone['con_num_con_id'] = $group_con_id;
+						$this->m_global->insert('contacts_number',$group_phone);
+					}else{						
+						$this->m_global->insert('contacts',$group);
+						$last_id_contact_group = $this->m_global->insert_id();
+						$cid_group = substr(CONTACT_DIGIT, 0, -(strlen($last_id_contact_group))).$last_id_contact_group;
+						$this->m_global->update('contacts',array('con_cid'=>$cid_group),array('con_id'=>$last_id_contact_group));
+						//insert phone number to table contacts_number
+						$group_phone['con_num_con_id'] = $last_id_contact_group;
+						$this->m_global->insert('contacts_number',$group_phone);
+						//update relationship contact and group contact
+						$this->m_global->insert('contacts_group',array('con_gro_con_id'=>$last_id_contact_group,'con_gro_gro_id'=>$group_id));
+					}					
+				}
+				if($group_id > 0){
+					$_con_gro_con_id = $this->m_global->select_string('contacts_group','con_gro_con_id',array('con_gro_con_id'=>$cid,'con_gro_gro_id'=>$group_id));
+					if($_con_gro_con_id==''){
+						$this->m_global->insert('contacts_group',array('con_gro_con_id'=>$cid,'con_gro_gro_id'=>$group_id));
+					}
+				}
+				
+			}else{
+				if($group_id>0){
+					$groups = $this->m_global->select_data_join(
+								'contacts',
+								'*',
+								array(
+									'contacts_group' => array('con_id' => 'con_gro_con_id','join_type'=>'inner')									
+								), 
+								array('con_gro_gro_id' => $group_id,'con_id !=' => $cid,'status'=>1)
+							);
+					foreach($groups as $group){
+						$_con_id = $group['con_id'];
+						$this->m_global->delete('contacts_number',array('con_num_con_id'=>$_con_id));						
+						$this->m_global->delete('contacts',array('con_id'=>$_con_id));
+					}					
+					$this->m_global->delete('contacts_group',array('con_gro_gro_id'=>$group_id));
+					$this->m_global->delete('group',array('gro_id'=>$group_id));
+				}
+			}
+			
+			$this->session->set_flashdata('success','New contact has been created successfully!');
+			redirect(site_url('contacts'));
+			
+		}else{
+			$this->session->set_flashdata('error','No access without submit the form!');
+			redirect(site_url('contacts'));
+		}
+	}
+	
 	public function delete(){
-		$arr_id = $this->input->post('check_select');
-		var_dump($arr_id); die();
+		$ids = $this->input->post('check_select');
+		foreach($ids as $id){
+			$gtitle = substr('G000000', 0, -count($id)).$id;
+			$groups = $this->m_global->select_data_join(
+									'contacts_group','con_gro_con_id',
+									array('group'=>array('con_gro_gro_id'=>'gro_id')),
+									array('gro_title' => $gtitle,'status'=>1)
+								);			
+			$data = array('status'=>0);			
+			if(empty($groups)){
+				$this->m_global->update('contacts',$data,array('con_id'=>$id));
+				$this->m_global->update('contacts_number',$data,array('con_num_con_id'=>$id));
+			}else{			
+				foreach($groups as $group){
+					$con_id = $group['con_gro_con_id'];					
+					$this->m_global->update('contacts',$data,array('con_id'=>$con_id));
+					$this->m_global->update('contacts_number',$data,array('con_num_con_id'=>$con_id));
+				}
+				$this->m_global->update('group',$data,array('gro_title'=>$gtitle));
+			}			
+		}
+		redirect(site_url('contacts'));
 	}
 }
  

@@ -19,7 +19,10 @@ $dbf = new dbf();
             }
         </style>
         <link rel="shortcut icon" href="<?php echo site_url(IMAGES_PATH . 'favicon.ico') ?>"></link>
-        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'style.css'); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php echo site_url(JS_PATH_BOOTSTRAP . 'chosen/docsupport/style.css'); ?>" rel="stylesheet" type="text/css">
+		<link href="<?php echo site_url(JS_PATH_BOOTSTRAP . 'chosen/docsupport/prism.css'); ?>" rel="stylesheet" type="text/css">
+		<link href="<?php echo site_url(JS_PATH_BOOTSTRAP . 'chosen/chosen.css'); ?>" rel="stylesheet" type="text/css">
+		<link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'style.css'); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'main-style.css'); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'menu.css'); ?>" rel="stylesheet" type="text/css">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'saving.css'); ?>" rel="stylesheet" type="text/css">
@@ -32,6 +35,10 @@ $dbf = new dbf();
         <!--<script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP . 'jquery-2.0.0.min.js'); ?>" ></script>-->
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'jquery-1.8.3.min.js'); ?>" ></script>
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'jquery-ui.js'); ?>" ></script>
+		
+		<script src="<?php echo site_url(JS_PATH_BOOTSTRAP . 'chosen/chosen.jquery.js');?>" type="text/javascript"></script>
+		<script src="<?php echo site_url(JS_PATH_BOOTSTRAP . 'chosen/docsupport/prism.js');?>" type="text/javascript" charset="utf-8"></script>
+		
         <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP . 'bootstrap.min.js'); ?>" ></script>
 
         <script type="text/javascript" src="<?php echo site_url(JS_PATH_BOOTSTRAP . 'bootstrap-button.js'); ?>"></script>
@@ -209,7 +216,7 @@ $dbf = new dbf();
                                 <li class="off"> 
                                     <a class="dropdown-toggle <?php echo ($current_report == TRUE) ? 'current' : '' ?>" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> Reports <b class="caret"></b> </a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                        <li class="off <?php echo (segment(1) == "transaction") ? 'current' : '' ?>">
+                                        <li class="<?php echo (segment(1) == "transaction") ? 'current' : '' ?>">
                                             <a tabindex="-1" href="<?php echo site_url('reports/transaction'); ?>">Transaction report</a></li>
                                         <li><a tabindex="-3" href="<?php echo site_url('reports/glreport'); ?>">GL report</a></li>
                                         <li><a tabindex="-3" href="#">Another action</a></li>
@@ -268,8 +275,37 @@ $dbf = new dbf();
                     jq('.dropdown-toggle').dropdown();
                     //jq('.btn').click(function(){jq('#loader').show();});
                 });
+				
             })(jQuery);
-           
+			function setDate(iname){
+				jq( "input[name='"+iname+"']" ).datepicker({ 
+					defaultDate: '-0y',
+					buttonText: "Choose",
+					dateFormat: "yy-mm-dd" 
+				}).datepicker("setDate", new Date());
+			}
+			function getData(url,dataString,ele){
+				jq.ajax({ 
+					url: url,
+					type: 'POST',
+					async : false,
+					data: dataString,
+					success: function(response){
+						jq(ele).html(response);
+					}			
+				});
+			}
+			var config = {
+			  '.chosen-select'           : {},
+			  '.chosen-select-deselect'  : {allow_single_deselect:true},
+			  '.chosen-select-no-single' : {disable_search_threshold:10},
+			  '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+			  '.chosen'     : {width:"95%",disable_search_threshold:10},
+			  '.chosen-brand'     : {width:"72%",disable_search_threshold:10}
+			}
+			for (var selector in config) {
+			  jq(selector).chosen(config[selector]);
+			}
         </script>
         <script type="text/javascript" src="<?php echo site_url(JS_PATH . 'prints.js'); ?>"></script>
     </body>

@@ -662,3 +662,7 @@ form option, input{
 .total{
     font-weight: bold;
 }
+
+.ui-datepicker {
+	z-index:1050 !important;
+}
