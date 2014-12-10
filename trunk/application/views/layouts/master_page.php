@@ -110,7 +110,7 @@ $dbf = new dbf();
                     <div class="dropdown">
                         <ul class="main-menu">
                             <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "panel") ? 'current' : '' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
-
+							<li id="pan" class="off <?php echo (($this->uri->segment(1)) == "cofficer") ? 'current' : '' ?>" ><a href="<?php echo site_url('cofficer'); ?>">Creadit Officer</a></li>
                             <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(TELLER)) { ?>
                                 <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>cashs" >Tiller Cash</a></li>
                                 
