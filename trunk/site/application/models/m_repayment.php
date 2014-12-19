@@ -8,7 +8,7 @@
 if (!defined('BASEPATH'))
     exit('Permission Denied!');
 
-class m_report extends CI_Model {
+class m_repayment extends CI_Model {
 
     //put your code here
     function __construct() {
@@ -23,16 +23,20 @@ class m_report extends CI_Model {
 //        $data['total_credit'] = $this->db->select('SUM(tra_credit) as credit_total');
 //        return $data;
 //    }
-    public function select_count_trn($arr_total_case = array()) {
-        $this->db->select_sum('tra_credit', 'total_credit');
-        $this->db->select_sum('tra_debit', 'total_debit');
-        foreach ($arr_total_case as $field => $value) {
-            $this->db->where($field, $value);
-        }
-
-        // $this->db->where($arr_total_case);
-        $query = $this->db->get('transaction');
-        //echo $this->db->last_query();
+    public function getRepay() {
+        $this->db->where('rep_sch_date_repay','CURDATE()',FALSE);
+        $this->db->where('rep_sch_status', 1);
+        $this->db->select('*');
+        $this->db->select('CONCAT(contacts.con_en_first_name,' . ',contacts.con_en_last_name) as en_name', FALSE);
+        $this->db->select('CONCAT(contacts.con_kh_first_name,' . ',contacts.con_kh_last_name) as kh_name', FALSE);
+        $this->db->from('contacts');
+        $this->db->join('contacts_job', 'con_job_id=con_con_job_id');
+        $this->db->join('contacts_type', 'con_con_typ_id=con_typ_id');
+        $this->db->join('contacts_detail', 'con_id=con_det_con_id');
+        $this->db->join('loan_account', 'loa_acc_con_id=con_id');
+        $this->db->join('repayment_schedule', 'loan_account.loa_acc_con_id=repayment_schedule.rep_sch_loa_acc_id');
+//        $this->db->group_by('rep_sch_loa_acc_id');
+        $query = $this->db->get();
         return $query;
     }
 
@@ -46,8 +50,7 @@ class m_report extends CI_Model {
         return $data;
     }
 
-
-    public function get_contact_info($sum_query=NULL) {
+    public function get_contact_info($sum_query = NULL) {
         $this->db->where('loa_status', 0);
         $this->db->select('*');
         $this->db->join('contacts_detail', 'con_id=con_det_con_id');
@@ -60,9 +63,9 @@ class m_report extends CI_Model {
         $this->db->join('villages', 'contacts_detail.con_det_vil_id=villages.vil_id', 'left');
         $this->db->join('repayment_schedule', 'loan_account.loa_acc_id=repayment_schedule.rep_sch_loa_acc_id', 'inner');
 
-       $this->db->select_sum('rep_sch_rate_repayment', 'total_rate');
+        $this->db->select_sum('rep_sch_rate_repayment', 'total_rate');
         $this->db->group_by('rep_sch_loa_acc_id');
-        
+
         $query = $this->db->get('contacts');
         return $query;
     }

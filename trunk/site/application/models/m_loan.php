@@ -147,7 +147,7 @@ class M_loan extends CI_Model {
         $data = $this->db->get('contacts');
         $array = null;
         if ($data->num_rows() > 0) {
-            $array = $data;
+            $array = $data; 
         }
         return $array;
     }

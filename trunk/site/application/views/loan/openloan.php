@@ -133,7 +133,7 @@ $list_acc_number.= '</datalist>';
 //        echo form_submit(array('name' => 'Save', 'class' => 'btn btn-success'), 'Confirm');
         echo "<span id='btn_tool'>";
 //        echo anchor('loan/voucher', 'Print', 'class="btn btn-success btn_loa_stantus  disabled"  id="print"');
-        
+
         echo anchor('loan/loan_status', 'Disapprove', 'class="btn btn-danger btn_loa_stantus  disabled" id="Disapproved"');
         echo anchor('loan/loan_status', 'Approve', 'class="btn btn-success btn_loa_stantus  disabled"  id="Approved"');
         echo "</span>";
@@ -217,7 +217,7 @@ $list_acc_number.= '</datalist>';
                         //                           
                         // $('[name="cid"],[name="view_con_cid"],[name="displayname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').html("");
                         alert("Account number not found, please try another Account.");
-//                        $('#form_loan_approv').find(".controls:gt(0)").html('');
+                        //                        $('#form_loan_approv').find(".controls:gt(0)").html('');
                         $('.controls:gt(0)').html('');
                         //                            $('#btn_action').addClass("disable_box");
                         //$(document).
@@ -245,7 +245,7 @@ $list_acc_number.= '</datalist>';
                         $('[name="gl_code"]').html(data.gl_des);
                         $('[name="currency"]').html(data.currency_title);
                         $('[name="loan_amount"]').html(data.loa_amount);
-//                        $('[name="disbursment_date"]').html(data.loa_acc_disbustment);
+                        //                        $('[name="disbursment_date"]').html(data.loa_acc_disbustment);
                         $('[name="rep_freg"]').html(data.loa_acc_rep_fre_type);
                         $('[name="firstrepayment_date"]').html(data.loa_acc_first_repayment);
                         //                            //installment
@@ -255,14 +255,18 @@ $list_acc_number.= '</datalist>';
                         //                            $('[name="principal_frequency"]').val(data.loa_ins_principal_frequency);
                         $('[name="interest_rate"]').html(data.loa_ins_interest_rate);
                         $('[name="maturity_date"]').html(data.create_date);
-                        $('[name="loa_detail"]').html(data.loa_detail);
+                        $('[name="loa_detail"]').html(data.loa_det_status);
                         $('[name="loa_ins_installment_amount"]').html(data.loa_ins_installment_amount);
                         
-                        var status = data.loa_detail;
-                        if(status !="Approved"){
-                            $('#Approved').removeClass('disabled');
-                            $('#Approved').addClass('action_btn');
+                        var status = data.loa_acc_loa_det_id;
+                        
+                        if(status != 2){
+                            if(status != 7){
+                                $('#Approved').removeClass('disabled');
+                                $('#Approved').addClass('action_btn');
+                            }
                         }else{
+                            
                             $('#Disapproved').removeClass('disabled');
                             $('#Disapproved').addClass('action_btn');
                         }

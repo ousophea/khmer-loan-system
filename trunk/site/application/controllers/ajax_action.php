@@ -82,5 +82,13 @@ class Ajax_action extends CI_Controller{
 		$select_option .= '</select><span class="error"></span></div></div>';
 		echo $select_option;
 	}
+	
+	public function ajaxGetData(){
+		$field_where = $this->input->post('field_where');
+		$field_value = $this->input->post('field_value');
+		$tbl = $this->input->post('table');
+		$data = $this->m_global->select_data_where($tbl,array($field_where=>$field_value));
+		echo json_encode($data);
+	}
 }
 

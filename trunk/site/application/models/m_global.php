@@ -123,9 +123,8 @@ class m_global extends CI_Model {
 //        $this->db->get($table);
 //        return $this->db->last_query();
     }
-    
-    
-      /**
+
+    /**
      * Function select Like / Like And
      * @author Sophea <ousophea@gmail.com>
      * @param $table the string parameter to select (required)
@@ -156,7 +155,6 @@ class m_global extends CI_Model {
 //        $this->db->get($table);
 //        return $this->db->last_query();
     }
-    
 
     /**
      * Function select Where Or
@@ -244,6 +242,157 @@ class m_global extends CI_Model {
 //        return $this->db->last_query();
     }
 
+    public function select_data_join_by($table, $fields, $arr_join = array(), $arr_where = NULL, $limit = NULL, $order_by = NULL) {
+        if (!is_array($arr_join) || count($arr_join) <= 0)
+            return FALSE;
+        $this->db->select($fields);
+        $this->db->from($table);
+        //table need to join
+        foreach ($arr_join as $table_join => $fields_join) {
+            if (!is_array($fields_join))
+                return FALSE;
+            $field_left = '';
+            $field_right = '';
+            $join_type = '';
+            foreach ($fields_join as $field_l => $field_r) {
+                if ($field_l != "join_type") {
+                    $field_left = $field_l;
+                    $field_right = $field_r;
+                } else {
+                    $join_type = $field_r;
+                }
+            }
+            if ($join_type == '') {
+                $this->db->join($table_join, $table . '.' . $field_left . '=' . $table_join . '.' . $field_right);
+            } else {
+                $this->db->join($table_join, $table . '.' . $field_left . '=' . $table_join . '.' . $field_right, $join_type);
+            }
+        }
+        if ($arr_where != NULL && is_array($arr_where)) {
+            foreach ($arr_where as $fields => $value) {
+                $this->db->where($fields, $value);
+            }
+        }
+        if ($limit != NULL) {
+            if (strpos($limit, ',')) {
+                $arr_limit = explode(',', $limit);
+                if (is_numeric($arr_limit[0]) && is_numeric($arr_limit[1])) {
+                    $this->db->limit($arr_limit[0], $arr_limit[1]);
+                }
+            } else {
+                if (is_numeric($limit)) {
+                    $this->db->limit($limit);
+                }
+            }
+        }
+        if ($order_by != NULL && is_array($order_by)) {
+            foreach ($order_by as $fields => $value) {
+                $this->db->order_by($fields, $value);
+            }
+        }
+
+        $res = array();
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            $res = $query->row();
+        }
+        $query->free_result();
+        return $res;
+//        $this->db->get();
+//        return $this->db->last_query();
+    }
+
+    public function select_data_join($table, $fields, $arr_join = array(), $arr_where = NULL, $limit = NULL, $order_by = NULL) {
+        if (!is_array($arr_join) || count($arr_join) <= 0)
+            return FALSE;
+        $this->db->select($fields);
+        $this->db->from($table);
+        //table need to join
+        foreach ($arr_join as $table_join => $fields_join) {
+            if (!is_array($fields_join))
+                return FALSE;
+            $field_left = '';
+            $field_right = '';
+            $join_type = '';
+            foreach ($fields_join as $field_l => $field_r) {
+                if ($field_l != "join_type") {
+                    $field_left = $field_l;
+                    $field_right = $field_r;
+                } else {
+                    $join_type = $field_r;
+                }
+            }
+            if ($join_type == '') {
+                $this->db->join($table_join, $table . '.' . $field_left . '=' . $table_join . '.' . $field_right);
+            } else {
+                $this->db->join($table_join, $table . '.' . $field_left . '=' . $table_join . '.' . $field_right, $join_type);
+            }
+        }
+        if ($arr_where != NULL && is_array($arr_where)) {
+            foreach ($arr_where as $fields => $value) {
+                $this->db->where($fields, $value);
+            }
+        }
+        if ($limit != NULL) {
+            if (strpos($limit, ',')) {
+                $arr_limit = explode(',', $limit);
+                if (is_numeric($arr_limit[0]) && is_numeric($arr_limit[1])) {
+                    $this->db->limit($arr_limit[0], $arr_limit[1]);
+                }
+            } else {
+                if (is_numeric($limit)) {
+                    $this->db->limit($limit);
+                }
+            }
+        }
+        if ($order_by != NULL && is_array($order_by)) {
+            foreach ($order_by as $fields => $value) {
+                $this->db->order_by($fields, $value);
+            }
+        }
+
+        $res = array();
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $res[] = $row;
+            }
+        }
+        $query->free_result();
+        return $res;
+//        $this->db->get();
+//        return $this->db->last_query();
+    }
+
+    public function select_data_where($table, $arr_item_where = array(), $limit = NULL) {
+        if (!is_array($arr_item_where) || count($arr_item_where) <= 0)
+            return FALSE;
+        foreach ($arr_item_where as $field => $value) {
+            $this->db->where($field, $value);
+        }
+        if ($limit != NULL) {
+            if (strpos($limit, ',')) {
+                $arr_limit = explode(',', $limit);
+                if (is_numeric($arr_limit[0]) && is_numeric($arr_limit[1])) {
+                    $this->db->limit($arr_limit[0], $arr_limit[1]);
+                }
+            } else {
+                if (is_numeric($limit)) {
+                    $this->db->limit($limit);
+                }
+            }
+        }
+        $res = array();
+        $query = $this->db->get($table);
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $res[] = $row;
+            }
+        }
+        $query->free_result();
+        return $res;
+    }
+
     //GROUP OF FUNCTIONS QUERY TO INSERT//
 
     /**
@@ -285,6 +434,11 @@ class m_global extends CI_Model {
         return TRUE;
     }
 
+    public function inserts($table, $batches = array()) {
+        $this->db->insert_batch($table, $batches);
+        return TRUE;
+    }
+
     //GROUP OF FUNCTIONS QUERY TO UPDATE//
 
     /**
@@ -301,7 +455,7 @@ class m_global extends CI_Model {
         foreach ($arr_where as $field => $value) {
             $this->db->where($field, $value);
         }
-        $query_update =$this->db->update($table, $arr_data);
+        $query_update = $this->db->update($table, $arr_data);
 //         echo $this->db->last_query();
         return $query_update;
     }
@@ -424,7 +578,7 @@ class m_global extends CI_Model {
         }
     }
 
-    public function select_count($table,$arr_field_sum=  array(),$arr_total_case = array()) {
+    public function select_count($table, $arr_field_sum = array(), $arr_total_case = array()) {
         foreach ($arr_field_sum as $field_name => $total) {
             $this->db->select_sum($field_name, $total);
         }
@@ -481,7 +635,7 @@ class m_global extends CI_Model {
 //        return $this->db->last_query();
     }
 
-    public function select_sav_acc_info($acc_num=NULL) {
+    public function select_sav_acc_info($acc_num = NULL) {
 //        $acc_num ="168-000001-1";
         $this->db->join('contacts', 'saving_account.sav_acc_con_id=contacts.con_id', 'left');
         $this->db->join('contacts_detail', 'contacts.con_id=contacts_detail.con_det_con_id', 'left');

@@ -25,7 +25,7 @@ class disbursments extends CI_Controller {
     function disbursment() {
         $data['title'] = 'Disbursment / Debit';
 //        select_where('tbl_users',array('use_name' => 'vannak','use_password' => '12345'))
-        $data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_disbustment'=>NULL));
+        $data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_loa_det_id'=>2)); //Loan account ready approved
         //$data['transaction_query'] = $this->mod_global->select_all('transaction_mode');
 //        $data['currency_query'] = $this->mod_global->select_all('currency');
         $data['cid_query'] = $this->mod_global->select_all('contacts');
@@ -53,17 +53,19 @@ class disbursments extends CI_Controller {
                 'loa_dis_tra_mod_id' => $this->input->post('transaction_mode'),
                 'loa_dis_description' => $this->input->post('dis_des'),
                 'loa_dis_use_id' => $this->session->userdata("use_id"),
+                'loa_dis_date' => date('y-m-d h:i:s')
             );
             $this->db->insert('loan_disbursments', $arr_disburse_info);
             
             //=============Update loan account table===============
             $data = array(
-               'loa_acc_approval' => "Approved"
+//               'loa_acc_approval' => "Approved"
+                'loa_acc_loa_det_id' => APPROVED  // mean ready approved and disbursed
             );
-            $this->db->set("loa_acc_disbustment","NOW()",FALSE);
+//            $this->db->set("loa_acc_disbustment","NOW()",FALSE);
             $this->db->set("loa_acc_modified_date","NOW()",FALSE);
             $this->db->where(array('loa_acc_code' => $this->input->post('acc_number')));
-            $this->db->update('loan_account');
+            $this->db->update('loan_account',$data);
 
             //============= Update GL Balances====================
 

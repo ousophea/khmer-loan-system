@@ -32,7 +32,7 @@ function segment($i = 1) {
   );
   echo table_manager($this->db->get('contacts'), $arr_select_field);
  */
-function table_manager($table_object, $arr_column, $control = FALSE, $format = NULL, $total = NULL) {
+function table_manager($table_object, $arr_column, $control = FALSE, $format = NULL, $total = NULL, $number = FALSE) {
     if (!is_array($arr_column) || count($arr_column) <= 0)
         return FALSE;
     $string_table = form_open('', array('name' => 'form_manager'));
@@ -42,12 +42,16 @@ function table_manager($table_object, $arr_column, $control = FALSE, $format = N
     $string_table .= '<tr clas="tbl_header">';
     if ($control)
         $string_table .= '<th><input type="checkbox" class="check_all" /></th>';
+    if ($number) {
+        $string_table .= '<th>#</th>';
+    }
     foreach ($arr_column as $header => $column) {
         $string_table .= '<th>' . $header . '</th>';
     }
     $string_table .= '</tr>';
 
     //start write table data
+    $nuber_counter = 1;
     if ($table_object->num_rows() > 0) {
 
         foreach ($table_object->result() as $arr_data) {
@@ -60,6 +64,10 @@ function table_manager($table_object, $arr_column, $control = FALSE, $format = N
 
             $string_table .= '<tr>';
             $check_first = TRUE;
+            
+             if ($number) {
+                    $string_table .= '<td>' . $nuber_counter . '</td>';
+                }
             foreach ($arr_column as $column) {
                 if ($check_first) {
                     if ($control)
@@ -76,14 +84,16 @@ function table_manager($table_object, $arr_column, $control = FALSE, $format = N
                     }
                 }
                 $f++;
+               
             }
             $string_table .= '</tr>';
+             $nuber_counter++;
         }
         if ($total != NULL) {
             $string_table .= '<tr class="total"><td class="td_right" colspan="3">សរុប</td>';
-            
-            foreach($total as $col_total_result){
-                $string_table .= '<td class="td_right">' .  formatMoney($col_total_result,TRUE) . '</td>';
+
+            foreach ($total as $col_total_result) {
+                $string_table .= '<td class="td_right">' . formatMoney($col_total_result, TRUE) . '</td>';
             }
             $string_table .="</tr>";
 //            $string_table .= '<td class="td_right">' . formatMoney($arr_data->$column, TRUE) . '</td>';

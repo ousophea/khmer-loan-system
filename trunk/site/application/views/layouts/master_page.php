@@ -119,8 +119,9 @@ $dbf = new dbf();
                                        data-toggle="dropdown"
                                        href="#">Loan Acc<b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>disbursments">Disbursement</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>repayment/repayList">Daily Repayment List</a></li>
                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>repayment">Repayment</a></li>
+                                        <li><a tabindex="-1" href="<?php echo base_url(); ?>disbursments">Disbursement</a></li>
                                     </ul>
                                 </li>
                                 
@@ -210,6 +211,7 @@ $dbf = new dbf();
                                     <a class="dropdown-toggle <?php echo ($current_report == TRUE) ? 'current' : '' ?>" id="dLabel" role="button" data-toggle="dropdown" data-target="#" href="/page.html"> Reports <b class="caret"></b> </a>
                                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
                                         <li class="off <?php echo (segment(1) == "transaction") ? 'current' : '' ?>">
+                                            <a tabindex="-1" href="<?php echo site_url('reports/reports_viewer'); ?>">Reports</a></li>
                                             <a tabindex="-1" href="<?php echo site_url('reports/transaction'); ?>">Transaction report</a></li>
                                         <li><a tabindex="-3" href="<?php echo site_url('reports/glreport'); ?>">GL report</a></li>
                                         <li><a tabindex="-3" href="#">Another action</a></li>

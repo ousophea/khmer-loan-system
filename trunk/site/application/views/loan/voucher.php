@@ -160,7 +160,6 @@
         </div>
 
 
-
         <div class="print_preview_menu">
             <div class="tools">
                 <a disabled="disabled" class="btn btn-mini btn-success" href="#" title="Loan disbusement voucher"><i class="icon-book icon-white"></i> Voucher</a>
@@ -169,26 +168,5 @@
                 <a class="btn" href="<?php echo base_url() . 'loan/open'; ?>" style="float: right;" title="Edit loan account"><i class="icon-chevron-left"></i> Back</a>
             </div>
         </div>
-        <script>
-
-            jQuery.noConflict();
-            (function($) {
-             
-             
-                $(function() {
-               
-                    $('.btn_print').click(function(){
-                        $('.print_preview_menu').hide();
-                        window.print();
-                    });
-
-                
-                });
-            
-        
-            })(jQuery);
-        
-        
-        </script>
     </body>
 </html>

@@ -10,6 +10,7 @@ class reports extends CI_Controller {
     //put your code here
     private $data;
 
+//    var $data = NULL;
     function __construct() {
         parent::__construct();
         $this->load->model(array('global/mod_global', 'mod_global', 'm_global', 'm_report'));
@@ -98,7 +99,7 @@ class reports extends CI_Controller {
         $getGLdes = $this->input->post('txt_gldes');
         $getStaDate = $this->input->post('sta_date');
         $getEndDate = $this->input->post('end_date');
-        
+
         $last_date_total = $this->m_global->select_where('transaction', array('DATE(tra_date) <' => $getStaDate), 1);
         //var_dump($last_date_total);
         $last_balance = $this->m_report->select_count_trn(array('DATE(tra_date) <' => $getStaDate));
@@ -154,7 +155,7 @@ class reports extends CI_Controller {
                 $last_date = $last_rows->tra_date;
             }
             echo '<tr>';
-            echo '<td>' . $last_date . '</td><td>' . $last_date . '</td><td>BALANCE BROUGHT FORWARD</td><td></td><td>0</td><td>0</td><td>'.$total_last_balance.'</td></tr>';
+            echo '<td>' . $last_date . '</td><td>' . $last_date . '</td><td>BALANCE BROUGHT FORWARD</td><td></td><td>0</td><td>0</td><td>' . $total_last_balance . '</td></tr>';
             foreach ($query_all->result() as $total_rows) {
                 $debit = $total_rows->tra_debit;
                 $credit = $total_rows->tra_credit;
@@ -195,6 +196,46 @@ class reports extends CI_Controller {
 //            }
             //echo table_gl($query_all, $arr_select_field, FALSE, $total_debit, $total_credit);
         }
+    }
+
+    function reports_viewer() {
+        $this->data['title'] = 'Loan Outstanding Report';
+        $this->data['report_name'] = 'Loan Outstanding Report';
+
+//        $this->data['report_data_table'] = $this->m_global->select_all('loan_account');
+//        $this->data['report_data_table'] = $this->m_global->select_where('loan_account', array('loa_acc_id' => 50));
+//        
+    
+        $this->data['report_data_table'] = $this->m_report->get_contact_info();
+
+        $this->data['arr_field_sch_table'] = array(
+            'ល.រ' => 'loa_acc_id',
+            'លេខគណនីកំចី' => 'loa_acc_code', // Due 
+            'ឈ្មោះអតិថិជន' => 'con_kh_last_name', // Name 
+            'Alternative Account' => 'loa_alternative_account_code', // Due date
+            'ថ្ងៃចេញទុន' => 'loa_acc_created_date', //Disbustment date
+            'ថ្ងៃផុតកំណត់' => 'loa_acc_created_date', //End day
+            'វគ្គ' => 'loa_cicle', // Loan cicle
+            'Amount Financed' => 'loa_acc_amount',
+            'Amount Disbursed' => 'loa_acc_amount',
+            'Principle Balance' => 'loa_acc_amount',
+            'Interest Balance' => 'total_rate',
+            'ខេត្ត' => 'pro_kh_name',
+            'ស្រុក' => 'dis_en_name',
+            'ឃុំ' => 'com_kh_name',
+            'ភូមិ' => 'vil_en_name'
+        );
+
+//
+//        $this->data['arr_field_sch_table'] = array(
+//            '#' => '',
+//            'Accound Number' => 'loa_acc_code', // Due date
+//            'Alternative Account' => '', // Principal
+//            'Disbusment Date' => 'loa_acc_created_date', //Interest
+//            'End Date' => ''
+//        );
+        $this->load->view(Variables::$layout_main, $this->data);
+//        $this->load->view("reports/reports_viewer", $this->data);
     }
 
 }
