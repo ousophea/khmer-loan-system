@@ -514,14 +514,15 @@ class loan extends CI_Controller {
         $product_type = $this->m_loan_product_type->get_loan_product_type_array();
         $this->data['product_type'] = $product_type;
         $contracts = $this->m_loan->get_contacts();
-        $gl = $this->m_loan->find_gl_code_for_dropdown();
+//        $gl = $this->m_loan->find_gl_code_for_dropdown(); ////////  Not need for this time
         $rep_peraid = $this->m_loan->rep_peraid();
         $this->data['rep_peraid'] = $rep_peraid;
 
         $currency = $this->m_loan->find_currencies_for_dropdown();
         $this->data['contacts'] = $contracts;
         $this->data['currency'] = $currency;
-        $this->data['gl'] = $gl;
+//        $this->data['gl'] = $gl; ////////  Not need for this time
+          $this->data['loan_account_type'] = $this->m_loan->laon_account_type_for_dropdown();
         $this->load->view(Variables::$layout_main, $this->data);
     }
 

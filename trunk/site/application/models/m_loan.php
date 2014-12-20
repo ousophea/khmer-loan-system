@@ -275,7 +275,9 @@ class M_loan extends CI_Model {
     }
 
     function rep_peraid() {
+        $this->db->order_by('rep_fre_id`');
         $data = $this->db->get('repayment_freg');
+        
         $result[''] = '--- Plase Select ---';
         if ($data->num_rows() > 0) {
             foreach ($data->result() as $row) {
@@ -284,7 +286,17 @@ class M_loan extends CI_Model {
         }
         return $result;
     }
-
+function laon_account_type_for_dropdown(){
+        $this->db->order_by('lat_id');
+        $data = $this->db->get('loan_account_type');
+        $result = null;
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $row) {
+                $result[$row->lat_id] = $row->lat_title;
+            }
+        }
+        return $result;
+}
     function find_gl_by_product_type_id($id) {
 
         $this->db->like('gl_code', $id);
