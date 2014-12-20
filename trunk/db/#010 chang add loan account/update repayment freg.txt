@@ -1,0 +1,46 @@
+/* Connecting to 127.0.0.1 via TCP/IP, username root, using password: No ... */
+/* Connected. Thread-ID: 5 */
+/* Characterset: utf8 */
+SHOW STATUS LIKE 'Uptime';
+SHOW VARIABLES LIKE 'version_compile_os';
+SHOW VARIABLES LIKE 'hostname';
+SHOW DATABASES;
+USE `test`;
+SHOW TABLE STATUS FROM `test`;
+SHOW FUNCTION STATUS WHERE `Db`='test';
+SHOW PROCEDURE STATUS WHERE `Db`='test';
+SHOW TRIGGERS FROM `test`;
+SHOW EVENTS FROM `test`;
+USE `loan_khmer`;
+SHOW TABLE STATUS FROM `loan_khmer`;
+SHOW FUNCTION STATUS WHERE `Db`='loan_khmer';
+SHOW PROCEDURE STATUS WHERE `Db`='loan_khmer';
+SHOW TRIGGERS FROM `loan_khmer`;
+SHOW EVENTS FROM `loan_khmer`;
+SHOW CREATE TABLE `loan_khmer`.`loan_product_type`;
+SHOW COLLATION;
+SHOW ENGINES;
+SELECT `loa_pro_typ_id`, `loa_pro_typ_code`, `loa_pro_typ_description`, `loa_pro_typ_amount`, `status`, `loa_pro_typ_cur_id` FROM `loan_khmer`.`loan_product_type` LIMIT 0, 1000;
+SHOW CREATE TABLE `loan_product_type`;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='0 --> 500,000 ' WHERE `loa_pro_typ_code`=666 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='500,100 --> 1000,000' WHERE `loa_pro_typ_code`=777 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='1,000,100' WHERE `loa_pro_typ_code`=888 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='500,100 --> 1,000,000' WHERE `loa_pro_typ_code`=777 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='1,000,100 --> 2,000,000' WHERE `loa_pro_typ_code`=888 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='GREATER 2000,000RIEL' WHERE `loa_pro_typ_code`=999 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='1,000,100 --> 2,000,000RIEL' WHERE `loa_pro_typ_code`=888 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='500,100 --> 1,000,000 RIEL' WHERE `loa_pro_typ_code`=777 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='1,000,100 --> 2,000,000 RIEL' WHERE `loa_pro_typ_code`=888 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='GREATER 2000,000 RIEL' WHERE `loa_pro_typ_code`=999 LIMIT 1;
+UPDATE `loan_product_type` SET `loa_pro_typ_amount`='0 --> 500,000 RIEL' WHERE `loa_pro_typ_code`=666 LIMIT 1;
+UPDATE `loan_product_type` SET `status`='1' WHERE `loa_pro_typ_code`=666 LIMIT 1;
+UPDATE `loan_product_type` SET `status`='1' WHERE `loa_pro_typ_code`=777 LIMIT 1;
+UPDATE `loan_product_type` SET `status`='1' WHERE `loa_pro_typ_code`=888 LIMIT 1;
+UPDATE `loan_product_type` SET `status`='1' WHERE `loa_pro_typ_code`=999 LIMIT 1;
+SHOW CREATE TABLE `loan_khmer`.`repayment_freg`;
+SELECT `rep_fre_id`, `rep_fre_type`, `rep_fre_type_kh`, `rep_fre_period` FROM `loan_khmer`.`repayment_freg` LIMIT 0, 1000;
+SHOW CREATE TABLE `repayment_freg`;
+INSERT INTO `repayment_freg` (`rep_fre_id`, `rep_fre_type`, `rep_fre_type_kh`, `rep_fre_period`) VALUES (15, 'Biweekly', '????????', 0);
+UPDATE `repayment_freg` SET `rep_fre_period`=15 WHERE `rep_fre_id`=15 LIMIT 1;
+SELECT `rep_fre_id`, `rep_fre_type`, `rep_fre_type_kh`, `rep_fre_period` FROM `loan_khmer`.`repayment_freg` LIMIT 0, 1000;
+SHOW CREATE TABLE `repayment_freg`;
