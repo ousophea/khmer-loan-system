@@ -127,7 +127,7 @@ $list_acc_number.= '</datalist>';
 
 //        field('select', 'gl_code', 'GL Code :', NULL, array('options' => $gl, 'attribute' => array('id' => 'gl_code')), TRUE); //// Not need for this time 
 //echo form_hidden('gl_id');
-        field('select', 'lat_title', 'លេខគណនីអតិថិជន :', NULL, array('options' => $loan_account_type, 'attribute' => array('d' => 'lat_title')), TRUE);
+        field('select', 'lat_id', 'លេខគណនីអតិថិជន :', NULL, array('options' => $loan_account_type, 'attribute' => array('id' => 'lat_id')), TRUE);
         field('select', 'currency', 'Currency:', NULL, array('options' => $currency, 'attribute' => array('id' => 'currency')), TRUE);
         field('select', 'rep_freg', 'Repayment Freg:', NULL, array('options' => $rep_peraid, 'attribute' => array('validated' => '1')), TRUE);
         field("text", "loan_amount", "Loan Amount:", NULL, array('attribute' => array('validated' => '1', 'class' => "numeric cal_ins_amount")), TRUE);

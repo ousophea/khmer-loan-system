@@ -109,7 +109,8 @@
                                     echo '<span class="sign sign_small">';
                                     acc_info('ហត្ថលេខា/ Signature', '');
                                     echo '</span>';
-                                    acc_info('លេខកូដគណនី/ GL Code', '', $row->loa_acc_gl_code);
+//                                    acc_info('លេខកូដគណនី/ GL Code', '', $row->loa_acc_gl_code);
+                                     acc_info('លេខគណនីអតិថិជនៈ/ Customer Code', '', $row->lat_title);
                                     acc_info('ចំនូនទឹកប្រាក់បានទទួល/ Amount receiverd', "", formatMoney($row->loa_acc_amount, TRUE) . " " . $row->cur_title);
                                     acc_info('ជាអក្សរ/ In word', "", $row->loa_acc_amount_in_word);
                                     echo '</div>';
