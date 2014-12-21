@@ -28,6 +28,14 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact'));
 		<div>
 			<table border="0" width="100%">
 				<tr>
+					<td colspan="3">
+					<?php
+						echo form_label('Customer ID <span>*</span>','lbl_cus_id_first_name'); 
+						echo form_input(array('name'=>'txt_con_cid','placeholder'=>'Customer ID'));
+					?>
+					</td>					
+				</tr>
+				<tr>
 					<td>
 					<?php
 						echo form_label('Family Name in Khmer <span>*</span>','lbl_con_kh_first_name'); 

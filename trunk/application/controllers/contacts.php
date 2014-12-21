@@ -40,6 +40,7 @@ class Contacts extends CI_Controller {
 		if($_POST){
 			//get data for primary contact
 			$arr_contact = array(
+				'con_cid'=> $this->input->post('txt_con_cid'),
 				'con_con_typ_id' => (($this->input->post('txt_con_group') == 'group')?1:2),
 				'con_kh_first_name' => $this->input->post('txt_con_kh_first_name'),
 				'con_kh_last_name' => $this->input->post('txt_con_kh_last_name'),
@@ -58,8 +59,8 @@ class Contacts extends CI_Controller {
 			//update cid
 			//get last id
 			$last_id = $this->m_global->insert_id();
-			$cid = substr(CONTACT_DIGIT, 0, -(strlen($last_id))).$last_id;
-			$this->m_global->update('contacts',array('con_cid'=>$cid),array('con_id'=>$last_id));
+			//$cid = substr(CONTACT_DIGIT, 0, -(strlen($last_id))).$last_id;
+			//$this->m_global->update('contacts',array('con_cid'=>$cid),array('con_id'=>$last_id));
 			$con_phones = $this->input->post('txt_con_phone');
 			//get data of phone for primary contact
 			$arr_phone = array();
