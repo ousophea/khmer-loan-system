@@ -55,7 +55,7 @@ $list_acc_number.= '</datalist>';
         acc_info('Product type', 'loa_acc_loa_pro_typ_id');
         acc_info('Currency', 'currency');
         echo "<span id='status_view'>";
-        acc_info('Account Status', 'loa_detail');
+        acc_info('Account Status', 'loa_acc_loa_detail');
         echo "</span>";
 
         echo close_block();
@@ -69,8 +69,8 @@ $list_acc_number.= '</datalist>';
 
 
 //        $tab1.=open_block('general_info', 'Loan Specs');
-
-        $tab1.= acc_info_html('GL Code', 'gl_code');
+//        $tab1.= acc_info_html('GL Code', 'gl_code');
+        $tab1.= acc_info_html('គណនីអតិថិជន ', 'loa_acc_typ_num');
         $tab1.= acc_info_html('Loan Amount', 'loan_amount');
         $tab1.= acc_info_html('Interest Rate', 'interest_rate');
         $tab1.= acc_info_html('Penalty Rate', 'penalty_rate');
@@ -104,15 +104,15 @@ $list_acc_number.= '</datalist>';
 //            ==================Footer =========
         echo '<div class="modal-footer">';
         echo "<span id='btn_tool'>";
-        
+
 //        echo anchor('loan/loan_status', 'Disapprove', 'class="btn btn-danger btn_loa_stantus  disabled" id="Disapproved"');
 //        echo anchor('loan/loan_status', 'Approve', 'class="btn btn-success btn_loa_stantus  disabled"  id="Approved"');
         echo "</span>";
         echo '
-                <a class="btn btn-mini" href="'. base_url().'loan/voucher" title="Loan disbusement voucher"><i class="icon-book icon-white"></i> Voucher</a>
-                <a class="btn btn-mini" href="'. base_url().'loan/schedule" title="View loan account"><i class="icon-calendar"></i> Repayment Schedule</a>
+                <a class="btn btn-mini" href="' . base_url() . 'loan/voucher" title="Loan disbusement voucher"><i class="icon-book icon-white"></i> Voucher</a>
+                <a class="btn btn-mini" href="' . base_url() . 'loan/schedule" title="View loan account"><i class="icon-calendar"></i> Repayment Schedule</a>
             ';
-        
+
         echo anchor('panel', 'Exit', 'class="btn exit"');
         echo '</div></div>';
         ?>
@@ -124,113 +124,114 @@ $list_acc_number.= '</datalist>';
 
         jQuery.noConflict();
         (function($) {
-             
-             
+
+
             $(function() {
-               
+
                 $('.numeric').numberOnly();
 <?php echo "var code='$random_code';" ?>
-            var uri=[
-                $('[name="base_url"]').val(),
-                $('[name="segment1"]').val(),
-                $('[name="segment2"]').val(),
-                $('[name="segment3"]').val(),
-            ]; 
-            //  =================Button Seacher Loan Code==============
-            $('#search_customer_by_code').click(function(){
-            
-                var acc_num=null;
-                acc_num = $('#account_number').val();
-                   
-                $('.loader').addClass('icon-loader');
-                $.post( uri[0]+"loan/find_contact_by_code",
-                {
-                    'acc_num':acc_num
-                },
-                function(data){
-                    $('.loader').removeClass('icon-loader');
-                    $('.loader').addClass('icon-search');
-                    if(data.result == 0){
-                        //                           
-                        // $('[name="cid"],[name="view_con_cid"],[name="displayname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').html("");
-                        alert("Account number not found, please try another Account.");
-//                        $('#form_loan_approv').find(".controls:gt(0)").html('');
-                        $('.controls:gt(0)').html('');
-                        //                            $('#btn_action').addClass("disable_box");
-                        //$(document).
-                            
-                        //                            resetForm('#form_loan');///=======Reset form data
-                        //                            $('#form_loan').each(function() { this.reset() });
-                    }
-                    else{
-                           
-                        //                        $('[name="loa_con_id"]').val(data.loa_acc_id+code);//=====For security=======
-                        $('[name="loa_con_id"]').val(data.loa_acc_id);
-                        $('#btn_action').removeClass("disable_box"); //// =========Show footer button submit========
-//                        $('#btn_tool').removeClass("disable_box");//// =========Show botton submit========
-                        $('[name="cid"]').html(data.con_id);
-                        $('[name="view_con_cid"]').html(data.con_cid);
-                        $('[name="displayname"]').html(data.con_en_last_name+ " "+data.con_en_first_name);
-                        //                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
-                        $('[name="con_dob"]').html(data.con_dob +" "+ data.sex +"/"+ data.civil);
-                        $('[name="con_address"]').html(data.con_address);
-                            
-                        //                            // product type
-                        $('[name="loa_acc_loa_pro_typ_id"]').html(data.pro_type_code);
-                        //                            
-                        //                            // Loan space
-                        $('[name="gl_code"]').html(data.gl_des);
-                        $('[name="currency"]').html(data.currency_title);
-                        $('[name="loan_amount"]').html(data.loa_amount);
-//                        $('[name="disbursment_date"]').html(data.loa_acc_disbustment);
-                        $('[name="rep_freg"]').html(data.loa_acc_rep_fre_type);
-                        $('[name="firstrepayment_date"]').html(data.loa_acc_first_repayment);
-                        //                            //installment
-                        $('[name="num_installments"]').html(data.loa_ins_num_ins);
-                        //                            $('[name="lead_interest"]').val(data.loa_ins_lead_interest);
-                        //                            $('[name="principal_start"]').val(data.loa_ins_principal_start);
-                        //                            $('[name="principal_frequency"]').val(data.loa_ins_principal_frequency);
-                        $('[name="interest_rate"]').html(data.loa_ins_interest_rate);
-                        $('[name="maturity_date"]').html(data.create_date);
-                        $('[name="loa_detail"]').html(data.loa_detail);
-                        $('[name="loa_ins_installment_amount"]').html(data.loa_ins_installment_amount);
-                        
-                        var status = data.loa_detail;
-                        if(status=="Disapproved"){
-                            $('#Approved').removeClass('disabled');
-                            $('#Approved').addClass('action_btn');
-                        }else{
-                            $('#Disapproved').removeClass('disabled');
-                            $('#Disapproved').addClass('action_btn');
-                        }
-                        
-                        
-                        
+                var uri = [
+                    $('[name="base_url"]').val(),
+                    $('[name="segment1"]').val(),
+                    $('[name="segment2"]').val(),
+                    $('[name="segment3"]').val(),
+                ];
+                //  =================Button Seacher Loan Code==============
+                $('#search_customer_by_code').click(function() {
 
-                        //                        =============Table repayment================
-                        $('#repayment_tbl').html(data.tbl_rep);
-                    }
-                        
-                },
-                'json'
-            );
-                
-                return false;
+                    var acc_num = null;
+                    acc_num = $('#account_number').val();
+
+                    $('.loader').addClass('icon-loader');
+                    $.post(uri[0] + "loan/find_contact_by_code",
+                            {
+                                'acc_num': acc_num
+                            },
+                    function(data) {
+                        $('.loader').removeClass('icon-loader');
+                        $('.loader').addClass('icon-search');
+                        if (data.result == 0) {
+                            //                           
+                            // $('[name="cid"],[name="view_con_cid"],[name="displayname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').html("");
+                            alert("Account number not found, please try another Account.");
+//                        $('#form_loan_approv').find(".controls:gt(0)").html('');
+                            $('.controls:gt(0)').html('');
+                            //                            $('#btn_action').addClass("disable_box");
+                            //$(document).
+
+                            //                            resetForm('#form_loan');///=======Reset form data
+                            //                            $('#form_loan').each(function() { this.reset() });
+                        }
+                        else {
+
+                            //                        $('[name="loa_con_id"]').val(data.loa_acc_id+code);//=====For security=======
+                            $('[name="loa_con_id"]').val(data.loa_acc_id);
+                            $('#btn_action').removeClass("disable_box"); //// =========Show footer button submit========
+//                        $('#btn_tool').removeClass("disable_box");//// =========Show botton submit========
+                            $('[name="cid"]').html(data.con_id);
+                            $('[name="view_con_cid"]').html(data.con_cid);
+                            $('[name="displayname"]').html(data.con_en_last_name + " " + data.con_en_first_name);
+                            //                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
+                            $('[name="con_dob"]').html(data.con_dob + " " + data.sex + "/" + data.civil);
+                            $('[name="con_address"]').html(data.con_address);
+
+                            //                            // product type
+                            $('[name="loa_acc_loa_pro_typ_id"]').html(data.pro_type_code);
+                            //                            
+                            //                            // Loan space
+//                        $('[name="gl_code"]').html(data.gl_des);
+                            $('[name="loa_acc_typ_num"]').html(data.loa_acc_typ_num);
+                            $('[name="currency"]').html(data.currency_title);
+                            $('[name="loan_amount"]').html(data.loa_amount);
+//                        $('[name="disbursment_date"]').html(data.loa_acc_disbustment);
+                            $('[name="rep_freg"]').html(data.loa_acc_rep_fre_type);
+                            $('[name="firstrepayment_date"]').html(data.loa_acc_first_repayment);
+                            //                            //installment
+                            $('[name="num_installments"]').html(data.loa_ins_num_ins);
+                            //                            $('[name="lead_interest"]').val(data.loa_ins_lead_interest);
+                            //                            $('[name="principal_start"]').val(data.loa_ins_principal_start);
+                            //                            $('[name="principal_frequency"]').val(data.loa_ins_principal_frequency);
+                            $('[name="interest_rate"]').html(data.loa_ins_interest_rate);
+                            $('[name="maturity_date"]').html(data.create_date);
+                            $('[name="loa_acc_loa_detail"]').html(data.loa_acc_loa_detail);
+                            $('[name="loa_ins_installment_amount"]').html(data.loa_ins_installment_amount);
+
+                            var status = data.loa_detail;
+                            if (status == "Disapproved") {
+                                $('#Approved').removeClass('disabled');
+                                $('#Approved').addClass('action_btn');
+                            } else {
+                                $('#Disapproved').removeClass('disabled');
+                                $('#Disapproved').addClass('action_btn');
+                            }
+
+
+
+
+                            //                        =============Table repayment================
+                            $('#repayment_tbl').html(data.tbl_rep);
+                        }
+
+                    },
+                            'json'
+                            );
+
+                    return false;
+                });
+
+                //            ===============Live disable link ======================
+                $(document).on('click', '.btn_loa_stantus', function(event) {
+                    return false;
+                });
+                //            ====================== ======================
+
+
             });
-            
-            //            ===============Live disable link ======================
-            $(document).on( 'click','.btn_loa_stantus', function( event ) {
-                return false;
-            });
-            //            ====================== ======================
-            
-            
-        });
-            
-        
-    })(jQuery);
-        
-        
+
+
+        })(jQuery);
+
+
     </script>
 </div>
 <?php

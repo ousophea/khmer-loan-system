@@ -17,8 +17,16 @@ class M_loan extends CI_Model {
     function add($pro_type_code = NULL) {
 //        echo $this->input->post('firstrepayment_date');exit();
         $last_id = 0;
-        $num_loan_acc = $this->db->count_all('loan_account') + 1;
-        $loa_code = $pro_type_code . '-' . $this->input->post('con_cid') . '-0' . $this->input->post('currency') . "-" . $num_loan_acc;
+//        $num_loan_acc = $this->db->count_all('loan_account') + 1;
+//        $loa_code = $pro_type_code . '-' . $this->input->post('con_cid') . '-0' . $this->input->post('currency') . "-" . $num_loan_acc; ///// for old requirement
+        // Create laon code
+        $con_id = $this->input->post('con_cid');
+        
+        $this->db->where('loa_acc_con_id', $con_id); /////////// get loan cicle
+        $this->db->from('loan_account');
+         $cicle_loan = $this->db->count_all_results() +1;
+        $loa_code = $this->input->post('lat_id') ."-".$this->input->post('con_cid')."-" . $cicle_loan;
+//        echo $loa_code;        exit();
 
         $this->session->set_userdata(array('loa_code' => $loa_code)); // Add loand code for view
         $data = array(
@@ -33,6 +41,7 @@ class M_loan extends CI_Model {
 //            'loa_acc_gl_code' => $this->input->post('gl_code'),
               'loa_lat_id' => $this->input->post('lat_id'),
             'loa_acc_rep_fre_id' => $this->input->post('rep_freg'),
+            'loa_acc_co_id' => $this->input->post('co_id'),
             'loa_acc_created_date' => date('y-m-d h:i:s'),
             'loa_acc_use_id' => $this->session->userdata('use_id'),
             'loa_acc_approval' => "Not yest",
@@ -298,6 +307,21 @@ function laon_account_type_for_dropdown(){
         }
         return $result;
 }
+    function co_data_for_dropdown() {
+//        $bran_id = ; /// Get brand the same as user login brand
+        $bran_id =2 ;
+        $this->db->where('cro_of_branch.crob_bra_id', $bran_id);
+        $this->db->order_by('cro_name');
+          $this->db->join('cro_of_branch', 'cro_of_branch.crob_cro_id=creadit_officer.cro_id');
+        $data = $this->db->get('creadit_officer');
+         $result[''] = '--- Select CO ---';
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $row) {
+                $result[$row->cro_id] = $row->cro_name;
+            }
+        }
+        return $result;
+    }
     function find_gl_by_product_type_id($id) {
 
         $this->db->like('gl_code', $id);

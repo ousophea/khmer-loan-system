@@ -1,5 +1,5 @@
 <?php
-if(!empty($upload))
+if (!empty($upload))
     echo '<div class="alert alert-error">' . $upload . '</div>';
 if ($this->session->flashdata('success'))
     echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
@@ -113,23 +113,23 @@ echo form_hidden('old_signature');
             'label' => 'Interest Rate',
             'attr' => array(
                 'name' => 'interest_rate',
-                'value'=>($this->input->post('interest_rate'))?$this->input->post('interest_rate'):'0.00'
+                'value' => ($this->input->post('interest_rate')) ? $this->input->post('interest_rate') : '0.00'
             )
         );
         echo get_form($data);
 
-		/**
-        $data = array(
-            'type' => 'text', // input type='text'
-            'label' => 'Income Rate',
-            'attr' => array(
-                'name' => 'income_rate',
-                'disabled' => 'disabled',
-                'value' => '0.00'
-            )
-        );
-        echo get_form($data);
-		**/
+        /**
+          $data = array(
+          'type' => 'text', // input type='text'
+          'label' => 'Income Rate',
+          'attr' => array(
+          'name' => 'income_rate',
+          'disabled' => 'disabled',
+          'value' => '0.00'
+          )
+          );
+          echo get_form($data);
+         * */
         echo close_block();
         echo close_span();
 // End Left
@@ -174,26 +174,27 @@ echo form_hidden('old_signature');
             'validated' => 1,
             'attr' => array(
                 'name' => 'gl_id',
-                'option'=>$gl
+                'option' => $gl
             )
         );
         echo get_form($data);
         //echo form_hidden('gl_id');
 
         echo close_block();
-        
+
         // Others
         echo open_block('others', 'Others...');
         $data = null;
         $style = '';
-        if(!empty($upload)) $style = 'color:red;';
+        if (!empty($upload))
+            $style = 'color:red;';
         $data = array(
             'type' => 'file', // input type='text'
-            'label' => '<span style="'.$style.'">Signature (max: 200x200px)</span>',
+            'label' => '<span style="' . $style . '">Signature (max: 200x200px)</span>',
             'validated' => 1,
             'attr' => array(
                 'name' => 'userfile',
-                'upload'=>$upload
+                'upload' => $upload
             )
         );
         echo get_form($data);
@@ -204,12 +205,12 @@ echo form_hidden('old_signature');
             'validated' => 1,
             'attr' => array(
                 'name' => 'sign_rule',
-                'option'=>$signature_rule
+                'option' => $signature_rule
             )
         );
         echo get_form($data);
         echo close_block();
-        
+
         echo close_span();
 // End span5
         echo '</div>';
@@ -236,6 +237,7 @@ echo form_hidden('old_signature');
                     var con_cid = $('#con_cid').val();
                     //$('.btn').attr('disabled', true);
                     $('.loader').addClass('icon-loader');
+//                    $('.loader').addClass('icon-loader');
                     $.post(
                             uri[0] + "loan/find_loan_by_contact_id",
                             {
@@ -251,15 +253,15 @@ echo form_hidden('old_signature');
                             alert("Contact not found, please try another CID.");
                         }
                         else {
-                            
-                            if(data.loa_detail !="Pending"){ // check if customer ready have loan account not allow to create till the previouse accound.
-                                $('[name="loa_info"]').html('<span class="error"><p>CID "'+ data.con_cid +'" already has loan account. Try another CID or finish previous loan first..!</p></span>');
+
+                            if (data.loa_acc_loa_detail != "Pending") { // check if customer ready have loan account not allow to create till the previouse accound.
+                                $('[name="loa_info"]').html('<span class="error"><p>CID "' + data.con_cid + '" already has loan account. Try another CID or finish previous loan first..!</p></span>');
                                 $('#btn_action').addClass("disable_box");
-                            }else{
+                            } else {
                                 $('[name="loa_info"]').html("");
                                 $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
                             }
-                            
+
                             $('#dispayname').val(data.con_en_name);
                             $('[name="sav_acc_id"]').val(data.sav_acc_id);
                             $('[name="cid"]').val(data.con_id);
@@ -277,8 +279,8 @@ echo form_hidden('old_signature');
                             $('[name="interest_rate"]').val(data.sav_acc_interest_rate);
                             $('[name="old_signature"]').val(data.sav_acc_signature);
                             $('#loan_signature').attr('src', uri[0] + 'images/upload/' + data.sav_acc_signature);
-                            
-                    }
+
+                        }
 
                     },
                             'json'

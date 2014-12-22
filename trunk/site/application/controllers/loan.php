@@ -525,6 +525,7 @@ class loan extends CI_Controller {
         $this->data['currency'] = $currency;
 //        $this->data['gl'] = $gl; ////////  Not need for this time
           $this->data['loan_account_type'] = $this->m_loan->laon_account_type_for_dropdown();
+          $this->data['co_data'] = $this->m_loan->co_data_for_dropdown();
         $this->load->view(Variables::$layout_main, $this->data);
     }
 
@@ -589,15 +590,19 @@ class loan extends CI_Controller {
 //        }
 
         if ($this->input->post('acc_num') != NULL) {
+            $acc_num = $this->input->post('acc_num');
+//            $acc_num = '13-000013-1';
 //            $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'), 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id')), 'inner', array('loan_account.loa_acc_code' => $this->input->post('acc_num')), '1');
             $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'),
                 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id'),
                 'loan_product_type' => array('loa_acc_loa_pro_type_code' => 'loa_pro_typ_id'),
-                'gl_list' => array('loa_acc_gl_code' => 'gl_code'),
+//                'gl_list' => array('loa_acc_gl_code' => 'gl_code'),
+                 'loan_account_type' => array('loa_lat_id' => 'lat_id'),
                 'currency' => array('loa_acc_cur_id' => 'cur_id'),
                 'loan_detail' => array('loa_acc_loa_det_id' => 'loa_det_id'),
-                'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id')), 'inner', array('loan_account.loa_acc_code' => $this->input->post('acc_num')), '1');
-
+                'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id')), 'inner', array('loan_account.loa_acc_code' => $acc_num), '1');
+//            var_dump($contact_info); exit();
+            
             if ($contact_info->num_rows() > 0) {
 
                 foreach ($contact_info->result() as $row) {
@@ -605,8 +610,9 @@ class loan extends CI_Controller {
                     $data['loa_acc_id'] = $row->loa_acc_id;
                     $data['pro_type'] = $row->loa_acc_loa_pro_type_code;
                     $data['pro_type_code'] = $row->loa_pro_typ_code . " : " . $row->loa_pro_typ_amount;
-                    $data['gl'] = $row->loa_acc_gl_code;
-                    $data['gl_des'] = $row->gl_description;
+//                    $data['gl'] = $row->loa_acc_gl_code;
+//                    $data['gl_des'] = $row->gl_description;
+                     $data['loa_acc_typ_num'] = $row->lat_title;
                     $data['currency'] = $row->loa_acc_cur_id;
                     $data['currency_title'] = $row->cur_title;
                     $data['loa_amount'] = formatMoney($row->loa_acc_amount, TRUE);
@@ -623,7 +629,7 @@ class loan extends CI_Controller {
                     $data['create_date'] = $row->loa_acc_created_date;
 //                    $data['loa_exit'] = $row->loa_acc_created_date;
                     $data['loa_det_status'] = $row->loa_det_status;
-                    $data['loa_acc_loa_det_id'] = $row->loa_acc_loa_det_id;
+                    $data['loa_acc_loa_detail'] = $row->loa_det_status;
 
 
                     $data['tbl_rep'] = $this->repayment_tbl($row->loa_acc_id);

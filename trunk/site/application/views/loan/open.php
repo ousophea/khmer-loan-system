@@ -102,7 +102,7 @@ $list_acc_number.= '</datalist>';
 
 //        echo get_form($data);
         field('select', 'loa_acc_loa_pro_typ_id', 'Product type:', NULL, array('options' => $product_type, 'attribute' => array('validated' => 1)), TRUE);
-
+         field('select', 'co_id', 'CO Name:', NULL, array('options' => $co_data, 'attribute' => array('validated' => 1)), TRUE);
 
         $schedule_type = array(
             '' => '---Select schedule type---',
@@ -234,7 +234,7 @@ $list_acc_number.= '</datalist>';
                         else{
                             ///For edit loan if don't if ready approve or disbursment can't edit
                             if($('#account_number').val()!=null){
-                                if(data.loa_detail != "Pending"){
+                                if(data.loa_acc_loa_detail != "Pending"){
                                     $('[name="loa_info"]').html('<span class="error"><p>This Accoundt Number already approve and disbursment. Try another..!</p></span>');
                                     $('#btn_action').addClass("disable_box");
                                     return false;
@@ -258,7 +258,7 @@ $list_acc_number.= '</datalist>';
                             $('[name="loa_acc_loa_pro_typ_id"]').val(data.pro_type);
                             
                             // Loan space
-                            $('[name="gl_code"]').val(data.gl);
+//                            $('[name="gl_code"]').val(data.gl);
                             $('[name="currency"]').val(data.currency);
                             $('[name="loan_amount"]').val(data.loa_amount);
                             //                            $('[name="disbursment_date"]').val(data.loa_acc_disbustment);
