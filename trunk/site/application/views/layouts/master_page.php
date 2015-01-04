@@ -110,7 +110,6 @@ $dbf = new dbf();
                     <div class="dropdown">
                         <ul class="main-menu">
                             <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "panel") ? 'current' : '' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
-                            <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "cofficer") ? 'current' : '' ?>" ><a href="<?php echo site_url('cofficer'); ?>">Creadit Officer</a></li>
                             <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(TELLER)) { ?>
                                 <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>cashs" >Tiller Cash</a></li>
 
@@ -150,7 +149,7 @@ $dbf = new dbf();
                                 </li>
 
 
-            <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
+                    <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
 
                                 <li id="" class="off <?php echo (segment(1) == "paycashs") ? 'current' : '' ?>"><a href="<?php echo site_url('paycashs#form_other_expanse'); ?>" >Other Expense</a></li>
                                 <li id="tew" class="off <?php echo (($this->uri->segment(1)) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>
@@ -163,6 +162,8 @@ $dbf = new dbf();
                                     $current_contact = TRUE;
                                 }
                                 ?>   
+                                <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "cofficer") ? 'current' : '' ?>" ><a href="<?php echo site_url('cofficer'); ?>">Creadit Officer</a></li>
+
                                 <li class="off dropdown <?php echo ($current_contact == TRUE) ? 'current' : '' ?>"> 
                                     <a class="dropdown-toggle"
                                        data-toggle="dropdown"
@@ -176,7 +177,7 @@ $dbf = new dbf();
                                 </li>
 
 
-        <!--<li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>-->
+                <!--<li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>-->
                                 <li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>
 
                                 <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
@@ -206,7 +207,7 @@ $dbf = new dbf();
                                     </ul>
                                 </li>
 
-                                        <!--<li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>-->
+                                                <!--<li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>-->
                                 <?php
                                 $current_report = false;
                                 $arr_menu_report = array('transaction', 'reports');
@@ -225,7 +226,7 @@ $dbf = new dbf();
                                     </ul>
                                 </li>
 
-                                        <!--<li id="use" class="off <?php echo (segment(1) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>-->
+                                                <!--<li id="use" class="off <?php echo (segment(1) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>-->
                             <?php } ?>
                             <?php
                             $current_setting = false;
