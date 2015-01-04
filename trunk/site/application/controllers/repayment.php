@@ -18,7 +18,7 @@ class repayment extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_global', 'global/mod_global','m_repayment'));
+        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_global', 'global/mod_global', 'm_repayment'));
 //        $this->rand=NULL;
     }
 
@@ -48,41 +48,48 @@ class repayment extends CI_Controller {
 
     public function repayList() {
         $data['title'] = 'Daily Repayment List';
+        $this->form_validation->set_rules('date', '', 'trim');
+        $this->form_validation->set_rules('co_name', '', 'trim');
+        $this->form_validation->run();
+
         $data['query_all'] = $this->m_repayment->getRepay();
+        $data['co_list'] = $this->m_global->getDataArray('creadit_officer', 'co_id', 'co_name', NULL);
+//         $data['co_list'] = $this->mod_global->select_all('creadit_officer');
         $this->load->view(MAIN_MASTER, $data);
     }
-        function add() {
-            $this->data['title'] = 'Loan Repayment';
-            $this->data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_loa_det_id' => APPROVED));
-            $currency = $this->m_loan->find_currencies_for_dropdown();
-            $this->data['currency'] = $currency;
-            $this->load->view(Variables::$layout_main, $this->data);
-        }
 
-        function update() {
-            $limit_date = $this->input->post('limit_date');
-            $loan_id = $this->input->post('loan_id');
-            $loan_des = $this->input->post('rep_detail');
-            $loan_late_pay = $this->input->post('payment_late');
-            $loan_rep_status = 2; ///// Loan ready pay
-            if ($loan_late_pay > 0) {
-                $loan_rep_status = 3; /// Loan pay late
-            }
-
-            $update_query = $this->m_global->update('repayment_schedule', array('rep_sch_status' => $loan_rep_status,
-                'rep_sch_description' => $loan_des,
-                'rep_sch_value_date' => date('y-m-d h:i:s')), array('rep_sch_loa_acc_id' => $loan_id,
-                'DATE(rep_sch_date_repay)' => $limit_date));
-//        echo $update_query;exit();
-            if ($update_query) {
-                $this->session->set_flashdata('success', 'Repayment account has been saved');
-                redirect('repayment/add');
-            } else {
-                $this->session->set_flashdata('error', 'Error on update repayment loan');
-                redirect('repayment/Open');
-            }
-        }
-
+    function add() {
+        $this->data['title'] = 'Loan Repayment';
+        $this->data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_loa_det_id' => APPROVED));
+        $currency = $this->m_loan->find_currencies_for_dropdown();
+        $this->data['currency'] = $currency;
+        $this->load->view(Variables::$layout_main, $this->data);
     }
+
+    function update() {
+        $limit_date = $this->input->post('limit_date');
+        $loan_id = $this->input->post('loan_id');
+        $loan_des = $this->input->post('rep_detail');
+        $loan_late_pay = $this->input->post('payment_late');
+        $loan_rep_status = 2; ///// Loan ready pay
+        if ($loan_late_pay > 0) {
+            $loan_rep_status = 3; /// Loan pay late
+        }
+
+        $update_query = $this->m_global->update('repayment_schedule', array('rep_sch_status' => $loan_rep_status,
+            'rep_sch_description' => $loan_des,
+            'rep_sch_value_date' => date('y-m-d h:i:s')), array('rep_sch_loa_acc_id' => $loan_id,
+            'DATE(rep_sch_date_repay)' => $limit_date));
+//        echo $update_query;exit();
+        if ($update_query) {
+            $this->session->set_flashdata('success', 'Repayment account has been saved');
+            redirect('repayment/add');
+        } else {
+            $this->session->set_flashdata('error', 'Error on update repayment loan');
+            redirect('repayment/Open');
+        }
+    }
+
+}
 
 ?>

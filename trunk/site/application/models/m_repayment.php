@@ -24,17 +24,40 @@ class m_repayment extends CI_Model {
 //        return $data;
 //    }
     public function getRepay() {
-        $this->db->where('rep_sch_date_repay','CURDATE()',FALSE);
-        $this->db->where('rep_sch_status', 1);
+        $new_date = "";
+        $datestring = "%Y-%m-%d";
+        $time = time();
+        $stringDate = mdate($datestring, $time);
+        
+        ///============Filtter========================
+        if ($this->input->post('date')) {
+            $col_date = $this->input->post('date');
+            $new_date = date("Y-m-d", strtotime($col_date));
+            $stringDate = $new_date;
+        } else {
+            $new_date = "CURDATE()";
+        }
+
+        if ($this->input->post('co_name')) {
+            $co_id = $this->input->post('co_name');
+            $this->db->where('loa.loa_acc_co_id', "$co_id", true);
+        }
+
+        $this->db->where('rep_sch_date_repay', "$new_date", true);
+        $this->session->set_userdata('col_date', $stringDate);
+        
+        $this->db->where('loa.loa_acc_loa_det_id', 2, true); /////when laon is approved only
         $this->db->select('*');
-        $this->db->select('CONCAT(contacts.con_en_first_name,' . ',contacts.con_en_last_name) as en_name', FALSE);
-        $this->db->select('CONCAT(contacts.con_kh_first_name,' . ',contacts.con_kh_last_name) as kh_name', FALSE);
-        $this->db->from('contacts');
-        $this->db->join('contacts_job', 'con_job_id=con_con_job_id');
-        $this->db->join('contacts_type', 'con_con_typ_id=con_typ_id');
-        $this->db->join('contacts_detail', 'con_id=con_det_con_id');
-        $this->db->join('loan_account', 'loa_acc_con_id=con_id');
-        $this->db->join('repayment_schedule', 'loan_account.loa_acc_con_id=repayment_schedule.rep_sch_loa_acc_id');
+        $this->db->select('CONCAT(con.con_en_first_name,' . ',con.con_en_last_name) as en_name', FALSE);
+        $this->db->select('CONCAT(con.con_kh_first_name,' . ',con.con_kh_last_name) as kh_name', FALSE);
+        $this->db->from('repayment_schedule rps');
+        $this->db->join('loan_account loa', 'loa.loa_acc_id=rps.rep_sch_loa_acc_id');
+        $this->db->join('creadit_officer co', 'loa.loa_acc_co_id=co.co_id');
+        $this->db->join('repayment_status reps', 'reps.rep_sta_id=rps.rep_sch_status');
+        $this->db->join('contacts con', 'con.con_id=loa.loa_acc_con_id');
+        $this->db->join('contacts_job conj', 'conj.con_job_id=con.con_con_job_id');
+        $this->db->join('contacts_type cont', 'con.con_con_typ_id=cont.con_typ_id');
+        $this->db->join('contacts_detail cond', 'con.con_id=cond.con_det_con_id');
 //        $this->db->group_by('rep_sch_loa_acc_id');
         $query = $this->db->get();
         return $query;

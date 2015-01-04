@@ -311,13 +311,13 @@ function laon_account_type_for_dropdown(){
 //        $bran_id = ; /// Get brand the same as user login brand
         $bran_id =2 ;
         $this->db->where('cro_of_branch.crob_bra_id', $bran_id);
-        $this->db->order_by('cro_name');
-          $this->db->join('cro_of_branch', 'cro_of_branch.crob_cro_id=creadit_officer.cro_id');
+        $this->db->order_by('co_name');
+          $this->db->join('cro_of_branch', 'cro_of_branch.crob_cro_id=creadit_officer.co_id');
         $data = $this->db->get('creadit_officer');
          $result[''] = '--- Select CO ---';
         if ($data->num_rows() > 0) {
             foreach ($data->result() as $row) {
-                $result[$row->cro_id] = $row->cro_name;
+                $result[$row->co_id] = $row->co_name;
             }
         }
         return $result;

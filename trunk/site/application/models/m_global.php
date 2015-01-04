@@ -44,6 +44,21 @@ class m_global extends CI_Model {
         return $this->db->get($table);
     }
 
+    function getDataArray($table_name, $field_key, $field_value, $field_status = null, $status_value = 1) {
+        $this->db->select($field_key . ',' . $field_value);
+        if ($field_status != NULL)
+            $this->db->where($field_status, $status_value);
+        $this->db->from($table_name);
+        $data = $this->db->get();
+        $result = array();
+        if ($data->num_rows() > 0) {
+            foreach ($data->result_array() as $row) {
+                $result[$row[$field_key]] = $row[$field_value];
+            }
+        }
+        return $result;
+    }
+
     /**
      * Function select all from table
      * @param $table the string parameter to select (required)
@@ -243,8 +258,6 @@ class m_global extends CI_Model {
     }
 
     public function select_data_join_by($table, $fields, $arr_join = array(), $arr_where = NULL, $limit = NULL, $order_by = NULL) {
-        if (!is_array($arr_join) || count($arr_join) <= 0)
-            return FALSE;
         $this->db->select($fields);
         $this->db->from($table);
         //table need to join
@@ -303,8 +316,6 @@ class m_global extends CI_Model {
     }
 
     public function select_data_join($table, $fields, $arr_join = array(), $arr_where = NULL, $limit = NULL, $order_by = NULL) {
-        if (!is_array($arr_join) || count($arr_join) <= 0)
-            return FALSE;
         $this->db->select($fields);
         $this->db->from($table);
         //table need to join
