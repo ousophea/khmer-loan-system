@@ -167,7 +167,38 @@ class reports extends CI_Controller {
             echo '</table>';
         }
     }
-
+	function loan() {
+        $data['title'] = 'Loan Report';
+        $data['currency_query'] = $this->mod_global->select_all('currency');
+        $this->load->view(Variables::$layout_main, $data);
+    }
+	function ajax_loan(){
+		$getCurid = $this->input->post('currency');
+        $getDate = $this->input->post('txt_date');        
+        
+		$filter = array();
+		if($getCurid != ''){
+			//$filter["tra_cur_id"] = $getCurid;			
+		}
+		if($getDate != ''){
+			$filter["DATE(loa_acc_created_date)"] = $getDate;
+		}
+		
+		$data = $this->m_global->select_data_join(
+								'loan_account',
+								'*',
+								array(
+									'loan_detail' => array('loa_acc_loa_det_id' => 'loa_det_id'),
+									'contacts' => array('loa_acc_con_id' => 'con_id'),
+									'currency' => array('loa_acc_cur_id' => 'cur_id'),
+									'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id'),
+									'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id')
+									
+								),
+								$filter
+							);
+		echo json_encode($data);
+	}
 }
 
 ?>

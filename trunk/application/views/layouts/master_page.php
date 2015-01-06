@@ -219,6 +219,7 @@ $dbf = new dbf();
                                         <li class="<?php echo (segment(1) == "transaction") ? 'current' : '' ?>">
                                             <a tabindex="-1" href="<?php echo site_url('reports/transaction'); ?>">Transaction report</a></li>
                                         <li><a tabindex="-3" href="<?php echo site_url('reports/glreport'); ?>">GL report</a></li>
+										<li><a tabindex="-3" href="<?php echo site_url('reports/loan'); ?>">Loan report</a></li>
                                         <li><a tabindex="-3" href="#">Another action</a></li>
                                         <li><a tabindex="-4" href="#">Something else here</a></li>
                                     </ul>
