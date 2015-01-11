@@ -17,7 +17,7 @@ class Ajax_action extends CI_Controller{
 			echo '**Invalid Request**';
 			die();
 		}
-		$select_option = '<select name="txt_con_district"><option value="0">-khan/district-</option>';
+		$select_option = '<select name="txt_con_district"><option value="">-khan/district-</option>';
 		$query_district = $this->m_global->select_where('districts',array('dis_pro_id'=>$province));
 		if($query_district->num_rows() > 0){
 			foreach($query_district->result() as $rows){
@@ -34,7 +34,7 @@ class Ajax_action extends CI_Controller{
 			echo '**Invalid Request**';
 			die();
 		}
-		$select_option = '<select name="txt_con_commune"><option value="0">-sangkat/commune-</option>';
+		$select_option = '<select name="txt_con_commune"><option value="">-sangkat/commune-</option>';
 		$query_commune = $this->m_global->select_where('communes',array('com_dis_id'=>$district));
 		if($query_commune->num_rows() > 0){
 			foreach($query_commune->result() as $rows){
@@ -51,7 +51,7 @@ class Ajax_action extends CI_Controller{
 			echo '**Invalid Request**';
 			die();
 		}
-		$select_option = '<select name="txt_con_village"><option value="0">-village-</option>';
+		$select_option = '<select name="txt_con_village"><option value="">-village-</option>';
 		$query_village = $this->m_global->select_where('villages',array('vil_com_id'=>$commune));
 		if($query_village->num_rows() > 0){
 			foreach($query_village->result() as $rows){
