@@ -143,10 +143,12 @@ echo form_open(site_url(segment(1).'/add_save'),array('name'=>'form_contact','id
 						$village_option = array(''=>'-village-');
 						?>
 						<span id="ajax_village">
-							<?php echo form_dropdown('txt_con_village',$village_option,'','style="width:208px !important;" class="required"');?>
+                                                    <?php echo form_dropdown('txt_con_village',$village_option,'','style="width:208px !important;"');?>
+							<?php // echo form_dropdown('txt_con_village',$village_option,'','style="width:208px !important;" class="required"');?>
 						</span>
 						<?php
-						echo form_input(array('name'=>'txt_con_address_detail','class'=>'required'));
+                                                echo form_input(array('name'=>'txt_con_address_detail'));
+//						echo form_input(array('name'=>'txt_con_address_detail','class'=>'required'));
 						?>
 					</td>
 				</tr>
