@@ -1,1 +1,0 @@
-<?php header('location:http://localhost/Projects/khmer-loan-system/constructions/page_not_found');?>
