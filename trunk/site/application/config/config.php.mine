@@ -14,7 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/khmer-loan-system/site';
+$config['base_url']	= 'http://localhost/loans/';
+
 /*
 |--------------------------------------------------------------------------
 | Index File

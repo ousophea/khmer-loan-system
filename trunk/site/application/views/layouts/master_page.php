@@ -138,7 +138,7 @@ $dbf = new dbf();
                                     $current_savingtrn = TRUE;
                                 }
                                 ?>   
-                                <li class="off dropdown <?php echo ($current_savingtrn == TRUE) ? 'current' : '' ?>"> 
+<!--                                <li class="off dropdown <?php echo ($current_savingtrn == TRUE) ? 'current' : '' ?>"> 
                                     <a class="dropdown-toggle"
                                        data-toggle="dropdown"
                                        href="#">Saving Acc<b class="caret"></b> </a>
@@ -146,7 +146,7 @@ $dbf = new dbf();
                                         <li><a tabindex="-1" href="<?php echo base_url(); ?>deposits">Deposit</a></li>
                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>withdrawals">Withdrawal</a></li>
                                     </ul>
-                                </li>
+                                </li>-->
 
 
                     <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
@@ -180,7 +180,7 @@ $dbf = new dbf();
                 <!--<li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>-->
                                 <li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>
 
-                                <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
+<!--                                <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
                                     <a class="dropdown-toggle"
                                        data-toggle="dropdown"
                                        href="#"> Saving <b class="caret"></b> </a>
@@ -190,7 +190,7 @@ $dbf = new dbf();
                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/edit">Edit Saving Acc</a></li>
                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/close">Close Saving Acc</a></li>
                                     </ul>
-                                </li>
+                                </li>-->
 
                                 <li class="off dropdown <?php echo (segment(1) == "loan") ? 'current' : '' ?>"> 
                                     <a class="dropdown-toggle"

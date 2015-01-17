@@ -34,7 +34,7 @@ class reports extends CI_Controller {
     function ajax_transaction() {
         $getCurid = $this->input->post('currency');
         $getDate = $this->input->post('txt_date');
-
+        
         if ($getCurid != NULL) {
             $arr_search_index = array(
                 "tra_cur_id" => $getCurid,
@@ -86,7 +86,7 @@ class reports extends CI_Controller {
         $getGLdes = $this->input->post('txt_gldes');
         $getStaDate = $this->input->post('sta_date');
         $getEndDate = $this->input->post('end_date');
-
+        
         $last_date_total = $this->m_global->select_where('transaction', array('DATE(tra_date) <' => $getStaDate), 1);
         //var_dump($last_date_total);
         $last_balance = $this->m_report->select_count_trn(array('DATE(tra_date) <' => $getStaDate));
@@ -96,19 +96,24 @@ class reports extends CI_Controller {
 
         if ($getCurid != NULL && $getStaDate != NULL && $getEndDate != NULL) {
             $arr_search_index = array(
-                "tra_cur_id" => $getCurid,
+				"tra_cur_id" => $getCurid,
                 "tra_gl_code" => $getGL,
                 "DATE(tra_date)>=" => $getStaDate,
                 "DATE(tra_date)<=" => $getEndDate
             );
         }
 
-        $query_all = $this->m_global->select_join('transaction', array('transaction_mode' => array('tra_tra_mod_id' => 'tra_mod_id'),
-            'gl_list' => array('tra_gl_code' => 'gl_code'),
-            'users' => array('tra_use_id' => 'use_id'),
-            'currency' => array('tra_cur_id' => 'cur_id')), 'left', $arr_search_index, NULL, array('tra_date' => 'desc')
-        );
-
+        $query_all = $this->m_global->select_join('transaction', 
+													array('transaction_mode' => array('tra_tra_mod_id' => 'tra_mod_id'),
+													'gl_list' => array('tra_gl_code' => 'gl_code'),
+													'users' => array('tra_use_id' => 'use_id'),
+													'currency' => array('tra_cur_id' => 'cur_id')), 
+													'left', 
+													$arr_search_index, 
+													NULL, 
+													array('tra_date' => 'desc')
+												);
+		
         if ($query_all->num_rows() == 0) {
             echo '<span id="noRecord">No transaction match your search</span>';
         } else {
@@ -122,8 +127,8 @@ class reports extends CI_Controller {
                 'Balance' => 'tra_credit',
             );
             echo "<p><b>GL Account: " . $getGL . " &nbsp;" . $getGLdes . "</b></p>";
-
-            echo '<table class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">';
+            
+			echo '<table class="table table-bordered table-striped" cellpadding="0" cellspacing="0" border="0">';
             echo '<tr clas="tbl_header">';
             foreach ($arr_select_field as $header => $column) {
                 echo '<th>' . $header . '</th>';
@@ -132,13 +137,13 @@ class reports extends CI_Controller {
             $balance = $total_last_balance;
             $tatal_d = NULL;
             $tatal_c = NULL;
-
+			
             $last_date = NULL;
             foreach ($last_date_total->result() as $last_rows) {
                 $last_date = $last_rows->tra_date;
             }
             echo '<tr>';
-            echo '<td>' . $last_date . '</td><td>' . $last_date . '</td><td>BALANCE BROUGHT FORWARD</td><td></td><td>0</td><td>0</td><td>' . $total_last_balance . '</td></tr>';
+            echo '<td>' . $last_date . '</td><td>' . $last_date . '</td><td>BALANCE BROUGHT FORWARD</td><td></td><td>0</td><td>0</td><td>'.$total_last_balance.'</td></tr>';
             foreach ($query_all->result() as $total_rows) {
                 $debit = $total_rows->tra_debit;
                 $credit = $total_rows->tra_credit;
@@ -162,7 +167,38 @@ class reports extends CI_Controller {
             echo '</table>';
         }
     }
-
+	function loan() {
+        $data['title'] = 'Loan Report';
+        $data['currency_query'] = $this->mod_global->select_all('currency');
+        $this->load->view(Variables::$layout_main, $data);
+    }
+	function ajax_loan(){
+		$getCurid = $this->input->post('currency');
+        $getDate = $this->input->post('txt_date');        
+        
+		$filter = array();
+		if($getCurid != ''){
+			//$filter["tra_cur_id"] = $getCurid;			
+		}
+		if($getDate != ''){
+			$filter["DATE(loa_acc_created_date)"] = $getDate;
+		}
+		
+		$data = $this->m_global->select_data_join(
+								'loan_account',
+								'*',
+								array(
+									'loan_detail' => array('loa_acc_loa_det_id' => 'loa_det_id'),
+									'contacts' => array('loa_acc_con_id' => 'con_id'),
+									'currency' => array('loa_acc_cur_id' => 'cur_id'),
+									'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id'),
+									'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id')
+									
+								),
+								$filter
+							);
+		echo json_encode($data);
+	}
 }
 
 ?>

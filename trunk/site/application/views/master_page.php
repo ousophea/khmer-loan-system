@@ -44,7 +44,6 @@
 		    data-toggle="dropdown"
 		    href="#"> Reports <b class="caret"></b> </a>
 		            <ul class="dropdown-menu">
-                                
 		              <li><a tabindex="-1" href="#">Finance report</a></li>
 		              <li><a tabindex="-2" href="#">Another action</a></li>
 		              <li><a tabindex="-3" href="#">Something else here</a></li>

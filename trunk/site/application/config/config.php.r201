@@ -15,6 +15,7 @@
 |
 */
 $config['base_url']	= 'http://localhost/khmer-loan-system/site';
+
 /*
 |--------------------------------------------------------------------------
 | Index File

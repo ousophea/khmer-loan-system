@@ -1,0 +1,668 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+    padding:0;
+    margin:auto;	
+    font-family:Verdana;
+    font-size:12px;
+
+}
+#wraper{	
+}
+.header{
+    margin:0;
+    padding:0;
+    height:100px;
+    background:url("../images/header.jpg") top no-repeat;
+    background-position: top center;
+
+}
+.welcome {
+    color: #1483D9;
+    text-transform: capitalize;
+}
+#login_form{
+    width:480px;
+    margin:0 auto;	
+}
+#login_form_logo{
+    float:left;
+    width:95%;
+    margin-top:-40px;
+}
+#form{
+    float:right;
+}
+.form_title{
+    color:#e6ba0c;	
+}
+
+#content {
+    background: none repeat scroll 0 0 white;
+    border-color: #CECECE;
+    border-style: solid;
+    border-width: 0 1px;
+    color: #5C5C5C;
+    font-family: verdana;
+    font-size: 13px;
+    z-index:0;
+    margin: 20px auto 0;
+    padding: 38px 10px 40px;
+    width: 940px;
+    min-height:350px;
+}
+
+#login-content {
+
+    min-height:405px;
+}
+
+
+
+#v_rule{
+    border-left: solid 1px;
+    padding:10px;
+    border-color:#e6ba0c;
+}
+.input{
+    color:#e6ba0c;	
+}
+.txt_input{
+    border-color:#e6ba0c;
+}
+
+.wraper-control{
+    height:auto;	
+    border:solid 1px #CCC;
+    border-radius:5px;
+    margin:auto;
+    padding:10px;
+}
+.panel-control{	
+    border:solid 1px #CCC;
+    margin:auto;
+    padding:10px;
+    margin-bottom:50px;
+}
+
+
+.panel-control div.icon a {
+    border: 1px solid #F0F0F0;
+    color: #666666;
+    display: block;
+    float: left;
+    height: 97px;
+    text-decoration: none;
+    vertical-align: middle;
+    width: 108px;
+}
+
+.clr{
+    clear:both;	
+}
+#footer {
+    width:963px;
+    border-top: 1px solid #AFDE54;
+    clear: both;
+    margin: 7px auto 0;
+    padding: 7px 10px 0 10px;
+    color: #A7A1A1;
+}
+#top_footer{
+
+    background: url("../images/footer-bg.png") no-repeat;
+    background-position:center top;
+    height: 45px;
+    width: 984px;
+    margin: -5px auto 0;
+}
+
+.panel-control .span {
+    text-align:center;
+    border:solid 1px;
+    border-radius:5px;
+    width:120px;
+    height:120px;
+    cursor:pointer;
+}
+
+.panel-control .span a {
+    color:#333;
+}
+.panel-control .row {
+    /* margin-left: -2px; */
+}
+
+.span .row img{
+    width:48px;	
+    margin: 0 0 0 -20px;
+}
+
+/* By Sochy*/
+.error{
+    color: red;
+}
+.bordered{
+    border: solid 1px #CCC;
+    border-radius: 3px;
+}
+.nav-tabs {
+    background: rgb(228, 228, 228);
+}
+.tabbable{
+    margin-bottom: 10px;
+}
+.modal-footer{
+    width: 888px;
+}
+/* End*/
+
+
+/*Form model by Sophea*/
+
+
+.bs-docs-form:after {
+    background-color: #F5F5F5;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 0 4px 0;
+    color: #9DA0A4;
+    /*content: "Account information";*/
+    font-size: 12px;
+    font-weight: bold;
+    left: -1px;
+    padding: 3px 7px;
+    position: absolute;
+    top: -1px;
+}
+
+#chequeDetails .bs-docs-form:after{
+    /*content: "Cheque Details";*/
+}
+
+.bs-docs-form {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    margin: 15px 0;
+    padding: 39px 10px 0;
+    position: relative;
+}
+
+.form-model .span5{
+    width: 449px;
+}
+.form-model form_model_style{
+    display: none;
+}
+.form-model .form-horizontal .control-group{
+    margin-bottom: 10px;
+}
+.form-model textarea{
+    height: 70px;
+    resize: none;
+}
+
+.form-model select{
+    width: 140px;
+}
+.form-model input[type="text"]{
+    width:120px;
+}
+
+.require{
+    color: red;
+}
+
+.form-model .col1{
+    margin: 0 auto;
+    width: 50%;
+}
+.form-model .btn_back{
+    margin-left: 20px;
+
+}
+.form-model .gl_code{
+    margin-left: 0;
+}
+
+.form-model input[disabled], .form-model select[disabled], 
+.form-model textarea[disabled], .form-model input[readonly], 
+.form-model select[readonly], .form-model textarea[readonly]{
+    background-color: #F9F9F9;
+}
+/**
+input[type="submit"]{
+        -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #F5F5F5;
+    background-image: -moz-linear-gradient(center top , #FFFFFF, #E6E6E6);
+    background-repeat: repeat-x;
+    border-color: #E6E6E6 #E6E6E6 #A2A2A2;
+    border-image: none;
+    border-radius: 4px 4px 4px 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+    color: #333333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 0;
+    padding: 6px 14px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+}
+*/
+
+/*End form modle*/
+
+/* ===== Style for Tool bare controler === by Sophea  */
+.control_manager{
+    padding: 10px;
+    margin-left: -16px;
+}
+.tbl_trn td{
+    text-align: right !important;
+}
+.tbl_trn th{
+    text-align: center !important;
+}
+
+/*=============== For form journal entry====================*/
+
+#journal_tra_info legend{
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 30px;
+    color: #828282;
+}
+#journal_tra_info textarea {
+    height: 40px;
+}
+
+#journal_entry{
+    background: #AFDE54;
+    color: red;
+    font-weight: bold;
+}
+/* ===== End Style for Tool bare controler === by Sophea  */
+form option, input{
+    font-family: 'kmSBBICsys' !important;
+}
+#ajax_add_commune{
+    background: url("../../images/ui-icons_222222_256x240.png");
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+/* ===== End Style for Tool bare controler === by Sophea  */
+
+/* ========== Style for report table =============*/
+#total_gl{
+    font-weight:bold;
+}
+.search_tool_bar #txt_gl .control-group{
+    padding-left: 10px;
+    width: 300px;
+    border:solid 0px;
+}
+
+.search_tool_bar .control-group{
+    width: 100px;
+    border:solid 0px;
+}
+.search_tool_bar input[type="text"],.search_tool_bar select{
+    width:138px;
+}
+.search_tool_bar input[type="submit"]{
+    padding: 1px 14px;
+}
+
+.content-list{
+    overflow: scroll;
+}
+/*=====================Single form with large width===================*/
+.single_large .form-model .col1 {
+    margin:0 auto;
+    width:70%;
+}
+.single_large .form-model .col1 .span7{
+    width:649px;
+
+}
+#dep_form .modal-footer, #deposit_form .modal-footer{
+    width: 617px;
+    margin-left: -10px;
+}
+
+/*.form_modal-footer{
+    width: 100%;
+    margin-left: -10px;
+}*/
+.controls label{
+    padding-top: 5px;
+    font-weight: bold;
+}
+.controls img.signature{
+    height: 78px;
+    border: 1px solid #eee;
+    min-width: 100px;
+}
+.form-container .span5{
+    width: 449px;
+}
+
+
+/* ===================Disbursement style ==========================*/
+#disbursment_form .form-model {
+
+    margin:0 auto;
+    width:70%;
+}
+
+#disbursment_form .form-model .col1 .span7{
+    width:532px;
+    margin-left:-26px; 
+
+}
+#disbursment_form .form-model .btn_back {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 0;
+    padding: 6px 15px;
+    text-align: center;
+}
+.dollars:after { content:'.00'; }
+
+.acc_info_des .control-group .control-label,.acc_info_des .control-group .controls,#wit_res .control-group .control-label,#wit_res .control-group .controls{
+    padding-top: 0;
+    font-weight: bold;
+}
+#wit_res .control-group .control-label{
+    width: 195px; 
+}
+#wit_res .controls{
+    margin-left: 219px;
+}
+.blog{
+    color: red;
+}
+
+#wit_acc_info .bs-docs-form{
+    height: 477px;
+}
+/*=============== Loan style : by Sophea=====================*/
+#note{
+    padding: 0 0 5px 20px;
+}
+.table .td_right{
+    text-align: right;
+    padding-right: 10px;
+}
+
+.loan_style .bs-docs-form .control-group{
+    margin-bottom: 7px;
+}
+
+.loan_style textarea {
+    height:70px;
+    resize:none;
+}
+
+/*=============For hidden submit botton================*/
+.disable_box{
+    display: none;
+}
+#form_loan_approv label{
+    color: #1483D9;
+    font-weight: bold;
+}
+#form_loan_approv  hr{
+    margin:9px 0;
+}
+#form_loan_approv  .controls{
+    font-weight: bold;
+}
+#form_loan_approv  a:link{
+    font-weight:normal;
+    color: #000;
+}
+#btn_tool{
+    margin: 0 auto;
+}
+#repayment_box{
+    clear: both;
+    margin-bottom: 10px;
+    width: 0;
+}
+#form_loan_approv .bordered{
+} 
+#form_loan_approv .nav-tabs > li > a{
+    background: #DFDFDF;
+    color: #8B8B8B;
+    font-weight: bold;
+}
+
+#form_loan_approv .nav-tabs > .active > a{
+    background: #F5F5F5;
+}
+#form_loan_approv .nav-tabs{
+    background: #F5F5F5;
+}
+#form_loan_approv .tab-content{
+    padding: 0 3px;
+    height: 418px;
+}
+#form_loan_approv .controls{
+    padding: 5px 0 0 0;
+}
+#form_loan_approv .control-group{
+    margin-bottom: 5px;
+}
+
+/*===================Voucher by:Sophea==================*/
+.vouchers{
+    margin: 0 auto;
+    width: 918px;
+}
+.voucher_top_info{
+    float: right;
+    width: 283px;
+    line-height: 27px;
+    margin: 15px 0 0 0;
+}
+.voucher_header{
+    position: absolute;
+    width: 918px;
+}
+.voucher_content{
+    padding-top: 110px;
+}
+.voucher_top_info .controls{
+    border: solid 1px;
+    width: 145px;
+    height: 27px;
+    padding:0 5px; 
+} 
+.vouchers .span5{
+    width:447px;
+    margin-left: 0;
+}
+
+.vouchers .span5 .controls{
+    border: solid 1px;
+    width: 158px;
+    height: 27px;
+    padding:0 5px; 
+} 
+
+
+.vouchers .voucher_logo{
+    margin: 0;
+    float: left;
+
+}
+
+.vouchers .form-horizontal .control-label{
+    width: 100px;
+}
+.voucher_logo  .control-label{
+    width: 123px;
+}
+.vouchers .form-horizontal .control-group{
+    margin-bottom: 2px;
+}
+.vouchers .form-horizontal [name='logo_name']{
+    margin-left: 100px;
+    width: 266px;
+    font-weight: bold;
+}
+
+
+.voucher_top_info .form-horizontal .controls {
+    margin-left: 108px;
+}
+.voucher_top_info .info_bottom .controls{
+    border: 0;
+    text-align: right;
+    padding: 0 5px;
+    height: 20px;
+}
+.vouchers .info_bottom [name='vouchering_date']{
+    color: #AFDE54;
+}
+
+
+/*===========Subtile=============*/
+.sub_title{
+    clear: both;
+    width: 100%;
+    margin: 0 auto 5px auto;
+    text-align: center;
+}
+.sub_title .control-group{
+    margin: -20px 0 0 0;
+}
+/*.sub_title h3{
+    font-size: 18px;
+    line-height: 20px;
+}*/
+
+.khmerFont{
+    font-size: 24px;    
+}
+/*=========================Voucher Content Left===============*/
+.vouchers .span5 .form-horizontal .control-label {
+    width: 272px;
+    padding-top: 0;
+}
+
+
+.vouchers .span5 .controls{
+    margin-left: 280px;
+}
+
+.loan_info{
+    border: solid 1px;
+    height: 315px;
+    padding: 10px 0;
+    border-radius: 5px;
+    box-shadow: 5px;
+}
+
+/*======================= Voucher fotter========================*/
+.voucher_fotter{
+    -moz-column-count:3; /* Firefox */
+    -webkit-column-count:3; /* Safari and Chrome */
+    -moz-column-count:3;
+    column-width:100px;
+    border: solid 0px;
+    margin: 0 auto;
+    padding: 10px 10px 10px 0;
+    text-align: center;
+    width: 920px;
+
+}
+.schedule_fotter{
+    -moz-column-count:2; /* Firefox */
+    -webkit-column-count:2; /* Safari and Chrome */
+    -moz-column-count:2;
+    text-align: center;
+    padding:5px 0 124px 0;
+    margin: 21px auto 8px 5px; 
+    
+}
+.sub_title_contant{
+    font-weight: bold;
+    padding: 10px 0 10px 0;
+    margin: 2px auto 2px 5px;    
+    height: 19px;
+}
+.sub_title_contant,.schedule_fotter{
+    border: solid 1px;
+    width: 443px;
+    text-align: center;
+}
+
+.fotter_date{
+    margin: 75px 0 0 0;
+    border-top:dashed 1px;
+    padding-top: 5px;
+}
+.vouchers .sign .control-group .controls {
+    height: 130px;
+}
+.vouchers .sign_small .control-group .controls {
+    height: 105px;
+}
+.vouchers .big_heigt .control-group .controls {
+    height: 125px;
+}
+
+.print_preview_menu{
+    width: 920px;
+    margin: 10px auto;
+}
+.print_preview{
+    margin-top: 20px;
+}
+.print_preview .loan_info{
+    height: 336px;
+}
+.print_preview .sign .control-group .controls {
+    height: 149px;
+}
+
+.print_preview .span5 .form-horizontal .control-label {
+    padding-top: 0;
+    width: 230px;
+}
+
+.print_preview .span5 .controls {
+    margin-left: 238px;
+}
+
+.print_preview .span5 .controls {
+    width: 200px;
+}
+
+.error .help-block{
+    color:#FF0000;
+}
+.form-model #repayment_form  select{
+        width: 219px;
+}
+.form-model #repayment_form input[type="text"]{
+        width: 206px;
+}
+.total{
+    font-weight: bold;
+}
+
+.ui-datepicker {
+	z-index:1050 !important;
+}

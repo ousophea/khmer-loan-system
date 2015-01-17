@@ -88,12 +88,9 @@ $now = time();
             <td>" . formatMoney($rows->loa_acc_amount - $ready_dis, TRUE) . "</td>
         </tr>";
     echo"</table>";
-    if($rows->loa_acc_loa_det_id==2){
+    if($rows->loa_acc_disbustment==NULL){
        
-//        field("submit", 'btn_submit', NULL, "Approve", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<input type="submit" id="btn_disapprove" class="btn" value="Not Arpp" name="btn_disapprove">');
-//        
-//         field("submit", 'btn_submit', NULL, "Disburse", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL);
-        field("submit", 'btn_submit', NULL, "Disburse", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<input type="submit" id="btn_cancel" class="btn" value="Cancel" name="btn_cancel">');
+        field("submit", 'btn_submit', NULL, "Approve", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<input type="submit" id="btn_disapprove" class="btn" value="Not Arpp" name="btn_disapprove">');
     }
     }
     echo "</span>";//=== Close tmp span dis form and table==========

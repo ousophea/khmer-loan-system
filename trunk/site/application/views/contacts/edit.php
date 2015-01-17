@@ -1,14 +1,14 @@
 <!-- Author PEN Vannak -->
 <?php
 //get job and paste to array
-$arr_option_job = array('0'=>'-select job-');
+$arr_option_job = array(''=>'-select job-');
 if($query_job->num_rows() > 0){
 	foreach ($query_job->result() as $rows) {
 		$arr_option_job[$rows->con_job_id] = $rows->con_job_title;
 	}
 }
 //get income and paste to array
-$arr_option_income = array('0'=>'-select income-');
+$arr_option_income = array(''=>'-select income-');
 if($query_income->num_rows() > 0){
 	foreach ($query_income->result() as $rows) {
 		$arr_option_income[$rows->con_inc_id] = $rows->con_inc_range;
@@ -37,7 +37,7 @@ $couple_income = getOptions($arr_option_income);
 var g_ind = 0;
 var gp_ind = 0;
 var jq = jQuery.noConflict();
-function getData(url,data){
+function _getData(url,data){
 	var res = {};
 	jq.ajax({
 		url:url,
@@ -53,14 +53,15 @@ function getData(url,data){
 }
 function getDistricts(id,selected){
 	selected = typeof(selected)!='undefined'?selected:0;
+	console.log(selected);
 	//todo clear the old
-	jq('select[name="detail\\[con_det_dis_id\\]"] option[value!="0"]').remove();
-	jq('select[name="detail\\[con_det_com_id\\]"] option[value!="0"]').remove();
-	jq('select[name="detail\\[con_det_vil_id\\]"] option[value!="0"]').remove();
+	jq('select[name="detail\\[con_det_dis_id\\]"] option[value!=""]').remove();
+	jq('select[name="detail\\[con_det_com_id\\]"] option[value!=""]').remove();
+	jq('select[name="detail\\[con_det_vil_id\\]"] option[value!=""]').remove();
 	if(id>0){
 		var url = "<?php echo site_url('ajax_action/ajaxGetData') ?>";
 		var dataString = {"field_where":"dis_pro_id","field_value":id,"table":"districts"};
-		var data = getData(url,dataString);			
+		var data = _getData(url,dataString);			
 		for(ind=0; ind<data.length; ind++){
 			var row = data[ind]				
 			var name = row.dis_en_name+'('+ row.dis_kh_name + ')';
@@ -73,12 +74,12 @@ function getDistricts(id,selected){
 function getCommunes(id,selected){
 	selected = typeof(selected)!='undefined'?selected:0;
 	//todo clear the old		
-	jq('select[name="detail\\[con_det_com_id\\]"] option[value!="0"]').remove();
-	jq('select[name="detail\\[con_det_vil_id\\]"] option[value!="0"]').remove();
+	jq('select[name="detail\\[con_det_com_id\\]"] option[value!=""]').remove();
+	jq('select[name="detail\\[con_det_vil_id\\]"] option[value!=""]').remove();
 	if(id>0){
 		var url = "<?php echo site_url('ajax_action/ajaxGetData') ?>";
 		var dataString = {"field_where":"com_dis_id","field_value":id,"table":"communes"};
-		var data = getData(url,dataString);			
+		var data = _getData(url,dataString);			
 		for(ind=0; ind<data.length; ind++){
 			var row = data[ind];			
 			var name = row.com_en_name+'('+ row.com_kh_name + ')';
@@ -90,11 +91,11 @@ function getCommunes(id,selected){
 function getVillages(id,selected){
 	selected = typeof(selected)!='undefined'?selected:0;
 	//todo clear the old
-	jq('select[name="detail\\[con_det_vil_id\\]"] option[value!="0"]').remove();
+	jq('select[name="detail\\[con_det_vil_id\\]"] option[value!=""]').remove();
 	if(id>0){
 		var url = "<?php echo site_url('ajax_action/ajaxGetData') ?>";
 		var dataString = {"field_where":"vil_com_id","field_value":id,"table":"villages"};
-		var data = getData(url,dataString);			
+		var data = _getData(url,dataString);		
 		for(ind=0; ind<data.length; ind++){
 			var row = data[ind];				
 			var name = row.vil_en_name+'('+ row.vil_kh_name + ')';
@@ -118,22 +119,22 @@ function getForm(title,eleName,jqueryName,eleId,data,opt){
 	var html = '<fieldset id="fieldset_'+g_ind+'"><legend>'+title + bRemove+'</legend>';
 	html += '<table border="0" width="100%">';
 	html += '<tr>';
-	html += '<td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" placeholder="គោត្តនាម" name="'+eleName+'[con_kh_first_name]"></td>';
-	html += '<td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" placeholder="នាម" name="'+eleName+'[con_kh_last_name]"></td>';
+	html += '<td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="គោត្តនាម" name="'+eleName+'[con_kh_first_name]"></td>';
+	html += '<td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="នាម" name="'+eleName+'[con_kh_last_name]"></td>';
 	html += '<td><label for="lbl_con_kh_nick_name_couple">Nick Name in Khmer</label><input type="text" placeholder="នាមហៅក្រៅ" name="'+eleName+'[con_kh_nickname]"></td></tr>';
 	html += '<tr>';
-	html += '<td><label for="lbl_con_en_first_name_couple">Family Name in English <span>*</span></label><input type="text" value="" name="'+eleName+'[con_en_first_name]"></td>';
-	html += '<td><label for="lbl_con_en_last_name_couple">Sure Name in English <span>*</span></label><input type="text" value="" name="'+eleName+'[con_en_last_name]"></td>';
+	html += '<td><label for="lbl_con_en_first_name_couple">Family Name in English <span>*</span></label><input type="text" class="required" value="" name="'+eleName+'[con_en_first_name]"></td>';
+	html += '<td><label for="lbl_con_en_last_name_couple">Sure Name in English <span>*</span></label><input type="text" class="required" value="" name="'+eleName+'[con_en_last_name]"></td>';
 	html += '<td><label for="lbl_con_en_nick_name_couple">Nick Name in English</label><input type="text" value="" name="'+eleName+'[con_en_nickname]"></td>';
 	html += '</tr>';
 	html += '<tr>';
 	html += '<td><label for="lbl_con_sex">Sext<span>*</span></label><select name="'+eleName+'[con_sex]"><option value="m">Male</option><option value="f">Female</option></select></td>'
-	html += '<td><label for="lbl_con_national_identity_card_couple">Identity Card / Passport<span>*</span></label><input type="text" value="" name="'+eleName+'[con_national_identity_card]"></td>';
-	html += '<td><label for="lbl_con_job_couple">Job<span>*</span></label><select name="'+eleName+'[con_con_job_id]"><?php echo $couple_job;?></select></td>';
+	html += '<td><label for="lbl_con_national_identity_card_couple">Identity Card / Passport<span>*</span></label><input type="text" class="required" value="" name="'+eleName+'[con_national_identity_card]"></td>';
+	html += '<td><label for="lbl_con_job_couple">Job<span>*</span></label><select class="required" name="'+eleName+'[con_con_job_id]"><?php echo $couple_job;?></select></td>';
 	html += '</tr>';
 	html += '<tr>';
-	html += '<td><label for="lbl_con_income_couple">Income Per Month<span>*</span></label><select name="'+eleName+'[con_con_inc_id]"><?php echo $couple_income;?></select></td>';
-	html += '<td colspan="3"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input type="text" value="" name="'+eleName+'[phone][con_num_line]"></td>';
+	html += '<td><label for="lbl_con_income_couple">Income Per Month<span>*</span></label><select class="required" name="'+eleName+'[con_con_inc_id]"><?php echo $couple_income;?></select></td>';
+	html += '<td colspan="3"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input class="required" type="text" value="" name="'+eleName+'[phone][con_num_line]"></td>';
 	html += '</tr>';
 	html += '</table></fieldset>';
 	html += '<input type="hidden" value="0" name="'+eleName+'[con_id]"/>';
@@ -142,8 +143,7 @@ function getForm(title,eleName,jqueryName,eleId,data,opt){
 	}else{
 		jq(eleId).append(html);
 	}
-	if(data){
-		console.log(data);
+	if(data){		
 		jq('input[name='+jqueryName+'\\[con_kh_first_name\\]]').val(data.con_kh_first_name);
 		jq('input[name='+jqueryName+'\\[con_kh_last_name\\]]').val(data.con_kh_last_name);
 		jq('input[name='+jqueryName+'\\[con_kh_nickname\\]]').val(data.con_kh_nickname);
@@ -158,6 +158,7 @@ function getForm(title,eleName,jqueryName,eleId,data,opt){
 		jq('input[name='+jqueryName+'\\[phone\\]\\[con_num_line\\]]').val(data.con_num_line);
 		jq('input[name='+jqueryName+'\\[con_id\\]]').val(data.con_id);
 	}
+	g_ind++;
 }
 
 jq(document).ready(function() {
@@ -212,12 +213,11 @@ jq(document).ready(function() {
 	});
 	
 	jq('#add_more_phone_e').click(function(){
-		var html = '<div id="box_'+gp_ind+'"><input type="text" value="" name=phone['+gp_ind+'][con_num_line]"> ';
+		gp_ind++;
+		var html = '<div id="box_'+gp_ind+'"><input type="text" class="required" value="" name=phone['+gp_ind+'][con_num_line]"> ';
 		html += '<span class="btn_remove_phone" style="cursor: pointer;" name="box_'+gp_ind+'">';
 		html += '<img src="../images/trash.png" alt="" /></span><div>';
 		jq('#phone_container').append(html);
-		
-		gp_ind++;
 		
 		return false;
 	});
@@ -236,11 +236,41 @@ jq(document).ready(function() {
 		
 		return false;
 	});
+	
+	function isRequired(){
+		var cnt = 0;			
+		jq.each(jq('.required'),function(){
+			var th = jq(this);
+			if(!validateForm(th)) cnt++;
+		});
+		return cnt;
+	}
+	jq(document).on('change blur keyup','.required',function(){
+		var th = jq(this);
+		validateForm(th);
+	});
+	
+	function validateForm(th){			
+		var txt = th.val();
+		if(txt==''){
+			th.parent().addClass('control-group error');
+			return false;
+		}else{
+			th.parent().removeClass('control-group error');
+			return true;
+		}
+	}
+	jq('form#form_contact').submit(function(){
+		if(isRequired()){
+			return false;
+		}
+		return true;
+	});
 });
 </script>
 
 <?php
-echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
+echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact','id'=>'form_contact'));
 ?>
 	<div id="accordion">
 		<h3>Basic Information</h3>
@@ -250,7 +280,7 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<td colspan="3">
 					<?php
 						echo form_label('Customer ID <span>*</span>','lbl_cus_id_first_name'); 
-						echo form_input(array('name'=>'info[con_cid]','placeholder'=>'Customer ID','value'=>set_value('info[con_cid]',$cm->con_cid)));
+						echo form_input(array('name'=>'info[con_cid]','placeholder'=>'Customer ID','value'=>set_value('info[con_cid]',$cm->con_cid),'class'=>'required'));
 					?>
 					</td>
 				</tr>
@@ -258,7 +288,7 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<td>					
 					<?php
 						echo form_label('Family Name in Khmer <span>*</span>','lbl_con_kh_first_name'); 
-						$input = array('name'=>'info[con_kh_first_name]','placeholder'=>'គោត្តនាម','value'=>set_value('info[con_kh_first_name]',$cm->con_kh_first_name));
+						$input = array('name'=>'info[con_kh_first_name]','placeholder'=>'គោត្តនាម','value'=>set_value('info[con_kh_first_name]',$cm->con_kh_first_name),'class'=>'required');
 						echo form_input($input);
 						echo form_hidden('cid',$cm->con_id);
 					?>
@@ -266,7 +296,7 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<td>
 					<?php 
 						echo form_label('Sure Name in Khmer <span>*</span>','lbl_con_kh_last_name');
-						$input = array('name'=>'info[con_kh_last_name]','placeholder'=>'នាម','value'=>set_value('info[con_kh_last_name]',$cm->con_kh_last_name));
+						$input = array('name'=>'info[con_kh_last_name]','placeholder'=>'នាម','value'=>set_value('info[con_kh_last_name]',$cm->con_kh_last_name),'class'=>'required');
 						echo form_input($input);
 					?>
 					</td>
@@ -282,14 +312,14 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<td>
 					<?php
 						echo form_label('Family Name in English <span>*</span>','lbl_con_en_first_name'); 
-						$input = array('name'=>'info[con_en_first_name]','placeholder'=>'Family Name in English','value'=>set_value('info[con_en_first_name]',$cm->con_en_first_name));
+						$input = array('name'=>'info[con_en_first_name]','placeholder'=>'Family Name in English','value'=>set_value('info[con_en_first_name]',$cm->con_en_first_name),'class'=>'required');
 						echo form_input($input);
 					?>
 					</td>
 					<td>
 					<?php
 						echo form_label('Sure Name in English <span>*</span>','lbl_con_en_last_name');
-						$input = array('name'=>'info[con_en_last_name]','placeholder'=>'Sure Name in English','value'=>set_value('info[con_en_last_name]',$cm->con_en_last_name));
+						$input = array('name'=>'info[con_en_last_name]','placeholder'=>'Sure Name in English','value'=>set_value('info[con_en_last_name]',$cm->con_en_last_name),'class'=>'required');
 						echo form_input($input);
 					?>
 					</td>
@@ -312,7 +342,7 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<td>
 					<?php
 						echo form_label('Identity Card / Passport <span>*</span>', 'lbl_con_national_identity_card');
-						$input = array('name'=>'infor[con_national_identity_card]','placeholder'=>'Identity Card / Passport','value'=>set_value('infor[con_national_identity_card]',$cm->con_national_identity_card));
+						$input = array('name'=>'infor[con_national_identity_card]','placeholder'=>'Identity Card / Passport','value'=>set_value('infor[con_national_identity_card]',$cm->con_national_identity_card),'class'=>'required');
 						echo form_input($input);
 					?>
 					</td>
@@ -320,7 +350,7 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<?php
 						echo form_label('Job <span>*</span>', 'lbl_con_job');
 						$selected = set_value('info[con_con_job_id]',$cm->con_con_job_id);
-						echo form_dropdown('info[con_con_job_id]',$arr_option_job,$selected);
+						echo form_dropdown('info[con_con_job_id]',$arr_option_job,$selected,'class="required"');
 					?>
 					</td>
 				</tr>
@@ -329,21 +359,22 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<?php
 						echo form_label('Income Per Month <span>*</span>', 'lbl_con_income');
 						$selected = set_value('info[con_con_inc_id]',$cm->con_con_inc_id);
-						echo form_dropdown('info[con_con_inc_id]',$arr_option_income,$selected);
+						echo form_dropdown('info[con_con_inc_id]',$arr_option_income,$selected,'class="required"');
 					?>
 					</td>
 					<td colspan="2">
+					<div>
 					<?php
 						echo form_label('Phone <span>*</span>', 'lbl_con_phone');
 						$_ind = 0;
 						foreach($cphone as $crow){							
 							if($_ind==0){
-								$input = array('name'=>'phone['.$_ind.'][con_num_line]','value'=>set_value('phone['.$_ind.'][con_num_line]',$crow['con_num_line']));
+								$input = array('name'=>'phone['.$_ind.'][con_num_line]','value'=>set_value('phone['.$_ind.'][con_num_line]',$crow['con_num_line']),'class'=>'required');
 								echo form_input($input);
 								echo anchor('#',' <img src="'.site_url('images/plus.png').'" alt="add" title="add more" />','id="add_more_phone_e"');								
 							}else{
 								echo "<div id='box_{$_ind}'>";
-								$input = array('name'=>'phone['.$_ind.'][con_num_line]','value'=>set_value('phone['.$_ind.'][con_num_line]',$crow['con_num_line']));
+								$input = array('name'=>'phone['.$_ind.'][con_num_line]','value'=>set_value('phone['.$_ind.'][con_num_line]',$crow['con_num_line']),'class'=>'required');
 								echo form_input($input);
 								echo '<span class="btn_remove_phone" style="cursor: pointer;" name="box_'.$_ind.'"> <img src="../images/trash.png" alt="" /></span><div>';
 								echo '</div>';								
@@ -351,14 +382,14 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 							$_ind++;
 						}
 						if($_ind==0){
-							echo form_input('phone[0][con_num_line]');
+							echo form_input(array('name'=>'phone[0][con_num_line]','class'=>'required'));
 							echo anchor('#','<img src="'.site_url('images/plus.png').'" alt="add" title="add more" />','id="add_more_phone_e"');
 						}
 						
 					?>
+					</div>
 						<script>
-							gp_ind = parseInt(<?php echo $_ind;?>) + 1;
-							console.log(gp_ind);
+							gp_ind = parseInt(<?php echo $_ind;?>) + 1;							
 						</script>
 						<div id="phone_container"></div>
 					</td>
@@ -370,49 +401,59 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 			<table border="0" width="100%">
 				<tr>
 					<td colspan="3" class="address">
+						<span>
 						<?php
 							echo form_label('Address <span>*</span>', 'lbl_con_address');
 							//echo form_textarea(array('name'=>'txt_con_address','cols'=>100,'rows'=>5));
-							$arr_option_province = array('0'=>'-select province-');
+							$arr_option_province = array(''=>'-select province-');
 							if($query_pronvince->num_rows() > 0){
 								foreach($query_pronvince->result() as $rows){
 									$arr_option_province[$rows->pro_id] = $rows->pro_en_name.'('.(($rows->pro_kh_name == '')?'no set':$rows->pro_kh_name).')';
 								}
 							}
 							$selected = set_value('detail[con_det_pro_id]',$cm->con_det_pro_id);
-							echo form_dropdown('detail[con_det_pro_id]',$arr_option_province,$selected,'style="width:208px !important;"');							
+							echo form_dropdown('detail[con_det_pro_id]',$arr_option_province,$selected,'style="width:208px !important;" class="required"');							
 						?>
+						</span>
 						<script>
 							jq(document).ready(function(){
 								getDistricts(<?php echo $cm->con_det_pro_id; ?>,<?php echo $cm->con_det_dis_id; ?>);
 							});
-						</script>						
+						</script>
+						<span>
 						<?php
-							$district_option = array('-khan/district-');
-							echo form_dropdown('detail[con_det_dis_id]',$district_option,'','style="width:208px !important;"');
+							$district_option = array(''=>'-khan/district-');
+							echo form_dropdown('detail[con_det_dis_id]',$district_option,'','style="width:208px !important;" class="required"');
 						?>
+						</span>
 						<script>
 							jq(document).ready(function(){
 								getCommunes(<?php echo $cm->con_det_dis_id; ?>,<?php echo $cm->con_det_com_id; ?>);
 							});
 						</script>
+						<span>
 						<?php
 							$commune_option = array('-sangkat/commune-','Teok Laak 3','Ou San Dan');
-							echo form_dropdown('detail[con_det_com_id]',$commune_option,'','style="width:208px !important;"');
+							echo form_dropdown('detail[con_det_com_id]',$commune_option,'','style="width:208px !important;" class="required"');
 						?>
+						</span>
 						<script>
 							jq(document).ready(function(){
 								getVillages(<?php echo $cm->con_det_com_id; ?>,<?php echo $cm->con_det_vil_id; ?>);
 							});
 						</script>
+						<span>
 						<?php
 							$village_option = array('-village-');
-							echo form_dropdown('detail[con_det_vil_id]',$village_option,'','style="width:208px !important;"');
+							echo form_dropdown('detail[con_det_vil_id]',$village_option,'','style="width:208px !important;" class="required"');
 						?>
+						</span>
+						<span>
 						<?php
-							$input = array('name'=>'detail[con_det_address_detail]','value'=>set_value('detail[con_det_address_detail]',$cm->con_det_address_detail));
+							$input = array('name'=>'detail[con_det_address_detail]','value'=>set_value('detail[con_det_address_detail]',$cm->con_det_address_detail),'class'=>'required');
 							echo form_input($input);
 						?>
+						</span>
 					</td>
 				</tr>
 				<tr>
@@ -426,7 +467,7 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					<td>
 					<?php
 						echo form_label('Date Of Birth <span>*</span>', 'lbl_con_dob');
-						$input = array('name'=>'detail[con_det_dob]','placeholder'=>'Date Of Birth','value'=>set_value('detail[con_det_dob]',$cm->con_det_dob));
+						$input = array('name'=>'detail[con_det_dob]','placeholder'=>'Date Of Birth','value'=>set_value('detail[con_det_dob]',$cm->con_det_dob),'class'=>'required');
 						echo form_input($input);
 					?>
 					</td>
@@ -442,7 +483,7 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 					?>
 					<script>
 						jq(document).ready(function(){
-							var _sta = "<?php echo set_value('detail[con_det_civil_status]',$cm->con_det_civil_status);?>";
+							var _sta = "<?php echo set_value('detail[con_det_civil_status]',$cm->con_det_civil_status);?>";							
 							jq('input[name=detail\\[con_det_civil_status\\]][value="'+_sta+'"]').prop('checked','checked');
 							var _data = <?php echo json_encode($couple);?>;							
 							checkCivilStatus(_sta, _data);
@@ -465,11 +506,10 @@ echo form_open(site_url(segment(1).'/edit_save'),array('name'=>'form_contact'));
 						?>
 						<script>
 							jq(document).ready(function(){
-								var _gro = "<?php echo set_value('info[con_con_typ_id]',$cm->con_con_typ_id);?>";
+								var _gro = "<?php echo set_value('info[con_con_typ_id]',$cm->con_con_typ_id);?>";								
 								jq('input[name=info\\[con_con_typ_id\\]][value="'+_gro+'"]').prop('checked','checked');															
 								if(_gro=='1'){
-									var _gdata = <?php echo json_encode(isset($group)?$group:array());?>;
-									console.log(_gdata);
+									var _gdata = <?php echo json_encode(isset($group)?$group:array());?>;									
 									var len = _gdata.length; 
 									if(len>0){
 										for(var ind=0; ind<len; ind++){
