@@ -26,6 +26,8 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
 <div id="accordion">
     <h3>Basic Information</h3>
     <div>
+		<div id="msg-error">
+		</div>
         <table border="0" width="100%">
             <tr>
                 <td colspan="3">
@@ -262,8 +264,22 @@ $options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_cou
         jq('form#form_contact').submit(function () {
             if (isRequired()) {
                 return false;
-            }
-            return true;
+            }			
+			jq.ajax({
+				url: jq(this).attr('action'),
+				type: 'post',
+				data: jq(this).serialize(),
+				dataType: 'json',
+				success: function (response) {
+					if(response.result=='error'){
+						jq('#msg-error').html(response.msg);
+					}
+					if(response.result=='ok'){
+						window.location = "<?php echo site_url('contacts');?>";
+					}
+				}
+			});
+            return false;
         });
 
         //ajax get district after province selected
