@@ -150,6 +150,7 @@ $list_acc_number.= '</datalist>';
                     function(data) {
                         $('.loader').removeClass('icon-loader');
                         $('.loader').addClass('icon-search');
+                        
                         if (data.result == 0) {
                             //                           
                             // $('[name="cid"],[name="view_con_cid"],[name="displayname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').html("");

@@ -79,8 +79,8 @@ $list_acc_number.= '</datalist>';
 
                 <?php
 //                echo form_hidden('cid', set_value('cid'));
-                echo form_hidden('con_id', set_value('con_id'));
-                echo '<span class="error">' . form_error('con_id') . '</span>';
+                echo form_hidden('loa_con_id', set_value(''));
+                echo '<span class="error">' . form_error('cid') . '</span>';
                 ?>
             </div>
         </div>               
@@ -102,7 +102,7 @@ $list_acc_number.= '</datalist>';
 
 //        echo get_form($data);
         field('select', 'loa_acc_loa_pro_typ_id', 'Product type:', NULL, array('options' => $product_type, 'attribute' => array('validated' => 1)), TRUE);
-        field('select', 'co_id', 'CO Name:', NULL, array('options' => $co_data, 'attribute' => array('validated' => 1)), TRUE);
+         field('select', 'co_id', 'CO Name:', NULL, array('options' => $co_data, 'attribute' => array('validated' => 1)), TRUE);
 
         $schedule_type = array(
             '' => '---Select schedule type---',
@@ -170,141 +170,121 @@ $list_acc_number.= '</datalist>';
     <script>
 
         jQuery.noConflict();
-        (function ($) {
-
-
-            $(function () {
-
+        (function($) {
+             
+             
+            $(function() {
+               
                 $('#btn_action').addClass("disable_box");
                 $('.numeric').numberOnly();
-                var uri = [
+                
+                var uri=[
                     $('[name="base_url"]').val(),
                     $('[name="segment1"]').val(),
                     $('[name="segment2"]').val(),
                     $('[name="segment3"]').val(),
-                ];
+                ];             
+                
                 //=============Date input type============
-                $(".txtdate").datepicker({
+                $( ".txtdate" ).datepicker({ 
                     defaultDate: '-0y',
                     buttonText: "Choose",
-                    dateFormat: "yy-mm-dd"
+                    dateFormat: "yy-mm-dd" 
                 });
-                $('#search_customer_by_code').click(function () {
+                
+                
+                $('#search_customer_by_code').click(function(){
+                    var con_cid = "";
+                    if($('#con_cid')){
+                        con_cid = $('#con_cid').val();
+                    }
+                    
+                    //('.btn').attr('disabled',true);
+                    $('.loader').addClass('icon-loader');
+                    $.post( uri[0]+"loan/find_contact_by_cid",
+                    {
+                        'con_cid':con_cid
+                    },
+                    function(data){
+                       
+                        //$('.btn').removeAttr('disabled');
+                        $('.loader').removeClass('icon-loader');
+                        $('.loader').addClass('icon-search');
+                        
 
-                    var con_cid = $('#con_cid').val();
-                    if (con_cid == "") {
-                        alert("CID is required..!");
-                        $("#con_cid").focus();
-                        $('#btn_action').addClass("disable_box");
-                    } else {
-
-                        $('.loader').addClass('icon-loader');
-                        $.post(uri[0] + "loan/find_loan_by_contact_cid",
-                                {
-                                    'con_cid': con_cid
-                                },
-                        function (data) {
-
-                            //$('.btn').removeAttr('disabled');
-                            $('.loader').removeClass('icon-loader');
-                            $('.loader').addClass('icon-search');
-
-//                            alert(data.result);
-//                            alert(data.lao_code);return false;
-
-                            if (data.result == 0) {
-                                $('[name="cid"],[name="view_con_cid"],[name="displayname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').html("");
-                                alert("Account number not found, please try another Account.");
+                        if(data.result == 0){
+                            //                           
+                            $('[name="cid"],[name="view_con_cid"],[name="displayname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').html("");
+                            if(acc_num==null){
+                                alert("Contact not found, please try another CID.");
                                 $("#con_cid").focus();
                                 $('#btn_action').addClass("disable_box");
-                                //                            resetForm('#form_loan');///=======Reset form data
-                                $('#form_loan').each(function () {
-                                    this.reset()
-                                });
+                            }else{
+                                alert("Account number not found, please try another Account.");
+                                $("#account_number").focus();
+                                $('#btn_action').addClass("disable_box");
                             }
-                            else {
-//                                   alert(data.loa_detail);
-//                                   return false;
-                                if (data.lao_code != null && data.loa_detail != 5){
-                                    alert("This contact ready have account");
-                                    $('[name="cid"],[name="view_con_cid"],[name="displayname"],[name="con_dob"],[name="con_address"],[name="con_typ_title"]').html("");
-                                    $("#con_cid").focus();
+                            
+                            //                            resetForm('#form_loan');///=======Reset form data
+                            $('#form_loan').each(function() { this.reset() });
+                        }
+                        else{
+                            ///For edit loan if don't if ready approve or disbursment can't edit
+                            if($('#account_number').val()!=null){
+                                if(data.loa_acc_loa_detail != "Pending"){
+                                    $('[name="loa_info"]').html('<span class="error"><p>This Accoundt Number already approve and disbursment. Try another..!</p></span>');
                                     $('#btn_action').addClass("disable_box");
-                                    //                            resetForm('#form_loan');///=======Reset form data
-                                    $('#form_loan').each(function () {
-                                        this.reset()
-                                    });
-                                } else {
-
-//                                    alert("Ok can create");
-//                                    alert(data.con_id);
-//                                    $('[name="cid"]').html(data.con_id);
-                                    $('[name="con_id"]').val(data.con_id);
-                                    $('[name="view_con_cid"]').html(data.con_cid);
-                                    $('[name="displayname"]').html(data.con_en_last_name + " " + data.con_en_first_name);
-                                    //                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
-                                    $('[name="con_dob"]').html(data.con_dob + " " + data.sex + "/" + data.civil);
-                                    $('[name="con_address"]').html(data.con_address);
+                                    return false;
+                                
+                                }else{
+                                    $('[name="loa_info"]').html("");
                                     $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
                                 }
-                                return false;
-                                ///For edit loan if don't if ready approve or disbursment can't edit
-//                                if ($('#account_number').val() != null) {
-//                                    if (data.loa_acc_loa_detail != "Pending") {
-//                                        $('[name="loa_info"]').html('<span class="error"><p>This Accoundt Number already approve and disbursment. Try another..!</p></span>');
-//                                        $('#btn_action').addClass("disable_box");
-//                                        return false;
-//                                    } else {
-//                                        $('[name="loa_info"]').html("");
-//                                        $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
-//                                    }
-//
-//                                    //////////////////////////////////////
-//                                }
-
-// =============== bloge test==========
-//                                $('[name="loa_con_id"]').val(data.loa_acc_id)
-//                                $('[name="cid"]').html(data.con_id);
-//                                $('[name="view_con_cid"]').html(data.con_cid);
-//                                $('[name="displayname"]').html(data.con_en_last_name + " " + data.con_en_first_name);
-//                                //                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
-//                                $('[name="con_dob"]').html(data.con_dob + " " + data.sex + "/" + data.civil);
-//                                $('[name="con_address"]').html(data.con_address);
-//                                // product type
-//                                $('[name="loa_acc_loa_pro_typ_id"]').val(data.pro_type);
-//                                // Loan space
-////                            $('[name="gl_code"]').val(data.gl);
-//                                $('[name="currency"]').val(data.currency);
-//                                $('[name="loan_amount"]').val(data.loa_amount);
-//                                //                            $('[name="disbursment_date"]').val(data.loa_acc_disbustment);
-//                                $('[name="rep_freg"]').val(data.loa_acc_rep_fre_id);
-//                                $('[name="firstrepayment_date"]').val(data.loa_acc_first_repayment);
-//                                //installment
-//                                $('[name="num_installments"]').val(data.loa_ins_num_ins);
-//                                $('[name="lead_interest"]').val(data.loa_ins_lead_interest);
-//                                $('[name="principal_start"]').val(data.loa_ins_principal_start);
-//                                $('[name="principal_frequency"]').val(data.loa_ins_principal_frequency);
-//                                $('[name="interest_rate"]').val(data.loa_ins_interest_rate);
-//                                $('[name="ins_amount"]').val(data.loa_ins_installment_amount);
-//                                
-//                                ===============end bloge test==========
-                                //                            alert(data.loa_exit);return;
-//                                if (data.loa_exit == 1) { // check if customer ready have loan account not allow to create till the previouse accound.
-//                                    $('[name="loa_info"]').html('<span class="error"><p>CID "' + data.con_cid + '" already has loan account. Try another CID or finish previous loan first..!</p></span>');
-//                                    $('#btn_action').addClass("disable_box");
-//                                } else {
-//                                    $('[name="loa_info"]').html("");
-//                                    $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
-//                                }
-
+                            
+                                //////////////////////////////////////
                             }
-
-                        },
-                                'json'
-                                );
-                    }
+                            $('[name="loa_con_id"]').val(data.loa_acc_id)
+                            $('[name="cid"]').html(data.con_id);
+                            $('[name="view_con_cid"]').html(data.con_cid);
+                            $('[name="displayname"]').html(data.con_en_last_name+ " "+data.con_en_first_name);
+                            //                            $('[name="accountname"]').val(data.con_en_last_name+ " "+data.con_en_first_name);
+                            $('[name="con_dob"]').html(data.con_dob +" "+ data.sex +"/"+ data.civil);
+                            $('[name="con_address"]').html(data.con_address);
+                            
+                            // product type
+                            $('[name="loa_acc_loa_pro_typ_id"]').val(data.pro_type);
+                            
+                            // Loan space
+//                            $('[name="gl_code"]').val(data.gl);
+                            $('[name="currency"]').val(data.currency);
+                            $('[name="loan_amount"]').val(data.loa_amount);
+                            //                            $('[name="disbursment_date"]').val(data.loa_acc_disbustment);
+                            $('[name="rep_freg"]').val(data.loa_acc_rep_fre_id);
+                            $('[name="firstrepayment_date"]').val(data.loa_acc_first_repayment);
+                            //installment
+                            $('[name="num_installments"]').val(data.loa_ins_num_ins);
+                            $('[name="lead_interest"]').val(data.loa_ins_lead_interest);
+                            $('[name="principal_start"]').val(data.loa_ins_principal_start);
+                            $('[name="principal_frequency"]').val(data.loa_ins_principal_frequency);
+                            $('[name="interest_rate"]').val(data.loa_ins_interest_rate);
+                            $('[name="ins_amount"]').val(data.loa_ins_installment_amount);
+                            //                            alert(data.loa_exit);return;
+                            if(data.loa_exit==1){ // check if customer ready have loan account not allow to create till the previouse accound.
+                                $('[name="loa_info"]').html('<span class="error"><p>CID "'+ data.con_cid +'" already has loan account. Try another CID or finish previous loan first..!</p></span>');
+                                $('#btn_action').addClass("disable_box");
+                            }else{
+                                $('[name="loa_info"]').html("");
+                                $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========
+                            }
+                           
+                        }
+                        
+                    },
+                    'json'
+                );
                 });
-                $('.cal_ins_amount').change(function () {
+                
+                $('.cal_ins_amount').change(function(){
                     //                    var loan_amount = $('[name="loan_amount"]').val();
                     //                    var num_installments = $('[name="num_installments"]').val();
                     //                    var rate_per = $(this).val();
@@ -312,28 +292,34 @@ $list_acc_number.= '</datalist>';
                     //                    
                     //                    $('[name="ins_amount"]').val(instalment);
                     //                    return;
-
-
+                   
+                   
                     console.log(num);
+                    
                     var num = $('[name="loan_amount"]').val();
                     var loan_amount = parseFloat(num.replace(/\s/g, "").replace(",", "")); // convert to number only
 //                    alert(loan_amount);return;
                     var interest_rate = $('[name="interest_rate"]').val();
                     var num_installments = $('[name="num_installments"]').val();
-                    $.post(uri[0] + "loan/calculate_interest",
-                            {
-                                'loan_amount': loan_amount,
-                                'interest_rate': interest_rate,
-                                'num_installments': num_installments
-                            },
-                    function (data) {
+                    
+                    $.post( uri[0]+"loan/calculate_interest",
+                    {
+                        'loan_amount':loan_amount,
+                        'interest_rate':interest_rate,
+                        'num_installments':num_installments
+                    },
+                    function(data){
                         $('[name="ins_amount"]').val(data.instalment);
-                    }, 'json');
+                    },'json');
+                
                 });
+                
             });
+            
+        
         })(jQuery);
-
-
+        
+        
     </script>
 </div>
 <?php

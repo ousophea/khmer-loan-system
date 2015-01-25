@@ -27,9 +27,24 @@ class loan extends CI_Controller {
     }
 
     function add() {
-        // find loan with cid // This customer ready have loan account not yet close.
-        $exit_loan = $this->m_global->select_where("loan_account", array('loa_acc_con_id' => $this->input->post('con_cid'), 'loa_status' => 0));
+        //Check befor add a loan:
+        //  - New contact
+        //  - One contact have only one loan in active
+        //  - A contact can create new loan till close the an old loan.
 
+//        $cicle_loan = 11;
+//        $result = substr("00", 0, -(strlen($cicle_loan))) . $cicle_loan;
+//        echo $result; exit();
+        // find loan with cid // This customer ready have loan account not yet close.
+//        $exit_loan = $this->m_global->select_where("loan_account", array('loa_acc_con_id' => $this->input->post('con_id'), 'loa_status' => 0));
+        
+        
+        //=====test =========
+//        $con_id = 3;
+        $con_id = $this->input->post('con_id');
+//        ===================
+        $exit_loan = $this->m_global->select_where("loan_account", array('loa_acc_con_id' => $con_id, 'loa_acc_loa_det_id !=' => 5)); //// loan detail 5="close"
+       
         if ($exit_loan->num_rows() > 0) {
             $this->session->set_flashdata('error', '<div class="alert alert-error">This custormer ready have loan account.</div>');
             redirect('loan/open');
@@ -104,13 +119,14 @@ class loan extends CI_Controller {
             'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id'),
             'loan_product_type' => array('loa_acc_loa_pro_type_code' => 'loa_pro_typ_id'),
 //            'gl_list' => array('loa_acc_gl_code' => 'gl_code'), /// Not use for this time
-             'loan_account_type' => array('loa_lat_id' => 'lat_id'),
+            'loan_account_type' => array('loa_lat_id' => 'lat_id'),
             'currency' => array('loa_acc_cur_id' => 'cur_id'),
             'users' => array('loa_acc_use_id' => 'use_id'),
             'loan_detail' => array('loa_acc_loa_det_id' => 'loa_det_id'),
             'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id')), 'inner', array('loan_account.loa_acc_code' => $loa_cod), '1');
 
         $this->data['loan_info'] = $loan_info;
+        
         $con_info = NULL;
         if ($loan_info->num_rows() > 0) {
             foreach ($loan_info->result() as $row) {
@@ -524,8 +540,8 @@ class loan extends CI_Controller {
         $this->data['contacts'] = $contracts;
         $this->data['currency'] = $currency;
 //        $this->data['gl'] = $gl; ////////  Not need for this time
-          $this->data['loan_account_type'] = $this->m_loan->laon_account_type_for_dropdown();
-          $this->data['co_data'] = $this->m_loan->co_data_for_dropdown();
+        $this->data['loan_account_type'] = $this->m_loan->laon_account_type_for_dropdown();
+        $this->data['co_data'] = $this->m_loan->co_data_for_dropdown();
         $this->load->view(Variables::$layout_main, $this->data);
     }
 
@@ -592,17 +608,18 @@ class loan extends CI_Controller {
         if ($this->input->post('acc_num') != NULL) {
             $acc_num = $this->input->post('acc_num');
 //            $acc_num = '13-000013-1';
-//            $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'), 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id')), 'inner', array('loan_account.loa_acc_code' => $this->input->post('acc_num')), '1');
+// ----1           $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'), 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id')), 'inner', array('loan_account.loa_acc_code' => $this->input->post('acc_num')), '1');
+//   ---2         $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'),
             $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'),
                 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id'),
                 'loan_product_type' => array('loa_acc_loa_pro_type_code' => 'loa_pro_typ_id'),
 //                'gl_list' => array('loa_acc_gl_code' => 'gl_code'),
-                 'loan_account_type' => array('loa_lat_id' => 'lat_id'),
+                'loan_account_type' => array('loa_lat_id' => 'lat_id'),
                 'currency' => array('loa_acc_cur_id' => 'cur_id'),
                 'loan_detail' => array('loa_acc_loa_det_id' => 'loa_det_id'),
                 'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id')), 'inner', array('loan_account.loa_acc_code' => $acc_num), '1');
 //            var_dump($contact_info); exit();
-            
+
             if ($contact_info->num_rows() > 0) {
 
                 foreach ($contact_info->result() as $row) {
@@ -612,7 +629,7 @@ class loan extends CI_Controller {
                     $data['pro_type_code'] = $row->loa_pro_typ_code . " : " . $row->loa_pro_typ_amount;
 //                    $data['gl'] = $row->loa_acc_gl_code;
 //                    $data['gl_des'] = $row->gl_description;
-                     $data['loa_acc_typ_num'] = $row->lat_title;
+                    $data['loa_acc_typ_num'] = $row->lat_title;
                     $data['currency'] = $row->loa_acc_cur_id;
                     $data['currency_title'] = $row->cur_title;
                     $data['loa_amount'] = formatMoney($row->loa_acc_amount, TRUE);
@@ -646,17 +663,35 @@ class loan extends CI_Controller {
                 $contact = $this->m_loan->find_contact_by_code($contact_id);
             }
         } else {
-            $contact_id = $this->input->post('con_cid');
+
+            $contact_cid = $this->input->post('con_cid');
             $contact = $exit_loan = $this->m_loan->exit_loa_of_contact(); //check if contact have a loan ready need to close the previese first.
-
-            $contact += $this->m_loan->find_contact_by_code($contact_id);
+            $contact += $this->m_loan->find_contact_by_code($contact_cid);
         }
-
+//
         if ($contact != NULL) {
             echo json_encode($contact);
         } else {
             echo json_encode(array('result' => 0));
         }
+    }
+    function doTest(){
+        echo $this->m_loan->exit_loa_of_contact();
+    }
+
+    function find_loan_by_contact_cid() {
+        allows(array(Setting::$role0, Setting::$role1));
+        //===========test=============
+//        $contact_cid = "000033";
+//      //=========================
+        $contact_cid = $this->input->post('con_cid');
+        $exit_loan = $this->m_loan->exit_loa_of_contact(); //check if contact have a loan ready need to close the previese first.
+        if ($exit_loan != NULL){
+            echo json_encode($exit_loan);
+        }else{
+            echo json_encode(array('result' => 0));
+        }
+
     }
 
     function find_loan_by_contact_id() {

@@ -20,21 +20,20 @@ class M_loan extends CI_Model {
 //        $num_loan_acc = $this->db->count_all('loan_account') + 1;
 //        $loa_code = $pro_type_code . '-' . $this->input->post('con_cid') . '-0' . $this->input->post('currency') . "-" . $num_loan_acc; ///// for old requirement
         // Create laon code
-        $con_id = $this->input->post('con_id');
+        $con_id = $this->input->post('con_cid');
 
         $this->db->where('loa_acc_con_id', $con_id); /////////// get loan cicle
         $this->db->from('loan_account');
         $cicle_loan = $this->db->count_all_results() + 1;
+        $cicle_loan = substr(2, 0, -(strlen($cicle_loan))) . $cicle_loan; /// create fomart for Cicle 01
 
-        $cicle_loan = substr("00", 0, -(strlen($cicle_loan))) . $cicle_loan;/// create fomart for Cicle 01
-        
         $loa_code = $this->input->post('lat_id') . "-" . $this->input->post('con_cid') . "-" . $cicle_loan;
 //        echo $loa_code;        exit();
 
         $this->session->set_userdata(array('loa_code' => $loa_code)); // Add loand code for view
         $data = array(
             'loa_acc_code' => $loa_code,
-            'loa_acc_con_id' => $this->input->post('con_id'),
+            'loa_acc_con_id' => $this->input->post('con_cid'),
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
 //            'loa_acc_amount' => (int)$this->input->post('loan_amount'),
             'loa_acc_amount' => (int) str_replace(",", "", $this->input->post('loan_amount')),
@@ -50,7 +49,6 @@ class M_loan extends CI_Model {
             'loa_acc_approval' => "Not yest",
             'loa_acc_loa_det_id' => "1", // Opened
             'loa_acc_first_repayment' => date($this->input->post('firstrepayment_date')),
-            'loa_cicle' => $cicle_loan
 //            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
         );
 
@@ -167,23 +165,17 @@ class M_loan extends CI_Model {
     }
 
     function exit_loa_of_contact() {
-        // test
-//        $con_cid = "000033";
-//        ================
         $con_cid = $this->input->post('con_cid');
         $this->db->where('con_cid', $con_cid);
-        $this->db->where('contacts.status', 1); /// Get only anable contact
-//        $this->db->where('loa_acc_loa_det_id !=', 5); /////Find contact not in active
-        $this->db->join('contacts_detail','con_id=con_det_con_id', 'left');
-        $this->db->join('contacts_type','con_con_typ_id=con_typ_id', 'left');
-        $this->db->join('loan_account','loa_acc_con_id=con_id', 'left');
+        $this->db->join('contacts_detail', 'con_id=con_det_con_id');
+        $this->db->join('contacts_type', 'con_con_typ_id=con_typ_id');
+        $this->db->join('loan_account', 'loa_acc_con_id=con_id');
 //        ============ More detail about contact ============
         $this->db->join('provinces', 'contacts_detail.con_det_pro_id=provinces.pro_id', 'left');
         $this->db->join('districts', 'contacts_detail.con_det_dis_id=districts.dis_id', 'left');
         $this->db->join('communes', 'contacts_detail.con_det_com_id=communes.com_id', 'left');
         $this->db->join('villages', 'contacts_detail.con_det_vil_id=villages.vil_id', 'left');
 //        ======================= end contact===========================
-        $this->db->order_by('loa_acc_loa_det_id'); ///// to get active loan from array of result
         $query = $this->db->get('contacts');
         $data = null;
         if ($query->num_rows() > 0) {
@@ -210,11 +202,9 @@ class M_loan extends CI_Model {
                 $data['con_address'] = $row->con_det_address_detail . " , ភូមិ " . $row->vil_kh_name . ", ឃុំ/សង្កាត់ " . $row->com_kh_name . ", ស្រុក/ខណ្ឌ " . $row->dis_kh_name . ", ខេត្ត/រាជធានី " . $row->pro_kh_name;
                 $data['con_dob'] = $row->con_det_dob;
                 $data['con_typ_title'] = $row->con_typ_title;
-
-
-                $data['lao_code'] = $row->loa_acc_code;
                 
-                $data['loa_detail'] = $row->loa_acc_loa_det_id;
+                
+                $data['lao_code'] = $row->loa_acc_code;
                 break;
             }
         }
