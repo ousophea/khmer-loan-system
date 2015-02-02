@@ -198,7 +198,7 @@ $dbf = new dbf();
                                        href="#"> Loan Acc <b class="caret"></b> </a>
                                     <ul class="dropdown-menu">
                                         <li><a tabindex="-1" href="<?php echo base_url(); ?>loan#contents">New Loan Acc</a></li>
-                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/open/edit#contents">Edit Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/open_edit">Edit Loan Acc</a></li>
                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/viewloan#contents">View Loan Acc</a></li>
                                         <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(SUPERADMIN)) { ?>
                                             <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/openloan#contents">(Dis)approve Loan Acc</a></li>
