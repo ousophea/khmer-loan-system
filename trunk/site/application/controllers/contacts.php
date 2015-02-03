@@ -128,7 +128,7 @@ class Contacts extends CI_Controller {
 					//update relationship contact couple
 					$this->m_global->insert('contacts_couple', array('con_cou_owner' => $last_id, 'con_cou_couple' => $last_id_couple));
 				}
-				//get data for group contact
+				//get data for group contact TO SAVE
 				if ($this->input->post('txt_con_group') == 'group') {
 					//create new group list and get last id
 					$this->m_global->insert('group', array('gro_title' => substr('G000000', 0, -(count($last_id))) . $last_id));

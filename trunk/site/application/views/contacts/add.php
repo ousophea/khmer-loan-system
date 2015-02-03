@@ -264,7 +264,7 @@ $options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_cou
         jq('form#form_contact').submit(function () {
             if (isRequired()) {
                 return false;
-            }			
+            }
 			jq.ajax({
 				url: jq(this).attr('action'),
 				type: 'post',
