@@ -198,8 +198,8 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
     </div>
 </div>
 <div class="control_manager">
-    <?php
-    echo anchor('#', '<i class="icon-plus-sign"></i>Save Contact', 'class="btn btn-mini" id="add_save_contact" title="Save Contact"');
+    <button type="submit" class="btn btn-mini"><i class="icon-plus-sign"></i> Save Contact</button>
+	<?php
     echo nbs();
     echo anchor(site_url(segment(1)), '<i class="icon-circle-arrow-left"></i>Back', 'class="btn btn-mini" id="back" title="Back"');
     ?>
@@ -261,10 +261,10 @@ $options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_cou
                 return true;
             }
         }
-        jq('form#form_contact').submit(function () {
-            if (isRequired()) {
-                return false;
-            }
+		jq('form#form_contact').submit(function () {
+			if (isRequired()) {
+				return false;
+			}
 			jq.ajax({
 				url: jq(this).attr('action'),
 				type: 'post',
@@ -275,13 +275,12 @@ $options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_cou
 						jq('#msg-error').html(response.msg);
 					}
 					if(response.result=='ok'){
-						window.location = "<?php echo site_url('contacts');?>";
+						//window.location = "<?php echo site_url('contacts');?>";
 					}
 				}
 			});
-            return false;
-        });
-
+			return false;
+		});
         //ajax get district after province selected
         jq('select[name="txt_con_province"]').change(function () {
             jq.ajax({

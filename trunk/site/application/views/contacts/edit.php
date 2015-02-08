@@ -264,12 +264,14 @@ $couple_income = getOptions($arr_option_income);
                 return true;
             }
         }
-        jq('form#form_contact').submit(function () {
-            if (isRequired()) {
-                return false;
-            }
-            return true;
-        });
+		
+		jq('form#form_contact').submit(function () {
+			if (isRequired()) {
+				return false;
+			}
+			return true;
+		});
+		
     });
 </script>
 
@@ -547,8 +549,9 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
     </div>
 </div>
 <div class="control_manager">
+	<button type="submit" class="btn btn-mini"><i class="icon-plus-sign"></i> Save Contact</button>
     <?php
-    echo anchor('#', '<i class="icon-plus-sign"></i>Save Contact', 'class="btn btn-mini" id="add_save_contact" title="Save Contact"');
+    //echo anchor('#', '<i class="icon-plus-sign"></i>Save Contact', 'class="btn btn-mini" id="add_save_contact" title="Save Contact"');
     echo nbs();
     echo anchor(site_url(segment(1)), '<i class="icon-circle-arrow-left"></i>Back', 'class="btn btn-mini" id="back" title="Back"');
     ?>

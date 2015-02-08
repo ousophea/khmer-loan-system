@@ -72,13 +72,13 @@ jq(document).ready(function(){
 		var name = jq(this).attr('name');
 		jq('#'+name).remove();
 	});
-	
+	/*
 	//submit form
 	jq('#add_save_contact').click(function(){
 		jq('form[name="form_contact"]').submit();
 		return false;
 	});
-	
+	*/
 	//form action edit manager
 	jq('#edit_manager').click(function(){
 		

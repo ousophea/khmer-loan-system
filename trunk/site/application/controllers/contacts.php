@@ -74,8 +74,7 @@ class Contacts extends CI_Controller {
 					'con_use_id' => $this->session->userdata('use_id'),
 					'con_bra_id' => $this->session->userdata('bra_id')
 				);
-				$this->m_global->insert('contacts', $arr_contact);
-				//update cid
+				$this->m_global->insert('contacts', $arr_contact);				
 				//get last id
 				$last_id = $this->m_global->insert_id();
 				//$cid = substr(CONTACT_DIGIT, 0, -(strlen($last_id))).$last_id;
