@@ -173,7 +173,8 @@ class Contacts extends CI_Controller {
 							$this->m_global->insert('contacts_group', array('con_gro_con_id' => $last_id_contact_group, 'con_gro_gro_id' => $last_id_group));
 						}
 					}
-				}				
+				}
+				$this->session->set_flashdata('success','New contact has been created successfully!');
 				$res = array(
 						'result'=>'ok');
 				echo json_encode($res);

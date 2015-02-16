@@ -275,7 +275,7 @@ $options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_cou
 						jq('#msg-error').html(response.msg);
 					}
 					if(response.result=='ok'){
-						//window.location = "<?php echo site_url('contacts');?>";
+						window.location = "<?php echo site_url('contacts');?>";
 					}
 				}
 			});
