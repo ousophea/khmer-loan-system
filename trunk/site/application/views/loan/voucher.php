@@ -57,7 +57,8 @@
             <div class="tools">
                 <a disabled="disabled" class="btn btn-mini btn-success" href="#" title="Loan disbusement voucher"><i class="icon-book icon-white"></i> Voucher</a>
                 <a class="btn btn-mini" href="<?php echo base_url() . 'loan/schedule'; ?>" title="View loan account"><i class="icon-calendar"></i> Repayment Schedule</a>
-                <a class="btn btn-mini btn_print" href="<?php echo base_url() . 'loan/schedule'; ?>" title="Edit loan account"><i class="icon-print"></i> Print</a>
+                <!--<a class="btn btn-mini btn_print" href="<?php // echo base_url() . 'loan/schedule';  ?>" title="Edit loan account"><i class="icon-print"></i> Print</a>-->
+                <a class="btn btn-mini btn_print" href="#" title="Edit loan account"><i class="icon-print"></i> Print</a>
                 <a class="btn" href="<?php echo base_url() . 'loan/open'; ?>" style="float: right;" title="Edit loan account"><i class="icon-chevron-left"></i> Back</a>
             </div>
         </div>
@@ -110,7 +111,7 @@
                                     acc_info('ហត្ថលេខា/ Signature', '');
                                     echo '</span>';
 //                                    acc_info('លេខកូដគណនី/ GL Code', '', $row->loa_acc_gl_code);
-                                     acc_info('លេខគណនីអតិថិជនៈ/ Customer Code', '', $row->loa_acc_code);
+                                    acc_info('លេខគណនីអតិថិជនៈ/ Customer Code', '', $row->loa_acc_code);
                                     acc_info('ចំនូនទឹកប្រាក់បានទទួល/ Amount receiverd', "", formatMoney($row->loa_acc_amount, TRUE) . " " . $row->cur_title);
                                     acc_info('ជាអក្សរ/ In word', "", $row->loa_acc_amount_in_word);
                                     echo '</div>';
@@ -169,5 +170,32 @@
                 <a class="btn" href="<?php echo base_url() . 'loan/open'; ?>" style="float: right;" title="Edit loan account"><i class="icon-chevron-left"></i> Back</a>
             </div>
         </div>
+        <script>
+
+            jQuery.noConflict();
+            (function ($) {
+
+
+                $(function () {
+
+                    $('.btn_print').click(function () {
+                        $('.print_preview_menu').hide();
+                        $('#field_interest').hide();
+                        $('#field_total_interest').hide();
+                        window.print();
+                        $('.print_preview_menu').show();
+                        $('#field_interest').show();
+                        $('#field_total_interest').show();
+                    });
+
+
+                });
+
+
+            })(jQuery);
+
+
+        </script>
     </body>
+
 </html>

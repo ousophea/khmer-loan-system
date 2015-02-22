@@ -209,6 +209,7 @@ $list_acc_number.= '</datalist>';
                                     return false;
 
                                 } else {
+//                                    alert(data.loa_acc_id);
                                     $('.acc_info_des').show();
                                     $('[name="loa_info"]').html("");
                                     $('#btn_action').removeClass("disable_box"); //// =========Show botton submit========

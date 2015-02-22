@@ -227,7 +227,7 @@ class M_loan extends CI_Model {
 //        $loan_code = "12-000033-01";
 //        ================
         $this->db->where('loan_account.loa_acc_code', $loan_code);
-//        $this->db->where('contacts.status', 1); /// Get only anable contact
+        $this->db->where('contacts.status', 1); /// edite only padding account
 //        $this->db->where('loa_acc_loa_det_id !=', 5); /////Find contact not in active
         $this->db->join('contacts_detail', 'con_id=con_det_con_id', 'left');
         $this->db->join('contacts_type', 'con_con_typ_id=con_typ_id', 'left');
@@ -278,7 +278,7 @@ class M_loan extends CI_Model {
                 $data['con_typ_title'] = $row->con_typ_title;
 
 //                ========Loan info===========
-                $data['loa_acc_id'] = $row->loa_acc_con_id;
+                $data['loa_acc_id'] = $row->loa_acc_id;
                 $data['loa_acc_typ_num'] = $row->lat_title;
                 $data['pro_type'] = $row->loa_acc_loa_pro_type_code;
                 $data['co_id'] = $row->loa_acc_co_id;

@@ -17,7 +17,10 @@
 		<script type="text/javascript" language="javascript" src="<?php echo site_url('js/jquery-1.8.2.js'); ?>" ></script>
 		<script src="<?php echo site_url('js/jquery-ui.js'); ?>"></script>
 		<script type="text/javascript" language="javascript" src="<?php echo site_url('js/jq_action_manager.js'); ?>" ></script>
-	
+                <!--form popup-->
+                <script src="<?php echo site_url('bootstrap/js/jquery.colorbox-min.js'); ?>"></script>
+                <link href="<?php echo site_url('bootstrap/css/colorbox.css'); ?>" rel="stylesheet" media="all">
+                
 		<!-- Bootstrap -->
 		<link href="<?php echo site_url('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" media="screen">
 	</head>

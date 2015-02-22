@@ -29,14 +29,13 @@ if ($this->session->flashdata('error')) {
  <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'bootstrap.min.css'); ?>" rel="stylesheet" media="print">
 <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.print-card.js"></script>
         <!--=============== For printing==============-->
-        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'style.css'); ?>" rel="stylesheet" type="text/css" media="print">
+<!--        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'style.css'); ?>" rel="stylesheet" type="text/css" media="print">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'main-style.css'); ?>" rel="stylesheet" type="text/css" media="print">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'menu.css'); ?>" rel="stylesheet" type="text/css" media="print">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'saving.css'); ?>" rel="stylesheet" type="text/css" media="print">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'jquery-ui.css'); ?>" rel="stylesheet" type="text/css" media="print">
         <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'bootstrap.min.css'); ?>" rel="stylesheet" media="print">
-        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'users.css'); ?>" rel="stylesheet" media="print">
-
+        <link href="<?php echo site_url(CSS_PATH_BOOTSTRAP . 'users.css'); ?>" rel="stylesheet" media="print">-->
     </head>
 
     <body>
@@ -66,7 +65,8 @@ if ($this->session->flashdata('error')) {
                             <button type="submit" class="btn btn-primary btn-sm" value="submit" name="submit"><i class="glyphicon glyphicon-filter"></i> Filter</button>
                         </div>
                     </div>
-                    <a href="" onclick="return false;" class="print btn btn-sm btn-success "><i class="glyphicon glyphicon-print"></i> Print </a>                  
+                    <!--<a href="" onclick="return false;" class="print btn btn-sm btn-success "><i class="glyphicon glyphicon-print"></i> Print </a>-->                  
+                <a class="btn btn-mini btn_print" href="#" title="Edit loan account"><i class="icon-print"></i> Print</a>
                 </div>
 
             </form>
@@ -130,14 +130,15 @@ if ($this->session->flashdata('error')) {
                 <?php } ?>
             </table>
         </div>
-    </body>
-</html>
+<!--    </body>
+</html>-->
     <script type="text/javascript">
         var js = jQuery.noConflict();
         js(document).ready(function () {
             js('.datepicker').datepicker({
             });
-            js(".print").attr("href", "javascript:void( 0 )").click(function () {
+
+            js(".btn_print").attr("href", "javascript:void( 0 )").click(function () {
 
                 js(".printable").print();
                 return(false);

@@ -556,9 +556,9 @@ class loan extends CI_Controller {
         $this->data['edit'] = 1;
         $this->data['title'] = 'Edit loan account';
 
-        $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
+//        $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
 
-        
+         $this->data['acc_num_query'] = $this->m_global->select_where('loan_account',array('loa_acc_loa_det_id' => 1));
 
         $product_type = $this->m_loan_product_type->get_loan_product_type_array();
         $this->data['product_type'] = $product_type;

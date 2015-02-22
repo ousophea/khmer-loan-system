@@ -42,8 +42,10 @@ class M_cofficer extends m_global{
 	
 	public function get_data_edit($id){
 		$res = array();
-		$this->db->select('co.*');
+		$this->db->select('co.*,s.*');
 		$this->db->where('co.co_id',$id);
+                $this->db->where('s.cos_status',1);////select only current salary
+                $this->db->join('creadit_officer_salary s','s.cos_id=co.co_id','inner');
         $query = $this->db->get('creadit_officer co');
 		if($query->num_rows()>0){
 			$tmp = $query->row();
@@ -57,6 +59,7 @@ class M_cofficer extends m_global{
 		}
 		$query->free_result();
 		return $res;
+                
 	}
 }
 ?>
