@@ -208,6 +208,7 @@ class loan extends CI_Controller {
         $loan_peraid = $this->input->post('num_installments'); // Number for time to repayment
         $num_date = $this->input->post('rep_freg'); // Type of repayment ex: Monthly, Daily, Weekly
         $instalment = $this->input->post('ins_amount');
+        $firstrepayment_date = $this->input->post('firstrepayment_date');
         $loa_id = $get_acc_id;
         $disbu_date = $this->input->post('disbursment_date');
 
@@ -241,7 +242,13 @@ class loan extends CI_Controller {
 //        echo "<td>principle_repay</td><td>Rate</td><td>Total repay</td><td>Last priciple</td><td>Key</td>";
 
         for ($i = 1; $i <= $loan_peraid; $i++) {
-            $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
+//            $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
+           if($i ==1){
+               $repayment_date =$firstrepayment_date;
+           }else{
+                $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
+           }
+          
             if ($repay_type == 1) { //Anuity repayment type
                 ////////========================Anuity schedul=====================================
                 //          1 ===================Rate===============
