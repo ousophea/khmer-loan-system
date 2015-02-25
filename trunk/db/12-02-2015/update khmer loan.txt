@@ -1,0 +1,7 @@
+ALTER TABLE `loan_installment`  DROP FOREIGN KEY `FK_loan_installment_loan_account`;
+ALTER TABLE `loan_installment`  DROP INDEX `FK_loan_installment_loan_account`;
+ALTER TABLE `contacts_detail`  DROP FOREIGN KEY `con_id`;
+ALTER TABLE `contacts_number`  DROP FOREIGN KEY `con_num_id`;
+ALTER TABLE `saving_account`  DROP FOREIGN KEY `sav_user_id`,  DROP FOREIGN KEY `sav_product type`,  DROP FOREIGN KEY `sav_contact`;
+ALTER TABLE `creadit_officer`  ADD COLUMN `co_start_date` DATE NULL DEFAULT NULL AFTER `co_position`;
+CREATE TABLE `creadit_officer_salary` (  `cos_id` INT(10) NULL,  `cos_salary` DOUBLE NULL,  `cos_date_create` DATE NULL,  `cos_status` INT(10) NULL ) COLLATE='utf8_general_ci' ENGINE=InnoDB ROW_FORMAT=DEFAULT;

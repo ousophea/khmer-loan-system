@@ -1,0 +1,190 @@
+/* Connecting to 127.0.0.1 via TCP/IP, username root, using password: No ... */
+/* Connected. Thread-ID: 7 */
+/* Characterset: utf8 */
+SHOW STATUS LIKE 'Uptime';
+SHOW VARIABLES LIKE 'version_compile_os';
+SHOW VARIABLES LIKE 'hostname';
+SHOW DATABASES;
+USE `loan_khmer`;
+SHOW TABLE STATUS FROM `loan_khmer`;
+SHOW FUNCTION STATUS WHERE `Db`='loan_khmer';
+SHOW PROCEDURE STATUS WHERE `Db`='loan_khmer';
+SHOW TRIGGERS FROM `loan_khmer`;
+SHOW EVENTS FROM `loan_khmer`;
+SHOW CREATE TABLE `loan_khmer`.`loan_account_type`;
+SHOW COLLATION;
+SHOW ENGINES;
+SHOW CREATE TABLE `loan_khmer`.`users`;
+ALTER TABLE `users`  ADD COLUMN `use_bra_id` INT(11) NOT NULL DEFAULT '0' AFTER `use_id`;
+SHOW TABLE STATUS FROM `loan_khmer`;
+SHOW FUNCTION STATUS WHERE `Db`='loan_khmer';
+SHOW PROCEDURE STATUS WHERE `Db`='loan_khmer';
+SHOW TRIGGERS FROM `loan_khmer`;
+SHOW EVENTS FROM `loan_khmer`;
+SHOW CREATE TABLE `loan_khmer`.`users`;
+SELECT `use_id`, `use_bra_id`, `use_name`, `use_kh_name`, `use_gro_id`, `status`, `use_password` FROM `loan_khmer`.`users` LIMIT 0, 1000;
+SHOW CREATE TABLE `users`;
+SHOW CREATE TABLE `loan_khmer`.`branch`;
+SELECT `bra_id`, `bra_name`, `bra_address`, `bra_status` FROM `loan_khmer`.`branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `branch`;
+SELECT `use_id`, `use_bra_id`, `use_name`, `use_kh_name`, `use_gro_id`, `status`, `use_password` FROM `loan_khmer`.`users` LIMIT 0, 1000;
+SHOW CREATE TABLE `users`;
+UPDATE `users` SET `use_bra_id`=1 WHERE `use_id`=1 LIMIT 1;
+UPDATE `users` SET `use_bra_id`=1 WHERE `use_id`=2 LIMIT 1;
+UPDATE `users` SET `use_bra_id`=1 WHERE `use_id`=3 LIMIT 1;
+UPDATE `users` SET `use_bra_id`=2 WHERE `use_id`=4 LIMIT 1;
+UPDATE `users` SET `use_bra_id`=1 WHERE `use_id`=5 LIMIT 1;
+UPDATE `users` SET `use_name`='pp teller' WHERE `use_id`=4 LIMIT 1;
+SELECT `bra_id`, `bra_name`, `bra_address`, `bra_status` FROM `loan_khmer`.`branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `branch`;
+SELECT `use_id`, `use_bra_id`, `use_name`, `use_kh_name`, `use_gro_id`, `status`, `use_password` FROM `loan_khmer`.`users` LIMIT 0, 1000;
+SHOW CREATE TABLE `users`;
+UPDATE `users` SET `use_bra_id`=1 WHERE `use_id`=4 LIMIT 1;
+UPDATE `users` SET `use_bra_id`=2, `use_name`='kd teller' WHERE `use_id`=4 LIMIT 1;
+UPDATE `users` SET `use_password`='8482dfb1bca15b503101eb438f52deed' WHERE `use_id`=4 LIMIT 1;
+UPDATE `users` SET `use_bra_id`=2, `use_name`='kd admin' WHERE `use_id`=3 LIMIT 1;
+UPDATE `users` SET `use_password`='21232f297a57a5a743894a0e4a801fc3' WHERE `use_id`=3 LIMIT 1;
+SHOW CREATE TABLE `loan_khmer`.`creadit_officer`;
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SHOW CREATE TABLE `loan_khmer`.`cro_of_branch`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+INSERT INTO `creadit_officer` (`cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position`) VALUES ('Vanaka', 'm', 0, 'Phnom Penh', '080 506070', 0);
+SELECT LAST_INSERT_ID();
+UPDATE `creadit_officer` SET `cro_position`=1 WHERE `cro_id`=2 LIMIT 1;
+UPDATE `creadit_officer` SET `cro_card_id`='201320-001' WHERE `cro_id`=2 LIMIT 1;
+UPDATE `creadit_officer` SET `cro_card_id`='201320-002' WHERE `cro_id`=2 LIMIT 1;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+SHOW CREATE TABLE `branch`;
+SELECT `bra_id`, LEFT(`bra_name`, 256) FROM `branch` GROUP BY `bra_id` ORDER BY `bra_name` LIMIT 1000;
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (1, 2);
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (1, 2);
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+SHOW CREATE TABLE `branch`;
+SELECT `bra_id`, LEFT(`bra_name`, 256) FROM `branch` GROUP BY `bra_id` ORDER BY `bra_name` LIMIT 1000;
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (1, 1);
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (1, 1);
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+SHOW CREATE TABLE `branch`;
+SELECT `bra_id`, LEFT(`bra_name`, 256) FROM `branch` GROUP BY `bra_id` ORDER BY `bra_name` LIMIT 1000;
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (2, 2);
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (2, 2);
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SELECT 1 FROM `branch`;
+SHOW COLUMNS FROM `branch`;
+SELECT 1 FROM `creadit_officer`;
+SHOW COLUMNS FROM `creadit_officer`;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+SHOW CREATE TABLE `branch`;
+SELECT `bra_id`, LEFT(`bra_name`, 256) FROM `branch` GROUP BY `bra_id` ORDER BY `bra_name` LIMIT 1000;
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (1, 2);
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`, `crob_status`) VALUES (1, 2, '1');
+/* SQL Error (1452): Cannot add or update a child row: a foreign key constraint fails (`loan_khmer`.`cro_of_branch`, CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON DELETE NO ACTION ON UPDATE NO ACTION) */
+ALTER TABLE `cro_of_branch` DROP FOREIGN KEY `brand_con`, DROP FOREIGN KEY `cro_con`;
+ALTER TABLE `cro_of_branch`  ADD CONSTRAINT `brand_con` FOREIGN KEY (`crob_bra_id`) REFERENCES `branch` (`bra_id`) ON UPDATE CASCADE ON DELETE CASCADE,  ADD CONSTRAINT `cro_con` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`) ON UPDATE CASCADE ON DELETE CASCADE;
+/* SQL Error (1005): Can't create table 'loan_khmer.#sql-9c4_7' (errno: 150)  Foreign key constraint is incorrectly formed */
+ALTER TABLE `cro_of_branch` DROP FOREIGN KEY `brand_con`, DROP FOREIGN KEY `cro_con`;
+/* SQL Error (1025): Error on rename of '.\loan_khmer\cro_of_branch' to '.\loan_khmer\#sql2-9c4-7' (errno: 152)  Cannot delete a parent row */
+ALTER TABLE `cro_of_branch` DROP FOREIGN KEY `brand_con`, DROP FOREIGN KEY `cro_con`;
+/* SQL Error (1025): Error on rename of '.\loan_khmer\cro_of_branch' to '.\loan_khmer\#sql2-9c4-7' (errno: 152)  Cannot delete a parent row */
+SELECT 1 FROM `branch`;
+SHOW COLUMNS FROM `branch`;
+SELECT 1 FROM `creadit_officer`;
+SHOW COLUMNS FROM `creadit_officer`;
+ALTER TABLE `cro_of_branch`  DROP FOREIGN KEY `brand_con`,  DROP FOREIGN KEY `cro_con`,  ADD CONSTRAINT `crob_bra` FOREIGN KEY (`crob_bra_id`) REFERENCES `branch` (`bra_id`),  ADD CONSTRAINT `crob_co` FOREIGN KEY (`crob_cro_id`) REFERENCES `creadit_officer` (`cro_id`);
+/* SQL Error (1005): Can't create table 'loan_khmer.#sql-9c4_7' (errno: 150)  Foreign key constraint is incorrectly formed */
+SHOW CREATE TABLE `branch`;
+SELECT `bra_id`, LEFT(`bra_name`, 256) FROM `branch` GROUP BY `bra_id` ORDER BY `bra_name` LIMIT 1000;
+INSERT INTO `cro_of_branch` (`crob_bra_id`) VALUES (2);
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+UPDATE `cro_of_branch` SET `crob_cro_id`=1 WHERE `crob_cro_id`= LIMIT 1;
+/* SQL Error (1064): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 1' at line 1 */
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+UPDATE `cro_of_branch` SET `crob_cro_id`=2 WHERE `crob_cro_id`= LIMIT 1;
+/* SQL Error (1064): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 1' at line 1 */
+UPDATE `cro_of_branch` SET `crob_cro_id`=2 WHERE `crob_cro_id`= LIMIT 1;
+/* SQL Error (1064): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 1' at line 1 */
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+UPDATE `cro_of_branch` SET `crob_cro_id`=1 WHERE `crob_cro_id`= LIMIT 1;
+/* SQL Error (1064): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 1' at line 1 */
+UPDATE `cro_of_branch` SET `crob_cro_id`=1 WHERE `crob_cro_id`= 1 LIMIT 1;
+/* 0 rows affected, 0 rows found. Duration for 1 query: 0.000 sec. */
+UPDATE `cro_of_branch` SET `crob_cro_id`=1 WHERE `crob_cro_id`= LIMIT 1;
+/* SQL Error (1064): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 1' at line 1 */
+UPDATE `cro_of_branch` SET `crob_cro_id`=1 WHERE `crob_cro_id`= LIMIT 1;
+/* SQL Error (1064): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 1' at line 1 */
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+ALTER TABLE `cro_of_branch`  CHANGE COLUMN `crob_cro_id` `crob_cro_id` INT(11) NOT NULL DEFAULT NULL FIRST;
+/* SQL Error (1067): Invalid default value for 'crob_cro_id' */
+UPDATE `cro_of_branch` SET `crob_cro_id`=1 WHERE `crob_bra_id`= 2 LIMIT 1;
+/* 1 rows affected, 0 rows found. Duration for 1 query: 0.109 sec. */
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+UPDATE `cro_of_branch` SET `crob_status`='1' WHERE `crob_cro_id`=1 LIMIT 1;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `cro_id`, LEFT(`cro_card_id`, 256) FROM `creadit_officer` GROUP BY `cro_id` ORDER BY `cro_card_id` LIMIT 1000;
+SHOW CREATE TABLE `branch`;
+SELECT `bra_id`, LEFT(`bra_name`, 256) FROM `branch` GROUP BY `bra_id` ORDER BY `bra_name` LIMIT 1000;
+INSERT INTO `cro_of_branch` (`crob_cro_id`, `crob_bra_id`) VALUES (2, 2);
+UPDATE `cro_of_branch` SET `crob_status`='1' WHERE `crob_cro_id`=2 LIMIT 1;
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SELECT * FROM (`creadit_officer`) JOIN `cro_of_branch` ON `cro_of_branch`.`crob_cro_id`=`creadit_officer`.`cro_id` WHERE `cro_of_branch`.`crob_bra_id` = 1 ORDER BY `cro_name`;
+/* 0 rows affected, 0 rows found. Duration for 1 query: 0.000 sec. */
+SELECT * FROM (`creadit_officer`) JOIN `cro_of_branch` ON `cro_of_branch`.`crob_cro_id`=`creadit_officer`.`cro_id` ORDER BY `cro_name`;
+/* 0 rows affected, 2 rows found. Duration for 1 query: 0.000 sec. */
+SELECT `cro_id`, `cro_card_id`, `cro_name`, `cro_sex`, `cro_chif_id`, `cro_address`, `cro_tel`, `cro_position` FROM `loan_khmer`.`creadit_officer` LIMIT 0, 1000;
+SHOW CREATE TABLE `creadit_officer`;
+SELECT `crob_cro_id`, `crob_bra_id`, `crob_status` FROM `loan_khmer`.`cro_of_branch` LIMIT 0, 1000;
+SHOW CREATE TABLE `cro_of_branch`;
+SHOW CREATE TABLE `loan_khmer`.`loan_account`;
+SELECT `loa_acc_id`, `loa_acc_loa_det_id`, `loa_acc_code`, `loa_acc_con_id`, `loa_acc_loa_pro_type_code`, `loa_acc_amount`, `loa_acc_amount_in_word`, `loa_acc_cur_id`, `loa_acc_gl_code`, `loa_lat_id`, `loa_alternative_account_code`, `loa_acc_rep_fre_id`, `loa_acc_approval`, `loa_acc_created_date`, `loa_acc_modified_date`, `loa_acc_use_id`, `loa_acc_first_repayment`, `loa_acc_disbustment`, `loa_status`, `loa_cicle` FROM `loan_khmer`.`loan_account` LIMIT 0, 1000;
+SHOW CREATE TABLE `loan_account`;
+ALTER TABLE `loan_account`  ADD COLUMN `loa_acc_co_id` INT(11) NULL DEFAULT NULL AFTER `loa_acc_use_id`;
+SHOW TABLE STATUS FROM `loan_khmer`;
+SHOW FUNCTION STATUS WHERE `Db`='loan_khmer';
+SHOW PROCEDURE STATUS WHERE `Db`='loan_khmer';
+SHOW TRIGGERS FROM `loan_khmer`;
+SHOW EVENTS FROM `loan_khmer`;
+SHOW CREATE TABLE `loan_khmer`.`loan_account`;
