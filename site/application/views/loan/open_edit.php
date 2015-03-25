@@ -88,6 +88,7 @@ $list_acc_number.= '</datalist>';
         );
 //        $schedule_type[''] = '---Select schedule type---';
         field('select', 'loa_sch_id', 'Repayment type:', NULL, array('options' => $schedule_type, 'attribute' => array('validated' => 1)), TRUE);
+        field('select', 'loa_lpp_id', 'Loan Purpose:', NULL, array('options' => $loan_purpose, 'attribute' => array('validated' => 1)), TRUE);
 
 
         echo close_block();
@@ -235,6 +236,7 @@ $list_acc_number.= '</datalist>';
 
                                     // product datail
                                     $('[name="loa_acc_loa_pro_typ_id"]').val(data.pro_type);
+                                    $('[name="loa_lpp_id"]').val(data.loan_purpose);
                                     $('[name="co_id"]').val(data.co_id);
                                     $('[name="loa_sch_id"]').val(data.repayment_type);
 

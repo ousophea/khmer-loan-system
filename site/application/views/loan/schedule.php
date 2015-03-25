@@ -105,7 +105,9 @@ if ($sum_result_query->num_rows() > 0) {
                                 echo '<span id="field_interest">';
                                 acc_info('អត្រាការប្រាក់ប្រចាំ' . $row->rep_fre_type_kh . ':', "", formatMoney($row->loa_ins_interest_rate, TRUE) . "%");
                                 echo '</span>';
-                                acc_info('រយះពេលខ្ចី:', '', $row->loa_ins_num_ins . " " . $row->rep_fre_type_kh);
+//                                acc_info('រយះពេលខ្ចី:', '', $row->loa_ins_num_ins . " " . $row->rep_fre_type_kh);
+                                acc_info('ចំនួនដងត្រូវបង់:', '', $row->loa_ins_num_ins);
+
                                 acc_info('ថ្ងៃចេញទុន(ថ្ងៃខែឆ្នាំ):', '', $row->loa_acc_disbustment);
 //                                acc_info('អាស័យដ្ឋាន:', '', $con_info['con_address']);
                                 echo '<span class="sign">';
@@ -116,13 +118,13 @@ if ($sum_result_query->num_rows() > 0) {
 
                                 echo open_span(5);
                                 echo '<div class="form-horizontal">';
-                                acc_info('លេខគណនីសន្សំ:', '');
+//                                acc_info('លេខគណនីសន្សំ:', '');
                                 echo '<div class="sub_title_contant">ពត៍មានសង្ខេបពីប្រាក់កំចី</div>';
                                 echo '<span id="field_total_interest">';
                                 acc_info('ការប្រាក់សរុប:', '', $rate_total);
                                 echo '</span>';
                                 acc_info('សរុបការប្រាក់់ និង ប្រាក់ដើម:', '', $row->loa_acc_amount + $rate_total);
-                                acc_info('សរុបប្រាក់សន្សំ:', '', $saving_total);
+//                                acc_info('សរុបប្រាក់សន្សំ:', '', $saving_total);///////Not need for saving service now
                                 echo '<div class="schedule_fotter">
                     <div>ហត្ថលេខាអ្នករៀបចំ</div>
                     <div>ស្នាមមេដៃអតិថិជន</div>
@@ -142,13 +144,14 @@ if ($sum_result_query->num_rows() > 0) {
                                     'ប្រាក់ដើម' => 'rep_sch_principle_amount_repayment', // Principal
                                     'សរុបប្រាក់ត្រូវបង់' => 'rep_sch_total_repayment',
                                     'ការប្រាក់' => 'rep_sch_rate_repayment', //Interest
-                                    'ប្រាក់សន្សំ' => 'rep_sch_saving', //Outstanding
+//                                    'ប្រាក់សន្សំ' => 'rep_sch_saving', //Outstanding
 //                                    'Instalment' => 'rep_sch_instalment'
                                 );
 
 
                                 echo "<span id='rep_tbl'></span>";
-                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3, array($principle_total, $repayment_total, $rate_total, $saving_total));
+//                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3, array($principle_total, $repayment_total, $rate_total, $saving_total));
+                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3, array($principle_total, $repayment_total, $rate_total));
                                 ?>
                             </div>
                             <p><span style="text-decoration: underline">បញ្ជាក់ៈ</span> ថ្ងៃធ្វើការ ចាប់ពីថ្ងៃសុក្រ ពីម៉ោង ៧:៣០ ដល់ម៉ោង ២:០០</p>
@@ -173,12 +176,12 @@ if ($sum_result_query->num_rows() > 0) {
         <script>
 
             jQuery.noConflict();
-            (function($) {
-             
-             
-                $(function() {
-               
-                    $('.btn_print').click(function(){
+            (function ($) {
+
+
+                $(function () {
+
+                    $('.btn_print').click(function () {
                         $('.print_preview_menu').hide();
                         $('#field_interest').hide();
                         $('#field_total_interest').hide();
@@ -189,13 +192,13 @@ if ($sum_result_query->num_rows() > 0) {
 
                     });
 
-                
+
                 });
-            
-        
+
+
             })(jQuery);
-        
-        
+
+
         </script>
     </body>
 </html>

@@ -20,12 +20,13 @@ class M_loan extends CI_Model {
 //        $num_loan_acc = $this->db->count_all('loan_account') + 1;
 //        $loa_code = $pro_type_code . '-' . $this->input->post('con_cid') . '-0' . $this->input->post('currency') . "-" . $num_loan_acc; ///// for old requirement
         // Create laon code
-        $con_id = $this->input->post('con_cid');
+        $con_id = $this->input->post('con_id');
 
         $this->db->where('loa_acc_con_id', $con_id); /////////// get loan cicle
         $this->db->from('loan_account');
         $cicle_loan = $this->db->count_all_results() + 1;
-        $cicle_loan = substr(2, 0, -(strlen($cicle_loan))) . $cicle_loan; /// create fomart for Cicle 01
+
+        $cicle_loan = substr("00", 0, -(strlen($cicle_loan))) . $cicle_loan; /// create fomart for Cicle 01
 
         $loa_code = $this->input->post('lat_id') . "-" . $this->input->post('con_cid') . "-" . $cicle_loan;
 //        echo $loa_code;        exit();
@@ -33,8 +34,9 @@ class M_loan extends CI_Model {
         $this->session->set_userdata(array('loa_code' => $loa_code)); // Add loand code for view
         $data = array(
             'loa_acc_code' => $loa_code,
-            'loa_acc_con_id' => $this->input->post('con_cid'),
+            'loa_acc_con_id' => $this->input->post('con_id'),
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
+            'loa_acc_loa_sch_id' => $this->input->post('loa_sch_id'),
 //            'loa_acc_amount' => (int)$this->input->post('loan_amount'),
             'loa_acc_amount' => (int) str_replace(",", "", $this->input->post('loan_amount')),
 //            'loa_acc_amount' => (int)$this->input->post('loan_amount'),
@@ -49,6 +51,7 @@ class M_loan extends CI_Model {
             'loa_acc_approval' => "Not yest",
             'loa_acc_loa_det_id' => "1", // Opened
             'loa_acc_first_repayment' => date($this->input->post('firstrepayment_date')),
+            'loa_cicle' => $cicle_loan
 //            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
         );
 
@@ -165,17 +168,23 @@ class M_loan extends CI_Model {
     }
 
     function exit_loa_of_contact() {
+        // test
+//        $con_cid = "000033";
+//        ================
         $con_cid = $this->input->post('con_cid');
         $this->db->where('con_cid', $con_cid);
-        $this->db->join('contacts_detail', 'con_id=con_det_con_id');
-        $this->db->join('contacts_type', 'con_con_typ_id=con_typ_id');
-        $this->db->join('loan_account', 'loa_acc_con_id=con_id');
+        $this->db->where('contacts.status', 1); /// Get only anable contact
+//        $this->db->where('loa_acc_loa_det_id !=', 5); /////Find contact not in active
+        $this->db->join('contacts_detail', 'con_id=con_det_con_id', 'left');
+        $this->db->join('contacts_type', 'con_con_typ_id=con_typ_id', 'left');
+        $this->db->join('loan_account', 'loa_acc_con_id=con_id', 'left');
 //        ============ More detail about contact ============
         $this->db->join('provinces', 'contacts_detail.con_det_pro_id=provinces.pro_id', 'left');
         $this->db->join('districts', 'contacts_detail.con_det_dis_id=districts.dis_id', 'left');
         $this->db->join('communes', 'contacts_detail.con_det_com_id=communes.com_id', 'left');
         $this->db->join('villages', 'contacts_detail.con_det_vil_id=villages.vil_id', 'left');
 //        ======================= end contact===========================
+        $this->db->order_by('loa_acc_loa_det_id'); ///// to get active loan from array of result
         $query = $this->db->get('contacts');
         $data = null;
         if ($query->num_rows() > 0) {
@@ -202,9 +211,97 @@ class M_loan extends CI_Model {
                 $data['con_address'] = $row->con_det_address_detail . " , ភូមិ " . $row->vil_kh_name . ", ឃុំ/សង្កាត់ " . $row->com_kh_name . ", ស្រុក/ខណ្ឌ " . $row->dis_kh_name . ", ខេត្ត/រាជធានី " . $row->pro_kh_name;
                 $data['con_dob'] = $row->con_det_dob;
                 $data['con_typ_title'] = $row->con_typ_title;
-                
-                
+
+
                 $data['lao_code'] = $row->loa_acc_code;
+
+                $data['loa_detail'] = $row->loa_acc_loa_det_id;
+                break;
+            }
+        }
+        return $data;
+    }
+
+    function find_contact_by_loan_number($loan_code = NULL) {
+        // test
+//        $loan_code = "12-000033-01";
+//        ================
+        $this->db->where('loan_account.loa_acc_code', $loan_code);
+        $this->db->where('contacts.status', 1); /// edite only padding account
+//        $this->db->where('loa_acc_loa_det_id !=', 5); /////Find contact not in active
+        $this->db->join('contacts_detail', 'con_id=con_det_con_id', 'left');
+        $this->db->join('contacts_type', 'con_con_typ_id=con_typ_id', 'left');
+//        =================More detail for loan===========
+        $this->db->join('loan_account', 'loa_acc_con_id=con_id', 'left');
+        $this->db->join('loan_detail', 'loa_det_id=loa_acc_loa_det_id', 'left');
+        $this->db->join('loan_installment', 'loan_installment.loa_ins_loa_acc_id=loan_account.loa_acc_id');
+        $this->db->join('loan_product_type', 'loan_product_type.loa_pro_typ_id=loan_account.loa_acc_loa_pro_type_code');
+        $this->db->join('loan_account_type', 'loan_account_type.lat_id=loan_account.loa_lat_id');
+        $this->db->join('currency', 'currency.cur_id=loan_account.loa_acc_cur_id');
+        $this->db->join('repayment_freg', 'repayment_freg.rep_fre_id=loan_account.loa_acc_rep_fre_id');
+        $this->db->join('creadit_officer', 'creadit_officer.co_id=loan_account.loa_acc_co_id');
+
+
+//        ============ More detail about contact ============
+        $this->db->join('provinces', 'contacts_detail.con_det_pro_id=provinces.pro_id', 'left');
+        $this->db->join('districts', 'contacts_detail.con_det_dis_id=districts.dis_id', 'left');
+        $this->db->join('communes', 'contacts_detail.con_det_com_id=communes.com_id', 'left');
+        $this->db->join('villages', 'contacts_detail.con_det_vil_id=villages.vil_id', 'left');
+//        ======================= end contact===========================
+//        $this->db->order_by('loa_acc_loa_det_id'); ///// to get active loan from array of result
+        $query = $this->db->get('contacts');
+        $data = null;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row) {
+                $data['result'] = 1;
+
+                $data['con_id'] = $row->con_id;
+                $data['con_cid'] = $row->con_cid;
+                $data['con_en_first_name'] = $row->con_en_first_name;
+                $data['con_en_last_name'] = $row->con_en_last_name;
+                $data['con_kh_first_name'] = $row->con_kh_first_name;
+                $data['con_kh_last_name'] = $row->con_kh_last_name;
+                $data['con_en_nickname'] = $row->con_en_nickname;
+                $data['con_kh_nickname'] = $row->con_kh_nickname;
+                $data['sex'] = ($row->con_kh_nickname == "m") ? "Male" : "Female";
+                if ($row->con_det_civil_status == "1") {
+                    $data['civil'] = "Single";
+                } elseif ($row->con_det_civil_status == "2") {
+                    $data['civil'] = "Married";
+                } else {
+                    $data['civil'] = "Devoise";
+                }
+
+
+                $data['con_address'] = $row->con_det_address_detail . " , ភូមិ " . $row->vil_kh_name . ", ឃុំ/សង្កាត់ " . $row->com_kh_name . ", ស្រុក/ខណ្ឌ " . $row->dis_kh_name . ", ខេត្ត/រាជធានី " . $row->pro_kh_name;
+                $data['con_dob'] = $row->con_det_dob;
+                $data['con_typ_title'] = $row->con_typ_title;
+
+//                ========Loan info===========
+                $data['loa_acc_id'] = $row->loa_acc_id;
+                $data['loa_acc_typ_num'] = $row->lat_title;
+                $data['pro_type'] = $row->loa_acc_loa_pro_type_code;
+                $data['co_id'] = $row->loa_acc_co_id;
+                $data['repayment_type'] = $row->loa_acc_loa_sch_id;
+                $data['loa_accc_ownership_type'] = $row->loa_accc_ownership_type;
+                $data['loa_lat_id'] = $row->loa_lat_id;
+                $data['currency'] = $row->loa_acc_cur_id;
+                $data['currency_title'] = $row->cur_title;
+                $data['loa_acc_amount_in_word'] = $row->loa_acc_amount_in_word;
+                $data['loa_amount'] = formatMoney($row->loa_acc_amount, TRUE);
+                $data['loa_acc_disbustment'] = $row->loa_acc_disbustment;
+                $data['loa_acc_rep_fre_id'] = $row->loa_acc_rep_fre_id;
+                $data['loa_acc_rep_fre_type'] = $row->rep_fre_type;
+                $data['loa_acc_first_repayment'] = $row->loa_acc_first_repayment;
+                $data['loa_ins_num_ins'] = $row->loa_ins_num_ins;
+                $data['loa_ins_lead_interest'] = $row->loa_ins_lead_interest;
+                $data['loa_ins_principal_start'] = $row->loa_ins_principal_start;
+                $data['loa_ins_principal_frequency'] = $row->loa_ins_principal_frequency;
+                $data['loa_ins_interest_rate'] = $row->loa_ins_interest_rate;
+                $data['loa_ins_installment_amount'] = $row->loa_ins_installment_amount;
+                $data['create_date'] = $row->loa_acc_created_date;
+
+                $data['loa_detail'] = $row->loa_det_status;
                 break;
             }
         }

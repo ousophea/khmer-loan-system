@@ -111,7 +111,7 @@ $list_acc_number.= '</datalist>';
         );
 //        $schedule_type[''] = '---Select schedule type---';
         field('select', 'loa_sch_id', 'Repayment type:', NULL, array('options' => $schedule_type, 'attribute' => array('validated' => 1)), TRUE);
-
+        field('select', 'lpp_id', 'Loan Purpose:', NULL, array('options' => $loan_purpose, 'attribute' => array('validated' => 1)), TRUE);
 
         echo close_block();
         echo close_span();

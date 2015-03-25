@@ -36,6 +36,7 @@ class M_loan extends CI_Model {
             'loa_acc_code' => $loa_code,
             'loa_acc_con_id' => $this->input->post('con_id'),
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
+            'loa_lpp_id' => $this->input->post('lpp_id'),
             'loa_acc_loa_sch_id' => $this->input->post('loa_sch_id'),
 //            'loa_acc_amount' => (int)$this->input->post('loan_amount'),
             'loa_acc_amount' => (int) str_replace(",", "", $this->input->post('loan_amount')),
@@ -96,6 +97,7 @@ class M_loan extends CI_Model {
         $last_id = 0;
         $data = array(
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
+            'loa_lpp_id' => $this->input->post('loa_lpp_id'),
             'loa_acc_amount' => (int) str_replace(",", "", $this->input->post('loan_amount')),
             'loa_acc_cur_id' => $this->input->post('currency'),
             'loa_acc_gl_code' => $this->input->post('gl_code'),
@@ -129,7 +131,19 @@ class M_loan extends CI_Model {
         } else
             return FALSE;
     }
+function close_loan($loa_acc_code = NULL) {
+        $data = array(
+            'loa_acc_loa_det_id' => 5, ///// Close loan
+            'loa_acc_modified_date' => date('y-m-d h:i:s'),
+             'loa_cicle' => 0 ////// Allow create new loan
+        );
+        $this->db->where('loa_acc_code', $loa_acc_code);
 
+        if ($this->db->update('loan_account', $data)) {
+                return TRUE;
+        } else
+            return FALSE;
+    }
     function get_saving_account() {
         $this->db->from('saving_account');
         $this->db->where('saving_account.sav_acc_status', 1);
@@ -281,6 +295,7 @@ class M_loan extends CI_Model {
                 $data['loa_acc_id'] = $row->loa_acc_id;
                 $data['loa_acc_typ_num'] = $row->lat_title;
                 $data['pro_type'] = $row->loa_acc_loa_pro_type_code;
+                $data['loan_purpose'] = $row->loa_lpp_id;
                 $data['co_id'] = $row->loa_acc_co_id;
                 $data['repayment_type'] = $row->loa_acc_loa_sch_id;
                 $data['loa_accc_ownership_type'] = $row->loa_accc_ownership_type;
@@ -438,6 +453,18 @@ class M_loan extends CI_Model {
         if ($data->num_rows() > 0) {
             foreach ($data->result() as $row) {
                 $result[$row->lat_id] = $row->lat_title;
+            }
+        }
+        return $result;
+    }
+
+    function laon_purpose_for_dropdown() {
+        $this->db->order_by('lpp_id');
+        $data = $this->db->get('loan_purpose');
+        $result = null;
+        if ($data->num_rows() > 0) {
+            foreach ($data->result() as $row) {
+                $result[$row->lpp_id] = $row->lpp_title;
             }
         }
         return $result;

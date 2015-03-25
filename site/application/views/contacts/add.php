@@ -33,7 +33,7 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
                 <td colspan="3">
                     <?php
                     echo form_label('Customer ID <span>*</span>', 'lbl_cus_id_first_name');
-                    echo form_input(array('name' => 'txt_con_cid', 'placeholder' => 'Customer ID','max'=>'5', 'class' => 'required numeric'));
+                    echo form_input(array('name' => 'txt_con_cid', 'placeholder' => 'Customer ID','max'=>'5', 'class' => 'required numeric',"maxlength"=>"6"));
                     ?>
                 </td>					
             </tr>

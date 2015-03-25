@@ -24,7 +24,8 @@ class Cofficer extends CI_Controller {
 
     public function add() {
         $data['title'] = 'Credit Officer Manager : Add';
-        $chiefs = $this->m_global->select_data_join('creadit_officer', 'co_id,co_name', array(), array('co_position' => 1));
+//        $chiefs = $this->m_global->select_data_join('creadit_officer', 'co_id,co_name', array(), array('co_position' => 1));
+        $chiefs = $this->m_cofficer->get_chief();
         $data['chiefs'] = $this->get_dropdown($chiefs, 'co_id', 'co_name');
         $brands = $this->m_global->select_data_join('branch', 'bra_id,bra_name', array(), array('bra_status' => 1));
         $data['brands'] = $this->get_dropdown($brands, 'bra_id', 'bra_name');
@@ -102,7 +103,8 @@ class Cofficer extends CI_Controller {
         $id = $id[0];
         $data['id'] = $id;
         $data['title'] = 'Credit Officer Manager : Edit';
-        $chiefs = $this->m_cofficer->select_data_join('creadit_officer', 'co_id,co_name', array(), array('co_position' => 1));
+//        $chiefs = $this->m_cofficer->select_data_join('creadit_officer', 'co_id,co_name', array(), array('co_position' => 1));
+        $chiefs = $this->m_cofficer->get_chief($id);
         $data['chiefs'] = $this->get_dropdown($chiefs, 'co_id', 'co_name');
         $brands = $this->m_cofficer->select_data_join('branch', 'bra_id,bra_name', array(), array('bra_status' => 1));
         $data['brands'] = $this->get_dropdown($brands, 'bra_id', 'bra_name');

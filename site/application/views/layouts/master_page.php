@@ -96,15 +96,15 @@ $dbf = new dbf();
                     </div>
                     <div class="clear"></div>
                     <!-- Logo -->
-                    <!-- Remove inline style when switching back to regular logo-->
-                    <div id="logo"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php
+                    <!-- Remove inline style when switching back to regular logo
+                    <div id="logosss"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php
                             echo base_url();
                             echo IMAGES_PATH;
-                            ?>logo.png" alt="Logo"></a></div>
-                    <div id="logo"> <a href="#"> <img title="" class="logo" src="<?php
+                            ?>logos.png" alt="Logo"></a></div>-->
+<!--                    <div id="logo"> <a href="#"> <img title="" class="logo" src="<?php
                             echo base_url();
                             echo Variables::$images_path;
-                            ?>logo.png" alt="Logo"></a></div>
+                            ?>logo.png" alt="Logo"></a></div>-->
 
                     <!-- Menu -->
                     <div class="dropdown">
@@ -112,6 +112,8 @@ $dbf = new dbf();
                             <li id="pan" class="off <?php echo (($this->uri->segment(1)) == "panel") ? 'current' : '' ?>" ><a href="<?php echo base_url(); ?>panel">Panel</a></li>
                             <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(TELLER)) { ?>
                                 <li id="graa" class="off <?php echo (($this->uri->segment(1)) == "cashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>cashs" >Tiller Cash</a></li>
+                                <li id="" class="off <?php echo (segment(1) == "paycashs") ? 'current' : '' ?>"><a href="<?php echo site_url('paycashs#form_other_expanse'); ?>" >Other Expense</a></li>
+                                <li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>
 
                                 <?php
                                 $current_loantrn = false;
@@ -178,7 +180,7 @@ $dbf = new dbf();
 
 
                 <!--<li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>-->
-                                <li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>
+                                <!--<li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>-->
 
 <!--                                <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
                                     <a class="dropdown-toggle"
@@ -203,7 +205,7 @@ $dbf = new dbf();
                                         <?php if (strtolower($this->session->userdata('gro_name')) == strtolower(SUPERADMIN)) { ?>
                                             <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/openloan#contents">(Dis)approve Loan Acc</a></li>
                                         <?php } ?>
-                                        <li><a tabindex="-2" href="#">Close Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/closeloan#contents"">Close Loan Acc</a></li>
                                     </ul>
                                 </li>
 

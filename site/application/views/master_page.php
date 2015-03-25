@@ -34,7 +34,7 @@
 		      <div class="clear"></div>
 		      <!-- Logo --> 
 		      <!-- Remove inline style when switching back to regular logo-->
-		      <div id="logo"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php echo site_url('images/logo.png'); ?>" alt="Logo"></a></div>
+		      <!--<div id="ssslogo"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php echo site_url('images/logod.png'); ?>" alt="Logo"></a></div>-->
 		      <!-- Menu -->
 		      
 		      <div id="contain-menu3">

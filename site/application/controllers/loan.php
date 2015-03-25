@@ -76,8 +76,6 @@ class loan extends CI_Controller {
 
     function edit() {
         $last_update = $this->m_loan->edit($this->input->post('account_number'));
-//        echo "Hello". $this->input->post('loa_id');
-//        exit();
         if ($last_update) {
             $loan_id = $this->input->post('loa_id');
             $this->m_global->delete('repayment_schedule', array('rep_sch_loa_acc_id' => $loan_id));
@@ -190,101 +188,124 @@ class loan extends CI_Controller {
         $this->load->view("loan/schedule", $this->data);
     }
 
+    public function rount_num($number, $significance = 1) {
+        return ( is_numeric($number) && is_numeric($significance) ) ? (ceil($number / $significance) * $significance) : false;
+    }
+
     function repayment_schedule($get_acc_id = NULL, $repay_type = NULL) {
 
 //        ========Test sample data=========
-//           $repay_type = 1; //1:Anurity  2:Declining
-//          $loan_amount = 10000;
-//          $rate_per = 1.2 / 100;
-//          $loan_peraid = 36;
-//          $num_date = 30;
-//          $instalment =  343.72 ;
-//          $loa_id = 11;
+//        $repay_type = 2; //1:Anurity  2:Declining
+//        $loan_amount = 100000;
+//        $rate_per = 1.2 / 100;
+//        $loan_peraid = 36;
+//        $num_date = 13;
+////        $instalment = 300;
+//        $firstrepayment_date = "2015-03-22";
+//        $disbu_date = date('Y-m-d', now());
+//        $loa_id = 3;
 //=================end=============
-        //        =====Get user data input================
+//                =====Get user data input================
         $repay_type = $this->input->post('loa_sch_id');
         $loan_amount = str_replace(",", "", $this->input->post('loan_amount')); // Loan amount start up
         $rate_per = $this->input->post('interest_rate') / 100; // Percentag of interest %
         $loan_peraid = $this->input->post('num_installments'); // Number for time to repayment
         $num_date = $this->input->post('rep_freg'); // Type of repayment ex: Monthly, Daily, Weekly
-        $instalment = $this->input->post('ins_amount');
+//        $instalment = $this->input->post('ins_amount');
         $firstrepayment_date = $this->input->post('firstrepayment_date');
         $loa_id = $get_acc_id;
-        $disbu_date = $this->input->post('disbursment_date');
-
+        $disbu_date = date('Y-m-d', now());
 //        ============Totals=================
+        $per_raid = ceil(abs(strtotime($firstrepayment_date) - strtotime($disbu_date)) / 86400);
         $t_rate = $t_principle = $t_balance = $t_pay = 0;
 
-        //==============The number of freg select from DB=================
-//        $arr_num_freg = $this->m_global->select_where("repayment_freg", array('rep_fre_id' => $rep_freg), 1);
-//        if ($arr_num_freg->num_rows() > 0) {
-//            foreach ($arr_num_freg->result() as $arr_data) {
-//                $num_date = $arr_data->rep_fre_period;
-//            }
-//        }
-//
-//        $num_date = $rep_freg;
         //1 ==============instalment====================
         $instalment = ($loan_amount * $rate_per) / (1 - pow((1 + $rate_per), (-$loan_peraid)));
-        $instalment = round($instalment, -2);
         //          ======================= Repayment day ===========================
         $repayment_date = $disbu_date;
-//        ///=====sample data==========
-//        $repayment_date = date('Y-m-d', $repayment_date . "+" . $num_date . " days");
         //==============variable for repayment type Anuity
         $arr_sch = array();
         $principle_repay = 0;
-        $rate_repay = 0;
         $last_priciple = $loan_amount;
         $tmp_balance = $loan_amount;
+
+        $rate = 0;
+        $total_repayment = 0;
 //
+//        ============Sample view=============
 //        echo "<table border='1'><tr>";
-//        echo "<td>principle_repay</td><td>Rate</td><td>Total repay</td><td>Last priciple</td><td>Key</td>";
+//        echo "<td>No</td><td>principle_repay</td><td>Rate</td><td>Total repay</td><td>Last priciple</td><td>Key</td>";
+//        echo '</tr><tr><td>' . 0 . '</td><td>' . $principle_repay . '</td><td>' . $rate .
+//        '</td><td>' . $total_repayment . '</td><td>' . $last_priciple .
+//        '</td><td>' . $instalment . '</td></tr>';
+//        =============End sample view==============
+        $arr_sch_rec = array(
+            'rep_sch_num' => 0,
+            'rep_sch_date_repay' => Null,
+            'rep_sch_principle_amount_repayment' => 0,
+            'rep_sch_rate_repayment' => 0,
+            'rep_sch_total_repayment' => 0,
+            'rep_sch_balance' => $last_priciple,
+            'rep_sch_instalment' => 0,
+            'rep_sch_loa_acc_id' => $loa_id,
+            'rep_sch_status' => 1
+        );
+        array_push($arr_sch, $arr_sch_rec);
 
         for ($i = 1; $i <= $loan_peraid; $i++) {
-//            $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
-           if($i ==1){
-               $repayment_date =$firstrepayment_date;
-           }else{
+            if ($i == 1) {
+                $repayment_date = $firstrepayment_date;
+//            =========Rate for first payment copaire to dibusment date============
+
+                $d_rate = round(($rate_per * $last_priciple), 0);
+                $num_day = $per_raid;
+                $rate = ($d_rate * $num_day) / $num_date;
+                $rate = $this->rount_num($rate, 100); /// rount to 100
+//            ========================End ====================
+            } else {
                 $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
-           }
-          
+                $rate = $this->rount_num(round(($rate_per * $last_priciple), 0), 100); // round to 100
+            }
+
             if ($repay_type == 1) { //Anuity repayment type
                 ////////========================Anuity schedul=====================================
-                //          1 ===================Rate===============
-                $rate = round($rate_per * $last_priciple, 0);
                 //          2 ================ Principle repayment ===============
-                $principle_repay = round($instalment - $rate, 0);
+                $principle_repay = $this->rount_num($instalment - $rate, 100);
                 //            ================ total repayment =============
-                $total_repayment = round($principle_repay + $rate, 0);
+//                $total_repayment = round($principle_repay + $rate, 0);
+                $total_repayment = $this->rount_num($principle_repay + $rate, 100);
             } else if ($repay_type == 2) { // Declining repayment type
                 $rat_pric = ($loan_amount / $loan_peraid / $loan_amount);  // Rat of priciple pay
                 //           1 ==============Key=====================
-                $key_culum = round(($loan_amount * $rat_pric), 0);
+                $key_culum = $this->rount_num(($loan_amount * $rat_pric), 100);
                 //           2 =============== principle repay ================
                 $principle_repay = $key_culum;
-
-                //           3 ===================Rate===============
-                $rate = round(($rate_per * $last_priciple), 0);
                 //           4 ================ total repayment =============
-                $total_repayment = round($principle_repay + $rate, 0);
+//                $total_repayment = round($principle_repay + $rate, 0);
+                $total_repayment = $this->rount_num($principle_repay + $rate, 100);
                 //           5 ============= Last priciple amount =======
                 $last_priciple -=$principle_repay;
             }
 
 //           // =====Console round up function ===============
-            $tmp_balance -= round($principle_repay, 0);
+            $tmp_balance -= $principle_repay;
 
             if ($tmp_balance >= 0) {
                 $last_priciple = $tmp_balance;
             } else {
                 $total_repayment = $total_repayment + $tmp_balance;
                 if ($repay_type == 2) {  // Declining repayment type
-                    $principle_repay += round($tmp_balance, 0);
+                    $principle_repay += $this->rount_num($tmp_balance, 100);
                 } else {
-                    $principle_repay = round($last_priciple, 0);
+                    $principle_repay = $this->rount_num($last_priciple, 100);
                 }
                 $last_priciple = 0;
+            }
+            if ($i == $loan_peraid) {
+                if ($last_priciple < $total_repayment) {
+                    $total_repayment += $last_priciple;
+                    $last_priciple = 0;
+                }
             }
 //============Inser to database=======================
             $arr_sch_rec = array(
@@ -299,140 +320,25 @@ class loan extends CI_Controller {
                 'rep_sch_status' => 1
             );
             array_push($arr_sch, $arr_sch_rec);
+//            ================Insert data to DB=============
         }
         $this->db->insert_batch('repayment_schedule', $arr_sch);
-        //======================//===========================
-        //            ============View sample data================
-//            echo '</tr><tr><td>' . $i . '</td><td>' . $principle_repay . '</td><td>' . $rate .
-//            '</td><td>' . $total_repayment . '</td><td>' . $last_priciple .
-//            '</td><td>' . $instalment . '</td></tr>';
-        //        //=======Totals Sample ============
-//          $t_rate = $t_rate + $rate;
-//          $t_pay = $t_pay + $total_repayment;
-//          $t_principle = $t_principle + $principle_repay;
-//          ===============End view sample data==================
-//        echo "</tr><tr><td></td><td>" . $t_principle . '</td><td>' . $t_rate .
+//            ====================================================
+//            ============View sample data================
+//            echo '</tr><tr><td>' . $i . '</td>'
+//            . '<td>' . $principle_repay . '</td>'
+//            . '<td>' . $rate . '</td>'
+//            . '<td>' . $total_repayment . '</td>'
+//            . '<td>' . $last_priciple . '</td>'
+//            . '<td>' . $instalment . '</td></tr>';
+//            $t_rate = $t_rate + $rate;
+//            $t_pay = $t_pay + $total_repayment;
+//        }
+//        echo "</tr><tr><td></td><td></td><td>" . $t_rate .
 //        '</td><td>' . $t_pay . '</td><td></td><td></td></tr>';
-//
 //        echo '</table>';
-//        exit(); 
-        return TRUE;
-//        ============End sample================
-        //        ==== Sent to view===============
-//        $this->data['repayment_sch'] = $this->m_global->select_where('repayment_schedule', array('rep_sch_loa_acc_id' => 11));
-//        $this->load->view(Variables::$layout_main, $this->data);
-        // ===================Sample datab input=============
-        /*
-          $repay_type = 1; //1:Anurity  2:Declining
-          $loan_amount = 10000;
-          $rate_per = 1.2 / 100;
-          $loan_peraid = 36;
-          $num_date = 30;
-          $instalment =  343.72 ;
-          $loa_id = 11;
-          //        =====Get user data input================
-          //        $repay_type = $this->input->post('loa_sch_id');
-          //        $loan_amount = $this->input->post('loan_amount'); // Loan amount start up
-          //        $rate_per = $this->input->post('interest_rate') / 100; // Percentag of interest %
-          //        $loan_peraid = $this->input->post('num_installments'); // Number for time to repayment
-          //        $num_date = $this->input->post('rep_freg'); // Type of repayment ex: Monthly, Daily, Weekly
-          //        $instalment = $this->input->post('ins_amount');
-          //        $loa_id = $get_acc_id;
-
-          $disbu_date = $this->input->post('disbursment_date');
-
-          //          ======================= Repayment day ===========================
-          $repayment_date = $disbu_date;
-          //variable for repayment type Anuity
-          $arr_sch = array();
-          $principle_repay = 0;
-          $rate_repay = 0;
-          $last_priciple = $loan_amount;
-          $tmp_balance = $loan_amount;
-          //        ============Totals=================
-          $t_rate = $t_principle = $t_balance = $t_pay = 0;
-
-          echo "<table border='1'><tr>";
-          echo "<td>No</td><td>principle_repay</td><td>Rate</td><td>Total repay</td><td>Last priciple</td><td>Key</td>";
-          for ($i = 1; $i <= $loan_peraid; $i++) {
-          $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
-          if ($repay_type == 1) { //Anuity repayment type
-          ////////========================Anuity schedul=====================================
-          //          1 ===================Rate===============
-          $rate = round($rate_per * $last_priciple, 0);
-          //                $rate = $rate_per * $last_priciple;
-
-          //          2 ================ Principle repayment ===============
-          $principle_repay = round($instalment - $rate, 0);
-          //                $principle_repay = $instalment - $rate;
-
-          //            ================ total repayment =============
-          $total_repayment = round($principle_repay + $rate,0);
-          //                $total_repayment = $principle_repay + $rate;
-
-
-          } else if ($repay_type == 2) { // Declining repayment type
-          $rat_pric = ($loan_amount / $loan_peraid / $loan_amount);  // Rat of priciple pay
-          //            $key_culum = $loan_amount - ($loan_amount * $rat_pric *(-1));
-          //           1 ==============Key=====================
-          $key_culum = round(($loan_amount * $rat_pric), 0);
-          //                $key_culum = $loan_amount * $rat_pric;
-          //           2 =============== principle repay ================
-          $principle_repay = $key_culum;
-
-          //           3 ===================Rate===============
-          $rate = round(($rate_per * $last_priciple), 0);
-          //                $rate = $rate_per * $last_priciple;
-          //           4 ================ total repayment =============
-          $total_repayment = round($principle_repay + $rate,0);
-          //                $total_repayment = $principle_repay + $rate;
-          //           5 ============= Last priciple amount =======
-          $last_priciple -=$principle_repay;
-          }
-
-          //           // =====Console round up function ===============
-          $tmp_balance -= round($principle_repay, 0);
-          //            $tmp_balance -= $principle_repay;
-
-          if ($tmp_balance >= 0) {
-          $last_priciple = $tmp_balance;
-          } else {
-          $total_repayment = $total_repayment + $tmp_balance;
-          if ($repay_type == 2) {  // Declining repayment type
-          $principle_repay += round($tmp_balance, 0);
-          //                    $principle_repay += $tmp_balance;
-          } else {
-          $principle_repay = round($last_priciple, 0);
-          //                    $principle_repay = $last_priciple;
-          }
-          $last_priciple = 0;
-          }
-
-          //            ============View sample data================
-          echo '</tr><tr><td>' . $i . '</td><td>' . $principle_repay . '</td><td>' . $rate .
-          '</td><td>' . $total_repayment . '</td><td>' . $last_priciple .
-          '</td><td>' . $instalment . '</td></tr>';
-
-
-          //        //=======Totals ============
-          $t_rate = $t_rate + $rate;
-          $t_pay = $t_pay + $total_repayment;
-          $t_principle = $t_principle + $principle_repay;
-          }
-
-          echo "</tr><tr><td></td><td>" . $t_principle . '</td><td>' . $t_rate .
-          '</td><td>' . $t_pay . '</td><td></td><td></td></tr>';
-
-          echo '</table>';
-
-          exit();
-          return TRUE;
-
-         */
-//        ==== Sent to view===============   
-//        $this->data['repayment_sch'] = $this->m_global->select_where('repayment_schedule', array('rep_sch_loa_acc_id' => 11));
-//        $this->load->view(Variables::$layout_main, $this->data);
-        //======================End sample data===================//
+//        exit();
+//          ===============End view sample data==================
     }
 
     function repayment_schedule_excel($get_acc_id = NULL) {
@@ -547,13 +453,14 @@ class loan extends CI_Controller {
         $this->data['currency'] = $currency;
 //        $this->data['gl'] = $gl; ////////  Not need for this time
         $this->data['loan_account_type'] = $this->m_loan->laon_account_type_for_dropdown();
+        $this->data['loan_purpose'] = $this->m_loan->laon_purpose_for_dropdown();
         $this->data['co_data'] = $this->m_loan->co_data_for_dropdown();
         $this->load->view(Variables::$layout_main, $this->data);
     }
 
     function open_edit() {
         allows(array(Setting::$role0, Setting::$role1));
-        
+
         $contracts = $this->m_saving->get_contacts();
         if ($contracts == NULL) {
             $this->session->set_flashdata('error', '<div class="alert alert-error">Contract is empty, please add contract first.</div>');
@@ -565,7 +472,7 @@ class loan extends CI_Controller {
 
 //        $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
 
-         $this->data['acc_num_query'] = $this->m_global->select_where('loan_account',array('loa_acc_loa_det_id' => 1));
+        $this->data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_loa_det_id' => 1));
 
         $product_type = $this->m_loan_product_type->get_loan_product_type_array();
         $this->data['product_type'] = $product_type;
@@ -579,6 +486,7 @@ class loan extends CI_Controller {
         $this->data['currency'] = $currency;
 //        $this->data['gl'] = $gl; ////////  Not need for this time
         $this->data['loan_account_type'] = $this->m_loan->laon_account_type_for_dropdown();
+        $this->data['loan_purpose'] = $this->m_loan->laon_purpose_for_dropdown();
         $this->data['co_data'] = $this->m_loan->co_data_for_dropdown();
         $this->load->view(Variables::$layout_main, $this->data);
     }
@@ -598,6 +506,24 @@ class loan extends CI_Controller {
         $this->data['title'] = 'View Loan infomation';
         $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
         $this->load->view(Variables::$layout_main, $this->data);
+    }
+
+    function closeloan() {
+        $random_code = random_string('alnum', 16);
+        $this->data['random_code'] = $random_code;
+        $this->data['title'] = 'Close Loan';
+        $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
+        $this->load->view(Variables::$layout_main, $this->data);
+    }
+
+    function do_close_loan() {
+        $do_closeLoan = $this->m_loan->close_loan($this->input->post('account_number'));
+        if ($do_closeLoan) {
+            $this->session->set_flashdata('success', 'A loan account has been update');
+        }  else {
+             $this->session->set_flashdata('error', 'A loan account can not be close');
+        }
+         redirect('loan/closeloan');
     }
 
     function loan_status() {
@@ -648,9 +574,10 @@ class loan extends CI_Controller {
 //            $acc_num = '13-000013-1';
 // ----1           $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'), 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id')), 'inner', array('loan_account.loa_acc_code' => $this->input->post('acc_num')), '1');
 //   ---2         $contact_info = $this->m_global->select_join('loan_account', array('contacts' => array('loa_acc_con_id' => 'con_id'),
-            $contact_info = $this->m_global->select_join('loan_account', 
-                    array('contacts' => array('loa_acc_con_id' => 'con_id'),
+            $contact_info = $this->m_global->select_join('loan_account', array(
+                'contacts' => array('loa_acc_con_id' => 'con_id'),
                 'loan_installment' => array('loa_acc_id' => 'loa_ins_loa_acc_id'),
+                'loan_purpose' => array('loa_lpp_id' => 'lpp_id'),
                 'loan_product_type' => array('loa_acc_loa_pro_type_code' => 'loa_pro_typ_id'),
 //                'gl_list' => array('loa_acc_gl_code' => 'gl_code'),
                 'loan_account_type' => array('loa_lat_id' => 'lat_id'),
@@ -686,6 +613,7 @@ class loan extends CI_Controller {
 //                    $data['loa_exit'] = $row->loa_acc_created_date;
                     $data['loa_det_status'] = $row->loa_det_status;
                     $data['loa_acc_loa_detail'] = $row->loa_det_status;
+                    $data['loa_lpp_title'] = $row->lpp_title;
 
 
                     $data['tbl_rep'] = $this->repayment_tbl($row->loa_acc_id);
@@ -732,8 +660,8 @@ class loan extends CI_Controller {
             echo json_encode(array('result' => 0));
         }
     }
-    
-        function find_loan_by_loan_code() {
+
+    function find_loan_by_loan_code() {
         allows(array(Setting::$role0, Setting::$role1));
         //===========test=============
 //        $account_number = "11-000033-04";
@@ -746,7 +674,6 @@ class loan extends CI_Controller {
             echo json_encode(array('result' => 0));
         }
     }
-
 
     function find_loan_by_contact_id() {
         allows(array(Setting::$role0, Setting::$role1));

@@ -56,6 +56,7 @@ $list_acc_number.= '</datalist>';
         acc_info('Currency', 'currency');
         echo "<span id='status_view'>";
         acc_info('Account Status', 'loa_acc_loa_detail');
+        acc_info('Loan Purpose', 'loa_lpp_title');
         echo "</span>";
 
         echo close_block();
@@ -195,7 +196,8 @@ $list_acc_number.= '</datalist>';
                             $('[name="interest_rate"]').html(data.loa_ins_interest_rate);
                             $('[name="maturity_date"]').html(data.create_date);
                             $('[name="loa_acc_loa_detail"]').html(data.loa_acc_loa_detail);
-                            $('[name="loa_ins_installment_amount"]').html(data.loa_ins_installment_amount);
+                             $('[name="loa_lpp_title"]').html(data.loa_lpp_title);
+                             $('[name="loa_ins_installment_amount"]').html(data.loa_ins_installment_amount);
 
                             var status = data.loa_detail;
                             if (status == "Disapproved") {
