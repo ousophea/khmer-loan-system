@@ -117,8 +117,12 @@ $couple_income = getOptions($arr_option_income);
     function getForm(title, eleName, jqueryName, eleId, data, opt) {
         var rem = '<span class="btn_remove_group" style="cursor: pointer;" name="fieldset_' + g_ind + '"><img src="../images/trash.png" alt="" /></span>';
         var bRemove = g_ind > 0 ? rem : '';
+		
         var html = '<fieldset id="fieldset_' + g_ind + '"><legend>' + title + bRemove + '</legend>';
         html += '<table border="0" width="100%">';
+		if(eleName.indexOf('group')>=0){
+		html += '<tr><td colspan="3"><label for="lbl_cus_id_first_name">Customer ID <span>*</span></label><input type="text" name="' + eleName + '[con_cid]" value="" placeholder="Customer ID" max="5" class="required numeric"></td></tr>';
+		}
         html += '<tr>';
         html += '<td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="គោត្តនាម" name="' + eleName + '[con_kh_first_name]"></td>';
         html += '<td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="នាម" name="' + eleName + '[con_kh_last_name]"></td>';
@@ -145,7 +149,8 @@ $couple_income = getOptions($arr_option_income);
             jq(eleId).append(html);
         }
         if (data) {
-            jq('input[name=' + jqueryName + '\\[con_kh_first_name\\]]').val(data.con_kh_first_name);
+            jq('input[name=' + jqueryName + '\\[con_cid\\]]').val(data.con_cid);
+			jq('input[name=' + jqueryName + '\\[con_kh_first_name\\]]').val(data.con_kh_first_name);
             jq('input[name=' + jqueryName + '\\[con_kh_last_name\\]]').val(data.con_kh_last_name);
             jq('input[name=' + jqueryName + '\\[con_kh_nickname\\]]').val(data.con_kh_nickname);
             jq('input[name=' + jqueryName + '\\[con_en_first_name\\]]').val(data.con_en_first_name);

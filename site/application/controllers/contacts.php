@@ -74,7 +74,8 @@ class Contacts extends CI_Controller {
 					'con_use_id' => $this->session->userdata('use_id'),
 					'con_bra_id' => $this->session->userdata('bra_id')
 				);
-				$this->m_global->insert('contacts', $arr_contact);				
+				$this->m_global->insert('contacts', $arr_contact);
+				//update cid
 				//get last id
 				$last_id = $this->m_global->insert_id();
 				//$cid = substr(CONTACT_DIGIT, 0, -(strlen($last_id))).$last_id;
@@ -173,8 +174,7 @@ class Contacts extends CI_Controller {
 							$this->m_global->insert('contacts_group', array('con_gro_con_id' => $last_id_contact_group, 'con_gro_gro_id' => $last_id_group));
 						}
 					}
-				}
-				$this->session->set_flashdata('success','New contact has been created successfully!');
+				}				
 				$res = array(
 						'result'=>'ok');
 				echo json_encode($res);
