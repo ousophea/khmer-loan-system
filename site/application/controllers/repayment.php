@@ -35,10 +35,8 @@ class repayment extends CI_Controller {
             'repayment_schedule' => array('loa_acc_id' => 'rep_sch_loa_acc_id')), 'inner', array('loa_acc_code' => $loan_code, 'rep_sch_status' => 1), '1'); // rep_sch_status =1 mean not yet pay
         $this->session->set_flashdata('loan_code', $loan_code);
 //        echo $query_data;exit();
-
         $query_data->result_array();
         $data = $query_data->result_array;
-
         if (count($data) > 0) {
             echo json_encode($data[0]);
         } else {

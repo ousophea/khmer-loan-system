@@ -8,12 +8,14 @@
         
         <?php if (strtolower($this->session->userdata('gro_name')) != strtolower(TELLER)) { ?>
         <div class="span"> <a class="row" href="<?php echo base_url(); ?>loan/open"><img title="New Loan Account" alt="" src="<?php echo base_url(); echo Variables::$images_path; ?>personal_loan.png"> <span class="row">New Loan</span></a> </div>
-        <div class="span"> <a class="row" href="<?php echo site_url('saving/open'); ?>"><img title="New Loan" alt="New Saing Account" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'saving.png'); ?>"> <span class="row">New Saving</span></a> </div>
+        <!--<div class="span"> <a class="row" href="<?php echo site_url('saving/open'); ?>"><img title="New Loan" alt="New Saing Account" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'saving.png'); ?>"> <span class="row">New Saving</span></a> </div>-->
         <div class="span"> <a class="row" href="<?php echo site_url('contacts/add'); ?>"><img title="Contacts" alt="Contacts" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'contact.png'); ?>"> <span class="row">New Contacts</span></a> </div>
-        <div class="span"> <a class="row" href="<?php echo site_url('journals/journal#form_journal'); ?>"><img title="Journals Entry" alt="Journals Entry" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'journal.png'); ?>"> <span class="row">Journals Entry</span></a> </div>
+        <!--<div class="span"> <a class="row" href="<?php echo site_url('journals/journal#form_journal'); ?>"><img title="Journals Entry" alt="Journals Entry" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'journal.png'); ?>"> <span class="row">Journals Entry</span></a> </div>-->
         <div class="span"> <a class="row" href="<?php echo base_url(); ?>users"><img title="Manage users" alt="" src="<?php echo base_url(); echo Variables::$images_path;            ?>user.png"> <span class="row">User</span></a> </div>
         <div class="span"> <a class="row" href=""><img title="Reports" alt="" src="<?php echo base_url(); echo Variables::$images_path; ?>report.png"> <span class="row">Report</span></a> </div>
-        <?php }else{ ?>
+                <div class="span"> <a class="row" href="<?php echo site_url('loan/payoff#contents'); ?>"><img title="Loan Payoff" alt="pay off" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'journal.png'); ?>"> <span class="row">Loan Payoff</span></a> </div>
+
+            <?php }else{ ?>
         
         <div class="span"> 
             <a class="row" href="<?php echo site_url('cashs'); ?>">

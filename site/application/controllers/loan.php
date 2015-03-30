@@ -108,6 +108,14 @@ class loan extends CI_Controller {
         echo json_encode($data);
     }
 
+    function payoff() {
+        $random_code = random_string('alnum', 16);
+        $this->data['random_code'] = $random_code;
+        $this->data['title'] = 'Loan Pay Off';
+        $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
+        $this->load->view(Variables::$layout_main, $this->data);
+    }
+
     function voucher($loan_id = NULL) {
         $loa_cod = $this->session->userdata('loa_code');
         $this->data['title'] = 'Loan disbursment voucher';
@@ -401,17 +409,24 @@ class loan extends CI_Controller {
     //////==============Get table repayment==============================
     function repayment_tbl($loa_id = NULL) {
 //        return "Hello";
-        $this->data['repayment_sch'] = $this->m_global->select_where('repayment_schedule', array('rep_sch_loa_acc_id' => $loa_id));
+//       $loa_id = 6;
+//        $this->data['repayment_sch'] = $this->m_global->select_where('repayment_schedule', array('rep_sch_loa_acc_id' => $loa_id));
+         $this->data['repayment_sch'] = $this->m_global->select_join('repayment_schedule', 
+                 array(
+                      'repayment_status' => array('rep_sch_status' => 'rep_sta_id')
+                     ),'inner',array('rep_sch_loa_acc_id' => $loa_id)
+                 );
 //        $this->data['repayment_sch'] = $this->m_global->select_where('repayment_schedule',array('rep_sch_loa_acc_id' =>35));
 //        return $this->load->view('loan/repayment_schedule', $this->data);
         $arr_field_sch_table = array(
-            'ល.រ' => 'rep_sch_num',
+            'ល.រ' => 'rep_sch_num', 
             'ថ្ចៃសងប្រាក់' => 'rep_sch_date_repay', // Due date
             'ប្រាក់ដើម' => 'rep_sch_principle_amount_repayment', // Principal
             'ការប្រាក់' => 'rep_sch_rate_repayment', //Interest
-            'ប្រាក់ដើមនៅសល់' => 'rep_sch_balance', //Outstanding
+            'ប្រាក់ដើមនៅសល់' => 'rep_sch_balance', //Outstanding 'ស្ថានភាព'=>"rep_sta_name",
+           'ស្ថានភាព'=>"rep_sta_name"
         );
-        return table_manager($this->data['repayment_sch'], $arr_field_sch_table, FALSE, 1);
+        return table_manager($this->data['repayment_sch'], $arr_field_sch_table, FALSE, 1,null,1);
     }
 
     //======================================================================
@@ -422,10 +437,8 @@ class loan extends CI_Controller {
 
     function open() {
 //        echo $this->session->userdata('loa_code');exit();
-
         $this->data['title'] = 'Open loan account';
-
-        $contracts = $this->m_saving->get_contacts();
+        $contracts = $this->m_loan->get_contacts();
         if ($contracts == NULL) {
             $this->session->set_flashdata('error', '<div class="alert alert-error">Contract is empty, please add contract first.</div>');
             redirect('loan/block');
@@ -520,10 +533,10 @@ class loan extends CI_Controller {
         $do_closeLoan = $this->m_loan->close_loan($this->input->post('account_number'));
         if ($do_closeLoan) {
             $this->session->set_flashdata('success', 'A loan account has been update');
-        }  else {
-             $this->session->set_flashdata('error', 'A loan account can not be close');
+        } else {
+            $this->session->set_flashdata('error', 'A loan account can not be close');
         }
-         redirect('loan/closeloan');
+        redirect('loan/closeloan');
     }
 
     function loan_status() {

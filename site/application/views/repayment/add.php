@@ -27,7 +27,7 @@ $now = time();
 //field("text", "value_date", "Value Date:", NULL, array('attribute' => array('class' => 'txtdate')), FALSE);
 //field('text', 'value_date', 'Value date:', unix_to_human($now), array('attribute' => array('readonly' => "")));
 
-field("text", "limit_date", "Limit Date:", NULL, array('attribute' => array('class' => 'txtdate', 'readonly' => "")), FALSE,'<span id="payment_des" class="error"></span><input type="hidden" value="0" id="payment_late" name="payment_late">');
+field("text", "limit_date", "Limit Date:", NULL, array('attribute' => array('class' => 'txtdate', 'readonly' => "")), FALSE, '<span id="payment_des" class="error"></span><input type="hidden" value="0" id="payment_late" name="payment_late">');
 //field("text", "currency", "Settlement Currency:", NULL, array('attribute' => array('readonly' => "")));
 field("text", "amount", "Settlement Amount:", NULL, array('attribute' => array('readonly' => "")), FALSE, ' <span id="currency_title"></span>');
 
@@ -67,47 +67,41 @@ echo"</div>";
 
 <script type="text/javascript" language="JavaScript">
     var jq_code = jQuery.noConflict();
-    
-    jq_code(document).ready(function(){
+
+    jq_code(document).ready(function () {
         jq_code('.btn_tool').addClass("disable_box");
-       
-            
-        jq_code('#search_customer_by_code').click(function(){
+        jq_code('#search_customer_by_code').click(function () {
             var getAccNumber = jq_code('#account_number').val();
-            //jq_code("#account_number_des").html("Loading...");
-            
-          
-            if(getAccNumber!=""){
+            jq_code("#account_number_des").html("Loading...");
+            if (getAccNumber != "") {
                 var this_url = jq_code(this).attr('href');
-                
                 var form_data = {
-                    accNum : getAccNumber
+                    accNum: getAccNumber
                 };
-                
-                jq_code.ajax({ 
-                    url:  this_url,
+                jq_code.ajax({
+                    url: this_url,
                     type: 'POST',
-                    async : false,
+                    async: false,
                     data: form_data,
-                    dataType:"json",
-                    success: function(data){
+                    dataType: "json",
+                    success: function (data) {
                         //                     jq_code("#account_number_des").html(data.loa_acc_id);
-                        
-                        if(data.loa_acc_id){
-                            
+
+                        if (data.loa_acc_id) {
+
                             //==== Check for late repayment=============
                             //                            if(data.rep_sch_date_repay < now()){
-                            
+
                             //xdate.setFullYear(currentdate.getFullYear(),currentdate.getMonth(),currentdate.getDate());
                             var pay_late = checkDate(data.rep_sch_date_repay);
-                            if(pay_late > 0){
+                            if (pay_late > 0) {
                                 jq_code("#payment_des").html("<span class='help-block'>Late payment " + pay_late + " day(s)</span>");
                                 jq_code("#payment_late").val(pay_late);
                             }
-                            
+
                             //                                jq_code("#payment_des").html(data.rep_sch_date_repay);
                             //                            }
-                           
+
                             jq_code('.btn_tool').removeClass("disable_box");//// =========Show botton submit========
                             jq_code("#loan_id").val(data.loa_acc_id);
                             jq_code('[name="limit_date"]').val(data.rep_sch_date_repay);
@@ -115,38 +109,38 @@ echo"</div>";
                             jq_code('#currency_title').html(data.cur_title);
                             jq_code('[name="paid_amount"]').val(data.rep_sch_total_repayment);
                             jq_code("#account_number_des").html("");
-                        }else{
+                        } else {
                             jq_code("#account_number_des").html('<span class="help-block">Loan acount not found..!</span>');
                             jq_code('.btn_tool').addClass("disable_box");
                         }
                         //                    
-                    
-                        //                        jq_code("#dis_form_and_tbl").html(jq_code("#form_and_data_table").html());
-                        //                        jq_code("#form_and_data_table").html("");
+
+//                                                jq_code("#dis_form_and_tbl").html(jq_code("#form_and_data_table").html());
+//                                                jq_code("#form_and_data_table").html("");
                     }
-                
+
                 });
-                return false; 
-                
-            }else{
+                return false;
+
+            } else {
                 alert("Account number is require..!");
                 jq_code('.btn_tool').addClass("disable_box");
                 jq_code('#account_number').focus();
-                
+
             }
             return false;
         });
-               
-   
+
+
     });
-    function checkDate(payDate){
-    var arr_date = payDate.split('-');
-        var x=new Date();
-        var set_date = x.setFullYear(arr_date[0],arr_date[1]-1,arr_date[2]);
+    function checkDate(payDate) {
+        var arr_date = payDate.split('-');
+        var x = new Date();
+        var set_date = x.setFullYear(arr_date[0], arr_date[1] - 1, arr_date[2]);
         var today = new Date();
-        var late_pay_number = (-1)*(set_date - today);
-        var num_days = Math.round(late_pay_number/(1000*60*60*24));
-        
+        var late_pay_number = (-1) * (set_date - today);
+        var num_days = Math.round(late_pay_number / (1000 * 60 * 60 * 24));
+
         //alert(num_days);
         if (set_date >= today)
         {
@@ -157,5 +151,5 @@ echo"</div>";
             return num_days;
         }
     }
-    
+
 </script>

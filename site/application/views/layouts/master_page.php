@@ -206,6 +206,7 @@ $dbf = new dbf();
                                             <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/openloan#contents">(Dis)approve Loan Acc</a></li>
                                         <?php } ?>
                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/closeloan#contents"">Close Loan Acc</a></li>
+                                        <li><a tabindex="-2" href="<?php echo base_url(); ?>loan/payoff#contents">Loan Payoff</a></li>
                                     </ul>
                                 </li>
 
