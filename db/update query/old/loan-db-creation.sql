@@ -1,1 +1,0 @@
-UPDATE `contacts` SET `status`=1;
