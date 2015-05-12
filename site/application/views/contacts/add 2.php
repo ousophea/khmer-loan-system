@@ -33,7 +33,7 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
                 <td colspan="3">
                     <?php
                     echo form_label('Customer ID <span>*</span>', 'lbl_cus_id_first_name');
-                    echo form_input(array('name' => 'txt_con_cid', 'placeholder' => 'Customer ID','max'=>'5', 'class' => 'required numeric',"maxlength"=>"6"));
+                    echo form_input(array('name' => 'txt_con_cid', 'placeholder' => 'Customer ID','max'=>'5', 'class' => 'required numeric'));
                     ?>
                 </td>					
             </tr>
@@ -61,13 +61,13 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
                 <td>
                     <?php
                     echo form_label('Family Name in English <span>*</span>', 'lbl_con_en_first_name');
-                    echo form_input(array('name' => 'txt_con_en_first_name', 'class' => 'required22'));
+                    echo form_input(array('name' => 'txt_con_en_first_name', 'class' => 'required'));
                     ?>
                 </td>
                 <td>
                     <?php
                     echo form_label('Sure Name in English <span>*</span>', 'lbl_con_en_last_name');
-                    echo form_input(array('name' => 'txt_con_en_last_name', 'class' => 'required22'));
+                    echo form_input(array('name' => 'txt_con_en_last_name', 'class' => 'required'));
                     ?>
                 </td>
                 <td>
@@ -87,13 +87,13 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
                 <td>
                     <?php
                     echo form_label('Identity Card / Passport <span>*</span>', 'lbl_con_national_identity_card');
-                    echo form_input(array('name' => 'txt_con_national_identity_card', 'class' => 'required22'));
+                    echo form_input(array('name' => 'txt_con_national_identity_card', 'class' => 'required'));
                     ?>
                 </td>
                 <td>
                     <?php
                     echo form_label('Job <span>*</span>', 'lbl_con_job');
-                    echo form_dropdown('txt_con_job', $arr_option_job, '', 'class="required22"');
+                    echo form_dropdown('txt_con_job', $arr_option_job, '', 'class="required"');
                     ?>
                 </td>
             </tr>
@@ -101,7 +101,7 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
                 <td valign="top">
                     <?php
                     echo form_label('Income Per Month <span>*</span>', 'lbl_con_income');
-                    echo form_dropdown('txt_con_income', $arr_option_income, '', 'class="required22"');
+                    echo form_dropdown('txt_con_income', $arr_option_income, '', 'class="required"');
                     ?>
                 </td>
                 <td colspan="2">
@@ -164,7 +164,7 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
                 <td>
                     <?php
                     echo form_label('Date Of Birth <span>*</span>', 'lbl_con_dob');
-                    echo form_input(array('name' => 'txt_con_dob', 'class' => 'required22'));
+                    echo form_input(array('name' => 'txt_con_dob', 'class' => 'required'));
                     ?>
                 </td>
                 <td>
@@ -198,8 +198,8 @@ echo form_open(site_url(segment(1) . '/add_save'), array('name' => 'form_contact
     </div>
 </div>
 <div class="control_manager">
-    <button type="submit" class="btn btn-mini"><i class="icon-plus-sign"></i> Save Contact</button>
-	<?php
+    <?php
+    echo anchor('#', '<i class="icon-plus-sign"></i>Save Contact', 'class="btn btn-mini" id="add_save_contact" title="Save Contact"');
     echo nbs();
     echo anchor(site_url(segment(1)), '<i class="icon-circle-arrow-left"></i>Back', 'class="btn btn-mini" id="back" title="Back"');
     ?>
@@ -261,10 +261,10 @@ $options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_cou
                 return true;
             }
         }
-		jq('form#form_contact').submit(function () {
-			if (isRequired()) {
-				return false;
-			}
+        jq('form#form_contact').submit(function () {
+            if (isRequired()) {
+                return false;
+            }
 			jq.ajax({
 				url: jq(this).attr('action'),
 				type: 'post',
@@ -279,8 +279,9 @@ $options_income = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_income_cou
 					}
 				}
 			});
-			return false;
-		});
+            return false;
+        });
+
         //ajax get district after province selected
         jq('select[name="txt_con_province"]').change(function () {
             jq.ajax({

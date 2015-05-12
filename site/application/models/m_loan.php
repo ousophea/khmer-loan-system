@@ -167,6 +167,9 @@ function close_loan($loa_acc_code = NULL) {
         }
         return $array;
     }
+public function checkpayoff(){
+    
+}
 
     public function get_contacts_loan() {
         $this->db->where('contacts.status', 1);

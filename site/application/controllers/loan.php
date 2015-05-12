@@ -115,7 +115,11 @@ class loan extends CI_Controller {
         $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
         $this->load->view(Variables::$layout_main, $this->data);
     }
-
+    function checkpayoff(){
+        $loan_id = 1;
+        $result= $this->m_global->select_where('repayment_schedule', array('rep_sch_loa_acc_id'=>1));
+        
+    }
     function voucher($loan_id = NULL) {
         $loa_cod = $this->session->userdata('loa_code');
         $this->data['title'] = 'Loan disbursment voucher';
@@ -520,7 +524,7 @@ class loan extends CI_Controller {
         $this->data['acc_num_query'] = $this->m_global->select('loan_account', array('loa_acc_code'));
         $this->load->view(Variables::$layout_main, $this->data);
     }
-
+    
     function closeloan() {
         $random_code = random_string('alnum', 16);
         $this->data['random_code'] = $random_code;
