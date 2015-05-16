@@ -14,7 +14,7 @@ $arr_select_field = array(
     'Kh First Name' => 'con_kh_first_name',
     'Kh Last Name' => 'con_kh_last_name',
     'Group Type' => 'con_typ_title',
-    'Job' => 'con_job_title',
+//    'Job' => 'con_job_title',
     'Address' => 'con_det_address_detail'
 );
 echo table_manager($query_all, $arr_select_field, TRUE);

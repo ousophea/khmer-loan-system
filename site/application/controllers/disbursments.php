@@ -35,8 +35,9 @@ class disbursments extends CI_Controller {
 
     function search_acc_num() { // call by Ajax
         $accNum = $this->input->post('accNum');
+//        $accNum = '12-000122-01';
         $arr_search_index = array(
-            "loa_acc_code" => $accNum
+            "loan_account.loa_acc_code" => $accNum
         );
                 
         $data['accNum']= $accNum;
@@ -54,8 +55,11 @@ class disbursments extends CI_Controller {
                 'loa_dis_description' => $this->input->post('dis_des'),
                 'loa_dis_use_id' => $this->session->userdata("use_id"),
             );
-            $this->db->insert('loan_disbursments', $arr_disburse_info);
-            
+            $addD = $this->db->insert('loan_disbursments', $arr_disburse_info);
+             if($addD){
+                 $this->session->set_flashdata('success', 'A loan account has been saved');
+             }
+             //=============================
             //=============Update loan account table===============
             $data = array(
                'loa_acc_approval' => "Approved"

@@ -120,20 +120,20 @@ $list_acc_number.= '</datalist>';
         echo open_span(5);
         echo open_block('general_info', 'Loan Specs');
 //-----------------------------
-        $won_type = array('' => '---Select Ownership Type---', 1 => 'Sigle', 2 => 'Group');
-
-        field('select', 'won_type', 'Ownership Type:', NULL, array('options' => $won_type, 'attribute' => array('id' => 'won_type')), TRUE);
-
-
+// Replace by លេខគណនីអតិថិជន 
+//        $won_type = array('' => '---Select Ownership Type---', 1 => 'Sigle', 2 => 'Group');
+//        field('select', 'won_type', 'Ownership Type:', NULL, array('options' => $won_type, 'attribute' => array('id' => 'won_type')), TRUE);
 //        field('select', 'gl_code', 'GL Code :', NULL, array('options' => $gl, 'attribute' => array('id' => 'gl_code')), TRUE); //// Not need for this time 
 //echo form_hidden('gl_id');
         field('select', 'lat_id', 'លេខគណនីអតិថិជន :', NULL, array('options' => $loan_account_type, 'attribute' => array('id' => 'lat_id')), TRUE);
         field('select', 'currency', 'Currency:', NULL, array('options' => $currency, 'attribute' => array('id' => 'currency')), TRUE);
-        field('select', 'rep_freg', 'Repayment Freg:', NULL, array('options' => $rep_peraid, 'attribute' => array('validated' => '1')), TRUE);
+   // Replace by លេខគណនីអតិថិជន      
+//        field('select', 'rep_freg', 'Repayment Freg:', NULL, array('options' => $rep_peraid, 'attribute' => array('validated' => '1')), TRUE);
+        /////=================
         field("text", "loan_amount", "Loan Amount:", NULL, array('attribute' => array('validated' => '1', 'class' => "numeric cal_ins_amount")), TRUE);
         field("text", "loan_amount_in_word", "Amo In Word:", NULL, array('attribute' => array('validated' => '1')), TRUE);
 
-
+         field("text", "disbursment_date", "Disbursment Date:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
         field("text", "firstrepayment_date", "First Repayment:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
 
 
@@ -152,8 +152,6 @@ $list_acc_number.= '</datalist>';
         echo close_block();
 
         echo close_span();
-
-
 // End span5
         echo '<div id="note"><sup class="require">*</sup> <span>All require</span></div>';
         echo '</div>';

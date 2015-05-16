@@ -98,20 +98,21 @@ $list_acc_number.= '</datalist>';
         echo open_span(5);
         echo open_block('general_info', 'Loan Specs');
 //-----------------------------
-        $won_type = array('' => '---Select Ownership Type---', 1 => 'Sigle', 2 => 'Group');
-
-        field('select', 'won_type', 'Ownership Type:', NULL, array('options' => $won_type, 'attribute' => array('id' => 'won_type')), TRUE);
-
-
+//// Replace by លេខគណនីអតិថិជន 
+//        $won_type = array('' => '---Select Ownership Type---', 1 => 'Sigle', 2 => 'Group');
+//
+//        field('select', 'won_type', 'Ownership Type:', NULL, array('options' => $won_type, 'attribute' => array('id' => 'won_type')), TRUE);
 //        field('select', 'gl_code', 'GL Code :', NULL, array('options' => $gl, 'attribute' => array('id' => 'gl_code')), TRUE); //// Not need for this time 
 //echo form_hidden('gl_id');
         field('select', 'lat_id', 'លេខគណនីអតិថិជន :', NULL, array('options' => $loan_account_type, 'attribute' => array('id' => 'lat_id')), TRUE);
         field('select', 'currency', 'Currency:', NULL, array('options' => $currency, 'attribute' => array('id' => 'currency')), TRUE);
-        field('select', 'rep_freg', 'Repayment Freg:', NULL, array('options' => $rep_peraid, 'attribute' => array('validated' => '1')), TRUE);
+        // Replace by លេខគណនីអតិថិជន      
+//        field('select', 'rep_freg', 'Repayment Freg:', NULL, array('options' => $rep_peraid, 'attribute' => array('validated' => '1')), TRUE);
+        //===============
         field("text", "loan_amount", "Loan Amount:", NULL, array('attribute' => array('validated' => '1', 'class' => "numeric cal_ins_amount")), TRUE);
         field("text", "loan_amount_in_word", "Amo In Word:", NULL, array('attribute' => array('validated' => '1')), TRUE);
 
-
+        field("text", "disbursment_date", "Disbursment Date:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
         field("text", "firstrepayment_date", "First Repayment:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
 
 
@@ -242,13 +243,14 @@ $list_acc_number.= '</datalist>';
 
                                     // Loan space
 //                            $('[name="gl_code"]').val(data.gl);
-                                    $('[name="won_type"]').val(data.loa_accc_ownership_type);
+                                    $('[name="won_type"]').val(data.loa_acc_ownership_type);
                                     $('[name="lat_id"]').val(data.loa_lat_id);
                                     $('[name="currency"]').val(data.currency);
-                                    $('[name="loa_acc_amount_in_word"]').val(data.loa_acc_amount_in_word);
+                                    $('[name="loan_amount_in_word"]').val(data.loa_acc_amount_in_word);
                                     $('[name="loan_amount"]').val(data.loa_amount);
                                     //                            $('[name="disbursment_date"]').val(data.loa_acc_disbustment);
-                                    $('[name="rep_freg"]').val(data.loa_acc_rep_fre_id);
+//                                    $('[name="rep_freg"]').val(data.loa_acc_rep_fre_id);
+                                     $('[name="disbursment_date"]').val(data.disbursment_date);
                                     $('[name="firstrepayment_date"]').val(data.loa_acc_first_repayment);
                                     //installment
                                     $('[name="num_installments"]').val(data.loa_ins_num_ins);

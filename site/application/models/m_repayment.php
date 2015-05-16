@@ -28,7 +28,7 @@ class m_repayment extends CI_Model {
         $datestring = "%Y-%m-%d";
         $time = time();
         $stringDate = mdate($datestring, $time);
-        
+
         ///============Filtter========================
         if ($this->input->post('date')) {
             $col_date = $this->input->post('date');
@@ -45,7 +45,7 @@ class m_repayment extends CI_Model {
 
         $this->db->where('rep_sch_date_repay', "$new_date", true);
         $this->session->set_userdata('col_date', $stringDate);
-        
+
         $this->db->where('loa.loa_acc_loa_det_id', 2, true); /////when laon is approved only
         $this->db->select('*');
         $this->db->select('CONCAT(con.con_en_first_name,' . ',con.con_en_last_name) as en_name', FALSE);
@@ -55,7 +55,7 @@ class m_repayment extends CI_Model {
         $this->db->join('creadit_officer co', 'loa.loa_acc_co_id=co.co_id');
         $this->db->join('repayment_status reps', 'reps.rep_sta_id=rps.rep_sch_status');
         $this->db->join('contacts con', 'con.con_id=loa.loa_acc_con_id');
-        $this->db->join('contacts_job conj', 'conj.con_job_id=con.con_con_job_id');
+        $this->db->join('contacts_job conj', 'conj.con_job_id=con.con_con_job_id','LEFT');
         $this->db->join('contacts_type cont', 'con.con_con_typ_id=cont.con_typ_id');
         $this->db->join('contacts_detail cond', 'con.con_id=cond.con_det_con_id');
 //        $this->db->group_by('rep_sch_loa_acc_id');
@@ -88,9 +88,22 @@ class m_repayment extends CI_Model {
 
         $this->db->select_sum('rep_sch_rate_repayment', 'total_rate');
         $this->db->group_by('rep_sch_loa_acc_id');
-
         $query = $this->db->get('contacts');
         return $query;
+    }
+
+    public function getLoanInfo() { 
+        $loan_code = $this->input->post('accNum');
+        $this->db->where('rs.rep_sch_status', 1);
+        $this->db->where('rs.rep_sch_num >', 0);
+        $this->db->where('lc.loa_acc_code', $loan_code);
+        $this->db->join('currency cc', 'lc.loa_acc_cur_id=cc.cur_id', 'inner');
+        $this->db->join('repayment_schedule rs', 'rs.rep_sch_loa_acc_id=lc.loa_acc_id' , 'inner');
+         $this->db->limit(1);
+        $query_data = $this->db->get('loan_account lc');
+        $query_data->result_array();
+        return $query_data->result_array;
+        
     }
 
 }

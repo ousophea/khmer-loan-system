@@ -105,7 +105,7 @@
 
                                     acc_info('ទីកន្លែងផ្តល់ប្រាក់/ Disbur. Location', '', "ភ្នំពេញ");
                                     acc_info('កិច្ចសន្យាលេខ/ Contract No', '', "???");
-                                    acc_info('ថ្អៃចេញទុន/ Disbursement Date', 'sdfsd', $row->loa_acc_created_date);
+                                    acc_info('ថ្អៃចេញទុន/ Disbursement Date', 'sdfsd', $row->loa_acc_disbustment);
                                     acc_info('អ្នកផ្តល់ប្រាក់/ Payer', '', $row->use_name);
                                     echo '<span class="sign sign_small">';
                                     acc_info('ហត្ថលេខា/ Signature', '');

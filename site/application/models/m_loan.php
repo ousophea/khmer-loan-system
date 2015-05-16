@@ -20,8 +20,8 @@ class M_loan extends CI_Model {
 //        $num_loan_acc = $this->db->count_all('loan_account') + 1;
 //        $loa_code = $pro_type_code . '-' . $this->input->post('con_cid') . '-0' . $this->input->post('currency') . "-" . $num_loan_acc; ///// for old requirement
         // Create laon code
+        // Check loan cicle
         $con_id = $this->input->post('con_id');
-
         $this->db->where('loa_acc_con_id', $con_id); /////////// get loan cicle
         $this->db->from('loan_account');
         $cicle_loan = $this->db->count_all_results() + 1;
@@ -29,9 +29,12 @@ class M_loan extends CI_Model {
         $cicle_loan = substr("00", 0, -(strlen($cicle_loan))) . $cicle_loan; /// create fomart for Cicle 01
 
         $loa_code = $this->input->post('lat_id') . "-" . $this->input->post('con_cid') . "-" . $cicle_loan;
-//        echo $loa_code;        exit();
-
         $this->session->set_userdata(array('loa_code' => $loa_code)); // Add loand code for view
+        // ====Get loan type and Repayment Freg by លេខគណនីអតិថិជន
+        $loan_info = $this->getLoanTF($this->input->post('lat_id'));
+        $this->session->set_userdata(array('freg_num' => $loan_info->lat_freg));
+        ///========================
+
         $data = array(
             'loa_acc_code' => $loa_code,
             'loa_acc_con_id' => $this->input->post('con_id'),
@@ -45,22 +48,27 @@ class M_loan extends CI_Model {
             'loa_acc_cur_id' => $this->input->post('currency'),
 //            'loa_acc_gl_code' => $this->input->post('gl_code'),
             'loa_lat_id' => $this->input->post('lat_id'),
-            'loa_acc_rep_fre_id' => $this->input->post('rep_freg'),
+            // Got by លេខគណនីអតិថិជន
+//            'loa_acc_rep_fre_id' => $this->input->post('rep_freg'),
+            'loa_acc_rep_fre_id' => $loan_info->lat_freg,
+            'loa_acc_ownership_type' => $loan_info->lat_loan_type,
+            //===============
             'loa_acc_co_id' => $this->input->post('co_id'),
             'loa_acc_created_date' => date('y-m-d h:i:s'),
             'loa_acc_use_id' => $this->session->userdata('use_id'),
             'loa_acc_approval' => "Not yest",
             'loa_acc_loa_det_id' => "1", // Opened
             'loa_acc_first_repayment' => date($this->input->post('firstrepayment_date')),
-            'loa_cicle' => $cicle_loan
-//            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
+            'loa_cicle' => $cicle_loan,
+            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
         );
 
         if ($this->db->insert('loan_account', $data)) {
             $last_id = $this->db->insert_id();
             $ins_data = array(
                 'loa_ins_loa_acc_id' => $last_id,
-                'loa_ins_rep_fre_id' => $this->input->post('rep_freg'),
+                'loa_ins_rep_fre_id' => $loan_info->lat_freg,
+//                'loa_acc_ownership_type' => $loan_info->lat_loan_type,
                 'loa_ins_num_ins' => $this->input->post('num_installments'),
                 'loa_ins_lead_interest' => $this->input->post('lead_interest'),
                 'loa_ins_principal_start' => $this->input->post('principal_start'),
@@ -71,6 +79,16 @@ class M_loan extends CI_Model {
             $this->db->insert('loan_installment', $ins_data);
         }
         return $last_id;
+    }
+
+    function getLoanTF($lat_id) {
+        $this->db->where('lat_id', $lat_id);
+        $tfdata = $this->db->get('loan_account_type');
+        if ($tfdata->num_rows() > 0) {
+            foreach ($tfdata->result() as $row) {
+                return $row;
+            }
+        }
     }
 
     function update_loan_approve($loa_id = NULL, $btn_name = NULL) {
@@ -95,18 +113,30 @@ class M_loan extends CI_Model {
 
     function edit($loa_acc_code = NULL) {
         $last_id = 0;
+        // ====Get loan type and Repayment Freg by លេខគណនីអតិថិជន
+        $loan_info = $this->getLoanTF($this->input->post('lat_id'));
+        $this->session->set_userdata(array('freg_num' => $loan_info->lat_freg));
+        ///========================
         $data = array(
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
             'loa_lpp_id' => $this->input->post('loa_lpp_id'),
             'loa_acc_amount' => (int) str_replace(",", "", $this->input->post('loan_amount')),
             'loa_acc_cur_id' => $this->input->post('currency'),
-            'loa_acc_gl_code' => $this->input->post('gl_code'),
+            'loa_acc_loa_sch_id' => $this->input->post('loa_sch_id'),
+            'loa_acc_amount_in_word' => $this->input->post('loan_amount_in_word'),
+//            'loa_acc_gl_code' => $this->input->post('gl_code'),
             'loa_acc_created_date' => date('y-m-d h:i:s'),
             'loa_acc_use_id' => $this->session->userdata('use_id'),
-            'loa_acc_approval' => "Not yest",
-            'loa_acc_loa_det_id' => "1", // Opened
+//            'loa_acc_approval' => "Not yest",
+//            'loa_acc_loa_det_id' => "1", // Opened
+            'loa_lat_id' => $this->input->post('lat_id'),
+            // Got by លេខគណនីអតិថិជន
+//            'loa_acc_rep_fre_id' => $this->input->post('rep_freg'),
+            'loa_acc_rep_fre_id' => $loan_info->lat_freg,
+            'loa_acc_ownership_type' => $loan_info->lat_loan_type,
+            //===============
             'loa_acc_first_repayment' => date($this->input->post('firstrepayment_date')),
-//            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
+            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
         );
         $this->db->where('loa_acc_code', $loa_acc_code);
 
@@ -114,7 +144,7 @@ class M_loan extends CI_Model {
             $last_id = $this->input->post('loa_con_id');
             $ins_data = array(
 //                'loa_ins_loa_acc_id' => $last_id,
-                'loa_ins_rep_fre_id' => $this->input->post('rep_freg'),
+                'loa_ins_rep_fre_id' => $loan_info->lat_freg,
                 'loa_ins_num_ins' => $this->input->post('num_installments'),
                 'loa_ins_lead_interest' => $this->input->post('lead_interest'),
                 'loa_ins_principal_start' => $this->input->post('principal_start'),
@@ -131,19 +161,29 @@ class M_loan extends CI_Model {
         } else
             return FALSE;
     }
-function close_loan($loa_acc_code = NULL) {
+
+    function updateLoanMaturity($repayment_date,$loa_acc_code) {
+        $arr_loan_info = array(
+            'loa_acc_maturity' => $repayment_date
+        );
+        $this->db->where('loa_acc_id', $loa_acc_code);
+        $this->db->update('loan_account', $arr_loan_info);
+    }
+
+    function close_loan($loa_acc_code = NULL) {
         $data = array(
             'loa_acc_loa_det_id' => 5, ///// Close loan
             'loa_acc_modified_date' => date('y-m-d h:i:s'),
-             'loa_cicle' => 0 ////// Allow create new loan
+            'loa_cicle' => 0 ////// Allow create new loan
         );
         $this->db->where('loa_acc_code', $loa_acc_code);
 
         if ($this->db->update('loan_account', $data)) {
-                return TRUE;
+            return TRUE;
         } else
             return FALSE;
     }
+
     function get_saving_account() {
         $this->db->from('saving_account');
         $this->db->where('saving_account.sav_acc_status', 1);
@@ -167,9 +207,10 @@ function close_loan($loa_acc_code = NULL) {
         }
         return $array;
     }
-public function checkpayoff(){
-    
-}
+
+    public function checkpayoff() {
+        
+    }
 
     public function get_contacts_loan() {
         $this->db->where('contacts.status', 1);
@@ -301,7 +342,7 @@ public function checkpayoff(){
                 $data['loan_purpose'] = $row->loa_lpp_id;
                 $data['co_id'] = $row->loa_acc_co_id;
                 $data['repayment_type'] = $row->loa_acc_loa_sch_id;
-                $data['loa_accc_ownership_type'] = $row->loa_accc_ownership_type;
+                $data['loa_acc_ownership_type'] = $row->loa_acc_ownership_type;
                 $data['loa_lat_id'] = $row->loa_lat_id;
                 $data['currency'] = $row->loa_acc_cur_id;
                 $data['currency_title'] = $row->cur_title;
@@ -316,6 +357,7 @@ public function checkpayoff(){
                 $data['loa_ins_principal_start'] = $row->loa_ins_principal_start;
                 $data['loa_ins_principal_frequency'] = $row->loa_ins_principal_frequency;
                 $data['loa_ins_interest_rate'] = $row->loa_ins_interest_rate;
+                $data['disbursment_date'] = $row->loa_acc_disbustment;
                 $data['loa_ins_installment_amount'] = $row->loa_ins_installment_amount;
                 $data['create_date'] = $row->loa_acc_created_date;
 
@@ -451,6 +493,7 @@ public function checkpayoff(){
 
     function laon_account_type_for_dropdown() {
         $this->db->order_by('lat_id');
+         $this->db->where('lat_status', 1);
         $data = $this->db->get('loan_account_type');
         $result = null;
         if ($data->num_rows() > 0) {
@@ -477,6 +520,7 @@ public function checkpayoff(){
 //        $bran_id = ; /// Get brand the same as user login brand
         $bran_id = 2;
         $this->db->where('cro_of_branch.crob_bra_id', $bran_id);
+//        $this->db->where('co_status', 1);
         $this->db->order_by('co_name');
         $this->db->join('cro_of_branch', 'cro_of_branch.crob_cro_id=creadit_officer.co_id');
         $data = $this->db->get('creadit_officer');

@@ -88,20 +88,20 @@ echo"</div>";
                         //                     jq_code("#account_number_des").html(data.loa_acc_id);
 
                         if (data.loa_acc_id) {
-//                            alert(data.rep_sch_total_repayment);return false;
+
                             //==== Check for late repayment=============
-//                            if (data.rep_sch_date_repay < now()) {
+                            //                            if(data.rep_sch_date_repay < now()){
 
-//                                xdate.setFullYear(currentdate.getFullYear(), currentdate.getMonth(), currentdate.getDate());
-                                var pay_late = checkDate(data.rep_sch_date_repay);
-                                if (pay_late > 0) {
-                                    jq_code("#payment_des").html("<span class='help-block'>Late payment " + pay_late + " day(s)</span>");
-                                    jq_code("#payment_late").val(pay_late);
-                                }
+                            //xdate.setFullYear(currentdate.getFullYear(),currentdate.getMonth(),currentdate.getDate());
+                            var pay_late = checkDate(data.rep_sch_date_repay);
+                            if (pay_late > 0) {
+                                jq_code("#payment_des").html("<span class='help-block'>Late payment " + pay_late + " day(s)</span>");
+                                jq_code("#payment_late").val(pay_late);
+                            }
 
-//                                jq_code("#payment_des").html(data.rep_sch_date_repay);
-//                            }
-//
+                            //                                jq_code("#payment_des").html(data.rep_sch_date_repay);
+                            //                            }
+
                             jq_code('.btn_tool').removeClass("disable_box");//// =========Show botton submit========
                             jq_code("#loan_id").val(data.loa_acc_id);
                             jq_code('[name="limit_date"]').val(data.rep_sch_date_repay);
@@ -140,6 +140,8 @@ echo"</div>";
         var today = new Date();
         var late_pay_number = (-1) * (set_date - today);
         var num_days = Math.round(late_pay_number / (1000 * 60 * 60 * 24));
+
+        //alert(num_days);
         if (set_date >= today)
         {
             return 0;

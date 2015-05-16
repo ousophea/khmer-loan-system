@@ -28,15 +28,18 @@ class repayment extends CI_Controller {
 
     function search_loan_account() {
         $data = NULL;
-        $loan_code = $this->input->post('accNum');
+//        $loan_code = $this->input->post('accNum');
 //        $loan_code = '888-000001-01-1';
 //        $query_data = $this->m_global->select_where('loan_account', array('loa_acc_code' => $loan_code));
-        $query_data = $this->m_global->select_join('loan_account', array('currency' => array('loa_acc_cur_id' => 'cur_id'),
-            'repayment_schedule' => array('loa_acc_id' => 'rep_sch_loa_acc_id')), 'inner', array('loa_acc_code' => $loan_code, 'rep_sch_status' => 1), '1'); // rep_sch_status =1 mean not yet pay
-        $this->session->set_flashdata('loan_code', $loan_code);
-//        echo $query_data;exit();
-        $query_data->result_array();
-        $data = $query_data->result_array;
+//        
+//        $query_data = $this->m_global->select_join('loan_account', array('currency' => array('loa_acc_cur_id' => 'cur_id'),
+//            'repayment_schedule' => array('loa_acc_id' => 'rep_sch_loa_acc_id')), 'inner', array('loa_acc_code' => $loan_code, 'rep_sch_status' => 1), '1'); // rep_sch_status =1 mean not yet pay
+        $data = $this->m_repayment->getLoanInfo();
+//        $this->session->set_flashdata('loan_code', $loan_code);
+//        echo $data;exit();
+//        $query_data->result_array();
+//        $data = $query_data->result_array;
+//        echo json_encode($data);
         if (count($data) > 0) {
             echo json_encode($data[0]);
         } else {
@@ -49,7 +52,6 @@ class repayment extends CI_Controller {
         $this->form_validation->set_rules('date', '', 'trim');
         $this->form_validation->set_rules('co_name', '', 'trim');
         $this->form_validation->run();
-
         $data['query_all'] = $this->m_repayment->getRepay();
         $data['co_list'] = $this->m_global->getDataArray('creadit_officer', 'co_id', 'co_name', NULL);
 //         $data['co_list'] = $this->mod_global->select_all('creadit_officer');

@@ -84,6 +84,7 @@ if ($this->session->flashdata('error')) {
             ?>
             <table class="table table-hover table-bordered">
                 <tr>
+                    <th>Repay Date</th>
                     <th>Card ID </th>
                     <th>Kh Name</th>
                     <th>EN Name</th>
@@ -106,6 +107,7 @@ if ($this->session->flashdata('error')) {
                         ?>
 
                         <tr>
+                            <td><?php echo $row['rep_sch_date_repay']; ?></td>
                             <td><?php echo $row['con_cid']; ?></td>
                             <td><?php echo $row['kh_name']; ?></td>
                             <td><?php echo $row['en_name']; ?></td>
