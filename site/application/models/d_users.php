@@ -134,6 +134,17 @@ class d_users extends CI_Model {
         return $id;
         
     }
+     function getUserBraId($username){
+        $this->db->where('use_name',$username);
+        $data = $this->db->get('users');
+        $id = 0;
+        foreach ($data->result() as $row){
+            $id = $row->use_bra_id;
+            break;
+        }
+        return $id;
+        
+    }
 
 }
 

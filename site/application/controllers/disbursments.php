@@ -35,7 +35,7 @@ class disbursments extends CI_Controller {
 
     function search_acc_num() { // call by Ajax
         $accNum = $this->input->post('accNum');
-//        $accNum = '12-000122-01';
+        $accNum = '13-000223-01';
         $arr_search_index = array(
             "loan_account.loa_acc_code" => $accNum
         );

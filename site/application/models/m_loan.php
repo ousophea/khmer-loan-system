@@ -517,10 +517,11 @@ class M_loan extends CI_Model {
     }
 
     function co_data_for_dropdown() {
-//        $bran_id = ; /// Get brand the same as user login brand
-        $bran_id = 2;
+ /// Get brand the same as user login brand
+        $bran_id =  $this->session->userdata('use_bra_id');
         $this->db->where('cro_of_branch.crob_bra_id', $bran_id);
-//        $this->db->where('co_status', 1);
+        $this->db->where('co_status', 1);
+        $this->db->where('crob_status', 1);
         $this->db->order_by('co_name');
         $this->db->join('cro_of_branch', 'cro_of_branch.crob_cro_id=creadit_officer.co_id');
         $data = $this->db->get('creadit_officer');

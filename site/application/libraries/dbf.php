@@ -10,33 +10,33 @@
  *
  * @author sochy.choeun
  */
-class dbf{
+class dbf {
+
     //put your code here
-    
+
     private $t_users = "users";
     private $f_user_rol_id = "use_gro_id";
     private $f_user_id = "use_id";
+    private $f_user_bra_id = "use_bra_id";
     private $f_username = "use_name";
     private $f_password = "use_password";
     private $f_use_status = "status";
-
-
     private $t_roles = 'user_groups';
     private $f_rol_id = 'gro_id';
     private $f_rol_name = 'gro_name';
     private $f_rol_des = 'gro_des';
     private $f_rol_status = 'user_groups.status';
-    
-
-    
-
 
     public function getF_use_status() {
         return $this->f_use_status;
     }
 
-        public function getF_user_rol_id() {
+    public function getF_user_rol_id() {
         return $this->f_user_rol_id;
+    }
+
+    public function getF_use_bra_id() {
+        return $this->f_use_bra_id;
     }
 
     public function getT_users() {
@@ -54,6 +54,7 @@ class dbf{
     public function getF_roles() {
         return $this->t_roles;
     }
+
     public function getF_user_id() {
         return $this->f_user_id;
     }
@@ -77,6 +78,7 @@ class dbf{
     public function getF_rol_status() {
         return $this->f_rol_status;
     }
+
 }
 
 ?>

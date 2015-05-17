@@ -46,6 +46,7 @@ class users extends CI_Controller {
                     // create session roleName and userName
                     $this->session->set_userdata($user->getF_username(), $user->getUsername());
                     $this->session->set_userdata('use_id',$this->d_users->getUserId($user->getUsername()));
+                    $this->session->set_userdata('use_bra_id',$this->d_users->getUserBraId($user->getUsername()));
                     $role = new d_roles();
                     $roles = $role->setRoleByUsername($user, $user->getF_rol_name());
                     $this->session->set_userdata($user->getF_rol_name(), $roles->getRole());
