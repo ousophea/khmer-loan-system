@@ -9,7 +9,7 @@ $list_gl = "";
 $list_gl .= '<datalist id="gl_code">';
 foreach ($gl_query->result() as $gl_rows) {
 
-    $list_gl .='<option value="' . $gl_rows->gl_code . ':' . $gl_rows->gl_description . '">';
+    $list_gl .='<option value="' . $gl_rows->gl_code . ':' . $gl_rows->gl_kh_description . '">';
     // $list_gl .='<option value="'.$gl_rows->gl_code.'">'.$gl_rows->gl_description.'</option>'; 
 }
 $list_gl.= '</datalist>';

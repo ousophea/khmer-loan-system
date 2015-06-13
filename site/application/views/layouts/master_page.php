@@ -96,15 +96,10 @@ $dbf = new dbf();
                     </div>
                     <div class="clear"></div>
                     <!-- Logo -->
-                    <!-- Remove inline style when switching back to regular logo
-                    <div id="logosss"> <a href="<?php echo base_url(); ?>"> <img title="Riel Micro Finance" class="logo" src="<?php
-                            echo base_url();
-                            echo IMAGES_PATH;
-                            ?>logos.png" alt="Logo"></a></div>-->
-<!--                    <div id="logo"> <a href="#"> <img title="" class="logo" src="<?php
+                    <div id="logo"> <a href="#"> <img title="" class="logo" src="<?php
                             echo base_url();
                             echo Variables::$images_path;
-                            ?>logo.png" alt="Logo"></a></div>-->
+                            ?>logo.png" alt="Logo"></a></div>
 
                     <!-- Menu -->
                     <div class="dropdown">

@@ -29,10 +29,15 @@ $now = time();
 
 field("text", "limit_date", "Limit Date:", NULL, array('attribute' => array('class' => 'txtdate', 'readonly' => "")), FALSE, '<span id="payment_des" class="error"></span><input type="hidden" value="0" id="payment_late" name="payment_late">');
 //field("text", "currency", "Settlement Currency:", NULL, array('attribute' => array('readonly' => "")));
+echo "<span id='remain'>";
+field("text", "remain_amount", "Remain Amount:", NULL, array('attribute' => array('readonly' => "", 'class' => "")), FALSE);
+echo "</span>";
 field("text", "amount", "Settlement Amount:", NULL, array('attribute' => array('readonly' => "")), FALSE, ' <span id="currency_title"></span>');
 
 //field('select', 'currency', 'Currency:', NULL, array('options' => $currency, 'attribute' => array('id' => 'currency')), TRUE);
+field("text", "total_amount", "Total Amount:", NULL, array('attribute' => array('readonly' => "")), FALSE);
 field("text", "paid_amount", "Paid Amount:", NULL, array('attribute' => array('class' => "numeric")), TRUE);
+
 field("textarea", "rep_detail", "Description:");
 echo '<div class="modal-footer btn_tool">';
 
@@ -67,14 +72,15 @@ echo"</div>";
 
 <script type="text/javascript" language="JavaScript">
     var jq_code = jQuery.noConflict();
-
     jq_code(document).ready(function () {
         jq_code('.btn_tool').addClass("disable_box");
         jq_code('#search_customer_by_code').click(function () {
             var getAccNumber = jq_code('#account_number').val();
             jq_code("#account_number_des").html("Loading...");
+
             if (getAccNumber != "") {
                 var this_url = jq_code(this).attr('href');
+                var remain = total= 0;
                 var form_data = {
                     accNum: getAccNumber
                 };
@@ -85,28 +91,31 @@ echo"</div>";
                     data: form_data,
                     dataType: "json",
                     success: function (data) {
-                        //                     jq_code("#account_number_des").html(data.loa_acc_id);
-
                         if (data.loa_acc_id) {
-//                            alert(data.rep_sch_total_repayment);return false;
+                            if (data.rep_sch_remain !=null) {
+                                remain = data.rep_sch_remain;
+                                jq_code('#remain .control-group').addClass("error");
+                                total = parseInt(remain) + parseInt(data.rep_sch_total_repayment);
+                            }
                             //==== Check for late repayment=============
 //                            if (data.rep_sch_date_repay < now()) {
 
 //                                xdate.setFullYear(currentdate.getFullYear(), currentdate.getMonth(), currentdate.getDate());
-                                var pay_late = checkDate(data.rep_sch_date_repay);
-                                if (pay_late > 0) {
-                                    jq_code("#payment_des").html("<span class='help-block'>Late payment " + pay_late + " day(s)</span>");
-                                    jq_code("#payment_late").val(pay_late);
-                                }
+                            var pay_late = checkDate(data.rep_sch_date_repay);
+                            if (pay_late > 0) {
+                                jq_code("#payment_des").html("<span class='help-block'>Late payment " + pay_late + " day(s)</span>");
+                                jq_code("#payment_late").val(pay_late);
+                            }
 
 //                                jq_code("#payment_des").html(data.rep_sch_date_repay);
 //                            }
-//
+
                             jq_code('.btn_tool').removeClass("disable_box");//// =========Show botton submit========
                             jq_code("#loan_id").val(data.loa_acc_id);
                             jq_code('[name="limit_date"]').val(data.rep_sch_date_repay);
                             jq_code('[name="amount"]').val(data.rep_sch_total_repayment);
-                            jq_code('#currency_title').html(data.cur_title);
+                            jq_code('[name="remain_amount"]').val(remain + ".00");
+                            jq_code('[name="total_amount"]').val(total + ".00");
                             jq_code('[name="paid_amount"]').val(data.rep_sch_total_repayment);
                             jq_code("#account_number_des").html("");
                         } else {

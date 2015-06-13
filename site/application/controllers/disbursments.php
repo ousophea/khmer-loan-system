@@ -25,7 +25,8 @@ class disbursments extends CI_Controller {
     function disbursment() {
         $data['title'] = 'Disbursment / Debit';
 //        select_where('tbl_users',array('use_name' => 'vannak','use_password' => '12345'))
-        $data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_disbustment'=>NULL));
+//        $data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_disbustment'=>NULL));
+         $data['acc_num_query'] = $this->m_global->select_where('loan_account', array('loa_acc_loa_det_id'=>2)); /// Loan ready approve
         //$data['transaction_query'] = $this->mod_global->select_all('transaction_mode');
 //        $data['currency_query'] = $this->mod_global->select_all('currency');
         $data['cid_query'] = $this->mod_global->select_all('contacts');
@@ -34,14 +35,8 @@ class disbursments extends CI_Controller {
     }
 
     function search_acc_num() { // call by Ajax
-        $accNum = $this->input->post('accNum');
-        $accNum = '13-000223-01';
-        $arr_search_index = array(
-            "loan_account.loa_acc_code" => $accNum
-        );
-                
-        $data['accNum']= $accNum;
-        $data['query_all'] = $this->m_global->select_acc_info($arr_search_index);
+        $data['accNum']=  $this->input->post('accNum');
+        $data['query_all'] = $this->m_disbursments->search_acc_disburse();
         $data['transaction_query'] = $this->mod_global->select_all('transaction_mode');
         $this->load->view("disbursments/disburement_form",$data);
     }
@@ -64,7 +59,8 @@ class disbursments extends CI_Controller {
             $data = array(
                'loa_acc_approval' => "Approved"
             );
-            $this->db->set("loa_acc_disbustment","NOW()",FALSE);
+//            $this->db->set("loa_acc_disbustment","NOW()",FALSE);
+            $this->db->set("loa_acc_loa_det_id",7,FALSE); // Loan disbursed
             $this->db->set("loa_acc_modified_date","NOW()",FALSE);
             $this->db->where(array('loa_acc_code' => $this->input->post('acc_number')));
             $this->db->update('loan_account');

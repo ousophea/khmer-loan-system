@@ -117,12 +117,12 @@ $couple_income = getOptions($arr_option_income);
     function getForm(title, eleName, jqueryName, eleId, data, opt) {
         var rem = '<span class="btn_remove_group" style="cursor: pointer;" name="fieldset_' + g_ind + '"><img src="../images/trash.png" alt="" /></span>';
         var bRemove = g_ind > 0 ? rem : '';
-		
+
         var html = '<fieldset id="fieldset_' + g_ind + '"><legend>' + title + bRemove + '</legend>';
         html += '<table border="0" width="100%">';
-		if(eleName.indexOf('group')>=0){
-		html += '<tr><td colspan="3"><label for="lbl_cus_id_first_name">Customer ID <span>*</span></label><input type="text" name="' + eleName + '[con_cid]" value="" placeholder="Customer ID" max="5" class="required numeric"></td></tr>';
-		}
+        if (eleName.indexOf('group') >= 0) {
+            html += '<tr><td colspan="3"><label for="lbl_cus_id_first_name">Customer ID <span>*</span></label><input type="text" name="' + eleName + '[con_cid]" value="" placeholder="Customer ID" max="5" class="required numeric"></td></tr>';
+        }
         html += '<tr>';
         html += '<td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="គោត្តនាម" name="' + eleName + '[con_kh_first_name]"></td>';
         html += '<td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="នាម" name="' + eleName + '[con_kh_last_name]"></td>';
@@ -150,7 +150,7 @@ $couple_income = getOptions($arr_option_income);
         }
         if (data) {
             jq('input[name=' + jqueryName + '\\[con_cid\\]]').val(data.con_cid);
-			jq('input[name=' + jqueryName + '\\[con_kh_first_name\\]]').val(data.con_kh_first_name);
+            jq('input[name=' + jqueryName + '\\[con_kh_first_name\\]]').val(data.con_kh_first_name);
             jq('input[name=' + jqueryName + '\\[con_kh_last_name\\]]').val(data.con_kh_last_name);
             jq('input[name=' + jqueryName + '\\[con_kh_nickname\\]]').val(data.con_kh_nickname);
             jq('input[name=' + jqueryName + '\\[con_en_first_name\\]]').val(data.con_en_first_name);
@@ -269,14 +269,14 @@ $couple_income = getOptions($arr_option_income);
                 return true;
             }
         }
-		
-		jq('form#form_contact').submit(function () {
-			if (isRequired()) {
-				return false;
-			}
-			return true;
-		});
-		
+
+        jq('form#form_contact').submit(function () {
+            if (isRequired()) {
+                return false;
+            }
+            return true;
+        });
+
     });
 </script>
 
@@ -291,7 +291,7 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
                 <td colspan="3">
                     <?php
                     echo form_label('Customer ID <span>*</span>', 'lbl_cus_id_first_name');
-                    echo form_input(array('name' => 'info[con_cid]', 'placeholder' => 'Customer ID', 'value' => set_value('info[con_cid]', $cm->con_cid),'disabled'=>'disabled', 'class' => 'required numeric'));
+                    echo form_input(array('name' => 'info[con_cid]', 'placeholder' => 'Customer ID', 'value' => set_value('info[con_cid]', $cm->con_cid), 'disabled' => 'disabled', 'class' => 'required numeric'));
                     ?>
                 </td>
             </tr>
@@ -360,17 +360,19 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
                 <td>
                     <?php
                     echo form_label('Job <span>*</span>', 'lbl_con_job');
-                    $selected = set_value('info[con_con_job_id]', $cm->con_con_job_id);
-                    echo form_dropdown('info[con_con_job_id]', $arr_option_job, $selected, 'class="required"');
+//                    $selected = set_value('info[con_con_job_id]', $cm->con_con_job_id);
+//                    echo form_dropdown('info[con_con_job_id]', $arr_option_job, $selected, 'class="required"');
+                    $input = array('name' => 'infor[con_con_job_id]', 'placeholder' => 'Job', 'value' => set_value('infor[con_con_job_id]', $cm->con_con_job_id), 'class' => 'required2');
+                     echo form_input($input);
                     ?>
                 </td>
             </tr>
             <tr>
                 <td valign="top">
                     <?php
-                    echo form_label('Income Per Month <span>*</span>', 'lbl_con_income');
+                    echo form_label('Income Per Week <span>*</span>', 'lbl_con_income');
                     $selected = set_value('info[con_con_inc_id]', $cm->con_con_inc_id);
-                    echo form_dropdown('info[con_con_inc_id]', $arr_option_income, $selected, 'class="required"');
+                    echo form_dropdown('info[con_con_inc_id]', $arr_option_income, $selected, 'class="required2"');
                     ?>
                 </td>
                 <td colspan="2">
@@ -380,12 +382,12 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
                         $_ind = 0;
                         foreach ($cphone as $crow) {
                             if ($_ind == 0) {
-                                $input = array('name' => 'phone[' . $_ind . '][con_num_line]', 'value' => set_value('phone[' . $_ind . '][con_num_line]', $crow['con_num_line']), 'class' => 'required');
+                                $input = array('name' => 'phone[' . $_ind . '][con_num_line]', 'value' => set_value('phone[' . $_ind . '][con_num_line]', $crow['con_num_line']), 'class' => 'required2');
                                 echo form_input($input);
                                 echo anchor('#', ' <img src="' . site_url('images/plus.png') . '" alt="add" title="add more" />', 'id="add_more_phone_e"');
                             } else {
                                 echo "<div id='box_{$_ind}'>";
-                                $input = array('name' => 'phone[' . $_ind . '][con_num_line]', 'value' => set_value('phone[' . $_ind . '][con_num_line]', $crow['con_num_line']), 'class' => 'required');
+                                $input = array('name' => 'phone[' . $_ind . '][con_num_line]', 'value' => set_value('phone[' . $_ind . '][con_num_line]', $crow['con_num_line']), 'class' => 'required2');
                                 echo form_input($input);
                                 echo '<span class="btn_remove_phone" style="cursor: pointer;" name="box_' . $_ind . '"> <img src="../images/trash.png" alt="" /></span><div>';
                                 echo '</div>';
@@ -554,7 +556,7 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
     </div>
 </div>
 <div class="control_manager">
-	<button type="submit" class="btn btn-mini"><i class="icon-plus-sign"></i> Save Contact</button>
+    <button type="submit" class="btn btn-mini"><i class="icon-plus-sign"></i> Save Contact</button>
     <?php
     //echo anchor('#', '<i class="icon-plus-sign"></i>Save Contact', 'class="btn btn-mini" id="add_save_contact" title="Save Contact"');
     echo nbs();

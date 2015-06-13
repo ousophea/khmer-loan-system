@@ -90,7 +90,7 @@ if ($sum_result_query->num_rows() > 0) {
                         </div>
                         <div class="voucher_content">
                             <div class="sub_title">
-                                <h3>តារាងកាលវិភាគសង់ប្រាក់ និង ដាក់ប្រាក់សន្សំ</h3>
+                                <h3>តារាងកាលវិភាគសង់ប្រាក់</h3>
 
                             </div>
                             <div class="loan_info">

@@ -69,6 +69,7 @@ define('TELLER', 'Teller');
  * Format & prefix
  */
 define('APPROVED', "2");
+define('DISBURSED', "7");
 
 
 /* End of file constants.php */

@@ -39,7 +39,7 @@ if ($query_all->result() == NULL) {
 
 //echo unix_to_human($now);
         field('select', 'transaction_mode', 'Transaction Mode:', '1', array('options' => $array_transaction, 'attribute' => array('class' => 'dropdown validate[required]', 'id' => 'test')), TRUE);
-        field('text', 'gl_code', 'GL contra Account:', $rows->loa_acc_gl_code, array('attribute' => array('readonly' => "")));
+//        field('text', 'gl_code', 'GL contra Account:', $rows->loa_acc_gl_code, array('attribute' => array('readonly' => "")));
         field('text', 'value_date', 'Value date:', unix_to_human($now), array('attribute' => array('readonly' => "")));
         echo'<input type="hidden" name="dis_amount" value="' . $rows->loa_acc_amount . '" />';
         field('text', 'dis_amount_view', 'Trn Amount:', formatMoney($rows->loa_acc_amount), array('attribute' => array('readonly' => "")));
@@ -51,7 +51,6 @@ if ($query_all->result() == NULL) {
         echo'<input type="hidden" name="currency" value="' . $cur_id . '" />';
         echo'<table class="table table-bordered table-striped" cellspacing="0" cellpadding="0" border="0">
             <tr class="tbl_header">
-                <th>GL Code</th>
                 <th>Description</th>
                 <th>Allocated Amt</th>
                 <th>Already Disbursed</th>
@@ -67,7 +66,6 @@ if ($query_all->result() == NULL) {
 //            $ready_dis = ($rows->loa_acc_approval=="Approved")?$rows->loa_acc_amount:0;
         $ready_dis = ($rows->loa_acc_disbustment == NULL) ? $rows->loa_acc_amount : 0;
         echo"   <tr>
-                <td>$gl_code</td>
                 <td>$rows->gl_description</td>
                 <td>" . formatMoney($rows->loa_acc_amount, TRUE) . "</td>
                 <td>" . formatMoney($ready_dis, TRUE) . "</td>
@@ -76,14 +74,14 @@ if ($query_all->result() == NULL) {
         // }
         //}
         echo "  <tr style='font-weight:bold;'>
-            <td colspan='2'>Total</td>
+            <td>Total</td>
             <td>" . formatMoney($rows->loa_acc_amount, TRUE) . "</td>
             <td>" . formatMoney($ready_dis, TRUE) . "</td>
             <td>" . formatMoney($rows->loa_acc_amount - $ready_dis, TRUE) . "</td>
         </tr>";
         echo"</table>";
-        if ($rows->loa_acc_disbustment == NULL) {
-            field("submit", 'btn_submit', NULL, "Approve", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<input type="submit" id="btn_disapprove" class="btn" value="Not Arpp" name="btn_disapprove">');
+        if ($rows->loa_acc_disbustment != NULL) {
+            field("submit", 'btn_submit', NULL, "Disburse", array('attribute' => array('class' => 'btn', 'id' => 'btn_submit')), NULL, '<input type="submit" id="btn_disapprove" class="btn" value="Cancel" name="btn_disapprove">');
         }
     }
     echo "</span>"; //=== Close tmp span dis form and table==========

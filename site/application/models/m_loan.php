@@ -198,8 +198,8 @@ class M_loan extends CI_Model {
 
     function get_contacts() {
         $this->db->where('contacts.status', 1);
-        $this->db->join('contacts_detail', 'con_id=con_det_con_id');
-        $this->db->join('contacts_type', 'con_typ_id=con_con_typ_id');
+        $this->db->join('contacts_detail', 'con_id=con_det_con_id','left');
+        $this->db->join('contacts_type', 'con_typ_id=con_con_typ_id','left');
         $data = $this->db->get('contacts');
         $array = null;
         if ($data->num_rows() > 0) {
