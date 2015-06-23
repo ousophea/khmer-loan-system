@@ -33,12 +33,13 @@ class repayment extends CI_Controller {
         $query_data = $this->m_repayment->getLoanInfo($loan_code);
         ////==============Check previes loan================
         $pdata = $this->checkRemainLoan($loan_code);
-       
+        $fdata = $this->checkForwardLoan($loan_code);
+
         if ($pdata != NULL) {
-//            echo $pdata; exit();
-//            if ($pdata > 0) {
-                $query_data[0]['rep_sch_remain'] = $pdata;
-//            }
+            $query_data[0]['rep_sch_remain'] = $pdata;
+        }
+        if ($fdata != NULL) {
+            $query_data[0]['rep_sch_forward'] = $fdata;
         }
 //        =============================
         if (count($query_data) > 0) {
@@ -78,68 +79,144 @@ class repayment extends CI_Controller {
         if ($loan_late_pay > 0) {
             $loan_rep_status = 3; /// Loan pay late
         }
-        $arr_repayment = array();
-        $arr_where = array();
-        foreach ($newRepay as $row) {
-            $repinfo = array(
-                'rep_sch_status' => $row['loan_rep_status'],
-                'rep_sch_description' => $loan_des,
-                'rep_sch_paid' => $paid_value,
-                'rep_sch_remain' => $row['remain'],
-                'rep_sch_value_date' => date('y-m-d h:i:s'));
-            $rep_condition = array(
-                'rep_sch_loa_acc_id' => $loan_id,
-                'DATE(rep_sch_date_repay)' => $limit_date);
-            //If need to do forward
-            if ($row['rep_sch_id'] != null) {
-                $rep_condition2 = array(
-                    'rep_sch_id' => $row['rep_sch_id']);
-                $rep_condition = array_merge((array) $rep_condition, (array) $rep_condition2);
-            }
-//            var_dump($repinfo);
-            $update_query = $this->m_global->update('repayment_schedule', $repinfo, $rep_condition);
-        }
-//        var_dump($arr_repayment);exit();
-//        $this->db->update_batch('repayment_schedulea', $arr_repayment,$arr_where);
-//        $update_query = $this->m_global->update('repayment_schedulew', $repinfo, $rep_condition);
-//        echo $update_query;exit();
-        if ($update_query) {
+        if ($newRepay) {
             $this->session->set_flashdata('success', 'Repayment account has been saved');
-            redirect('repayment/add');
-        } else {
-            $this->session->set_flashdata('error', 'Error on update repayment loan');
-            redirect('repayment/add');
+        } else{
+                $this->session->set_flashdata('error', 'Error on update repayment loan');
         }
+         redirect('repayment/add');
     }
 
     function calculateRepay() {
         $loan_amount = $this->input->post('amount'); // Amount to be pay
         $paid_value = $this->input->post('paid_amount'); // Recived amount
+        $getRemain = $this->input->post('remain_amount');
+        $totalRepay = $this->input->post('total_amount');
+        $getForward = $this->input->post('forward_amount');
+        $rep_id = $this->input->post('rep_id'); // Recived amount
         $arr_list_repay = array();
-        $balance = $paid_value - $loan_amount;
-        switch ($balance) {
-            case 0: ////////// paid value is equa to to settlement amount
-                $arr_repay = array(
-                    'loan_rep_status' => 2,
-                    'remain' => 0,
-                    'rep_sch_id' => null
-                );
-                array_push($arr_list_repay, $arr_repay);
-                return $arr_list_repay;
-                break;
-            case ($balance < 0): //////////////Paid value less than settlement amount
-                $arr_repay = array(
-                    'loan_rep_status' => 5, // Repay have remain
-                    'remain' => $balance * (-1),
-                    'rep_sch_id' => null
-                );
-                array_push($arr_list_repay, $arr_repay);
-                return $arr_list_repay;
-                break;
-            case ($balance > 0): ////////// Paid more than settlement amount
-                $dataFoword = $this->doFowardRepay($balance);
-                return $dataFoword;
-                break;
+        $repay = $paid_value + $getForward;
+        if ($repay > $loan_amount) {
+//            ========== Check paid with all total of repay amount=======
+            $loan_id = $this->input->post('loan_id');
+            $totalRempay = $this->m_repayment->getTotalRepay($loan_id); // Get back total amount of repayment for a loan account
+            if (($repay - $getRemain) > $totalRempay) {
+                   $this->session->set_flashdata('error', 'Error, Paid is more than total repayment');
+                   redirect('repayment/add');
+            }
+                
+//            =========================
+            if ($getRemain > 0) {
+                $balance = $repay - $loan_amount - $getRemain;
+                if ($balance > 0) {
+                    $forward = $balance;
+                    $remain = $getRemain * (-1);
+                    $statuse = 8; // release remain and froward;
+                    $arr_repay = array(
+                        'loan_rep_status' => $statuse,
+                        'remain' => $remain,
+                        'forward' => $forward,
+                        'rep_paid' => $paid_value,
+                        'rep_id' => $rep_id
+                    );
+                    $this->doUpdateRepay($arr_repay);
+                    $this->doFowardWithRemain($forward); // Release some remain
+//                    $getRemain = 0;
+                } elseif ($balance == 0) {
+                    $forward = 0;
+                    $remain = $getRemain * (-1);
+                    $statuse = 6; // release remain;
+                    $arr_repay = array(
+                        'loan_rep_status' => $statuse,
+                        'remain' => $remain,
+                        'forward' => $forward,
+                        'rep_paid' => $paid_value,
+                        'rep_id' => $rep_id
+                    );
+                    $this->doUpdateRepay($arr_repay);
+                } else { // if $balance < 0;
+                    $forward = 0;
+                    $remain = ($getRemain + $balance) * (-1); // 3000 + (-2000)
+                    $statuse = 9; // release some remain;
+                    $arr_repay = array(
+                        'loan_rep_status' => $statuse,
+                        'remain' => $remain,
+                        'forward' => $forward,
+                        'rep_paid' => $paid_value,
+                        'rep_id' => $rep_id
+                    );
+                    $this->doUpdateRepay($arr_repay);
+                }
+            } else {  ///$paid_value > $loan_amount and Remain < 0;
+                $balance = $repay - $loan_amount;
+                $forward = $balance;
+                $remain = 0;
+//                echo $balance;
+//                exit();
+                if ($balance == 0) {
+                    $statuse = 2; // Paid;
+                    $arr_repay = array(
+                        'loan_rep_status' => $statuse,
+                        'remain' => $remain,
+                        'forward' => $forward,
+                        'rep_paid' => $paid_value,
+                        'rep_id' => $rep_id
+                    );
+                    $this->doUpdateRepay($arr_repay);
+                } elseif ($balance > 0) {
+                    $forward = $balance;
+                    $statuse = 6; // Paid;
+                    $arr_repay = array(
+                        'loan_rep_status' => $statuse,
+                        'remain' => $remain,
+                        'forward' => $forward,
+                        'rep_paid' => $paid_value,
+                        'rep_id' => $rep_id
+                    );
+                    $this->doUpdateRepay($arr_repay);
+                    $this->doFowardWithRemain($balance); // Release some remain
+                }
+            }
+            return true;
+        } elseif ($repay < $loan_amount) { //////////////Paid value + forward < settlement amount
+//            echo "repaym + forward : " . $repay . " < silement: " . $loan_amount;
+//            exit();
+            $remain = $loan_amount - $repay;
+//            echo "<br/>remain: ".$remain; exit();
+//            $getForward = $this->input->post('forward_amount');
+            if ($getForward > 0) {
+                $forward = $getForward * (-1);
+                $remain = $loan_amount - $repay;
+                $status = 8; /// Release remain
+            } else {
+                $forward = 0;
+                $status = 5; // Set regmain
+            }
+            $arr_repay = array(
+                'loan_rep_status' => $status, // Repay have remain
+                'remain' => $remain,
+                'rep_paid' => $paid_value,
+                'forward' => $forward,
+                'rep_id' => $rep_id
+            );
+            $this->doUpdateRepay($arr_repay);
+            return true;
+        } else {  ////////// Paid =  settlement amount
+//            echo "repaym + forward : " . $repay . " = silement: " . $loan_amount;
+//            exit();
+            if ($getForward > 0) {
+                $forward = $getForward * (-1);
+                $status = 10; /// Release remain
+            }
+            $arr_repay = array(
+                'loan_rep_status' => $status, // Repay have remain
+                'remain' => 0,
+                'forward' => $forward,
+                'rep_paid' => $paid_value,
+                'rep_id' => $rep_id
+            );
+            $dataFoword = $this->doUpdateRepay($arr_repay);
+            return true;
         }
     }
 
@@ -148,49 +225,105 @@ class repayment extends CI_Controller {
         return $pData;
     }
 
-    function doFowardRepay($forword = null) {
-        $balance = $forword;
+    function checkForwardLoan($loan_code = null) {
+//        $loan_code = "13-000001-01";
+        $pData = $this->m_repayment->getForward($loan_code);
+        return $pData;
+    }
+
+    function doFowardWithRemain($forwardBalance = null) {
         $loa_id = $this->input->post('loan_id');
-        $getRemain = $this->input->post('remain_amount');
-        ///Test value =====
-//        $remain = 20000;
-//        $loa_id = 2;
-        //==========    
-        $getData = $this->m_repayment->getNextRepay($loa_id); // Get back array of repayment for a loan acound
-        $arr_sch_rec = array();
-        foreach ($getData->result() as $row) {
-            if ($getRemain > 0) {
-                $balance-= $getRemain; // 5-2= 3
+        $nextRepay = $this->m_repayment->getNextRepay($loa_id); // Get back array of repayment for a loan acound
+        foreach ($nextRepay->result() as $row) {
+            $forwardBalance -= $row->rep_sch_total_repayment;  // balance = paid - nextRepay()
+            if ($forwardBalance >= 0) {
+                $forward = $row->rep_sch_total_repayment * (-1);
+                $status = 6; /// forward
+                $remain = 0;
+                $paid = 0;
+                $arr_repay = array(
+                    'loan_rep_status' => $status,
+                    'rep_paid' => $paid,
+                    'remain' => $remain,
+                    'forward' => $forward,
+                    'rep_id' => $row->rep_sch_id
+                );
+                $this->doUpdateRepay($arr_repay);
             } else {
-                $balance -= $row->rep_sch_total_repayment;
-            }
-//             echo $balance; exit();
-//            $array_repay = array();
-            if ($balance >= 0) {
-                if ($getRemain > 0) {
-                    $setRemain = $getRemain * (-1); 
-                    $getRemain = 0;
-                }else{
-                    $setRemain = $balance;
-                }
-                
-                $array_repay = array(
-                    'rep_sch_id' => $row->rep_sch_id,
-                    'loan_rep_status' => 6, /////////Do forward repayment
-                    'remain' => $setRemain
-                );
-                array_push($arr_sch_rec, $array_repay);
-            } elseif ($balance < 0) {
-                $array_repay = array(
-                    'rep_sch_id' => $row->rep_sch_id,
-                    'loan_rep_status' => 7, /////////Do forward some value
-                    'remain' => $balance
-                );
-                array_push($arr_sch_rec, $array_repay);
-                return $arr_sch_rec;
+                return true; // if don't have enought value to forward
             }
         }
-        return $arr_sch_rec;
+    }
+
+    function doFowardRepay($getForward = null, $balance = null, $paid_value = null, $getRemain = null) {
+        $loa_id = $this->input->post('loan_id');
+        $nextRepay = $this->m_repayment->getNextRepay($loa_id); // Get back array of repayment for a loan acound
+        foreach ($nextRepay->result() as $row) {
+            $tmp = $getForward;
+            $getForward -= $row->rep_sch_total_repayment;  // balance = paid - nextRepay()
+            if ($getForward >= 0) {
+                $status = 6;
+                $remain = 0;
+                $paid = 0;
+                $arr_repay = array(
+                    'loan_rep_status' => $status,
+                    'rep_paid' => $paid,
+                    'remain' => $remain,
+                    'forward' => $forward,
+                    'rep_id' => $row->rep_sch_id
+                );
+                $this->doUpdateRepay($arr_repay);
+                $paid_value = $balance;
+                echo $forward;
+            } else {
+                $status = 7;
+                $paid = 0;
+                $remain = 0;
+                $forward = $tmp;
+                $arr_repay = array(
+                    'loan_rep_status' => $status, 'rep_paid' => $paid, 'remain' => $remain, 'forward' => $forward, 'rep_id' => $row->rep_sch_id
+                );
+                $this->doUpdateRepay($arr_repay);
+                return true;
+            }
+            $i++;
+        }
+//        exit();
+        return true;
+    }
+
+    function doFowardSomeRepay($remain = null, $status = null, $paid = null, $forward = null, $rep_id = null) {
+        $arr_repay = array(
+            'loan_rep_status' => $status,
+            'rep_paid' => $paid,
+            'remain' => $remain,
+            'forward' => $forward,
+            'rep_id' => $rep_id
+        );
+        $this->doUpdateRepay($arr_repay);
+    }
+
+    function doUpdateRepay($repay = null) {
+//        $limit_date = $this->input->post('limit_date');
+        $loan_id = $this->input->post('loan_id');
+//        $rep_sch_num = $this->input->post('rep_num');
+        $loan_des = $this->input->post('rep_detail');
+//        $loan_late_pay = $this->input->post('payment_late');
+//        $paid_value = $this->input->post('paid_amount');
+        $repinfo = array(
+            'rep_sch_status' => $repay['loan_rep_status'],
+            'rep_sch_description' => $loan_des,
+            'rep_sch_paid' => $repay['rep_paid'],
+            'rep_sch_remain' => $repay['remain'],
+            'rep_sch_forward' => $repay['forward'],
+            'rep_sch_value_date' => date('y-m-d h:i:s'));
+        $rep_condition = array(
+            'rep_sch_loa_acc_id' => $loan_id,
+            'rep_sch_id' => $repay['rep_id']
+        );
+        $update_query = $this->m_global->update('repayment_schedule', $repinfo, $rep_condition);
+//        return $update_query;
+//        exit();
     }
 
 }

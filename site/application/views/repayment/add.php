@@ -1,7 +1,7 @@
 <?php
-if ($this->session->flashdata('success'))
+if ($this->session->flashdata('success')){
     echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
-
+}
 $list_acc_number = "";
 $list_acc_number .= '<datalist id="gl_code">';
 foreach ($acc_num_query->result() as $acc_num_rows) {
@@ -20,7 +20,7 @@ open_form('repayment_form', 'Principal Owner Information', "repayment/update");
 field("text", "account_number", "Accoundt Number: ", NULL, array('attribute' => array('list' => "list_account_number", 'class' => 'numeric', 'id' => "account_number", 'style' => "width:124px;"))
         , TRUE, '<datalist id="list_account_number">' . $list_acc_number . '</datalist>
 <a class="btn account_number btn_search_gl gl_code" style=" padding: 4px 8px;"  id="search_customer_by_code" href="' . base_url() . 'repayment/search_loan_account"><i class="icon-search loader"></i> Search</a>
-    <span id="account_number_des" class="error"></span><input type="hidden" value="" id="loan_id" name="loan_id">');
+    <span id="account_number_des" class="error"></span><input type="hidden" value="" id="loan_id" name="loan_id"><input type="hidden" value="" id="rep_num" name="rep_num"><input type="hidden" value="" id="rep_id" name="rep_id">');
 //echo '<span id="account_number_des"></span>'; ///=========View Saving account information ===============//
 
 $now = time();
@@ -31,6 +31,7 @@ field("text", "limit_date", "Limit Date:", NULL, array('attribute' => array('cla
 //field("text", "currency", "Settlement Currency:", NULL, array('attribute' => array('readonly' => "")));
 echo "<span id='remain'>";
 field("text", "remain_amount", "Remain Amount:", NULL, array('attribute' => array('readonly' => "", 'class' => "")), FALSE);
+field("text", "forward_amount", "Forward Amount:", NULL, array('attribute' => array('readonly' => "", 'class' => "")), FALSE);
 echo "</span>";
 field("text", "amount", "Settlement Amount:", NULL, array('attribute' => array('readonly' => "")), FALSE, ' <span id="currency_title"></span>');
 
@@ -112,11 +113,17 @@ echo"</div>";
 
                             jq_code('.btn_tool').removeClass("disable_box");//// =========Show botton submit========
                             jq_code("#loan_id").val(data.loa_acc_id);
+                             jq_code("#rep_num").val(data.rep_sch_num);
+                            jq_code("#rep_id").val(data.rep_sch_id);
                             jq_code('[name="limit_date"]').val(data.rep_sch_date_repay);
                             jq_code('[name="amount"]').val(data.rep_sch_total_repayment);
                             jq_code('[name="remain_amount"]').val(remain + ".00");
+                            if(data.rep_sch_forward > 0){
+                             total-=  data.rep_sch_forward;
+                           }
                             jq_code('[name="total_amount"]').val(total + ".00");
-                            jq_code('[name="paid_amount"]').val(data.rep_sch_total_repayment);
+                             jq_code('[name="forward_amount"]').val(data.rep_sch_forward);
+                             jq_code('[name="paid_amount"]').val(total+".00");
                             jq_code("#account_number_des").html("");
                         } else {
                             jq_code("#account_number_des").html('<span class="help-block">Loan acount not found..!</span>');

@@ -104,6 +104,7 @@ class m_repayment extends CI_Model {
         } else {
             $this->db->where('rs.rep_sch_status', 1);
             $this->db->where('rs.rep_sch_num >', 0);
+            $this->db->or_where('rs.rep_sch_status =', 7);
         }
         $this->db->where('lc.loa_acc_code', $loan_code);
         $this->db->join('currency cc', 'lc.loa_acc_cur_id=cc.cur_id', 'inner');
@@ -114,22 +115,40 @@ class m_repayment extends CI_Model {
         return $query_data->result_array;
     }
 
-    public function getRemain($accNum = null ,$loa_id =null) {
-        $this->db->where('rs.rep_sch_status', 5);
-         $this->db->or_where('rs.rep_sch_status', 7);
-         $this->db->or_where('rs.rep_sch_status', 6);
-        if($accNum!=null){
-        $this->db->where('lc.loa_acc_code', $accNum);
+    public function getRemain($accNum = null, $loa_id = null) {
+        $this->db->where('rs.rep_sch_status >', 2);
+//        $this->db->where('rs.rep_sch_status ', 5);
+//         $this->db->or_where('rs.rep_sch_status', 7);
+//         $this->db->or_where('rs.rep_sch_status', 6);
+//         $this->db->or_where('rs.rep_sch_status', 8);
+//         $this->db->or_where('rs.rep_sch_status', 9);
+        if ($accNum != null) {
+            $this->db->where('lc.loa_acc_code', $accNum);
         }
-        if($loa_id !=null){
-              $this->db->where('rs.rep_sch_loa_acc_id', $loa_id);
+        if ($loa_id != null) {
+            $this->db->where('rs.rep_sch_loa_acc_id', $loa_id);
         }
-        $this->db->select_sum('rs.rep_sch_remain',"total_remain");
+        $this->db->select_sum('rs.rep_sch_remain', "total_remain");
         $this->db->join('repayment_schedule rs', 'rs.rep_sch_loa_acc_id=lc.loa_acc_id', 'inner');
-        $query =  $this->db->get('loan_account lc');
+        $query = $this->db->get('loan_account lc');
         $result = $query->result();
 //        var_dump($result);exit();
         return $result[0]->total_remain;
+    }
+
+    public function getForward($accNum = null, $loa_id = null) {
+//        $this->db->where('rs.rep_sch_status', 5);
+        $this->db->or_where('rs.rep_sch_status', 7);
+        $this->db->or_where('rs.rep_sch_status', 6);
+        $this->db->or_where('rs.rep_sch_status', 8);
+        $this->db->or_where('rs.rep_sch_status', 10);
+        $this->db->where('lc.loa_acc_code', $accNum);
+
+        $this->db->select_sum('rs.rep_sch_forward', "total_forward");
+        $this->db->join('repayment_schedule rs', 'rs.rep_sch_loa_acc_id=lc.loa_acc_id', 'inner');
+        $query = $this->db->get('loan_account lc');
+        $result = $query->result();
+        return $result[0]->total_forward;
     }
 
     public function getNextRepay($loan_id) {
@@ -139,6 +158,17 @@ class m_repayment extends CI_Model {
         $this->db->join('repayment_schedule rs', 'rs.rep_sch_loa_acc_id=lc.loa_acc_id', 'inner');
         $query_data = $this->db->get('loan_account lc');
         return $query_data;
+    }
+
+    public function getTotalRepay($loan_id) {
+        $this->db->select_sum('rs.rep_sch_total_repayment', 'totalRepay');
+        $this->db->where('rs.rep_sch_status', 1);
+        $this->db->where('rs.rep_sch_num > ', 0);
+        $this->db->where('rs.rep_sch_loa_acc_id', $loan_id);
+        $this->db->join('repayment_schedule rs', 'rs.rep_sch_loa_acc_id=lc.loa_acc_id', 'inner');
+        $query = $this->db->get('loan_account lc');
+        $result = $query->result();
+        return $result[0]->totalRepay;
     }
 
 }
