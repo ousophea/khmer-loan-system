@@ -12,7 +12,7 @@ class disbursments extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('global/mod_global', 'mod_global', 'm_global', 'm_disbursments'));
+        $this->load->model(array('global/mod_global', 'mod_global', 'm_global', 'm_disbursments','m_teller_cash','m_transaction'));
         $this->data['title'] = NULL;
         $this->data['data'] = NULL;
         $this->data['cid_query'] = NULL;
@@ -53,6 +53,7 @@ class disbursments extends CI_Controller {
             $addD = $this->db->insert('loan_disbursments', $arr_disburse_info);
              if($addD){
                  $this->session->set_flashdata('success', 'A loan account has been saved');
+                 
              }
              //=============================
             //=============Update loan account table===============
@@ -73,23 +74,35 @@ class disbursments extends CI_Controller {
             $this->db->update('gl_balances');
 
             //===============Update Till balances=========================
-            $this->db->set('til_credit', 'til_credit -' . $this->input->post('dis_amount'), FALSE);
-            $this->db->where(array('til_tel_id' => $this->session->userdata("use_id"), 'til_cur_id' => $this->input->post('currency')));
-            $this->db->set('til_modifide_date', 'NOW()', FALSE);
-            $this->db->update('tiller');
+//            $this->db->set('til_credit', 'til_credit -' . $this->input->post('dis_amount'), FALSE);
+//            $this->db->where(array('til_tel_id' => $this->session->userdata("use_id"), 'til_cur_id' => $this->input->post('currency')));
+//            $this->db->set('til_modifide_date', 'NOW()', FALSE);
+//            $this->db->update('tiller');
+            $debite = null;
+            $credit = $this->input->post('dis_amount')*(-1);
+            $currency = 1;  
+            $this->m_teller_cash->addTellerCash($debite, $credit, $currency);
             //============================================
             //===============Update Trn=========================
-            $arr_tra_info = array(
-                'tra_credit' => $this->input->post('dis_amount'),
-                'tra_gl_code' =>  $this->input->post('gl_code'),
-                'tra_tra_mod_id' => $this->input->post('transaction_mode'),
-                'tra_cur_id' =>  $this->input->post('currency'),
-                'tra_description' => $this->input->post('dis_des'),
-                'tra_use_id' => $this->session->userdata("use_id"),
-            );
-            $this->db->set('tra_date', 'NOW()', FALSE);
-            $this->db->set('tra_value_date', 'NOW()', FALSE);
-            $this->db->insert('transaction', $arr_tra_info);
+//            $arr_tra_info = array(
+//                'tra_credit' => $this->input->post('dis_amount'),
+//                'tra_gl_code' =>  $this->input->post('gl_code'),
+//                'tra_tra_mod_id' => $this->input->post('transaction_mode'),
+//                'tra_cur_id' =>  $this->input->post('currency'),
+//                'tra_description' => $this->input->post('dis_des'),
+//                'tra_use_id' => $this->session->userdata("use_id"),
+//            );
+//            $this->db->set('tra_date', 'NOW()', FALSE);
+//            $this->db->set('tra_value_date', 'NOW()', FALSE);
+//            $this->db->insert('transaction', $arr_tra_info);
+            //        add($debit=null,$credit=null,$amount,$currency=null,$gl_id=null,$tran_type=null)
+            $debit =  $this->input->post('dis_amount');
+            $credit =null;
+            $gl_id = "800003000";
+            $amount =  $this->input->post('dis_amount');
+            $currency = 1; // KH
+            $tran_type = 1; // Debit
+            $this->m_transaction->add($debit, $credit, $amount, $currency, $gl_id, $tran_type);
 
             //============================================
 

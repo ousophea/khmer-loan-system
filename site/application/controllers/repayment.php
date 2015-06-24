@@ -18,7 +18,7 @@ class repayment extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_global', 'global/mod_global', 'm_repayment'));
+        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_global', 'global/mod_global', 'm_repayment', 'm_teller_cash', 'm_transaction'));
 //        $this->rand=NULL;
     }
 
@@ -29,12 +29,12 @@ class repayment extends CI_Controller {
     function search_loan_account() {
         $query_data = NULL;
         $loan_code = $this->input->post('accNum');
-//        $loan_code = "12-000001-01";
+//        $loan_code = "11-000001-01";
         $query_data = $this->m_repayment->getLoanInfo($loan_code);
         ////==============Check previes loan================
         $pdata = $this->checkRemainLoan($loan_code);
         $fdata = $this->checkForwardLoan($loan_code);
-
+//        var_dump($fdata); exit();
         if ($pdata != NULL) {
             $query_data[0]['rep_sch_remain'] = $pdata;
         }
@@ -68,12 +68,22 @@ class repayment extends CI_Controller {
         $this->load->view(Variables::$layout_main, $this->data);
     }
 
+    function addTellerBalance() {
+        $this->m_teller_cash->addTellerCash();
+    }
+
+//    function addTransaction() {
+//        $paid_value = $this->input->post('paid_amount');
+//        $this->m_transaction->add(null,$paid_value,1,1,1);
+//    }
+
     function update() {
         $limit_date = $this->input->post('limit_date');
         $loan_id = $this->input->post('loan_id');
         $loan_des = $this->input->post('rep_detail');
         $loan_late_pay = $this->input->post('payment_late');
         $paid_value = $this->input->post('paid_amount');
+//        
         $newRepay = $this->calculateRepay();
 //        var_dump($newRepay); exit();
         if ($loan_late_pay > 0) {
@@ -81,10 +91,27 @@ class repayment extends CI_Controller {
         }
         if ($newRepay) {
             $this->session->set_flashdata('success', 'Repayment account has been saved');
-        } else{
-                $this->session->set_flashdata('error', 'Error on update repayment loan');
+//========insert transaction ==============
+//        add($debit=null,$credit=null,$amount,$currency=null,$gl_id=null,$tran_type=null)
+            $debit = NULL;
+            $credit = $paid_value;
+            $gl_id = "3001234";
+            $amount = $paid_value;
+            $currency = 1; // KH
+            $tran_type = 1; // Debit
+            $this->m_transaction->add($debit, $credit, $amount, $currency, $gl_id, $tran_type);
+//        ====================
+            //===========Add teller cash==========
+            $debite = null;
+            $credit = $paid_value;
+            $currency = 1;
+            $this->m_teller_cash->addTellerCash($debite, $credit, $currency);
+            //====================
+            redirect('repayment/add');
+        } else {
+            $this->session->set_flashdata('error', 'Error on update repayment loan');
+            redirect('repayment/add');
         }
-         redirect('repayment/add');
     }
 
     function calculateRepay() {
@@ -101,10 +128,9 @@ class repayment extends CI_Controller {
             $loan_id = $this->input->post('loan_id');
             $totalRempay = $this->m_repayment->getTotalRepay($loan_id); // Get back total amount of repayment for a loan account
             if (($repay - $getRemain) > $totalRempay) {
-                   $this->session->set_flashdata('error', 'Error, Paid is more than total repayment');
-                   redirect('repayment/add');
+                $this->session->set_flashdata('error', 'Error, Paid is more than total repayment');
+                redirect('repayment/add');
             }
-                
 //            =========================
             if ($getRemain > 0) {
                 $balance = $repay - $loan_amount - $getRemain;

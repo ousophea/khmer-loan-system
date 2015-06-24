@@ -73,14 +73,13 @@
                             <div class="voucher_header">
                                 <div class="voucher_logo form-horizontal">
                                     <?php
-                                    acc_info('<img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo.png" alt="Logo">', 'logo_name', '<img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo_name.png" alt="Logo">'
-                                    );
+                                    acc_info('<img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo.png" alt="Logo">', 'logo_name', '<br /><img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo_name.png" alt="Logo">' );
                                     ?>
                                 </div>
                                 <div class="voucher_top_info"><div class="form-horizontal">
                                         <?php
                                         acc_info('ទំរង់លេខ:', 'voucher_id');
-                                        acc_info('LDV N0:', 'voucher_id', "???");
+                                        acc_info('អតិថិជនលេខ:', 'con_number', $row->con_cid);
                                         acc_info('Loan Account:', 'voucher_id', $row->loa_acc_code);
                                         echo '<span class="info_bottom">';
                                         acc_info('', '', "Admin Copy");
@@ -104,14 +103,14 @@
                                     echo '<div class="form-horizontal">';
 
                                     acc_info('ទីកន្លែងផ្តល់ប្រាក់/ Disbur. Location', '', "ភ្នំពេញ");
-                                    acc_info('កិច្ចសន្យាលេខ/ Contract No', '', "???");
+                                    acc_info('កិច្ចសន្យាលេខ/ Contract No', '', "");
                                     acc_info('ថ្អៃចេញទុន/ Disbursement Date', 'sdfsd', $row->loa_acc_disbustment);
-                                    acc_info('អ្នកផ្តល់ប្រាក់/ Payer', '', $row->use_name);
+                                    acc_info('អ្នកផ្តល់ប្រាក់/ Payer', '', $row->co_name);
                                     echo '<span class="sign sign_small">';
                                     acc_info('ហត្ថលេខា/ Signature', '');
                                     echo '</span>';
 //                                    acc_info('លេខកូដគណនី/ GL Code', '', $row->loa_acc_gl_code);
-                                    acc_info('លេខគណនីអតិថិជនៈ/ Customer Code', '', $row->loa_acc_code);
+//                                    acc_info('លេខគណនីអតិថិជនៈ/ Customer Code', '', $row->loa_acc_code);
                                     acc_info('ចំនូនទឹកប្រាក់បានទទួល/ Amount receiverd', "", formatMoney($row->loa_acc_amount, TRUE) . " " . $row->cur_title);
                                     acc_info('ជាអក្សរ/ In word', "", $row->loa_acc_amount_in_word);
                                     echo '</div>';
@@ -119,10 +118,10 @@
 
                                     echo open_span(5);
                                     echo '<div class="form-horizontal">';
-                                    acc_info('អ្នកទទួល/ Payee', '', $row->con_kh_first_name . " " . $row->con_kh_last_name);
+                                    acc_info('អតិថិជនឈ្មោះ/ Customer Name', '', $row->con_kh_first_name . " " . $row->con_kh_last_name);
                                     acc_info('ភេទ/ Gender', '', ($row->con_sex == 'm') ? 'ប្រុស' : 'ស្រី');
                                     echo '<span class="sign">';
-                                    acc_info('អាស័យដ្ដាន/ Address', '', $con_info['con_address']);
+                                    acc_info('អាស័យដ្ឋាន/ Address', '', $con_info['con_address']);
                                     echo '</span>';
                                     echo '<span class="big_heigt">';
                                     acc_info('ស្នាមមេដៃអ្នកទទួល/ Fingerprint', '');

@@ -104,7 +104,7 @@ class m_repayment extends CI_Model {
         } else {
             $this->db->where('rs.rep_sch_status', 1);
             $this->db->where('rs.rep_sch_num >', 0);
-            $this->db->or_where('rs.rep_sch_status =', 7);
+//            $this->db->or_where('rs.rep_sch_status =', 7);
         }
         $this->db->where('lc.loa_acc_code', $loan_code);
         $this->db->join('currency cc', 'lc.loa_acc_cur_id=cc.cur_id', 'inner');

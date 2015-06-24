@@ -270,20 +270,6 @@ $list_acc_number.= '</datalist>';
                                 $('#Disapproved').removeClass('disabled');
                                 $('#Disapproved').addClass('action_btn');
                             }
-//                            if (status != 2) {
-//                            if(status != 3){
-//                                $('#Approved').removeClass('disabled');
-//                                $('#Approved').addClass('action_btn');
-//                            }
-//                            } else {
-//
-//                                $('#Disapproved').removeClass('disabled');
-//                                $('#Disapproved').addClass('action_btn');
-//                            }
-
-
-
-
                             //                        =============Table repayment================
                             $('#repayment_tbl').html(data.tbl_rep);
                         }
@@ -305,7 +291,7 @@ $list_acc_number.= '</datalist>';
                     var btn_name = $(this).attr("id");
                     //                alert(btn_name); return false;
                     var approve = confirm("Are you sure want to " + btn_name + " this loan?");
-                    if (approve) {
+                    if (approve) { //// Use click button approve
 
                         var this_url = $(this).attr('href');
                         var id_code = $('[name="loa_con_id"]').val();

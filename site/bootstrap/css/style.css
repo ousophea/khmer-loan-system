@@ -603,7 +603,7 @@ form option, input{
     height: 19px;
 }
 .sub_title_contant,.schedule_fotter{
-    border: solid 1px;
+    /*border: solid 1px;*/
     width: 443px;
     text-align: center;
 }
@@ -631,7 +631,7 @@ form option, input{
     margin-top: 20px;
 }
 .print_preview .loan_info{
-    height: 336px;
+    height: 350px;
 }
 .print_preview .sign .control-group .controls {
     height: 149px;
