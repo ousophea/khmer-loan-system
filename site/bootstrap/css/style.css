@@ -1,5 +1,13 @@
 @charset "utf-8";
 /* CSS Document */
+@media print {
+	@page { 
+		size: A4;
+	}
+	@page :header,@page :footer,options {
+	   display:none;
+	}
+}
 body{
     padding:0;
     margin:auto;	
@@ -568,7 +576,8 @@ form option, input{
 
 .loan_info{
     border: solid 1px;
-    height: 315px;
+    /*height: 315px;*/
+	height: 280px;
     padding: 10px 0;
     border-radius: 5px;
     box-shadow: 5px;
@@ -587,6 +596,9 @@ form option, input{
     width: 920px;
 
 }
+.voucher_fotter div{
+	display:inline-block;
+}
 .schedule_fotter{
     -moz-column-count:2; /* Firefox */
     -webkit-column-count:2; /* Safari and Chrome */
@@ -603,13 +615,14 @@ form option, input{
     height: 19px;
 }
 .sub_title_contant,.schedule_fotter{
-    /*border: solid 1px;*/
+    border: solid 1px;
     width: 443px;
     text-align: center;
 }
 
 .fotter_date{
-    margin: 75px 0 0 0;
+    /*margin: 75px 0 0 0;*/
+	margin: 50px 0 0 0;
     border-top:dashed 1px;
     padding-top: 5px;
 }
@@ -617,10 +630,12 @@ form option, input{
     height: 130px;
 }
 .vouchers .sign_small .control-group .controls {
-    height: 105px;
+    /*height: 105px;*/
+	height: 60px;
 }
 .vouchers .big_heigt .control-group .controls {
-    height: 125px;
+    /*height: 125px;*/
+	height: 80px;
 }
 
 .print_preview_menu{
@@ -631,7 +646,7 @@ form option, input{
     margin-top: 20px;
 }
 .print_preview .loan_info{
-    height: 350px;
+    height: 336px;
 }
 .print_preview .sign .control-group .controls {
     height: 149px;
