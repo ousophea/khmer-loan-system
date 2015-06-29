@@ -80,6 +80,8 @@ class Contacts extends CI_Controller {
                 $this->m_global->insert('contacts', $arr_contact);
 //                =============Update CID after add new client ==================
                 $last_id = $this->m_global->insert_id();
+//                echo $last_id;
+//                                exit();
                 $cid = substr(CONTACT_DIGIT, 0, -(strlen($last_id))) . $last_id;
                 $this->m_global->update('contacts',array('con_cid'=>$cid),array('con_id'=>$last_id)); 
 //                ==========================
@@ -189,8 +191,9 @@ class Contacts extends CI_Controller {
                             //update relationship contact and group contact
                             $this->m_global->insert('contacts_group', array('con_gro_con_id' => $last_id_contact_group, 'con_gro_gro_id' => $last_id_group));
 //                             //insert detail contact
+//                            echo $last_id_contact_group; exit();
                             $arr_contact_detail_group = array(
-                                'con_det_con_id' => $this->m_global->insert_id(),
+                                'con_det_con_id' => $last_id_contact_group,
                                 'con_det_pro_id' => $get_con_det_pro_id[$key],
                                 'con_det_dis_id' => $get_con_det_dis_id[$key],
                                 'con_det_com_id' => $get_con_det_com_id[$key],
@@ -201,9 +204,10 @@ class Contacts extends CI_Controller {
                     }
                 }
                 $this->session->set_flashdata('success', 'New contact has been created successfully!');
-                $res = array(
-                    'result' => 'ok');
-                echo json_encode($res);
+//                $res = array(
+//                    'result' => 'ok');
+//                echo json_encode($res);
+                redirect(site_url('contacts'));
 //            } //            ==========Use only menul input of CID===================
         } else {
             $res = array(

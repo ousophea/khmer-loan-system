@@ -32,6 +32,23 @@ function getOptions($data) {
 
 $couple_job = getOptions($arr_option_job);
 $couple_income = getOptions($arr_option_income);
+
+$arr_option_province = array('' => '-select province-');
+if ($query_pronvince->num_rows() > 0) {
+    foreach ($query_pronvince->result() as $rows) {
+        $arr_option_province[$rows->pro_id] = $rows->pro_en_name . '(' . (($rows->pro_kh_name == '') ? 'no set' : $rows->pro_kh_name) . ')';
+    }
+}
+$province = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_provience_group[]', $arr_option_province, '', 'class=" province_group" id="pgn_1"'));
+
+$district_option_group = array('' => '-khan/district-');
+$district = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_district_group[]', $district_option_group, '', 'class=" district_group"  id="dgn_1"'));
+
+$commune_option_group = array('' => '-sangkat/commune-');
+$commune = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_commune_group[]', $commune_option_group, '', 'class=" commune_group"  id="cgn_1"'));
+
+$village_option_group = array('' => '-poum/village-');
+$village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]', $village_option_group, '', 'class=" village_group"  id="vgn_1"'));
 ?>
 
 <script type="text/javascript" language="JavaScript">
@@ -120,9 +137,9 @@ $couple_income = getOptions($arr_option_income);
 
         var html = '<fieldset id="fieldset_' + g_ind + '"><legend>' + title + bRemove + '</legend>';
         html += '<table border="0" width="100%">';
-        if (eleName.indexOf('group') >= 0) {
-            html += '<tr><td colspan="3"><label for="lbl_cus_id_first_name">Customer ID <span>*</span></label><input type="text" name="' + eleName + '[con_cid]" value="" placeholder="Customer ID" max="5" class="required numeric"></td></tr>';
-        }
+//        if (eleName.indexOf('group') >= 0) {
+//            html += '<tr><td colspan="3"><label for="lbl_cus_id_first_name">Customer ID <span>*</span></label><input type="text" name="' + eleName + '[con_cid]" value="" placeholder="Customer ID" max="5" class="required numeric"></td></tr>';
+//        }
         html += '<tr>';
         html += '<td><label for="lbl_con_kh_first_name_couple">Family Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="គោត្តនាម" name="' + eleName + '[con_kh_first_name]"></td>';
         html += '<td><label for="lbl_con_kh_last_name_couple">Sure Name in Khmer <span>*</span></label><input type="text" class="required" placeholder="នាម" name="' + eleName + '[con_kh_last_name]"></td>';
@@ -140,7 +157,7 @@ $couple_income = getOptions($arr_option_income);
         html += '<tr>';
         html += '<td><label for="lbl_con_income_couple">Income Per Month<span>*</span></label><select class="required" name="' + eleName + '[con_con_inc_id]"><?php echo $couple_income; ?></select></td>';
         html += '<td colspan="3"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input class="required" type="text" value="" name="' + eleName + '[phone][con_num_line]"></td>';
-        html += '</tr>';
+        html += '</tr><tr><td><label for="lbl_con_province">Address<span>*</span></label><tr><td>' + '<?php echo $province . "</td><td> " . $district . "</td><td> " . $commune . "</td><td> " . $village ?>' + '</td></tr></tr>';
         html += '</table></fieldset>';
         html += '<input type="hidden" value="0" name="' + eleName + '[con_id]"/>';
         if (opt == 'add') {
@@ -213,6 +230,7 @@ $couple_income = getOptions($arr_option_income);
             if (txt == '1') {
                 jq('#add_more_group').css({'display': 'block'});
                 getForm('Group Member 1', 'group\[0\]', 'group\\[0\\]', eleId, {}, 'add');
+
             } else {
                 jq(eleId).empty();
                 jq('#add_more_group').css('display', 'none');
@@ -363,7 +381,7 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
 //                    $selected = set_value('info[con_con_job_id]', $cm->con_con_job_id);
 //                    echo form_dropdown('info[con_con_job_id]', $arr_option_job, $selected, 'class="required"');
                     $input = array('name' => 'infor[con_con_job_id]', 'placeholder' => 'Job', 'value' => set_value('infor[con_con_job_id]', $cm->con_con_job_id), 'class' => 'required2');
-                     echo form_input($input);
+                    echo form_input($input);
                     ?>
                 </td>
             </tr>
@@ -546,6 +564,43 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
                                 }
                                 jq('#add_more_group').css({'display': 'block'});
                             }
+
+                            jq('.province_group').live('change', function () {
+                                var getId = jq(this).attr("id");
+                                jq.ajax({
+                                    type: "POST",
+                                    url: "<?php echo site_url('ajax_action/district') ?>",
+                                    data: {province: jq(this).val()}
+                                }).done(function (data) {
+                                    var d = getId.replace("p", "d");
+                                    jq("#" + d).html(data);
+                                });
+                            });
+
+                            jq('.district_group').live('change', function () {
+                                var getId = jq(this).attr("id");
+                                jq.ajax({
+                                    type: "POST",
+                                    url: "<?php echo site_url('ajax_action/commune') ?>",
+                                    data: {district: jq(this).val()}
+                                }).done(function (data) {
+                                    var c = getId.replace("d", "c");
+                                    jq("#" + c).html(data);
+                                });
+                            });
+                            jq('.commune_group').live('change', function () {
+                                var getId = jq(this).attr("id");
+                                jq.ajax({
+                                    type: "POST",
+                                    url: "<?php echo site_url('ajax_action/village') ?>",
+                                    data: {commune: jq(this).val()}
+                                }).done(function (data) {
+                                    var v = getId.replace("c", "v");
+                                    jq("#" + v).html(data);
+                                });
+                            });
+                            jq('.numeric').numberOnly();
+
                         });
                     </script>
                     <div id="container_group"></div>
