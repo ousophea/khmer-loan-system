@@ -47,19 +47,22 @@ class Contacts extends CI_Controller {
 
     public function add_save() {
         if ($_POST) {
-            $cid = substr(CONTACT_DIGIT, 0, -(strlen($this->input->post('txt_con_cid')))) . $this->input->post('txt_con_cid');
+//            ==========Use only menul input of CID===================
+//            $cid = substr(CONTACT_DIGIT, 0, -(strlen($this->input->post('txt_con_cid')))) . $this->input->post('txt_con_cid');
 
-            if ($this->is_con_exist($cid)) {
-                $res = array(
-                    'result' => 'error',
-                    'msg' => '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Contact ID is already exists!</div>'
-                );
-                echo json_encode($res);
-            } else {
+//            if ($this->is_con_exist($cid)) {
+//                $res = array(
+//                    'result' => 'error',
+//                    'msg' => '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Contact ID is already exists!</div>'
+//                );
+//                echo json_encode($res);
+//            } else 
+//                { 
+//            ===================================================
                 //get data for primary contact
                 $arr_contact = array(
                     //'con_cid'=> $this->input->post('txt_con_cid'),
-                    'con_cid' => $cid,
+//                    'con_cid' => $cid, /////////Use CID as user input
                     'con_con_typ_id' => (($this->input->post('txt_con_group') == 'group') ? 1 : 2),
                     'con_kh_first_name' => $this->input->post('txt_con_kh_first_name'),
                     'con_kh_last_name' => $this->input->post('txt_con_kh_last_name'),
@@ -75,10 +78,12 @@ class Contacts extends CI_Controller {
                     'con_bra_id' => $this->session->userdata('bra_id')
                 );
                 $this->m_global->insert('contacts', $arr_contact);
-                //get last id
+//                =============Update CID after add new client ==================
                 $last_id = $this->m_global->insert_id();
-                //$cid = substr(CONTACT_DIGIT, 0, -(strlen($last_id))).$last_id;
-                //$this->m_global->update('contacts',array('con_cid'=>$cid),array('con_id'=>$last_id));
+                $cid = substr(CONTACT_DIGIT, 0, -(strlen($last_id))) . $last_id;
+                $this->m_global->update('contacts',array('con_cid'=>$cid),array('con_id'=>$last_id)); 
+//                ==========================
+               
                 $con_phones = $this->input->post('txt_con_phone');
                 //get data of phone for primary contact
                 $arr_phone = array();
@@ -135,8 +140,7 @@ class Contacts extends CI_Controller {
                     //insert primary contact to contacts_group table
                     $this->m_global->insert('contacts_group', array('con_gro_con_id' => $last_id, 'con_gro_gro_id' => $last_id_group));
                     //insert member involve with group
-//                    $con_cids = $this->input->post('txt_con_cid'); //  No work for this
-                    $con_cids = $this->input->post('txt_con_cids');
+//                    $con_cids = $this->input->post('txt_con_cids'); // Use only for menul input for CID
                     $con_kh_first_name_group = $this->input->post('txt_con_kh_first_name_group');
                     $con_kh_last_name_group = $this->input->post('txt_con_kh_last_name_group');
                     $con_kh_nick_name_group = $this->input->post('txt_con_kh_nick_name_group');
@@ -156,10 +160,10 @@ class Contacts extends CI_Controller {
 
                     if (count($con_en_first_name_group) > 0) {
                         foreach ($con_en_first_name_group as $key => $value) {
-                            $_con_cid = $con_cids[$key];
-                            $_cid = substr(CONTACT_DIGIT, 0, -(strlen($_con_cid))) . $_con_cid;
+//                            $_con_cid = $con_cids[$key];
+//                            $_cid = substr(CONTACT_DIGIT, 0, -(strlen($_con_cid))) . $_con_cid; // Use only for menul input for CID
                             $arr_contact_group = array(
-                                'con_cid' => $_cid,
+//                                'con_cid' => $_cid, // Use only for menul input for CID
                                 'con_con_typ_id' => 1,
                                 'con_en_first_name' => $con_en_first_name_group[$key],
                                 'con_en_last_name' => $con_en_last_name_group[$key],
@@ -176,17 +180,17 @@ class Contacts extends CI_Controller {
                             );
                             $this->m_global->insert('contacts', $arr_contact_group);
                             $last_id_contact_group = $this->m_global->insert_id();
-//                            var_dump($arr_contact_group); exit();
-                            //$cid_group = substr(CONTACT_DIGIT, 0, -(strlen($last_id_contact_group))) . $last_id_contact_group;
-                            //$this->m_global->update('contacts', array('con_cid' => $cid_group), array('con_id' => $last_id_contact_group));
+//                =============Update CID after add new client ==================
+                            $cid_group = substr(CONTACT_DIGIT, 0, -(strlen($last_id_contact_group))) . $last_id_contact_group;
+                            $this->m_global->update('contacts', array('con_cid' => $cid_group), array('con_id' => $last_id_contact_group));
+//                =======================================================
                             //insert phone number to table contacts_number
                             $this->m_global->insert('contacts_number', array('con_num_con_id' => $last_id_contact_group, 'con_num_line' => $con_phone_group[$key]));
                             //update relationship contact and group contact
                             $this->m_global->insert('contacts_group', array('con_gro_con_id' => $last_id_contact_group, 'con_gro_gro_id' => $last_id_group));
-
 //                             //insert detail contact
                             $arr_contact_detail_group = array(
-                                'con_det_con_id' => $_cid,
+                                'con_det_con_id' => $this->m_global->insert_id(),
                                 'con_det_pro_id' => $get_con_det_pro_id[$key],
                                 'con_det_dis_id' => $get_con_det_dis_id[$key],
                                 'con_det_com_id' => $get_con_det_com_id[$key],
@@ -200,7 +204,7 @@ class Contacts extends CI_Controller {
                 $res = array(
                     'result' => 'ok');
                 echo json_encode($res);
-            }
+//            } //            ==========Use only menul input of CID===================
         } else {
             $res = array(
                 'result' => 'error',
@@ -219,12 +223,12 @@ class Contacts extends CI_Controller {
 
         $cid = $this->m_global->select_string('contacts', 'con_cid', array('con_id' => $id));
         $data['title'] = 'Contacts Manager : Edit (' . $cid . ')';
-        
+
         $data['cm'] = $this->m_global->select_data_join_by(
                 'contacts', '*', array(
             'contacts_type' => array('con_con_typ_id' => 'con_typ_id'),
             'contacts_job' => array('con_con_job_id' => 'con_job_id', "left"),
-            'contacts_income' => array('con_con_inc_id' => 'con_inc_id' , "left"),
+            'contacts_income' => array('con_con_inc_id' => 'con_inc_id', "left"),
             'contacts_detail' => array('con_id' => 'con_det_con_id')), array('con_id' => $id)
         );
         $data['cphone'] = $this->m_global->select_data_join(
