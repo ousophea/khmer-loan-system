@@ -107,6 +107,7 @@ class m_repayment extends CI_Model {
 //            $this->db->or_where('rs.rep_sch_status =', 7);
         }
         $this->db->where('lc.loa_acc_code', $loan_code);
+        $this->db->where('lc.loa_acc_loa_det_id', 7); // Show only loan ready disbursment
         $this->db->join('currency cc', 'lc.loa_acc_cur_id=cc.cur_id', 'inner');
         $this->db->join('repayment_schedule rs', 'rs.rep_sch_loa_acc_id=lc.loa_acc_id', 'inner');
         $this->db->limit(1);
@@ -137,11 +138,11 @@ class m_repayment extends CI_Model {
     }
 
     public function getForward($accNum = null, $loa_id = null) {
-//        $this->db->where('rs.rep_sch_status', 5);
-        $this->db->or_where('rs.rep_sch_status', 7);
-        $this->db->or_where('rs.rep_sch_status', 6);
-        $this->db->or_where('rs.rep_sch_status', 8);
-        $this->db->or_where('rs.rep_sch_status', 10);
+//        $this->db->or_where('rs.rep_sch_status', 7);
+//        $this->db->or_where('rs.rep_sch_status', 6);
+//        $this->db->or_where('rs.rep_sch_status', 8);
+//        $this->db->or_where('rs.rep_sch_status', 10);
+         $this->db->where('rs.rep_sch_status >', 5);
         $this->db->where('lc.loa_acc_code', $accNum);
 
         $this->db->select_sum('rs.rep_sch_forward', "total_forward");

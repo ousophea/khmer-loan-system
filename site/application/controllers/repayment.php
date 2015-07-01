@@ -29,7 +29,7 @@ class repayment extends CI_Controller {
     function search_loan_account() {
         $query_data = NULL;
         $loan_code = $this->input->post('accNum');
-//        $loan_code = "11-000001-01";
+//        $loan_code = "11-000003-01";
         $query_data = $this->m_repayment->getLoanInfo($loan_code);
         ////==============Check previes loan================
         $pdata = $this->checkRemainLoan($loan_code);
@@ -253,6 +253,7 @@ class repayment extends CI_Controller {
 
     function checkForwardLoan($loan_code = null) {
 //        $loan_code = "13-000001-01";
+        $pData =0;
         $pData = $this->m_repayment->getForward($loan_code);
         return $pData;
     }
@@ -300,7 +301,7 @@ class repayment extends CI_Controller {
                 );
                 $this->doUpdateRepay($arr_repay);
                 $paid_value = $balance;
-                echo $forward;
+//                echo $forward;
             } else {
                 $status = 7;
                 $paid = 0;

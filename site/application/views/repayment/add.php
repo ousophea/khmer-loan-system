@@ -84,7 +84,7 @@ echo"</div>";
                 var remain = total= 0;
                 var form_data = {
                     accNum: getAccNumber
-                };
+                };              
                 jq_code.ajax({
                     url: this_url,
                     type: 'POST',
@@ -118,21 +118,25 @@ echo"</div>";
                             jq_code('[name="limit_date"]').val(data.rep_sch_date_repay);
                             jq_code('[name="amount"]').val(data.rep_sch_total_repayment);
                             jq_code('[name="remain_amount"]').val(remain + ".00");
+                            var forward = 0;
                             if(data.rep_sch_forward > 0){
-                             total-=  data.rep_sch_forward;
+                                total = forward = data.rep_sch_forward;
                            }
                             jq_code('[name="total_amount"]').val(total + ".00");
-                             jq_code('[name="forward_amount"]').val(data.rep_sch_forward);
+                             jq_code('[name="forward_amount"]').val(forward);
                              jq_code('[name="paid_amount"]').val(total+".00");
                             jq_code("#account_number_des").html("");
                         } else {
                             jq_code("#account_number_des").html('<span class="help-block">Loan acount not found..!</span>');
+                            jq_code('[name="limit_date"]').val("");
+                            jq_code('[name="amount"]').val("");
+                            jq_code('[name="remain_amount"]').val("");
+                            jq_code('[name="total_amount"]').val("");
+                             jq_code('[name="forward_amount"]').val("");
+                             jq_code('[name="paid_amount"]').val("");
+                             
                             jq_code('.btn_tool').addClass("disable_box");
                         }
-                        //                    
-
-//                                                jq_code("#dis_form_and_tbl").html(jq_code("#form_and_data_table").html());
-//                                                jq_code("#form_and_data_table").html("");
                     }
 
                 });
