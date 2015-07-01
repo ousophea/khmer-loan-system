@@ -124,6 +124,8 @@ class repayment extends CI_Controller {
         $arr_list_repay = array();
         $repay = $paid_value + $getForward;
         if ($repay > $loan_amount) {
+//            echo $repay;
+//            echo "<br /> paid ".$loan_amount;exit();
 //            ========== Check paid with all total of repay amount=======
             $loan_id = $this->input->post('loan_id');
             $totalRempay = $this->m_repayment->getTotalRepay($loan_id); // Get back total amount of repayment for a loan account

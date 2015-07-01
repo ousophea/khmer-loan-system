@@ -120,7 +120,8 @@ echo"</div>";
                             jq_code('[name="remain_amount"]').val(remain + ".00");
                             var forward = 0;
                             if(data.rep_sch_forward > 0){
-                                total = forward = data.rep_sch_forward;
+                                forward = data.rep_sch_forward;
+                                total -= forward;
                            }
                             jq_code('[name="total_amount"]').val(total + ".00");
                              jq_code('[name="forward_amount"]').val(forward);
