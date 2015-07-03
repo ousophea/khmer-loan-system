@@ -70,12 +70,13 @@ class loan extends CI_Controller {
 //        add($debit=null,$credit=null,$amount,$currency=null,$gl_id=null,$tran_type=null)
             $loan_type = $this->m_global->select_where("loan_account_type", array('lat_id' => $this->input->post('lat_id')));
             $result = $loan_type->result();
-            $periad = $result[0]->lat_freg * $this->input->post('num_installments');
-            if ($periad <= 180) { // loan <= than 6 month
-                $gl_id = '116309100';
-            } else { // loan peraid > 6 month
-                $gl_id = '131209111';
-            }
+            $gl_id = $result[0]->lat_gl_id;
+//            $periad = $result[0]->lat_freg * $this->input->post('num_installments');
+//            if ($periad <= 180) { // loan <= than 6 month
+//                $gl_id = '116309100';
+//            } else { // loan peraid > 6 month
+//                $gl_id = '131209111';
+//            }
             $debit = NULL;
             $credit = 0;
             $amount = 0;

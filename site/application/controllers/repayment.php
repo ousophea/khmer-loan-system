@@ -177,33 +177,46 @@ class repayment extends CI_Controller {
                 }
             } else {  ///$paid_value > $loan_amount and Remain < 0;
                 $balance = $repay - $loan_amount;
-                $forward = $balance;
                 $remain = 0;
-//                echo $balance;
-//                exit();
-                if ($balance == 0) {
-                    $statuse = 2; // Paid;
-                    $arr_repay = array(
-                        'loan_rep_status' => $statuse,
-                        'remain' => $remain,
-                        'forward' => $forward,
-                        'rep_paid' => $paid_value,
-                        'rep_id' => $rep_id
-                    );
-                    $this->doUpdateRepay($arr_repay);
-                } elseif ($balance > 0) {
-                    $forward = $balance;
-                    $statuse = 6; // Paid;
-                    $arr_repay = array(
-                        'loan_rep_status' => $statuse,
-                        'remain' => $remain,
-                        'forward' => $forward,
-                        'rep_paid' => $paid_value,
-                        'rep_id' => $rep_id
-                    );
-                    $this->doUpdateRepay($arr_repay);
-                    $this->doFowardWithRemain($balance); // Release some remain
+                if($paid_value > $loan_amount){
+                    $forward = $paid_value - $loan_amount;
+                   $statuse = 6; /// Do forward
+                }else{ //////////// paid_input  < or = silement
+                    $forward = $loan_amount - $paid_value;
+                     $statuse = 7; ////  forward some value      
                 }
+                $arr_repay = array(
+                        'loan_rep_status' => $statuse,
+                    'remain' => $remain,
+                    'forward' => $forward,
+                    'rep_paid' => $paid_value,
+                    'rep_id' => $rep_id
+                );
+                $this->doUpdateRepay($arr_repay);
+                $this->doFowardWithRemain($balance); // Release some remain
+//                if ($balance == 0) {
+//                    $statuse = 2; // Paid;
+//                    $arr_repay = array(
+//                        'loan_rep_status' => $statuse,
+//                        'remain' => $remain,
+//                        'forward' => $forward,
+//                        'rep_paid' => $paid_value,
+//                        'rep_id' => $rep_id
+//                    );
+//                    $this->doUpdateRepay($arr_repay);
+//                } elseif ($balance > 0) {
+//                    $forward = $balance;
+//                    $statuse = 6; // Paid;
+//                    $arr_repay = array(
+//                        'loan_rep_status' => $statuse,
+//                        'remain' => $remain,
+//                        'forward' => $forward,
+//                        'rep_paid' => $paid_value,
+//                        'rep_id' => $rep_id
+//                    );
+//                    $this->doUpdateRepay($arr_repay);
+//                    $this->doFowardWithRemain($balance); // Release some remain
+//                }
             }
             return true;
         } elseif ($repay < $loan_amount) { //////////////Paid value + forward < settlement amount
