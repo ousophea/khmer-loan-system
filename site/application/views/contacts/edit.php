@@ -1,4 +1,4 @@
-<!-- Author PEN Vannak -->
+<!-- Author OU Sophea -->
 <?php
 //get job and paste to array
 $arr_option_job = array('' => '-select job-');
