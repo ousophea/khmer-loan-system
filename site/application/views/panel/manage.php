@@ -3,9 +3,9 @@
         <div class="span"> <a class="row" href="<?php echo site_url('contacts'); ?>"><img title="Contacts Manager" alt="Contacts Manager" src="<?php echo site_url(BOOTSTRAP_MEDIA_PATH); ?>/contact.png"> <span class="row">Contacts</span></a> </div>
     </div>
 </div>-->
+
 <div class="panel-control">
     <div class="row">
-        
         <?php if (strtolower($this->session->userdata('gro_name')) != strtolower(TELLER)) { ?>
         <div class="span"> <a class="row" href="<?php echo base_url(); ?>loan/open"><img title="New Loan Account" alt="" src="<?php echo base_url(); echo Variables::$images_path; ?>personal_loan.png"> <span class="row">New Loan</span></a> </div>
         <!--<div class="span"> <a class="row" href="<?php echo site_url('saving/open'); ?>"><img title="New Loan" alt="New Saing Account" src="<?php echo site_url(IMAGES_PATH_BOOTSTRAP . 'saving.png'); ?>"> <span class="row">New Saving</span></a> </div>-->

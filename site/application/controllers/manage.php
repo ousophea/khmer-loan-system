@@ -28,7 +28,7 @@ class Manage extends CI_Controller {
     function db_update() {
         $db_update = $this->m_database_update->update_db();
         if ($db_update) {
-            $this->session->set_flashdata('success', 'Database aready updated');
+            $this->session->set_flashdata('success', 'Database aready updated');  
         } else {
             $this->session->set_flashdata('error', 'Can not update database. please contact you administrator');
         }
