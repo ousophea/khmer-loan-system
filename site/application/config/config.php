@@ -15,8 +15,9 @@
 |
 */
 //$config['base_url']	= 'http://localhost/khmer-loan-system';
-$config['base_url']	= 'http://loansystem.lan';
+//$config['base_url']	= 'http://loansystem.lan';
 //$config['base_url']	= 'http://loankp.wepshared.com';
+$config['base_url']	= 'http://localhost/loankp';
 /*
 |--------------------------------------------------------------------------
 | Index File
