@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/khmer-loan-system/site/';
+$config['base_url']	= 'http://localhost/loankp/';
 //$config['base_url']	= 'http://loansystem.lan';
 //$config['base_url']	= 'http://loankp.wepshared.com';
 /*
