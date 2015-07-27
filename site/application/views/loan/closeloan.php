@@ -7,7 +7,6 @@ echo form_open_multipart('loan/do_close_loan', array('class' => 'form-horizontal
 $list_acc_number = "";
 $list_acc_number .= '<datalist id="gl_code">';
 foreach ($acc_num_query->result() as $acc_num_rows) {
-
     $list_acc_number .='<option value="' . $acc_num_rows->loa_acc_code . '">';
 }
 $list_acc_number.= '</datalist>';
@@ -193,10 +192,6 @@ $list_acc_number.= '</datalist>';
                                 $('#Disapproved').removeClass('disabled');
                                 $('#Disapproved').addClass('action_btn');
                             }
-
-
-
-
                             //                        =============Table repayment================
                             $('#repayment_tbl').html(data.tbl_rep);
                         }

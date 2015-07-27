@@ -135,21 +135,21 @@ $dbf = new dbf();
                                     $current_savingtrn = TRUE;
                                 }
                                 ?>   
-    <!--                                <li class="off dropdown <?php echo ($current_savingtrn == TRUE) ? 'current' : '' ?>"> 
-                                        <a class="dropdown-toggle"
-                                           data-toggle="dropdown"
-                                           href="#">Saving Acc<b class="caret"></b> </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a tabindex="-1" href="<?php echo base_url(); ?>deposits">Deposit</a></li>
-                                            <li><a tabindex="-2" href="<?php echo base_url(); ?>withdrawals">Withdrawal</a></li>
-                                        </ul>
-                                    </li>-->
+            <!--                                <li class="off dropdown <?php echo ($current_savingtrn == TRUE) ? 'current' : '' ?>"> 
+                                                <a class="dropdown-toggle"
+                                                   data-toggle="dropdown"
+                                                   href="#">Saving Acc<b class="caret"></b> </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a tabindex="-1" href="<?php echo base_url(); ?>deposits">Deposit</a></li>
+                                                    <li><a tabindex="-2" href="<?php echo base_url(); ?>withdrawals">Withdrawal</a></li>
+                                                </ul>
+                                            </li>-->
 
 
-                        <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
+                                <!--<li id="graa" class="off <?php echo (($this->uri->segment(1)) == "paycash") ? 'current' : '' ?>"><a onclick="return false" href="" >Pay Cash</a></li>-->
 
-                                    <!--<li id="" class="off <?php echo (segment(1) == "paycashs") ? 'current' : '' ?>"><a href="<?php echo site_url('paycashs#form_other_expanse'); ?>" >Other Expense</a></li>-->
-                                    <!--<li id="tew" class="off <?php echo (($this->uri->segment(1)) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>-->
+                                            <!--<li id="" class="off <?php echo (segment(1) == "paycashs") ? 'current' : '' ?>"><a href="<?php echo site_url('paycashs#form_other_expanse'); ?>" >Other Expense</a></li>-->
+                                            <!--<li id="tew" class="off <?php echo (($this->uri->segment(1)) == "receivecashs") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>receivecashs">Receive Cash</a></li>-->
                             <?php } else { ?>
 
                                 <?php
@@ -174,20 +174,20 @@ $dbf = new dbf();
                                 </li>
 
 
-                    <!--<li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>-->
-                                    <!--<li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>-->
+                            <!--<li id="" class="off <?php echo (segment(1) == "contacts") ? 'current' : '' ?>" ><a href="<?php echo site_url('contacts'); ?>">Contact</a></li>-->
+                                            <!--<li id="" class="off <?php echo (segment(1) == "journal") ? 'current' : '' ?>"><a href="<?php echo site_url('journals#form_journal'); ?>" >Journal Entry</a></li>-->
 
-    <!--                                <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
-                                        <a class="dropdown-toggle"
-                                           data-toggle="dropdown"
-                                           href="#"> Saving <b class="caret"></b> </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a tabindex="-1" href="<?php echo base_url(); ?>saving/open">New Saving Acc</a></li>
-                                            <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/view">View Saving Acc</a></li>
-                                            <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/edit">Edit Saving Acc</a></li>
-                                            <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/close">Close Saving Acc</a></li>
-                                        </ul>
-                                    </li>-->
+            <!--                                <li class="off dropdown <?php echo (segment(1) == "saving") ? 'current' : '' ?>"> 
+                                                <a class="dropdown-toggle"
+                                                   data-toggle="dropdown"
+                                                   href="#"> Saving <b class="caret"></b> </a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a tabindex="-1" href="<?php echo base_url(); ?>saving/open">New Saving Acc</a></li>
+                                                    <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/view">View Saving Acc</a></li>
+                                                    <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/edit">Edit Saving Acc</a></li>
+                                                    <li><a tabindex="-2" href="<?php echo base_url(); ?>saving/close">Close Saving Acc</a></li>
+                                                </ul>
+                                            </li>-->
 
                                 <li class="off dropdown <?php echo (segment(1) == "loan") ? 'current' : '' ?>"> 
                                     <a class="dropdown-toggle"
@@ -205,7 +205,7 @@ $dbf = new dbf();
                                     </ul>
                                 </li>
 
-                                                    <!--<li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>-->
+                                                            <!--<li id="cla" class="off <?php echo (($this->uri->segment(1)) == "saving") ? 'current' : '' ?>"><a href="<?php echo base_url(); ?>saving">Loan/Saving</a></li>-->
                                 <?php
                                 $current_report = false;
                                 $arr_menu_report = array('transaction', 'reports');
@@ -224,7 +224,7 @@ $dbf = new dbf();
                                     </ul>
                                 </li>
 
-                                                    <!--<li id="use" class="off <?php echo (segment(1) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>-->
+                                                            <!--<li id="use" class="off <?php echo (segment(1) == "users") ? 'current' : '' ?>"><a onclick="" href="<?php echo base_url(); ?>users/manage" class="sf-with-ul">User</a> </li>-->
                             <?php } ?>
                             <?php
                             $current_setting = false;
@@ -241,6 +241,8 @@ $dbf = new dbf();
                                     <li><a tabindex="-1" href="#">Change password</a></li>
                                     <?php if (strtolower($this->session->userdata('gro_name')) != strtolower(TELLER)) { ?>
                                         <li><a tabindex="-2" href="<?php echo base_url(); ?>users/manage">Manage User</a></li>
+                                        <!--<li><a tabindex="-2" href="<?php // echo site_url('manage/db_update');   ?>">Database Update</a></li>-->
+                                        <li><?php echo anchor(site_url('manage/db_update'), 'Database Update', array('class' => 'delete', 'onclick' => "return confirmDialog();")); ?></li>
                                         <li><a tabindex="-2" href="#">Database backup</a></li>
 
                                     <?php } ?>
@@ -263,16 +265,20 @@ $dbf = new dbf();
                     if ($this->session->flashdata('error')) {
                         echo '<div class="alert alert-error">' . $this->session->flashdata('error') . '</div>';
                     }
+                    if ($this->session->flashdata('success'))
+                        echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
                     ?>
                     <legend><?php echo (!empty($title)) ? $title : 'Untitle'; ?><i id="loader" class="icon-loader" style="display: none;"></i></legend>
-<?php $this->load->view(segment(1) . '/' . ((segment(2)) ? segment(2) : 'index')); ?>
+                    <?php $this->load->view(segment(1) . '/' . ((segment(2)) ? segment(2) : 'index')); ?>
                 </div>
             </div>
             <div id="top_footer"></div>
             <div id="footer"> <span style="float:left">© Copyright 2013,</span> <span style="float:right">® All right resource</span> </div>
         </div>
         <script type="text/javascript">
-
+            function confirmDialog() {
+                return confirm("Are you sure you want to delete this record?")
+            }
             var jq = jQuery.noConflict();
             (function (jq) {
                 jq(function () {
