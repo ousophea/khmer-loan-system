@@ -218,12 +218,27 @@ class Contacts extends CI_Controller {
         }
     }
 
+    public function getHeadOfGroup($id){
+    	$res = 0;
+    	$gId = $this->m_global->select_string('contacts_group', 'con_gro_gro_id', array('con_gro_con_id' => $id));
+    	if($gId>0){
+    		$res = $this->m_global->select_string('contacts_group', 'con_gro_con_id', array('con_gro_gro_id' => $gId));
+    	}
+    	return $res;
+    }
+    
     public function edit() {
         $id = $this->input->post('check_select');
         $id = $id[0];
+        
+        $idHG = $this->getHeadOfGroup($id);
+        if($idHG){
+        	$id=$idHG;
+        }
         //group
         $gtitle = substr('G000000', 0, -count($id)) . $id;
         $gId = $this->m_global->select_string('group', 'gro_id', array('gro_title' => $gtitle));
+   		
 
         $cid = $this->m_global->select_string('contacts', 'con_cid', array('con_id' => $id));
         $data['title'] = 'Contacts Manager : Edit (' . $cid . ')';
@@ -246,12 +261,13 @@ class Contacts extends CI_Controller {
                 ), array('con_cou_owner' => $id)
         );
 
-        $data['group'] = $this->m_global->select_data_join(
+        $data['group'] = $this->m_global->select_data_join_by(
                 'contacts', '*', array(
-            'contacts_group' => array('con_id' => 'con_gro_con_id', 'join_type' => 'inner'),
-            'contacts_number' => array('con_id' => 'con_num_con_id', 'join_type' => 'left')
-                ), array('con_gro_gro_id' => $gId, 'con_id !=' => $id)
+            	'contacts_group' => array('con_id' => 'con_gro_con_id', 'join_type' => 'inner'),
+            	'contacts_number' => array('con_id' => 'con_num_con_id', 'join_type' => 'left')
+                ), array('con_gro_gro_id' => $gId, 'con_gro_con_id !=' => $id)
         );
+     	
         $data['group_id'] = ($gId == '' ? 0 : $gId);
         $data['query_job'] = $this->m_global->select_status('contacts_job');
         $data['query_income'] = $this->m_global->select_status('contacts_income');
