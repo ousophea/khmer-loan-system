@@ -49,6 +49,12 @@ $commune = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_commune_group[]',
 
 $village_option_group = array('' => '-poum/village-');
 $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]', $village_option_group, '', 'class=" village_group"  id="vgn_1"'));
+
+$opt_provs = getOptions($arr_option_province);
+$opt_dists = getOptions(array('' => '-select district-'));
+$opt_comms = getOptions(array('' => '-select commune-'));
+$opt_vills = getOptions(array('' => '-select village-'));
+
 ?>
 
 <script type="text/javascript" language="JavaScript">
@@ -71,7 +77,6 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
     }
     function getDistricts(id, selected) {
         selected = typeof (selected) != 'undefined' ? selected : 0;
-        console.log(selected);
         //todo clear the old
         jq('select[name="detail\\[con_det_dis_id\\]"] option[value!=""]').remove();
         jq('select[name="detail\\[con_det_com_id\\]"] option[value!=""]').remove();
@@ -86,6 +91,25 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
                 jq('select[name="detail\\[con_det_dis_id\\]"]').get(0).options[ind + 1] = new Option(name, row.dis_id);
             }
             jq('select[name="detail\\[con_det_dis_id\\]"]').val(selected);
+        }
+    }
+	
+	function changeDistrict(id, index, selected) {
+        selected = typeof (selected) != 'undefined' ? selected : 0;
+        //todo clear the old
+        jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_dis_id\\]"] option[value!=""]').remove();
+        jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_com_id\\]"] option[value!=""]').remove();
+        jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_vil_id\\]"] option[value!=""]').remove();		
+        if (id > 0) {
+            var url = "<?php echo site_url('ajax_action/ajaxGetData') ?>";
+            var dataString = {"field_where": "dis_pro_id", "field_value": id, "table": "districts"};
+            var data = _getData(url, dataString);
+            for (ind = 0; ind < data.length; ind++) {
+                var row = data[ind]
+                var name = row.dis_en_name + '(' + row.dis_kh_name + ')';
+                jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_dis_id\\]"]').get(0).options[ind + 1] = new Option(name, row.dis_id);
+            }
+            jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_dis_id\\]"]').val(selected);
         }
     }
 
@@ -106,6 +130,23 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
             jq('select[name="detail\\[con_det_com_id\\]"]').val(selected);
         }
     }
+	function changeCommune(id, index, selected) {
+        selected = typeof (selected) != 'undefined' ? selected : 0;
+        //todo clear the old        
+        jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_com_id\\]"] option[value!=""]').remove();
+        jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_vil_id\\]"] option[value!=""]').remove();
+        if (id > 0) {
+            var url = "<?php echo site_url('ajax_action/ajaxGetData') ?>";
+            var dataString = {"field_where": "com_dis_id", "field_value": id, "table": "communes"};
+            var data = _getData(url, dataString);
+            for (ind = 0; ind < data.length; ind++) {
+                var row = data[ind];
+                var name = row.com_en_name + '(' + row.com_kh_name + ')';
+                jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_com_id\\]"]').get(0).options[ind + 1] = new Option(name, row.com_id);
+            }
+            jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_com_id\\]"]').val(selected);
+        }
+    }
     function getVillages(id, selected) {
         selected = typeof (selected) != 'undefined' ? selected : 0;
         //todo clear the old
@@ -122,6 +163,23 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
             jq('select[name="detail\\[con_det_vil_id\\]"]').val(selected);
         }
     }
+	
+	function changeVillage(id,index, selected) {
+        selected = typeof (selected) != 'undefined' ? selected : 0;
+        //todo clear the old
+        jq('#vil-'+index+' option[value!=""]').remove();
+        if (id > 0) {
+            var url = "<?php echo site_url('ajax_action/ajaxGetData') ?>";
+            var dataString = {"field_where": "vil_com_id", "field_value": id, "table": "villages"};
+            var data = _getData(url, dataString);
+            for (ind = 0; ind < data.length; ind++) {
+                var row = data[ind];
+                var name = row.vil_en_name + '(' + row.vil_kh_name + ')';
+                jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_vil_id\\]"]').get(0).options[ind + 1] = new Option(name, row.vil_id);
+            }
+            jq('select[name="group\\['+index+'\\]\\[detail\\]\\[con_det_vil_id\\]"]').val(selected);
+        }
+    }
     function checkCivilStatus(status, data) {
         if (status == '2') {
             jq('#marrital_status').empty();
@@ -132,7 +190,7 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
     }
 
     function getForm(title, eleName, jqueryName, eleId, data, opt) {
-        var rem = '<span class="btn_remove_group" style="cursor: pointer;" name="fieldset_' + g_ind + '"><img src="../images/trash.png" alt="" /></span>';
+        var rem = '<span class="btn_remove_egroup" style="cursor: pointer;" name="fieldset_' + g_ind + '"><img src="../images/trash.png" alt="" /></span>';
         var bRemove = g_ind > 0 ? rem : '';
 
         var html = '<fieldset id="fieldset_' + g_ind + '"><legend>' + title + bRemove + '</legend>';
@@ -152,12 +210,20 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
         html += '<tr>';
         html += '<td><label for="lbl_con_sex">Sext<span>*</span></label><select name="' + eleName + '[con_sex]"><option value="m">Male</option><option value="f">Female</option></select></td>'
         html += '<td><label for="lbl_con_national_identity_card_couple">Identity Card / Passport<span>*</span></label><input type="text" class="required" value="" name="' + eleName + '[con_national_identity_card]"></td>';
-        html += '<td><label for="lbl_con_job_couple">Job<span>*</span></label><select class="required" name="' + eleName + '[con_con_job_id]"><?php echo $couple_job; ?></select></td>';
+        html += '<td><label for="lbl_con_job_couple">Job<span>*</span></label><input type="text" name="' + eleName + '[con_con_job_id]"/></td>';
         html += '</tr>';
         html += '<tr>';
         html += '<td><label for="lbl_con_income_couple">Income Per Month<span>*</span></label><select class="required" name="' + eleName + '[con_con_inc_id]"><?php echo $couple_income; ?></select></td>';
-        html += '<td colspan="3"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input class="required" type="text" value="" name="' + eleName + '[phone][con_num_line]"></td>';
-        html += '</tr><tr><td><label for="lbl_con_province">Address<span>*</span></label><tr><td>' + '<?php echo $province . "</td><td> " . $district . "</td><td> " . $commune . "</td><td> " . $village ?>' + '</td></tr></tr>';
+        html += '<td colspan="3"><label for="lbl_con_phone_couple">Phone<span>*</span></label><input class="required" type="text" value="" name="' + eleName + '[phone][con_num_line]"></td>';        
+		html += '</tr>';
+		if(eleName != 'couple'){
+			html += '<tr><td><label for="lbl_con_province">Address<span>*</span></label></td></tr>';
+			html += '<tr><td>' +
+				'<select class="required dp" data-option="pro" data-index="'+g_ind+'" name="' + eleName + '[detail][con_det_pro_id]"><?php echo $opt_provs; ?></select></td>' +
+				'<td><select data-option="dis" data-index="'+g_ind+'" class="required dp" name="' + eleName + '[detail][con_det_dis_id]"><?php echo $opt_dists; ?></select></td>' +
+				'<td><select data-option="com" data-index="'+g_ind+'" class="required dp" name="' + eleName + '[detail][con_det_com_id]"><?php echo $opt_comms; ?></select></td>' +
+				'<td><select data-option="vil" data-index="'+g_ind+'" class="required dp" name="' + eleName + '[detail][con_det_vil_id]"><?php echo $opt_vills; ?></select></td></tr>';
+		}
         html += '</table></fieldset>';
         html += '<input type="hidden" value="0" name="' + eleName + '[con_id]"/>';
         if (opt == 'add') {
@@ -176,14 +242,40 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
 
             jq('select[name=' + jqueryName + '\\[con_sex\\]]').val(data.con_sex);
             jq('input[name=' + jqueryName + '\\[con_national_identity_card\\]]').val(data.con_national_identity_card);
-            jq('select[name=' + jqueryName + '\\[con_con_job_id\\]]').val(data.con_con_job_id);
+            jq('input[name=' + jqueryName + '\\[con_con_job_id\\]]').val(data.con_con_job_id);
             jq('select[name=' + jqueryName + '\\[con_con_inc_id\\]]').val(data.con_con_inc_id);
             jq('input[name=' + jqueryName + '\\[phone\\]\\[con_num_line\\]]').val(data.con_num_line);
             jq('input[name=' + jqueryName + '\\[con_id\\]]').val(data.con_id);
+			
+			jq('select[name=' + jqueryName + '\\[detail\\]\\[con_det_pro_id\\]]').val(data.con_det_pro_id);
+			changeDistrict(data.con_det_pro_id,g_ind,data.con_det_dis_id);
+			changeCommune(data.con_det_dis_id,g_ind,data.con_det_com_id);
+			changeVillage(data.con_det_com_id,g_ind,data.con_det_vil_id);			
         }
-        g_ind++;
     }
+	
+	jq(document).on('change','select.dp',function () {
+		var _th = jq(this);
+		var _val = _th.val();
+		var _opt = _th.attr('data-option');
+		var _ind = _th.attr('data-index');
+		console.log(_val);
+		if(_opt == 'pro'){
+			changeDistrict(_val,_ind);
+		}else if(_opt == 'dis'){
+			changeCommune(_val,_ind);
+		}else if(_opt == 'com'){
+			changeVillage(_val,_ind);
+		}
+	});
 
+	jq(document).on('click','.btn_remove_egroup',function () {
+		var _th = jq(this);
+		var _nam = _th.attr('name');
+		jq('#' + _nam).remove();
+		g_ind--;
+		return false;
+	});
     jq(document).ready(function () {
         jq('.numeric').numberOnly();
         //set collapse content
@@ -204,6 +296,9 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
             var status = jq(this).val();
             checkCivilStatus(status, {})
         });
+		
+		//ajax get district after province selected
+        
 
         //ajax get district after province selected
         jq('select[name="detail\\[con_det_pro_id\\]"]').change(function () {
@@ -228,6 +323,7 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
             var txt = jq(this).val();
             var eleId = '#container_group';
             if (txt == '1') {
+				g_ind = 0;
                 jq('#add_more_group').css({'display': 'block'});
                 getForm('Group Member 1', 'group\[0\]', 'group\\[0\\]', eleId, {}, 'add');
 
@@ -251,17 +347,16 @@ $village = preg_replace('/[\n\r]/', '', form_dropdown('txt_con_village_group[]',
         jq('#add_more_group').click(function () {
             if (g_ind > 5)
                 return false;
-
+			
             var title = 'Group Member ' + (g_ind + 1);
             var eleName = 'group\[' + g_ind + '\]';
             var jqueryName = 'group\\[' + g_ind + '\\]';
             var eleId = '#container_group';
             getForm(title, eleName, jqueryName, eleId, {}, 'append');
-
-            g_ind++;
-
+			g_ind++;
             return false;
         });
+		
 
         function isRequired() {
             var cnt = 0;
@@ -540,9 +635,10 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
                         jq(document).ready(function () {
                             var _gro = "<?php echo set_value('info[con_con_typ_id]', $cm->con_con_typ_id); ?>";
                             jq('input[name=info\\[con_con_typ_id\\]][value="' + _gro + '"]').prop('checked', 'checked');
+							
                             if (_gro == '1') {
-                                var _gdata = <?php echo json_encode(isset($group) ? $group : array()); ?>;
-                                var len = _gdata.length;
+                                var _gdata = <?php echo json_encode(isset($group) ? $group : array()); ?>;                                
+								var len = _gdata.length;
                                 if (len > 0) {
                                     for (var ind = 0; ind < len; ind++) {
                                         var _row = _gdata[ind];
@@ -559,8 +655,7 @@ echo form_open(site_url(segment(1) . '/edit_save'), array('name' => 'form_contac
                                     var _eleName = 'group\[' + g_ind + '\]';
                                     var _jqueryName = 'group\\[' + g_ind + '\\]';
                                     var _eleId = '#container_group';
-                                    getForm(_title, _eleName, _jqueryName, _eleId, _row, 'append');
-                                    g_ind++;
+                                    getForm(_title, _eleName, _jqueryName, _eleId, _row, 'append');                                    
                                 }
                                 jq('#add_more_group').css({'display': 'block'});
                             }

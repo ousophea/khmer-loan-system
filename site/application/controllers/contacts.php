@@ -261,10 +261,11 @@ class Contacts extends CI_Controller {
                 ), array('con_cou_owner' => $id)
         );
 
-        $data['group'] = $this->m_global->select_data_join_by(
+        $data['group'] = $this->m_global->select_data_join(
                 'contacts', '*', array(
             	'contacts_group' => array('con_id' => 'con_gro_con_id', 'join_type' => 'inner'),
-            	'contacts_number' => array('con_id' => 'con_num_con_id', 'join_type' => 'left')
+            	'contacts_number' => array('con_id' => 'con_num_con_id', 'join_type' => 'left'),
+                'contacts_detail' => array('con_id' => 'con_det_con_id', 'join_type' => 'left')
                 ), array('con_gro_gro_id' => $gId, 'con_gro_con_id !=' => $id)
         );
      	
@@ -287,7 +288,9 @@ class Contacts extends CI_Controller {
             $contact['con_bra_id'] = $bra_id;
             //type of contact
             $con_type = $contact['con_con_typ_id'];
-
+			#print_r($this->input->post('detail'));
+			#exit();
+            
             $this->m_global->update('contacts', $contact, array('con_id' => $cid));
 
             $cphones = $this->input->post('phone');
@@ -303,7 +306,7 @@ class Contacts extends CI_Controller {
             //update contact detail
             $cdetail = $this->input->post('detail');
             $this->m_global->update('contacts_detail', $cdetail, array('con_det_con_id' => $cid));
-
+			
             //get status incase member married
             $civil_status = $cdetail['con_det_civil_status'];
             $couple_id = $this->input->post('couple_id');
@@ -351,6 +354,7 @@ class Contacts extends CI_Controller {
                     $this->m_global->insert('group', $filter);
                     $group_id = (int) $this->m_global->insert_id();
                 }
+                
                 foreach ($groups as $group) {
                     $group['con_con_typ_id'] = $con_type;
                     $group['con_use_id'] = $use_id;
@@ -358,18 +362,24 @@ class Contacts extends CI_Controller {
 
                     $group_phone = $group['phone'];
                     $group_con_id = $group['con_id'];
+                    $group_detail = $group['detail'];
                     unset($group['phone']);
                     unset($group['con_id']);
-                    $group['con_cid'] = substr(CONTACT_DIGIT, 0, -(strlen($group['con_cid']))) . $group['con_cid'];
-
+                    unset($group['detail']);                   
+					
                     if ($group_con_id > 0) {
                         $this->m_global->update('contacts', $group, array('con_id' => $group_con_id));
+                        $this->m_global->update('contacts_detail', $group_detail, array('con_det_con_id' => $group_con_id));
                         $this->m_global->delete('contacts_number', array('con_num_con_id' => $group_con_id));
                         $group_phone['con_num_con_id'] = $group_con_id;
                         $this->m_global->insert('contacts_number', $group_phone);
                     } else {
+                    	#$group['con_cid'] = substr(CONTACT_DIGIT, 0, -(strlen($group['con_cid']))) . $group['con_cid'];
                         $this->m_global->insert('contacts', $group);
                         $last_id_contact_group = $this->m_global->insert_id();
+                        
+                        $group_detail['con_det_con_id'] = $group_con_id;                        
+                        $this->m_global->insert('contacts_detail', $group_detail);
                         //$cid_group = substr(CONTACT_DIGIT, 0, -(strlen($last_id_contact_group))) . $last_id_contact_group;
                         //$this->m_global->update('contacts', array('con_cid' => $cid_group), array('con_id' => $last_id_contact_group));
                         //insert phone number to table contacts_number
@@ -378,6 +388,9 @@ class Contacts extends CI_Controller {
                         //update relationship contact and group contact
                         $this->m_global->insert('contacts_group', array('con_gro_con_id' => $last_id_contact_group, 'con_gro_gro_id' => $group_id));
                     }
+                    
+                    
+                    
                 }
                 if ($group_id > 0) {
                     $_con_gro_con_id = $this->m_global->select_string('contacts_group', 'con_gro_con_id', array('con_gro_con_id' => $cid, 'con_gro_gro_id' => $group_id));
