@@ -30,7 +30,7 @@ class m_report extends CI_Model {
             $this->db->where($field, $value);
         }
 
-       // $this->db->where($arr_total_case);
+        // $this->db->where($arr_total_case);
         $query = $this->db->get('transaction');
         //echo $this->db->last_query();
         return $query;
@@ -44,6 +44,16 @@ class m_report extends CI_Model {
         }
         $data['balance'] = $this->db->select('SUM(tra_debit) as debit_total,SUM(tra_credit) as credit_total');
         return $data;
+    }
+
+    public function get_disburs() {
+        $this->db->where('loa.loa_acc_loa_det_id', DISBURSED, true); /////when laon is ready disbursed
+        $this->db->select('*');
+         $this->db->join('loan_account loa', 'loa.loa_acc_code=dis.loa_dis_loa_acc_code');
+          $this->db->join('creadit_officer co', 'loa.loa_acc_co_id=co.co_id');
+        $this->db->join('loan_product_type pt', 'loa.loa_acc_loa_pro_type_code=pt.loa_pro_typ_id');
+        $query = $this->db->get('loan_disbursmentss dis');
+        return $query;
     }
 
 }
