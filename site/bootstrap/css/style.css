@@ -56,7 +56,7 @@ body{
     z-index:0;
     margin: 20px auto 0;
     padding: 38px 10px 40px;
-    width: 940px;
+    width: 95%;
     min-height:350px;
 }
 
@@ -85,6 +85,7 @@ body{
     border-radius:5px;
     margin:auto;
     padding:10px;
+    width: 95%;
 }
 .panel-control{	
     border:solid 1px #CCC;
@@ -109,19 +110,18 @@ body{
     clear:both;	
 }
 #footer {
-    width:963px;
     border-top: 1px solid #AFDE54;
     clear: both;
-    margin: 7px auto 0;
-    padding: 7px 10px 0 10px;
+    margin: 7px 0 20px 0;
+    padding: 7px 25px 20px;
     color: #A7A1A1;
 }
 #top_footer{
 
-    background: url("../images/footer-bg.png") no-repeat;
+    background: url("../images/footer-bg.png") repeat-x;
     background-position:center top;
     height: 45px;
-    width: 984px;
+    width: 100%;
     margin: -5px auto 0;
 }
 

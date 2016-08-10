@@ -2,10 +2,10 @@
 <?php
 echo form_open('', array('name' => 'frm_contact', 'id' => 'frm_contact'));
 echo control_manager();
-if ($this->session->flashdata('success'))
-    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
-if ($this->session->flashdata('error'))
-    echo '<div class="alert alert-fail">' . $this->session->flashdata('error') . '</div>';
+//if ($this->session->flashdata('success'))
+//    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
+//if ($this->session->flashdata('error'))
+//    echo '<div class="alert alert-fail">' . $this->session->flashdata('error') . '</div>';
 $arr_select_field = array(
     'ID' => 'con_id',
     'Card ID' => 'con_cid',

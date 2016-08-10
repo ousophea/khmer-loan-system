@@ -4,9 +4,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 //Get transaction mode for desplay in list
 $array_transaction = array();
-
 foreach ($transaction_query->result() as $tra_rows) {
     $array_transaction[''] = '-----Select-----';
     $array_transaction[$tra_rows->tra_mod_id] = $tra_rows->tra_mod_title;

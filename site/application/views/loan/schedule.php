@@ -80,10 +80,15 @@ if ($sum_result_query->num_rows() > 0) {
                     ?>
                     <div class="vouchers">
                         <div class="voucher_header">
+                            <!--                            <div class="voucher_logo form-horizontal">
+                            <?php
+                            acc_info('<img title="Riel Micro Finance" class="logo_to_print" src="' . base_url() . IMAGES_PATH . 'logo.png" alt="Logo">', 'logo_name', '<img title="Riel Micro Finance" class="logo_name" src="' . base_url() . IMAGES_PATH . 'logo_name.png" alt="Logo">'
+                            );
+                            ?>
+                                                        </div>-->
                             <div class="voucher_logo form-horizontal">
                                 <?php
-                                acc_info('<img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo.png" alt="Logo">', 'logo_name', '<img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo_name.png" alt="Logo">'
-                                );
+                                acc_info('<img title="Riel Micro Finance" class="logo_to_print" src="' . base_url() . IMAGES_PATH . 'logo.png" alt="Logo">', 'logo_name', '<br /><img title="Riel Micro Finance" class="logo_name" src="' . base_url() . IMAGES_PATH . 'logo_name.png" alt="Logo">');
                                 ?>
                             </div>
 
@@ -148,9 +153,9 @@ if ($sum_result_query->num_rows() > 0) {
                                     'ថ្ចៃសងប្រាក់' => 'rep_sch_date_repay', // Due date
                                     'សមតុល្យដើមគ្រា' => 'rep_sch_balance', //Outstanding
                                     'ប្រាក់ដើម' => 'rep_sch_principle_amount_repayment', // Principal
-                                      'ការប្រាក់' => 'rep_sch_rate_repayment',
+                                    'ការប្រាក់' => 'rep_sch_rate_repayment',
                                     'សរុបប្រាក់ត្រូវបង់' => 'rep_sch_total_repayment'
-                                   //Interest
+                                        //Interest
 //                                    'ប្រាក់សន្សំ' => 'rep_sch_saving', //Outstanding
 //                                    'Instalment' => 'rep_sch_instalment'
                                 );
@@ -158,7 +163,7 @@ if ($sum_result_query->num_rows() > 0) {
 
                                 echo "<span id='rep_tbl'></span>";
 //                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3, array($principle_total, $repayment_total, $rate_total, $saving_total));
-                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3, array($principle_total, $rate_total,$repayment_total));
+                                echo table_manager($repayment_sch, $arr_field_sch_table, FALSE, 3, array($principle_total, $rate_total, $repayment_total));
                                 ?>
                             </div>
                             <p><span style="text-decoration: underline">បញ្ជាក់ៈ</span> ថ្ងៃធ្វើការ ចាប់ពីថ្ងៃសុក្រ ពីម៉ោង ៧:៣០ ដល់ម៉ោង ២:០០</p>

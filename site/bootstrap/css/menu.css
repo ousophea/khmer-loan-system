@@ -1,24 +1,24 @@
 
 #submenu {
-    background: url("../images/menu-bg.png") no-repeat scroll 0 0 transparent;
+    background: url("../images/menu-bg.png") repeat-x scroll 0 0 transparent;
     height: 45px;
-    width: 984px;
-    position: absolute;
+    width: 100%;
+/*    position: absolute;*/
 }
 #submenu-footer {
-    background: url("../images/menu-bg-gray.png") no-repeat scroll 0 0 transparent;
+    background: url("../images/menu-bg-gray.png") repeat-x scroll 0 0 transparent;
     bottom: 0;
     height: 45px;
     left: -10px;
     position: relative;
-    width: 984px;
+    width: 100%;
 }
 /* =============Main menu========*/
 .main-menu{
-    float: right;
+    float: left;
     list-style-image: none;
     list-style-type: none;
-    margin: 0;
+    margin: 0 0 0 150px;
     padding: 0;
 
 }

@@ -73,7 +73,7 @@
                             <div class="voucher_header">
                                 <div class="voucher_logo form-horizontal">
                                     <?php
-                                    acc_info('<img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo.png" alt="Logo">', 'logo_name', '<br /><img title="Riel Micro Finance" class="logo" src="' . base_url() . IMAGES_PATH . 'logo_name.png" alt="Logo">' );
+                                    acc_info('<img title="Riel Micro Finance" class="logo_to_print" src="' . base_url() . IMAGES_PATH . 'logo.png" alt="Logo">', 'logo_name', '<br /><img title="Riel Micro Finance" class="logo_name" src="' . base_url() . IMAGES_PATH . 'logo_name.png" alt="Logo">' );
                                     ?>
                                 </div>
                                 <div class="voucher_top_info"><div class="form-horizontal">

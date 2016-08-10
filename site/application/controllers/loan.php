@@ -18,7 +18,7 @@ class loan extends CI_Controller {
 
     function __construct() {
         parent::__construct();
-        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_saving', 'm_global', 'global/mod_global', 'm_transaction'));
+        $this->load->model(array('m_loan_product_type', 'm_loan', 'm_global', 'global/mod_global', 'm_transaction'));
 //        $this->rand=NULL;
     }
 
@@ -57,37 +57,33 @@ class loan extends CI_Controller {
                 $pro_type_code = $arr_data->loa_pro_typ_code;
             }
         }
-        $last_id = $this->m_loan->add($pro_type_code);
+        $last_id = $this->m_loan->add();
         if ($last_id > 0) {
 //            =============== Create repayment schedule==================
             if ($this->repayment_schedule($last_id)) {
                 $this->session->set_flashdata('success', 'A loan account has been saved');
             }
 //            ======================end repayment ========================
-
             $this->session->set_userdata(array('loa_id' => $last_id));
             //========insert transaction ==============
-//        add($debit=null,$credit=null,$amount,$currency=null,$gl_id=null,$tran_type=null)
             $loan_type = $this->m_global->select_where("loan_account_type", array('lat_id' => $this->input->post('lat_id')));
             $result = $loan_type->result();
-            $gl_id = $result[0]->lat_gl_id;
-//            $periad = $result[0]->lat_freg * $this->input->post('num_installments');
-//            if ($periad <= 180) { // loan <= than 6 month
-//                $gl_id = '116309100';
-//            } else { // loan peraid > 6 month
-//                $gl_id = '131209111';
-//            }
-            $debit = NULL;
-            $credit = 0;
-            $amount = 0;
+//            $gl_id = $result[0]->lat_gl_id;
+            $gl_id = '00000001';
+            $debit = 0;
+            $credit = $this->input->post('loan_amount');
+            $amount = $this->input->post('loan_amount');
             $currency = 1; // KH
             $tran_type = 1; // Debit
-            $this->m_transaction->add($debit, $credit, $amount, $currency, $gl_id, $tran_type);
+            $add_transation_result = $this->m_transaction->add($debit, $credit, $amount, $currency, $gl_id, $tran_type);
+//                        echo $gl_id." Work"; exit();
+            if(!$add_transation_result){
+                 $this->session->set_flashdata('error', 'Loan account was create successfully, but this transaction was not record');
+            }
             redirect('loan/voucher');
         } else {
             redirect('loan/Open');
         }
-//
     }
 
     function edit() {
@@ -247,7 +243,12 @@ class loan extends CI_Controller {
         $firstrepayment_date = $this->input->post('firstrepayment_date');
         $loa_id = $get_acc_id;
 //      Get disbus date as user select
-        $disbu_date = $this->input->post('disbursment_date');
+
+        if ($this->input->post('disbursment_date') != "") {
+            $disbu_date = $this->input->post('disbursment_date');
+        } else {
+            $disbu_date = date('Y-m-d', now());
+        }
 //      Get disbus auto
 //        $disbu_date = date('Y-m-d', now());
 //        ==============
@@ -290,13 +291,13 @@ class loan extends CI_Controller {
 
         for ($i = 1; $i <= $loan_peraid; $i++) {
             if ($i == 1) {
-                $repayment_date = $firstrepayment_date;
+                $repayment_date = date('Y-m-d', strtotime($firstrepayment_date));
 //            =========Rate for first payment copaire to dibusment date============
 
                 $d_rate = round(($rate_per * $last_priciple), 0);
                 $num_day = $per_raid;
-                $rate = ($d_rate * $num_day) / $num_date;
-                $rate = $this->rount_num($rate, 100); /// rount to 100
+                $getrate = ($d_rate * $num_day) / $num_date;
+                $rate = $this->rount_num($getrate, 100); /// rount to 100
 //            ========================End ====================
             } else {
                 $repayment_date = date('Y-m-d', strtotime($repayment_date . "+" . $num_date . " days"));
@@ -581,23 +582,23 @@ class loan extends CI_Controller {
             if ($result == TRUE && $result != NULL) {
                 //========insert transaction ==============
 //        add($debit=null,$credit=null,$amount,$currency=null,$gl_id=null,$tran_type=null)
-                if($this->input->post("btn_nam")=="Approved"){
-                    $gl_id = "800001000";
-                }else{
-                    $gl_id = "800002000";
+                if ($this->input->post("btn_nam") == "Approved") {
+                    $gl_code = "800001000";
+                } else {
+                    $gl_code = "800002000";
                 }
                 $debit = NULL;
                 $credit = null;
                 $amount = null;
                 $currency = 1; // KH
                 $tran_type = 1; // Debit
-                $this->m_transaction->add($debit, $credit, $amount, $currency, $gl_id, $tran_type);
+                $this->m_transaction->add($debit, $credit, $amount, $currency, $gl_code, $tran_type);
 //        ====================
                 echo $result;
             } else {
                 echo 'Disapproved';
             }
-            
+
             $this->session->set_flashdata('success', 'A loan account has been ' . $this->input->post("btn_nam"));
 //            redirect('loan/Openloan#contents');
         } else {
@@ -644,7 +645,8 @@ class loan extends CI_Controller {
                 'loan_account_type' => array('loa_lat_id' => 'lat_id'),
                 'currency' => array('loa_acc_cur_id' => 'cur_id'),
                 'loan_detail' => array('loa_acc_loa_det_id' => 'loa_det_id'),
-                'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id')), 'inner', array('loan_account.loa_acc_code' => $acc_num), '1');
+                'repayment_freg' => array('loa_acc_rep_fre_id' => 'rep_fre_id')), 'inner', 
+                    array('loan_account.loa_acc_code' => $acc_num, 'contacts.status'=>1), '1');
 //            var_dump($contact_info); exit();
 
             if ($contact_info->num_rows() > 0) {

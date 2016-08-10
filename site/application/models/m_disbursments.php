@@ -30,8 +30,21 @@ class m_disbursments extends CI_Model {
 //        $this->db->get("loan_account");
 //        return $this->db->last_query();
 //    }
+    function getTellerCash($id=null){
+        $this->db->where('til_tel_id',$id);
+        $this->db->where('til_create_date',date('Y-m-d', now()));
+        $this->db->order_by("til_create_date", "asc");
+        return $this->db->get('tiller', 1);
+    }
     public function select_disbursed($arr_search_index) {
 
+        $this->db->join('loan_account', 'loan_disbursments.loa_dis_loa_acc_code=loan_account.loa_acc_code', 'left');
+        $this->db->join('gl_list', 'loan_account.loa_acc_gl_code=gl_list.gl_code', 'left');
+        $this->db->where($arr_search_index);
+        $this->db->order_by("loa_dis_date", "asc");
+        return $this->db->get('loan_disbursments', 1);
+    }
+    public function getCOBalenc() {
         $this->db->join('loan_account', 'loan_disbursments.loa_dis_loa_acc_code=loan_account.loa_acc_code', 'left');
         $this->db->join('gl_list', 'loan_account.loa_acc_gl_code=gl_list.gl_code', 'left');
         $this->db->where($arr_search_index);

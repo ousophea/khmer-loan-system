@@ -3,7 +3,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 // Get Laon Account infimation
 $list_acc_number = "";
 $list_acc_number .= '<datalist id="gl_code">';
@@ -28,8 +27,6 @@ $list_acc_number.= '</datalist>';
 //);
 //
 //$loa_dis_query = $this->m_disbursments->select_disbursed($arr_search_index);
-
-
 
 echo'<div id="disbursment_form" class="single_large">';
 start_form_model(1);

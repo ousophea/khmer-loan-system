@@ -26,15 +26,34 @@ class Manage extends CI_Controller {
     }
 
     function db_update() {
-        $db_update = $this->m_database_update->update_db();
-        if ($db_update) {
-            $this->session->set_flashdata('success', 'Database aready updated');  
+        $checkCookie = $this->checkCookie();
+        if ($checkCookie) {
+            $this->session->set_flashdata('success', 'Your database aready up to date..!');
         } else {
-            $this->session->set_flashdata('error', 'Can not update database. please contact you administrator');
+            $db_update = $this->m_database_update->update_db();
+            if ($db_update) {
+                $this->session->set_flashdata('success', 'Database aready updated');
+            } else {
+                $this->session->set_flashdata('error', 'Can not update database. please contact you administrator');
+            }
         }
-        redirect('panel/manage');
-//        $this->load->view(MAIN_MASTER, $data);
-//        var_dump($ms);
+         redirect('panel/manage');
+    }
+
+    function checkCookie() {
+        $cookie_val = "db_19092015";   //db_d_m_y
+        if (get_cookie('cookie_db') == $cookie_val) {
+            return true;// Not something update for the database
+        } else {
+            $cookie = array(
+                'name' => 'cookie_db',
+                'value' => $cookie_val,
+                'expire' => time() + 86500,
+                'path' => '/',
+            );
+            set_cookie($cookie);
+           return false;// Update base just update
+        }
     }
 
 }

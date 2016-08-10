@@ -43,7 +43,7 @@ class m_repayment extends CI_Model {
             $this->db->where('loa.loa_acc_co_id', "$co_id", true);
         }
 
-        $this->db->where('rep_sch_date_repay', "$new_date", true);
+        $this->db->where('rep_sch_date_repay', "$new_date", true);  
         $this->session->set_userdata('col_date', $stringDate);
 
         $this->db->where('loa.loa_acc_loa_det_id', DISBURSED, true); /////when laon is ready disbursed

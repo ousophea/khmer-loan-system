@@ -34,6 +34,14 @@ class M_loan extends CI_Model {
         $loan_info = $this->getLoanTF($this->input->post('lat_id'));
         $this->session->set_userdata(array('freg_num' => $loan_info->lat_freg));
         ///========================
+        // ============Check disbursment date if it emty get the current date===================
+        if ($this->input->post('disbursment_date') != "") {
+            $disbursment_date = date('Y-m-d', strtotime($this->input->post('disbursment_date')));
+        } else {
+            $disbursment_date =  date('Y-m-d', strtotime(now()));
+        }
+
+//        ==============================end ======================
 
         $data = array(
             'loa_acc_code' => $loa_code,
@@ -58,9 +66,9 @@ class M_loan extends CI_Model {
             'loa_acc_use_id' => $this->session->userdata('use_id'),
             'loa_acc_approval' => "Not yest",
             'loa_acc_loa_det_id' => "1", // Opened
-            'loa_acc_first_repayment' => date($this->input->post('firstrepayment_date')),
+            'loa_acc_first_repayment' => date('Y-m-d', strtotime($this->input->post('firstrepayment_date'))),
             'loa_cicle' => $cicle_loan,
-            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
+            'loa_acc_disbustment' => $disbursment_date
         );
 
         if ($this->db->insert('loan_account', $data)) {
@@ -117,6 +125,14 @@ class M_loan extends CI_Model {
         $loan_info = $this->getLoanTF($this->input->post('lat_id'));
         $this->session->set_userdata(array('freg_num' => $loan_info->lat_freg));
         ///========================
+        // ============Check disbursment date if it emty get the current date===================
+        if ($this->input->post('disbursment_date') != "") {
+            $disbursment_date = date('Y-m-d', strtotime($this->input->post('disbursment_date')));
+        } else {
+                $disbursment_date =  date('Y-m-d', strtotime(now()));
+        }
+
+//        ==============================end ======================
         $data = array(
             'loa_acc_loa_pro_type_code' => $this->input->post('loa_acc_loa_pro_typ_id'),
             'loa_lpp_id' => $this->input->post('loa_lpp_id'),
@@ -135,8 +151,8 @@ class M_loan extends CI_Model {
             'loa_acc_rep_fre_id' => $loan_info->lat_freg,
             'loa_acc_ownership_type' => $loan_info->lat_loan_type,
             //===============
-            'loa_acc_first_repayment' => date($this->input->post('firstrepayment_date')),
-            'loa_acc_disbustment' => $this->input->post('disbursment_date'),
+            'loa_acc_first_repayment' => date('Y-m-d', strtotime($this->input->post('firstrepayment_date'))),
+            'loa_acc_disbustment' => $disbursment_date
         );
         $this->db->where('loa_acc_code', $loa_acc_code);
 
@@ -162,7 +178,7 @@ class M_loan extends CI_Model {
             return FALSE;
     }
 
-    function updateLoanMaturity($repayment_date,$loa_acc_code) {
+    function updateLoanMaturity($repayment_date, $loa_acc_code) {
         $arr_loan_info = array(
             'loa_acc_maturity' => $repayment_date
         );
@@ -198,8 +214,8 @@ class M_loan extends CI_Model {
 
     function get_contacts() {
         $this->db->where('contacts.status', 1);
-        $this->db->join('contacts_detail', 'con_id=con_det_con_id','left');
-        $this->db->join('contacts_type', 'con_typ_id=con_con_typ_id','left');
+        $this->db->join('contacts_detail', 'con_id=con_det_con_id', 'left');
+        $this->db->join('contacts_type', 'con_typ_id=con_con_typ_id', 'left');
         $data = $this->db->get('contacts');
         $array = null;
         if ($data->num_rows() > 0) {
@@ -493,7 +509,7 @@ class M_loan extends CI_Model {
 
     function laon_account_type_for_dropdown() {
         $this->db->order_by('lat_id');
-         $this->db->where('lat_status', 1);
+        $this->db->where('lat_status', 1);
         $data = $this->db->get('loan_account_type');
         $result = null;
         if ($data->num_rows() > 0) {
@@ -517,8 +533,8 @@ class M_loan extends CI_Model {
     }
 
     function co_data_for_dropdown() {
- /// Get brand the same as user login brand
-        $bran_id =  $this->session->userdata('use_bra_id');
+        /// Get brand the same as user login brand
+        $bran_id = $this->session->userdata('use_bra_id');
         $this->db->where('cro_of_branch.crob_bra_id', $bran_id);
         $this->db->where('co_status', 1);
         $this->db->where('crob_status', 1);
@@ -577,6 +593,21 @@ class M_loan extends CI_Model {
             return $result;
         } else
             return $result;
+    }
+    //put your code here
+    function add_transaction($debit=null,$credit=null,$amount=null,$currency=null,$gl_id=null,$tran_type=null) {
+                    $tran = array(
+                         'tra_debit' => $debit,
+                        'tra_credit' => $credit,
+                        'tra_cur_id' => $currency,
+                        'tra_amount' => $amount,
+                        'tra_date' => date('Y-m-d h:i:s'),
+                        'tra_value_date' => date('Y-m-d h:i:s'),
+                        'tra_use_id' => $this->session->userdata('use_id'),
+                        'tra_type' => $this->$tran_type,
+                        'tra_gl_code' => $gl_id
+                    );
+                    $this->db->insert('transaction', $tran);
     }
 
 }

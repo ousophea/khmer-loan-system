@@ -1,7 +1,7 @@
 <?php
-if ($this->session->flashdata('success')){
-    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
-}
+//if ($this->session->flashdata('success')){
+//    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
+//}
 $list_acc_number = "";
 $list_acc_number .= '<datalist id="gl_code">';
 foreach ($acc_num_query->result() as $acc_num_rows) {

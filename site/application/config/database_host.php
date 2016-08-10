@@ -49,9 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'wepshare_loan_kp';
-$db['default']['password'] = 'loankp@wepshared001';
-$db['default']['database'] = 'wepshare_loan_kp';
+$db['default']['username'] = 'wepshare_loankp';
+$db['default']['password'] = 'llQAwhZPpRZ7A';
+$db['default']['database'] = 'wepshare_loankp';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

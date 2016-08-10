@@ -185,6 +185,7 @@ class repayment extends CI_Controller {
                     $forward = $loan_amount - $paid_value;
                      $statuse = 7; ////  forward some value      
                 }
+               
                 $arr_repay = array(
                         'loan_rep_status' => $statuse,
                     'remain' => $remain,
@@ -245,6 +246,7 @@ class repayment extends CI_Controller {
         } else {  ////////// Paid =  settlement amount
 //            echo "repaym + forward : " . $repay . " = silement: " . $loan_amount;
 //            exit();
+            $status =2;
             if ($getForward > 0) {
                 $forward = $getForward * (-1);
                 $status = 10; /// Release remain
@@ -368,6 +370,38 @@ class repayment extends CI_Controller {
 //        exit();
     }
 
+    // function repupdatestatus(){
+        
+    //     $rep_sch_id = $this->input->post('id');
+    //     $rep_status = $this->input->post('status');
+    //     echo 'id '.$rep_sch_id.' status '.$rep_status;
+    //     if ($rep_sch_id != '' || is_numeric($rep_sch_id) == TRUE && $rep_status != '' || is_numeric(rep_status) == TRUE) {
+    //         $rep_condition = array(
+    //             'rep_sch_status' => $rep_status,
+    //             'rep_sch_id' => $rep_sch_id
+    //         );
+    //         $update_query = $this->m_global->update('repayment_schedule', array('rep_sch_status' => $rep_status), array('rep_sch_id' => $rep_sch_id));
+    //     }else{            
+    //         echo '**Invalid Request**';
+    //         die();
+    //     }
+    // }
+
+    function repUpdateSave(){
+        $comment = $this->input->post('comment');
+        $rep_sch_id = $this->input->post('rep_sch_id');
+        $status = $this->input->post('rep_status');
+        $data['comment'] = $this->input->post('comment');
+        $data['rep_sch_id'] = $this->input->post('rep_sch_id');
+        $data['status'] = $this->input->post('rep_status');
+        // foreach( $rep_sch_id as $key => $n ) {
+        //  print "The id is \"".$n."\" and comment is ".$comment[$key]." with payment as ".$this->input->post('rep_status'.$n).", thank you\n";
+        // }
+        foreach( $rep_sch_id as $key => $n ) {
+            $update_query = $this->m_global->update('repayment_schedule', array('rep_sch_description' => $comment[$key], 'rep_sch_status' => $this->input->post('rep_status'.$n)), array('rep_sch_id' => $n));
+        }
+        redirect('repayment/repayList');
+    }
 }
 
 ?>

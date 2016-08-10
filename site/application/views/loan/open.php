@@ -133,7 +133,7 @@ $list_acc_number.= '</datalist>';
         field("text", "loan_amount", "Loan Amount:", NULL, array('attribute' => array('validated' => '1', 'class' => "numeric cal_ins_amount")), TRUE);
         field("text", "loan_amount_in_word", "Amo In Word:", NULL, array('attribute' => array('validated' => '1')), TRUE);
 
-         field("text", "disbursment_date", "Disbursment Date:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
+         field("text", "disbursment_date", "Disbursment Date:", NULL, array('attribute' => array('class' => 'txtdate')), FALSE);
         field("text", "firstrepayment_date", "First Repayment:", NULL, array('attribute' => array('class' => 'txtdate')), TRUE);
 
 

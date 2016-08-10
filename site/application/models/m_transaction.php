@@ -10,10 +10,11 @@
  *
  * @author sophea.ou
  */
-class m_transaction extends CI_Model {
+class M_transaction extends CI_Model {
 
     //put your code here
-    function add($debit=null,$credit=null,$amount=null,$currency=null,$gl_id=null,$tran_type=null) {
+    function add($debit=null,$credit=null,$amount=null,$currency=null,$gl_code=null,$tran_type=null) {
+//        echo "Call success";return TRUE;
                     $tran = array(
                          'tra_debit' => $debit,
                         'tra_credit' => $credit,
@@ -22,10 +23,11 @@ class m_transaction extends CI_Model {
                         'tra_date' => date('Y-m-d h:i:s'),
                         'tra_value_date' => date('Y-m-d h:i:s'),
                         'tra_use_id' => $this->session->userdata('use_id'),
-                        'tra_type' => $this->$tran_type,
-                        'tra_gl_code' => $gl_id
+//                        'tra_type' => $this->$tran_type,
+                        'tra_gl_code' => $gl_code
                     );
-                    $this->db->insert('transaction', $tran);
+                    return $this->db->insert('transaction', $tran);
+                    
     }
 
 }

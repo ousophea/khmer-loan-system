@@ -1,6 +1,6 @@
 <?php
-if ($this->session->flashdata('success'))
-    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
+//if ($this->session->flashdata('success'))
+//    echo '<div class="alert alert-success">' . $this->session->flashdata('success') . '</div>';
 echo form_open_multipart('loan/active', array('class' => 'form-horizontal', 'name' => 'open_loan', 'id' => 'form_loan_approv'));
 
 //================= Get Laon Account infimation =================
@@ -121,7 +121,7 @@ $list_acc_number.= '</datalist>';
         echo '</div>';
 
 
-        echo '<div id="btn_action" class="span10">';
+        echo '<div id="btn_action" class="span">';
 //        ==================Repayment Table====================
 //        echo '<div id="repayment_box">';
 //        echo "<span id='tmp_box'></span><span id='tmp_tbl_rep'></span><span id='tmp_loa_status'></span>";

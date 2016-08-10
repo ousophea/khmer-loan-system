@@ -1,0 +1,66 @@
+
+#header {
+    border-color: #CECECE;
+    border-style: solid;
+    border-width: 0 0px;
+    height: 120px;
+    margin: auto;
+    padding: 0px;
+    width: 100%;
+}
+
+#signin {
+    float: right;
+    font-size: 11px;
+    height: 50px;
+   margin: 10px 20px 0;
+}
+
+.welcome {
+    color: #1483D9;
+    text-transform: capitalize;
+}
+#signin a:link {
+    color: #1483D9;
+}
+a:link {
+    color: #0B55C4;
+    text-decoration: none;
+}
+a, img {
+    margin: 0;
+    padding: 0;
+}
+
+.clear {
+    clear: both;
+}
+.logo{
+           border: 0 none;
+    height: auto;
+    margin: 9px 0 -30px;
+    max-width: 62%;
+}
+.logo_to_print{
+/*           border: 0 none;
+    height: auto;
+    margin: 9px 0 -30px;
+    max-width: 100%;*/
+}
+.logo_name{
+/*    border: 0 none;
+    height: auto;
+    margin: 9px 0 -30px;
+    max-width: 100%;*/
+}
+#logo {
+    margin: 0 0 0 38px;
+/*    position: absolute;*/
+    top: 12px;
+	width:130px;
+	z-index:2;
+}
+#logo a {
+    display: block;
+    margin-top: -10px;
+}

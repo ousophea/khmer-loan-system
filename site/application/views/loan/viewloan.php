@@ -16,7 +16,7 @@ $list_acc_number.= '</datalist>';
 <div class="row form-container">
     <div class="form_model_style"></div>
 
-    <div class="loan_style">
+    <div class="loan_style span">
         <?php
         echo open_span(5);
         echo open_block('cutomer_info', 'Customer information');
@@ -30,8 +30,6 @@ $list_acc_number.= '</datalist>';
         ?>
         <div class="control-group">
             <div class="controls">
-
-
                 <?php
                 echo form_hidden('loa_con_id', set_value(''));
                 ?>
@@ -103,7 +101,7 @@ $list_acc_number.= '</datalist>';
 
         echo '<div id="btn_action" class="span10">';
 //            ==================Footer =========
-        echo '<div class="modal-footer">';
+        echo '<div class="modal-footer span">';
         echo "<span id='btn_tool'>";
 
 //        echo anchor('loan/loan_status', 'Disapprove', 'class="btn btn-danger btn_loa_stantus  disabled" id="Disapproved"');
@@ -117,9 +115,6 @@ $list_acc_number.= '</datalist>';
         echo anchor('panel', 'Exit', 'class="btn exit"');
         echo '</div></div>';
         ?>
-        <div>
-
-        </div>
     </div>
     <script>
 
@@ -236,7 +231,6 @@ $list_acc_number.= '</datalist>';
 
 
     </script>
-</div>
 <?php
 echo form_close();
 ?>
